@@ -8,8 +8,8 @@ export const SITE = {
   telegramHandle: "@lstmind",
   email: "lstmind@yandex.ru",
   kwork: "https://kwork.ru/user/lstmind",
-  // На Vercel задай NEXT_PUBLIC_SITE_URL = боевой домен (или https://<project>.vercel.app)
-  url: process.env.NEXT_PUBLIC_SITE_URL || "https://lstmind.ru",
+  // Боевой адрес. Когда подключишь свой домен — задай NEXT_PUBLIC_SITE_URL в Vercel, он переопределит это.
+  url: process.env.NEXT_PUBLIC_SITE_URL || "https://portfolio-amber-eta-duclbiwm5n.vercel.app",
   ratePerHour: 1500,
 } as const;
 
