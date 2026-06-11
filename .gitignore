@@ -1,0 +1,21 @@
+# scratch screenshots from design iteration (root-level)
+/concept-a.png
+/concept-b.png
+/concept-c.png
+/concept-d.png
+/concept-d-full.png
+/concept-d2.png
+/case-*.png
+/ref-*.png
+/d-*.png
+/e-*.png
+/f-*.png
+/g-*.png
+.playwright-mcp/
+
+# node
+node_modules/
+.next/
+out/
+.vercel/
+*.log

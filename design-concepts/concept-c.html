@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Concept C — Тишина</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  *{margin:0;padding:0;box-sizing:border-box}
+  :root{--bg:#0E0E0E;--ink:#FAFAF8;--mut:#888;--line:rgba(255,255,255,.13);--acc:#E8E8E8}
+  html,body{background:var(--bg);color:var(--ink);font-family:'Inter Tight',sans-serif;-webkit-font-smoothing:antialiased}
+  body{min-height:100vh;overflow-x:hidden}
+  .mono{font-family:'Space Mono',monospace}
+  .wrap{max-width:1100px;margin:0 auto;padding:0 48px}
+
+  nav{display:flex;align-items:center;justify-content:space-between;padding:32px 48px;border-bottom:1px solid var(--line)}
+  .logo{font-weight:700;font-size:15px;letter-spacing:-.01em}
+  .navlinks{display:flex;gap:34px}
+  .navlinks a{color:var(--mut);text-decoration:none;font-size:13px;font-weight:500}
+  .navlinks a:hover{color:var(--ink)}
+  .av{font-family:'Space Mono';font-size:12px;color:var(--mut)}
+
+  /* ruled index row */
+  .meta{display:flex;justify-content:space-between;padding:18px 0;border-bottom:1px solid var(--line);color:var(--mut);font-size:12px}
+
+  .hero{padding:96px 0 0}
+  .num{font-family:'Space Mono';color:var(--mut);font-size:13px;margin-bottom:26px}
+  h1{font-weight:600;font-size:80px;line-height:.96;letter-spacing:-.045em;max-width:15ch}
+  h1 u{text-decoration:none;border-bottom:5px solid var(--ink);padding-bottom:2px}
+  .sub{margin-top:40px;display:grid;grid-template-columns:1fr 1fr;gap:40px;max-width:820px}
+  .sub p{font-size:17px;line-height:1.6;color:#C4C4C2}
+  .sub .lead{color:var(--ink);font-weight:500}
+  .cta-row{margin-top:54px;display:flex;align-items:center;gap:28px;padding-bottom:42px;border-bottom:1px solid var(--line)}
+  .cta{display:inline-flex;align-items:center;gap:12px;background:var(--ink);color:#0E0E0E;padding:15px 26px;border-radius:0;font-weight:600;font-size:15px;text-decoration:none}
+  .cta .mono{font-family:'Space Mono';font-size:13px}
+  .cta2{color:var(--mut);text-decoration:none;font-weight:500;font-size:14px;font-family:'Space Mono'}
+  .botrow{display:flex;justify-content:space-between;padding:22px 0;color:var(--mut);font-size:12px;font-family:'Space Mono'}
+</style>
+</head>
+<body>
+<nav>
+  <div class="logo">АЛЕКС / веб-разработчик</div>
+  <div class="navlinks"><a href="#">услуги</a><a href="#">подход</a><a href="#">работы</a><a href="#">контакт</a></div>
+  <div class="av mono">[ telegram ↗ ]</div>
+</nav>
+<div class="wrap">
+  <div class="meta mono"><span>фриланс · россия</span><span>доступен для заказов</span><span>2021—2026</span></div>
+  <section class="hero">
+    <div class="num">(01) — портфолио</div>
+    <h1>чистый код. <u>аккуратная</u> работа. без сюрпризов.</h1>
+    <div class="sub">
+      <p class="lead">wordpress, миграции, перформанс и вёрстка для тех, кому важно, чтобы сделали хорошо и ничего не сломали.</p>
+      <p>бэкап перед каждой правкой, работа на копии, чистый код в стиле проекта. сам этот сайт собран по тем же принципам - и это его первый кейс.</p>
+    </div>
+    <div class="cta-row">
+      <a class="cta" href="#">написать в телеграм <span class="mono">↗</span></a>
+      <a class="cta2" href="#">смотреть работы →</a>
+    </div>
+    <div class="botrow mono"><span>load 0.4s</span><span>lighthouse 100</span><span>kwork 4.9★</span><span>40+ проектов</span></div>
+  </section>
+</div>
+</body>
+</html>
