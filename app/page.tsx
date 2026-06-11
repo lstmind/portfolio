@@ -1,6 +1,8 @@
 import Image from "next/image";
 import { ServiceIcon } from "@/components/ServiceIcon";
 import { ContactForm } from "@/components/ContactForm";
+import { MobileNav } from "@/components/MobileNav";
+import { FaqList } from "@/components/FaqList";
 import {
   SITE,
   NAV,
@@ -11,7 +13,6 @@ import {
   PROCESS,
   BAND,
   WORKS,
-  FAQ,
 } from "@/lib/content";
 
 function MarqueeSeg() {
@@ -62,6 +63,7 @@ export default function Home() {
               [ Telegram ↗ ]
             </a>
           </div>
+          <MobileNav />
         </nav>
       </header>
 
@@ -290,17 +292,7 @@ export default function Home() {
               </a>
             </div>
           </div>
-          <div className="faq reveal">
-            {FAQ.map((f) => (
-              <details className="fq" name="faq" key={f.q}>
-                <summary data-cursor>
-                  {f.q}
-                  <span className="pl">+</span>
-                </summary>
-                <div className="fa">{f.a}</div>
-              </details>
-            ))}
-          </div>
+          <FaqList />
         </div>
       </section>
 

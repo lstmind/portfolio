@@ -224,14 +224,6 @@ export function ClientFX() {
       cleanups.push(() => clearTimeout(glTimer));
     }
 
-    // ---- faq: keep only one open
-    const faqs = Array.from(document.querySelectorAll<HTMLDetailsElement>(".fq"));
-    faqs.forEach((d) =>
-      d.addEventListener("toggle", () => {
-        if (d.open) faqs.forEach((o) => o !== d && (o.open = false));
-      })
-    );
-
     return () => {
       rafs.forEach(cancelAnimationFrame);
       cleanups.forEach((c) => c());

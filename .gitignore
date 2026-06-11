@@ -1,4 +1,5 @@
-# scratch screenshots from design iteration (root-level)
+# scratch screenshots (root-level only — subdir images like public/img stay tracked)
+/*.png
 /concept-a.png
 /concept-b.png
 /concept-c.png
