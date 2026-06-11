@@ -192,6 +192,8 @@
   .fq[open] summary .pl{transform:rotate(135deg)}
   .fq[open] summary{color:var(--acc)}
   .fq .fa{padding:0 4px 30px;max-width:66ch;font-size:15.5px;line-height:1.62;color:#B4B2AC}
+  .fq[open] .fa{animation:faIn .45s cubic-bezier(.16,1,.3,1)}
+  @keyframes faIn{from{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:none}}
   @media(max-width:920px){.fq summary{cursor:auto}}
 
   /* contact */
@@ -392,13 +394,13 @@
       <div class="faq-badge"><b>5.0<span class="s">★</span></b><span>высший рейтинг<br>28 отзывов на Kwork</span><a href="https://kwork.ru/user/lstmind" target="_blank" data-cursor>читать →</a></div>
     </div>
     <div class="faq reveal">
-      <details class="fq"><summary data-cursor>Сколько стоит лендинг?<span class="pl">+</span></summary><div class="fa">Простой лендинг — от 25 000 ₽ за 5–7 дней (3–4 экрана, кастом-дизайн, форма заявок в Telegram). Стандартный, с анимацией и проработкой — 40–70k за 7–14 дней. Точную смету называю после короткого разбора задачи. Мелкие доработки и правки — 1500 ₽/час.</div></details>
-      <details class="fq"><summary data-cursor>Делаешь мобильную вёрстку?<span class="pl">+</span></summary><div class="fa">Любой сайт собираю mobile-first — большинство клиентов заходят с телефона. Проверяю на трёх устройствах, тач-цели удобные, ничего не разъезжается. Адаптив входит в цену, а не «за отдельные деньги».</div></details>
-      <details class="fq"><summary data-cursor>Как происходит оплата?<span class="pl">+</span></summary><div class="fa">По проекту — обычно 50% предоплата, 50% после сдачи; на крупных делим на этапы. По часовым задачам — по факту в конце недели. Работаю как самозанятый, чек дам. Никакой оплаты «вслепую» — сначала смета и понятный объём.</div></details>
-      <details class="fq"><summary data-cursor>Срочные сроки берёшь?<span class="pl">+</span></summary><div class="fa">Да, если объём реально успеть без потери качества. Скажу честно, когда «нужно вчера» не получится — лучше откажусь, чем сорву срок. За срочность бывает наценка, но обговариваю заранее, без сюрпризов.</div></details>
-      <details class="fq"><summary data-cursor>Делаешь ли SEO?<span class="pl">+</span></summary><div class="fa">Базовое SEO — всегда и по умолчанию: чистый код, скорость, корректные мета-теги, структура, sitemap. Это фундамент, без него продвигаться бесполезно. Полное продвижение (семантика, тексты, ссылки) — отдельная история, подскажу стратегию или возьму отдельно.</div></details>
-      <details class="fq"><summary data-cursor>Можно увидеть код в процессе?<span class="pl">+</span></summary><div class="fa">Конечно. Показываю промежуточный результат на тестовом домене — тыкаешь руками ещё до релиза. Код чистый, в стиле проекта — другой разработчик потом разберётся без меня и без боли.</div></details>
-      <details class="fq"><summary data-cursor>Поддержка после релиза?<span class="pl">+</span></summary><div class="fa">Месяц после сдачи правлю мелочи и баги бесплатно. Дальше — по часам или на абонентке, как удобнее. Я не из тех, кто пропадает после оплаты: отвечу и через полгода.</div></details>
+      <details class="fq" name="faq"><summary data-cursor>Сколько стоит лендинг?<span class="pl">+</span></summary><div class="fa">Простой лендинг — от 25 000 ₽ за 5–7 дней (3–4 экрана, кастом-дизайн, форма заявок в Telegram). Стандартный, с анимацией и проработкой — 40–70k за 7–14 дней. Точную смету называю после короткого разбора задачи. Мелкие доработки и правки — 1500 ₽/час.</div></details>
+      <details class="fq" name="faq"><summary data-cursor>Делаешь мобильную вёрстку?<span class="pl">+</span></summary><div class="fa">Любой сайт собираю mobile-first — большинство клиентов заходят с телефона. Проверяю на трёх устройствах, тач-цели удобные, ничего не разъезжается. Адаптив входит в цену, а не «за отдельные деньги».</div></details>
+      <details class="fq" name="faq"><summary data-cursor>Как происходит оплата?<span class="pl">+</span></summary><div class="fa">По проекту — обычно 50% предоплата, 50% после сдачи; на крупных делим на этапы. По часовым задачам — по факту в конце недели. Работаю как самозанятый, чек дам. Никакой оплаты «вслепую» — сначала смета и понятный объём.</div></details>
+      <details class="fq" name="faq"><summary data-cursor>Срочные сроки берёшь?<span class="pl">+</span></summary><div class="fa">Берусь — со срочной наценкой. От работы не отказываюсь: если горит, найду способ успеть — расставлю приоритеты, при необходимости подключу проверенных ребят. Наценку и реальный срок назову сразу, чтобы без сюрпризов.</div></details>
+      <details class="fq" name="faq"><summary data-cursor>Делаешь ли SEO?<span class="pl">+</span></summary><div class="fa">Базовое SEO — всегда и по умолчанию: чистый код, скорость, корректные мета-теги, структура, sitemap. Это фундамент, без него продвигаться бесполезно. Полное продвижение (семантика, тексты, ссылки) — отдельная история, подскажу стратегию или возьму отдельно.</div></details>
+      <details class="fq" name="faq"><summary data-cursor>Можно увидеть код в процессе?<span class="pl">+</span></summary><div class="fa">Конечно. Показываю промежуточный результат на тестовом домене — тыкаешь руками ещё до релиза. Код чистый, в стиле проекта — другой разработчик потом разберётся без меня и без боли.</div></details>
+      <details class="fq" name="faq"><summary data-cursor>Поддержка после релиза?<span class="pl">+</span></summary><div class="fa">Месяц после сдачи правлю мелочи и баги бесплатно. Дальше — по часам или на абонентке, как удобнее. Я не из тех, кто пропадает после оплаты: отвечу и через полгода.</div></details>
     </div>
   </div>
 </section>
@@ -506,6 +508,9 @@
     e.target.classList.add('in');e.target.querySelectorAll('.scramble').forEach(s=>scramble(s));io.unobserve(e.target);}}),{threshold:.14});
   document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
   document.querySelectorAll('a[href="#"]').forEach(a=>a.addEventListener('click',e=>{e.preventDefault();scrollTo({top:0,behavior:'smooth'});}));
+  // faq — keep only one open
+  const faqs=[...document.querySelectorAll('.fq')];
+  faqs.forEach(d=>d.addEventListener('toggle',()=>{if(d.open)faqs.forEach(o=>{if(o!==d)o.open=false;});}));
   // preloader
   const pre=document.getElementById('pre'),pcount=document.getElementById('pcount'),pbar=document.getElementById('pbar'),h1=document.querySelector('h1');
   const dur=reduce?200:1500,st=performance.now();
