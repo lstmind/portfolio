@@ -57,7 +57,7 @@
   .status .pulse::after{content:"";position:absolute;inset:-5px;border-radius:50%;border:1px solid var(--acc);animation:pp 1.8s ease-out infinite}
   @keyframes pp{0%{transform:scale(.6);opacity:.9}100%{transform:scale(2.1);opacity:0}}
   h1{font-family:'Unbounded';font-weight:900;font-size:clamp(44px,6.8vw,108px);line-height:.94;letter-spacing:-.045em;text-shadow:0 2px 40px rgba(0,0,0,.55)}
-  h1 .ln{display:block;overflow:hidden;padding-bottom:.06em}
+  h1 .ln{display:block;overflow:hidden;padding-bottom:.22em;margin-bottom:-.15em}
   h1 .ln i{display:inline-block;font-style:normal;transform:translateY(110%);animation:rise 1s cubic-bezier(.16,1,.3,1) forwards}
   h1 .ln:nth-child(1) i{animation-delay:.05s}h1 .ln:nth-child(2) i{animation-delay:.15s}h1 .ln:nth-child(3) i{animation-delay:.25s}
   @keyframes rise{to{transform:translateY(0)}}
@@ -177,6 +177,23 @@
   .review .who .nm{font-size:14px;font-weight:600}
   .review .who .meta{font-family:'Space Mono';font-size:11px;color:var(--mut)}
 
+  /* faq */
+  .faq-badge{display:flex;align-items:center;gap:13px;font-family:'Space Mono';font-size:12.5px;color:var(--mut);line-height:1.4}
+  .faq-badge b{font-family:'Unbounded';font-weight:800;font-size:26px;color:var(--ink)}
+  .faq-badge b .s{color:var(--acc)}
+  .faq-badge a{color:var(--acc);border-bottom:1px solid transparent;transition:border-color .3s}
+  .faq-badge a:hover{border-color:var(--acc)}
+  .faq{margin-top:50px;border-top:1px solid var(--line)}
+  .fq{border-bottom:1px solid var(--line)}
+  .fq summary{list-style:none;cursor:none;display:flex;align-items:center;justify-content:space-between;gap:20px;padding:27px 4px;font-family:'Unbounded';font-weight:700;font-size:clamp(17px,2vw,23px);letter-spacing:-.025em;transition:padding-left .35s,color .3s}
+  .fq summary::-webkit-details-marker{display:none}
+  .fq summary:hover{padding-left:14px;color:var(--acc)}
+  .fq summary .pl{font-family:'Space Mono';font-weight:400;color:var(--acc);font-size:26px;line-height:1;transition:transform .35s;flex:none}
+  .fq[open] summary .pl{transform:rotate(135deg)}
+  .fq[open] summary{color:var(--acc)}
+  .fq .fa{padding:0 4px 30px;max-width:66ch;font-size:15.5px;line-height:1.62;color:#B4B2AC}
+  @media(max-width:920px){.fq summary{cursor:auto}}
+
   /* contact */
   section.contact{position:relative;z-index:4;background:var(--bg2);padding:130px 0 110px;border-top:1px solid var(--line)}
   .contact .grid{display:grid;grid-template-columns:1.1fr .9fr;gap:64px;align-items:start}
@@ -232,7 +249,7 @@
       <a class="l" href="#services" data-cursor>Услуги</a>
       <a class="l" href="#process" data-cursor>Подход</a>
       <a class="l" href="#works" data-cursor>Работы</a>
-      <a class="l" href="#reviews" data-cursor>Отзывы</a>
+      <a class="l" href="#faq" data-cursor>FAQ</a>
       <a class="nav-tg" href="https://t.me/lstmind" data-cursor>[ Telegram ↗ ]</a>
     </div>
   </nav>
@@ -364,21 +381,24 @@
   </div>
 </section>
 
-<!-- REVIEWS -->
-<section class="blk" id="reviews">
+<!-- FAQ -->
+<section class="blk" id="faq">
   <div class="wrap">
     <div class="reveal rev-head">
       <div>
-        <div class="eyebrow"><span class="n">05</span> <span class="scramble">Отзывы</span></div>
-        <h2>Не верь на слово — <span class="acc">читай клиентов</span></h2>
+        <div class="eyebrow"><span class="n">05</span> <span class="scramble">Частые вопросы</span></div>
+        <h2>Отвечаю <span class="acc">заранее</span></h2>
       </div>
-      <div class="kbadge"><span class="star">5.0<span class="s">★</span></span><span>28 отзывов на Kwork<br>0 отрицательных · высший рейтинг</span></div>
+      <div class="faq-badge"><b>5.0<span class="s">★</span></b><span>высший рейтинг<br>28 отзывов на Kwork</span><a href="https://kwork.ru/user/lstmind" target="_blank" data-cursor>читать →</a></div>
     </div>
-    <div class="reviews reveal">
-      <div class="review"><div class="qm">”</div><div class="q">Огромное спасибо за работу над моим сайтом! Уже в третий раз убеждаюсь в профессионализме, внимании к деталям и ответственном подходе. Всё на высоком уровне, аккуратно и с отличным результатом. Обязательно буду обращаться снова!</div><div class="who"><div class="av">M</div><div><div class="nm">13Mieva</div><div class="meta mono">Доработка на WordPress</div></div></div></div>
-      <div class="review"><div class="qm">”</div><div class="q">Как всегда всё на высшем уровне, продолжаем работать. Рекомендую исполнителя.</div><div class="who"><div class="av">M</div><div><div class="nm">managermoon</div><div class="meta mono">WordPress + Elementor</div></div></div></div>
-      <div class="review"><div class="qm">”</div><div class="q">Выполнил задачу быстро и качественно. Рекомендую продавца — приятно работать.</div><div class="who"><div class="av">K</div><div><div class="nm">Kabelgroup</div><div class="meta mono">Правка, доработка сайта</div></div></div></div>
-      <div class="review"><div class="qm">”</div><div class="q">В очередной раз мне помогли в самом лучшем виде. Буду дальше продолжать сотрудничать.</div><div class="who"><div class="av">M</div><div><div class="nm">13Mieva</div><div class="meta mono">Доработка, адаптив, SEO</div></div></div></div>
+    <div class="faq reveal">
+      <details class="fq"><summary data-cursor>Сколько стоит лендинг?<span class="pl">+</span></summary><div class="fa">Простой лендинг — от 25 000 ₽ за 5–7 дней (3–4 экрана, кастом-дизайн, форма заявок в Telegram). Стандартный, с анимацией и проработкой — 40–70k за 7–14 дней. Точную смету называю после короткого разбора задачи. Мелкие доработки и правки — 1500 ₽/час.</div></details>
+      <details class="fq"><summary data-cursor>Делаешь мобильную вёрстку?<span class="pl">+</span></summary><div class="fa">Любой сайт собираю mobile-first — большинство клиентов заходят с телефона. Проверяю на трёх устройствах, тач-цели удобные, ничего не разъезжается. Адаптив входит в цену, а не «за отдельные деньги».</div></details>
+      <details class="fq"><summary data-cursor>Как происходит оплата?<span class="pl">+</span></summary><div class="fa">По проекту — обычно 50% предоплата, 50% после сдачи; на крупных делим на этапы. По часовым задачам — по факту в конце недели. Работаю как самозанятый, чек дам. Никакой оплаты «вслепую» — сначала смета и понятный объём.</div></details>
+      <details class="fq"><summary data-cursor>Срочные сроки берёшь?<span class="pl">+</span></summary><div class="fa">Да, если объём реально успеть без потери качества. Скажу честно, когда «нужно вчера» не получится — лучше откажусь, чем сорву срок. За срочность бывает наценка, но обговариваю заранее, без сюрпризов.</div></details>
+      <details class="fq"><summary data-cursor>Делаешь ли SEO?<span class="pl">+</span></summary><div class="fa">Базовое SEO — всегда и по умолчанию: чистый код, скорость, корректные мета-теги, структура, sitemap. Это фундамент, без него продвигаться бесполезно. Полное продвижение (семантика, тексты, ссылки) — отдельная история, подскажу стратегию или возьму отдельно.</div></details>
+      <details class="fq"><summary data-cursor>Можно увидеть код в процессе?<span class="pl">+</span></summary><div class="fa">Конечно. Показываю промежуточный результат на тестовом домене — тыкаешь руками ещё до релиза. Код чистый, в стиле проекта — другой разработчик потом разберётся без меня и без боли.</div></details>
+      <details class="fq"><summary data-cursor>Поддержка после релиза?<span class="pl">+</span></summary><div class="fa">Месяц после сдачи правлю мелочи и баги бесплатно. Дальше — по часам или на абонентке, как удобнее. Я не из тех, кто пропадает после оплаты: отвечу и через полгода.</div></details>
     </div>
   </div>
 </section>
@@ -437,10 +457,9 @@
       float f=fbm(p*1.6+1.9*r);
       float d=length(p-m);float bl=smoothstep(.6,0.,d)*.32;f+=bl;
       float ca=u_click.z;float cr=ca*1.1;float ring=smoothstep(.08,0.,abs(length(p-u_click.xy)-cr))*smoothstep(1.3,0.,ca);f+=ring*.5;
-      float v=smoothstep(.3,.95,f);
-      float dither=mix(v, step(b4(fc),v), .72);
-      float ink=dither*(.22+.6*v);vec3 col=mix(vec3(.02),vec3(.62),ink);
-      col+=vec3(.1,.02,0.)*bl*step(b4(fc),v);col*=smoothstep(1.5,.38,length(uv-.5));
+      float v=smoothstep(.28,.96,f);
+      float ink=v*(.24+.62*v);vec3 col=mix(vec3(.02),vec3(.58),ink);
+      col+=vec3(.1,.02,0.)*bl;col*=smoothstep(1.5,.4,length(uv-.5));
       gl_FragColor=vec4(col,1.);}`;
     function sh(t,s){const o=gl.createShader(t);gl.shaderSource(o,s);gl.compileShader(o);
       if(!gl.getShaderParameter(o,gl.COMPILE_STATUS))console.error(gl.getShaderInfoLog(o));return o;}
