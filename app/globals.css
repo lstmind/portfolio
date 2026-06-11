@@ -138,7 +138,7 @@ h2 .acc{color:var(--acc)}
 .band .d{color:var(--acc);font-size:.42em;transform:translateY(-.18em)}
 
 /* works */
-.works{margin-top:56px;display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+.works{margin-top:56px;display:grid;grid-template-columns:repeat(auto-fit,minmax(258px,1fr));gap:22px}
 .work{border:1px solid var(--line);background:var(--bg2);overflow:hidden;transition:border-color .35s,transform .45s}
 .work:hover{border-color:var(--line2);transform:translateY(-5px)}
 .work .shot{position:relative;aspect-ratio:4/3;overflow:hidden;background:#111;border-bottom:1px solid var(--line)}
@@ -189,7 +189,7 @@ h2 .acc{color:var(--acc)}
 
 /* contact */
 section.contact{position:relative;z-index:4;background:var(--bg2);padding:130px 0 110px;border-top:1px solid var(--line)}
-.contact .grid{display:grid;grid-template-columns:1.1fr .9fr;gap:64px;align-items:start}
+.contact .grid{display:grid;grid-template-columns:1.1fr .9fr;gap:64px;align-items:center}
 .contact h2{font-size:clamp(38px,5.2vw,72px)}
 .contact .note{margin-top:24px;font-size:16.5px;line-height:1.6;color:#BEBCB6;max-width:42ch}
 .contact .direct{margin-top:36px;display:flex;flex-direction:column;gap:6px}

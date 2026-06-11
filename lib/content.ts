@@ -148,6 +148,16 @@ export const WORKS: Work[] = [
     img: "/img/wellevent.png",
     alt: "Well Event — сайт кейтеринга",
   },
+  {
+    href: "https://skazpokrayu.online/",
+    tag: "LIVE · Бренд",
+    title: "Сказ по краю",
+    kind: "Webflow",
+    text: "Бренд-лендинг авторской керамики на Webflow: редакторская типографика, иллюстрации, плавные анимации. Премиальная подача под русские сказки.",
+    stack: ["Webflow", "Брендинг", "Анимации"],
+    img: "/img/skaz-online.png",
+    alt: "Сказ по краю — бренд-лендинг на Webflow",
+  },
 ];
 
 export const FAQ = [
