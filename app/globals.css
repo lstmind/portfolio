@@ -79,7 +79,7 @@ h1 .acc:hover::after,h1.glitchon .acc::after{opacity:.85;color:#ff2e6b;animation
 
 /* marquee */
 .marq{position:relative;z-index:4;border-top:1px solid var(--line);border-bottom:1px solid var(--line);overflow:hidden;background:var(--bg)}
-.marq .track{display:flex;width:max-content;animation:scroll 34s linear infinite}
+.marq .track{display:flex;width:max-content;animation:scroll 15s linear infinite}
 .marq:hover .track{animation-play-state:paused}
 .marq .seg{display:flex;align-items:center;height:66px;font-family:var(--font-mono);font-size:14px;letter-spacing:.04em;color:var(--mut);flex:none}
 .marq .seg span{padding:0 26px;display:inline-flex;align-items:center;gap:26px}
@@ -130,7 +130,7 @@ h2 .acc{color:var(--acc)}
 
 /* giant band */
 .band{position:relative;z-index:4;background:var(--bg);padding:64px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line);overflow:hidden}
-.band .bt{display:flex;width:max-content;animation:scroll 40s linear infinite;font-family:var(--font-unbounded);font-weight:900;font-size:clamp(50px,10vw,130px);letter-spacing:-.04em;line-height:1}
+.band .bt{display:flex;width:max-content;animation:scroll 20s linear infinite;font-family:var(--font-unbounded);font-weight:900;font-size:clamp(50px,10vw,130px);letter-spacing:-.04em;line-height:1}
 .band .seg{display:inline-flex;align-items:center;flex:none}
 .band .seg span{padding:0 30px;display:inline-flex;align-items:center;gap:30px}
 .band .f1{color:var(--ink)}
@@ -174,13 +174,13 @@ h2 .acc{color:var(--acc)}
 .fqinner{overflow:hidden}
 .fa{padding:0 4px 30px;max-width:66ch;font-size:15.5px;line-height:1.62;color:#B4B2AC}
 
-/* mobile burger */
-.burger{display:none;flex-direction:column;gap:5px;width:42px;height:42px;align-items:center;justify-content:center;background:none;border:1px solid var(--line2);cursor:pointer;position:relative;z-index:60}
+/* mobile burger — fixed, lives outside the (backdrop-filtered) header so it never breaks on scroll */
+.burger{display:none;position:fixed;top:15px;right:22px;flex-direction:column;gap:5px;width:44px;height:44px;align-items:center;justify-content:center;background:rgba(8,8,10,.55);backdrop-filter:blur(6px);border:1px solid var(--line2);cursor:pointer;z-index:120}
 .burger span{width:18px;height:2px;background:var(--ink);transition:transform .3s,opacity .3s}
 .burger.open span:nth-child(1){transform:translateY(7px) rotate(45deg)}
 .burger.open span:nth-child(2){opacity:0}
 .burger.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
-.mobmenu{position:fixed;inset:0;z-index:55;background:rgba(8,8,10,.97);backdrop-filter:blur(8px);display:flex;align-items:center;opacity:0;pointer-events:none;transition:opacity .35s}
+.mobmenu{position:fixed;inset:0;z-index:110;background:rgba(8,8,10,.98);backdrop-filter:blur(8px);display:flex;align-items:center;opacity:0;pointer-events:none;transition:opacity .35s}
 .mobmenu.open{opacity:1;pointer-events:auto}
 .mobmenu nav{display:flex;flex-direction:column;align-items:flex-start;gap:6px;padding:0 30px;max-width:none;margin:0}
 .mobmenu a{font-family:var(--font-unbounded);font-weight:800;font-size:clamp(30px,9vw,46px);letter-spacing:-.03em;color:var(--ink);padding:8px 0}

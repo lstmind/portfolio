@@ -47,6 +47,7 @@ function BandSeg() {
 export default function Home() {
   return (
     <>
+      <MobileNav />
       <header id="hdr">
         <nav>
           <div className="logo">
@@ -63,7 +64,6 @@ export default function Home() {
               [ Telegram ↗ ]
             </a>
           </div>
-          <MobileNav />
         </nav>
       </header>
 
