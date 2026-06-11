@@ -154,6 +154,8 @@
   .work:hover .shot img{transform:scale(1.05);filter:grayscale(0) brightness(1)}
   .work .tag{position:absolute;top:13px;left:13px;display:flex;align-items:center;gap:7px;font-family:'Space Mono';font-size:10.5px;letter-spacing:.04em;background:rgba(8,8,10,.8);padding:6px 10px;color:var(--ink);backdrop-filter:blur(4px)}
   .work .tag i{width:6px;height:6px;border-radius:50%;background:var(--acc);box-shadow:0 0 8px var(--acc)}
+  .work .openbadge{position:absolute;bottom:13px;right:13px;display:inline-flex;align-items:center;gap:6px;font-size:11px;letter-spacing:.04em;color:#fff;background:var(--acc);padding:8px 13px;transform:translateY(10px);opacity:0;transition:opacity .35s,transform .35s cubic-bezier(.16,1,.3,1)}
+  .work:hover .openbadge{opacity:1;transform:none}
   .work .body{padding:24px 24px 28px}
   .work .body .top{display:flex;align-items:center;justify-content:space-between;margin-bottom:11px}
   .work .body h3{font-family:'Unbounded';font-weight:700;font-size:21px;letter-spacing:-.02em}
@@ -361,20 +363,20 @@
       <p class="lead">Открой любой в новой вкладке и потыкай руками — это рабочие коммерческие проекты в проде, а не картинки.</p>
     </div>
     <div class="works reveal">
-      <a class="work" href="https://www.skazpokrayu.ru/" target="_blank" data-cursor data-open="Открыть ↗">
-        <div class="shot"><span class="tag mono"><i></i>LIVE · Магазин</span><img src="img/skaz.png" alt="Сказ по краю"></div>
+      <a class="work" href="https://www.skazpokrayu.ru/" target="_blank" data-cursor>
+        <div class="shot"><span class="tag mono"><i></i>LIVE · Магазин</span><img src="img/skaz.png" alt="Сказ по краю"><span class="openbadge mono">Открыть ↗</span></div>
         <div class="body"><div class="top"><h3>Сказ по краю</h3><span class="yr mono">WooCommerce</span></div>
           <p>Интернет-магазин премиальных арт-объектов ручной работы. Каталог с фильтрами, корзина, оформление заказа под ключ.</p>
           <div class="stk mono"><span>WordPress</span><span>WooCommerce</span><span>Каталог + фильтры</span></div></div>
       </a>
-      <a class="work" href="https://tksibstar.com/" target="_blank" data-cursor data-open="Открыть ↗">
-        <div class="shot"><span class="tag mono"><i></i>LIVE · С нуля</span><img src="img/sibstar.png" alt="СибСтар"></div>
+      <a class="work" href="https://tksibstar.com/" target="_blank" data-cursor>
+        <div class="shot"><span class="tag mono"><i></i>LIVE · С нуля</span><img src="img/sibstar.png" alt="СибСтар"><span class="openbadge mono">Открыть ↗</span></div>
         <div class="body"><div class="top"><h3>СибСтар</h3><span class="yr mono">Сайт с нуля</span></div>
           <p>Сайт транспортной компании с нуля: грузоперевозки по России, расчёт заявки, галерея. Быстрая чистая вёрстка.</p>
           <div class="stk mono"><span>Вёрстка</span><span>Формы заявок</span><span>SEO-база</span></div></div>
       </a>
-      <a class="work" href="https://wellevent.ru/" target="_blank" data-cursor data-open="Открыть ↗">
-        <div class="shot"><span class="tag mono"><i></i>LIVE · Услуги</span><img src="img/wellevent.png" alt="Well Event"></div>
+      <a class="work" href="https://wellevent.ru/" target="_blank" data-cursor>
+        <div class="shot"><span class="tag mono"><i></i>LIVE · Услуги</span><img src="img/wellevent.png" alt="Well Event"><span class="openbadge mono">Открыть ↗</span></div>
         <div class="body"><div class="top"><h3>Well Event</h3><span class="yr mono">Кейтеринг</span></div>
           <p>Сайт кейтеринг-сервиса: услуги, портфолио, расчёт стоимости мероприятия. Адаптив и заявки прямо с первого экрана.</p>
           <div class="stk mono"><span>Лендинг</span><span>Портфолио</span><span>Форма расчёта</span></div></div>
