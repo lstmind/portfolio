@@ -141,8 +141,8 @@ h2 .acc{color:var(--acc)}
 .works{margin-top:56px;display:grid;grid-template-columns:repeat(auto-fit,minmax(258px,1fr));gap:22px}
 .work{border:1px solid var(--line);background:var(--bg2);overflow:hidden;transition:border-color .35s,transform .45s}
 .work:hover{border-color:var(--line2);transform:translateY(-5px)}
-.work .shot{position:relative;aspect-ratio:4/3;overflow:hidden;background:#111;border-bottom:1px solid var(--line)}
-.work .shot img{width:100%;height:100%;object-fit:cover;object-position:top center;filter:grayscale(.45) brightness(.8);transition:transform .7s cubic-bezier(.16,1,.3,1),filter .5s}
+.work .shot{position:relative;aspect-ratio:16/10;overflow:hidden;background:#0E0E12;border-bottom:1px solid var(--line)}
+.work .shot img{width:100%;height:100%;object-fit:contain;object-position:center;filter:grayscale(.4) brightness(.85);transition:transform .7s cubic-bezier(.16,1,.3,1),filter .5s}
 .work:hover .shot img{transform:scale(1.05);filter:grayscale(0) brightness(1)}
 .work .tag{position:absolute;top:13px;left:13px;display:flex;align-items:center;gap:7px;font-family:var(--font-mono);font-size:10.5px;letter-spacing:.04em;background:rgba(8,8,10,.8);padding:6px 10px;color:var(--ink);backdrop-filter:blur(4px);z-index:2}
 .work .tag i{width:6px;height:6px;border-radius:50%;background:var(--acc);box-shadow:0 0 8px var(--acc)}
@@ -176,9 +176,9 @@ h2 .acc{color:var(--acc)}
 
 /* mobile burger — fixed, lives outside the (backdrop-filtered) header so it never breaks on scroll */
 .burger{display:none;position:fixed;top:15px;right:22px;flex-direction:column;gap:5px;width:44px;height:44px;align-items:center;justify-content:center;background:rgba(8,8,10,.55);backdrop-filter:blur(6px);border:1px solid var(--line2);cursor:pointer;z-index:120}
-.burger span{width:18px;height:2px;background:var(--ink);transition:transform .3s,opacity .3s}
+.burger span{width:22px;height:2px;background:var(--ink);transition:transform .3s,opacity .15s}
 .burger.open span:nth-child(1){transform:translateY(7px) rotate(45deg)}
-.burger.open span:nth-child(2){opacity:0}
+.burger.open span:nth-child(2){opacity:0;transform:scaleX(0)}
 .burger.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
 .mobmenu{position:fixed;inset:0;z-index:110;background:rgba(8,8,10,.98);backdrop-filter:blur(8px);display:flex;align-items:center;opacity:0;pointer-events:none;transition:opacity .35s}
 .mobmenu.open{opacity:1;pointer-events:auto}
