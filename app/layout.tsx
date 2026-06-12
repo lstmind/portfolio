@@ -50,6 +50,7 @@ export const metadata: Metadata = {
       "Сайты под ключ, магазины, доработки и ускорение. Чистый код, скорость, реальные кейсы. Рейтинг 5.0 на Kwork.",
   },
   robots: { index: true, follow: true },
+  verification: { google: "sFBc1LBjy66FYgol2qlYubyt7aDi2Yfa2N2bWKylyRE" },
 };
 
 export const viewport: Viewport = {
