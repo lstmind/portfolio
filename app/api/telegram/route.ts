@@ -29,6 +29,10 @@ function who(u: TgUser) {
   const full = [u.first_name, u.last_name].filter(Boolean).join(" ");
   return `${full || "клиент"}${handle ? ` (${handle})` : ""} [id ${u.id}]`;
 }
+// «Ответить клиенту» кнопка владельцу (если у клиента есть @username)
+function ownerReply(u: TgUser): Record<string, unknown> {
+  return u.username ? { reply_markup: { inline_keyboard: [[{ text: "✍️ Ответить клиенту", url: `https://t.me/${u.username}` }]] } } : {};
+}
 
 // ---------------- content ----------------
 type Service = { key: string; emoji: string; title: string; desc: string; price: string; term: string };
@@ -55,6 +59,7 @@ function screenMain(): Screen {
     text:
       "👋 <b>Привет! Это бот Алексея</b> — веб-разработчика.\n\n" +
       "Делаю сайты, которые быстро грузятся и приносят заявки. Здесь можно изучить услуги и цены, прикинуть стоимость за минуту или сразу оставить заявку.\n\n" +
+      "⭐ <b>5+ лет в коде · рейтинг 5.0 на Kwork · реальные кейсы</b>\n\n" +
       "С чего начнём? 👇",
     rows: [
       [{ text: "🧮 Рассчитать стоимость", callback_data: "calc" }],
@@ -264,7 +269,7 @@ export async function POST(req: Request) {
   if (!TOKEN || !OWNER) return NextResponse.json({ ok: true });
 
   let update: {
-    message?: { from: TgUser; text?: string; caption?: string };
+    message?: { from: TgUser; text?: string; caption?: string; contact?: { phone_number: string; first_name?: string } };
     callback_query?: { id: string; from: TgUser; data?: string; message?: { message_id: number; chat: { id: number } } };
   };
   try {
@@ -290,8 +295,19 @@ export async function POST(req: Request) {
             chat_id: OWNER,
             text: `🔔 <b>Интерес через бота</b>\nУслуга: ${svc}\nКлиент: ${who(cq.from)}\n— ждёт описания задачи`,
             parse_mode: "HTML",
+            ...ownerReply(cq.from),
           });
         }
+        // предложить контакт одной кнопкой
+        await tg("sendMessage", {
+          chat_id: cq.from.id,
+          text: "Можно описать задачу текстом 👆 или поделиться телефоном одной кнопкой — так Алексей точно свяжется:",
+          reply_markup: {
+            keyboard: [[{ text: "📱 Поделиться телефоном", request_contact: true }]],
+            resize_keyboard: true,
+            one_time_keyboard: true,
+          },
+        });
       } else {
         screen = route(data);
       }
@@ -313,30 +329,44 @@ export async function POST(req: Request) {
     const from = m.from;
     const text = (m.text || "").trim();
 
-    if (text.startsWith("/start") || text === "/menu") {
-      const s = screenMain();
-      const res = await tg("sendPhoto", {
-        chat_id: from.id,
-        photo: BANNER,
-        caption: s.text,
-        parse_mode: "HTML",
-        reply_markup: kb(s.rows),
-      });
-      // если баннер не загрузился — текстовый фолбэк
-      if (!res.ok) {
-        await tg("sendMessage", { chat_id: from.id, text: s.text, parse_mode: "HTML", disable_web_page_preview: true, reply_markup: kb(s.rows) });
+    // команды → соответствующий экран баннером
+    if (text.startsWith("/")) {
+      const cmd = text.slice(1).split(/[\s@]/)[0];
+      const map: Record<string, () => Screen> = {
+        start: screenMain, menu: screenMain, calc: screenCalc1, services: screenServices,
+        works: screenWorks, faq: screenFaqList, reviews: screenReviews, process: screenProcess,
+      };
+      const builder = map[cmd];
+      if (builder) {
+        const s = builder();
+        const res = await tg("sendPhoto", { chat_id: from.id, photo: BANNER, caption: s.text, parse_mode: "HTML", reply_markup: kb(s.rows) });
+        if (!res.ok) await tg("sendMessage", { chat_id: from.id, text: s.text, parse_mode: "HTML", disable_web_page_preview: true, reply_markup: kb(s.rows) });
+        return NextResponse.json({ ok: true });
       }
+    }
+
+    // владелец — свои сообщения не считаем заявкой
+    if (String(from.id) === String(OWNER)) return NextResponse.json({ ok: true });
+
+    // клиент поделился телефоном
+    if (m.contact) {
+      await tg("sendMessage", {
+        chat_id: OWNER,
+        text: `📱 <b>Контакт от клиента</b>\n${who(from)}\nТелефон: ${m.contact.phone_number}`,
+        parse_mode: "HTML",
+        ...ownerReply(from),
+      });
+      await tg("sendMessage", { chat_id: from.id, text: "Спасибо! Передал контакт — Алексей свяжется в течение часа ⏱", reply_markup: { remove_keyboard: true } });
       return NextResponse.json({ ok: true });
     }
 
-    if (String(from.id) === String(OWNER)) return NextResponse.json({ ok: true });
-
+    // любое другое сообщение клиента → заявка владельцу
     if (text || m.caption) {
       await tg("sendChatAction", { chat_id: from.id, action: "typing" });
-      await tg("sendMessage", { chat_id: OWNER, text: `💬 <b>Заявка из бота</b>\nОт: ${who(from)}\n\n${text || m.caption}`, parse_mode: "HTML" });
+      await tg("sendMessage", { chat_id: OWNER, text: `💬 <b>Заявка из бота</b>\nОт: ${who(from)}\n\n${text || m.caption}`, parse_mode: "HTML", ...ownerReply(from) });
       await tg("sendMessage", { chat_id: from.id, text: "Передал Алексею ✅ Он ответит в течение часа.\nЕсли срочно — @lstmind" });
     } else {
-      await tg("sendMessage", { chat_id: OWNER, text: `📎 ${who(from)} прислал вложение в бот` });
+      await tg("sendMessage", { chat_id: OWNER, text: `📎 ${who(from)} прислал вложение в бот`, ...ownerReply(from) });
       await tg("sendMessage", { chat_id: from.id, text: "Получил, передал Алексею ✅" });
     }
     return NextResponse.json({ ok: true });
