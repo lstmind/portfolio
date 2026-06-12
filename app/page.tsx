@@ -123,7 +123,7 @@ export default function Home() {
       </section>
 
       {/* MARQUEE */}
-      <div className="marq">
+      <div className="marq" aria-hidden="true">
         <div className="track">
           <MarqueeSeg />
           <MarqueeSeg />
@@ -215,7 +215,7 @@ export default function Home() {
       </section>
 
       {/* GIANT BAND */}
-      <div className="band">
+      <div className="band" aria-hidden="true">
         <div className="bt">
           <BandSeg />
           <BandSeg />

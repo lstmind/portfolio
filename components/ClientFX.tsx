@@ -65,7 +65,7 @@ export function ClientFX() {
         const uT = g.getUniformLocation(prog, "u_time");
         const uM = g.getUniformLocation(prog, "u_mouse");
         const uC = g.getUniformLocation(prog, "u_click");
-        const RES = 0.5; // render at half resolution — soft field, no visible loss, big perf win
+        const RES = 0.45; // render below half resolution — soft field, no visible loss, big perf win
         let W = 0, H = 0;
         const resize = () => {
           W = cv.width = Math.max(1, Math.round(innerWidth * RES));
@@ -213,7 +213,7 @@ export function ClientFX() {
     const pbar = document.getElementById("pbar");
     const h1 = document.querySelector("h1");
     if (pre && pcount && pbar) {
-      const dur = reduce ? 150 : 850;
+      const dur = reduce ? 150 : 750;
       const st = performance.now();
       const pl = () => {
         const k = Math.min((performance.now() - st) / dur, 1);
