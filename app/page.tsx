@@ -3,6 +3,7 @@ import { ServiceIcon } from "@/components/ServiceIcon";
 import { ContactForm } from "@/components/ContactForm";
 import { MobileNav } from "@/components/MobileNav";
 import { FaqList } from "@/components/FaqList";
+import { SplineRobot } from "@/components/SplineRobot";
 import {
   SITE,
   NAV,
@@ -69,6 +70,7 @@ export default function Home() {
 
       {/* HERO */}
       <section className="hero">
+        <SplineRobot />
         <div className="legib" />
         <div className="legib2" />
         <div className="wrap">
