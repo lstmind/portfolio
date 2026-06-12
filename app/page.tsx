@@ -298,11 +298,12 @@ export default function Home() {
 
       {/* CONTACT */}
       <section className="contact" id="contact">
-        <div className="wrap grid">
+        <div className="wrap">
+          <div className="eyebrow reveal">
+            <span className="n">06</span> <span className="scramble">Контакт</span>
+          </div>
+          <div className="grid">
           <div className="reveal">
-            <div className="eyebrow">
-              <span className="n">06</span> <span className="scramble">Контакт</span>
-            </div>
             <h2>
               Расскажи <span className="acc">задачу</span>
             </h2>
@@ -323,6 +324,7 @@ export default function Home() {
             </div>
           </div>
           <ContactForm />
+          </div>
         </div>
       </section>
 

@@ -189,7 +189,9 @@ h2 .acc{color:var(--acc)}
 
 /* contact */
 section.contact{position:relative;z-index:4;background:var(--bg2);padding:130px 0 110px;border-top:1px solid var(--line)}
-.contact .grid{display:grid;grid-template-columns:1.1fr .9fr;gap:64px;align-items:center}
+.contact .grid{display:grid;grid-template-columns:1.1fr .9fr;gap:64px;align-items:start}
+.contact .wrap > .eyebrow{margin-bottom:30px}
+.contact h2{margin-top:0}
 .contact h2{font-size:clamp(38px,5.2vw,72px)}
 .contact .note{margin-top:24px;font-size:16.5px;line-height:1.6;color:#BEBCB6;max-width:42ch}
 .contact .direct{margin-top:36px;display:flex;flex-direction:column;gap:6px}
