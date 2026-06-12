@@ -24,7 +24,7 @@ export function SplineRobot() {
     <div
       ref={ref}
       aria-hidden="true"
-      style={{ position: "absolute", top: 0, right: 0, bottom: 0, width: "55%", zIndex: 4, pointerEvents: "auto" }}
+      style={{ position: "absolute", right: 0, top: "50%", transform: "translateY(-50%)", width: 360, height: 360, zIndex: 4, pointerEvents: "auto" }}
     />
   );
 }
