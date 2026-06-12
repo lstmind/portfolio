@@ -21,12 +21,13 @@ export function ClientFX() {
     const cv = document.getElementById("gl") as HTMLCanvasElement | null;
     const gl = cv && ((cv.getContext("webgl") || cv.getContext("experimental-webgl")) as WebGLRenderingContext | null);
     if (cv && gl) {
+      const g: WebGLRenderingContext = gl;
       const vs = `attribute vec2 p;void main(){gl_Position=vec4(p,0.,1.);}`;
       const fs = `precision highp float;uniform vec2 u_res;uniform float u_time;uniform vec2 u_mouse;uniform vec3 u_click;
       float hash(vec2 p){return fract(sin(dot(p,vec2(127.1,311.7)))*43758.5453123);}
       float noise(vec2 p){vec2 i=floor(p),f=fract(p);vec2 u=f*f*(3.-2.*f);
         return mix(mix(hash(i),hash(i+vec2(1.,0.)),u.x),mix(hash(i+vec2(0.,1.)),hash(i+vec2(1.,1.)),u.x),u.y);}
-      float fbm(vec2 p){float v=0.,a=.5;for(int i=0;i<6;i++){v+=a*noise(p);p=p*2.02+vec2(3.1,1.7);a*=.5;}return v;}
+      float fbm(vec2 p){float v=0.,a=.5;for(int i=0;i<4;i++){v+=a*noise(p);p=p*2.02+vec2(3.1,1.7);a*=.5;}return v;}
       void main(){vec2 fc=gl_FragCoord.xy;vec2 uv=fc/u_res;vec2 p=(fc-.5*u_res)/u_res.y;vec2 m=(u_mouse-.5*u_res)/u_res.y;
         float t=u_time*.04;
         vec2 q=vec2(fbm(p*1.6+t),fbm(p*1.6+vec2(5.2,1.3)-t));
@@ -38,64 +39,79 @@ export function ClientFX() {
         float ink=v*(.24+.62*v);vec3 col=mix(vec3(.02),vec3(.58),ink);
         col+=vec3(.1,.02,0.)*bl;col*=smoothstep(1.5,.4,length(uv-.5));
         gl_FragColor=vec4(col,1.);}`;
-      const sh = (type: number, src: string) => {
-        const o = gl.createShader(type)!;
-        gl.shaderSource(o, src);
-        gl.compileShader(o);
-        if (!gl.getShaderParameter(o, gl.COMPILE_STATUS)) console.error(gl.getShaderInfoLog(o));
-        return o;
-      };
-      const prog = gl.createProgram()!;
-      gl.attachShader(prog, sh(gl.VERTEX_SHADER, vs));
-      gl.attachShader(prog, sh(gl.FRAGMENT_SHADER, fs));
-      gl.linkProgram(prog);
-      gl.useProgram(prog);
-      const buf = gl.createBuffer();
-      gl.bindBuffer(gl.ARRAY_BUFFER, buf);
-      gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1, -1, 3, -1, -1, 3]), gl.STATIC_DRAW);
-      const loc = gl.getAttribLocation(prog, "p");
-      gl.enableVertexAttribArray(loc);
-      gl.vertexAttribPointer(loc, 2, gl.FLOAT, false, 0, 0);
-      const uR = gl.getUniformLocation(prog, "u_res");
-      const uT = gl.getUniformLocation(prog, "u_time");
-      const uM = gl.getUniformLocation(prog, "u_mouse");
-      const uC = gl.getUniformLocation(prog, "u_click");
-      const DPR = Math.min(devicePixelRatio || 1, 2);
-      let W = 0, H = 0;
-      const resize = () => {
-        W = cv.width = innerWidth * DPR;
-        H = cv.height = innerHeight * DPR;
-        gl.viewport(0, 0, W, H);
-      };
-      on("resize", resize);
-      resize();
-      let mx = W * 0.7, my = H * 0.5, tx = mx, ty = my, clx = 0, cly = 0, clt = -10;
-      on("pointermove", ((e: PointerEvent) => {
-        tx = e.clientX * DPR;
-        ty = (innerHeight - e.clientY) * DPR;
-      }) as EventListener);
-      on("pointerdown", ((e: PointerEvent) => {
-        if (e.clientY > innerHeight) return;
-        clx = (e.clientX * DPR - 0.5 * W) / H;
-        cly = ((innerHeight - e.clientY) * DPR - 0.5 * H) / H;
-        clt = performance.now();
-      }) as EventListener);
-      const t0 = performance.now();
-      let vis = true;
-      on("visibilitychange", () => (vis = !document.hidden), document);
-      const draw = () => {
-        if (vis) {
+      let killed = false, started = false;
+      const startGL = () => {
+        if (killed || started) return;
+        started = true;
+        const sh = (type: number, src: string) => {
+          const o = g.createShader(type)!;
+          g.shaderSource(o, src);
+          g.compileShader(o);
+          if (!g.getShaderParameter(o, g.COMPILE_STATUS)) console.error(g.getShaderInfoLog(o));
+          return o;
+        };
+        const prog = g.createProgram()!;
+        g.attachShader(prog, sh(g.VERTEX_SHADER, vs));
+        g.attachShader(prog, sh(g.FRAGMENT_SHADER, fs));
+        g.linkProgram(prog);
+        g.useProgram(prog);
+        const buf = g.createBuffer();
+        g.bindBuffer(g.ARRAY_BUFFER, buf);
+        g.bufferData(g.ARRAY_BUFFER, new Float32Array([-1, -1, 3, -1, -1, 3]), g.STATIC_DRAW);
+        const loc = g.getAttribLocation(prog, "p");
+        g.enableVertexAttribArray(loc);
+        g.vertexAttribPointer(loc, 2, g.FLOAT, false, 0, 0);
+        const uR = g.getUniformLocation(prog, "u_res");
+        const uT = g.getUniformLocation(prog, "u_time");
+        const uM = g.getUniformLocation(prog, "u_mouse");
+        const uC = g.getUniformLocation(prog, "u_click");
+        const RES = 0.5; // render at half resolution — soft field, no visible loss, big perf win
+        let W = 0, H = 0;
+        const resize = () => {
+          W = cv.width = Math.max(1, Math.round(innerWidth * RES));
+          H = cv.height = Math.max(1, Math.round(innerHeight * RES));
+          g.viewport(0, 0, W, H);
+        };
+        on("resize", resize);
+        resize();
+        let mx = W * 0.7, my = H * 0.5, tx = mx, ty = my, clx = 0, cly = 0, clt = -10;
+        on("pointermove", ((e: PointerEvent) => {
+          tx = e.clientX * RES;
+          ty = (innerHeight - e.clientY) * RES;
+        }) as EventListener);
+        on("pointerdown", ((e: PointerEvent) => {
+          if (e.clientY > innerHeight) return;
+          clx = (e.clientX * RES - 0.5 * W) / H;
+          cly = ((innerHeight - e.clientY) * RES - 0.5 * H) / H;
+          clt = performance.now();
+        }) as EventListener);
+        const t0 = performance.now();
+        let vis = true, heroVis = true, last = 0;
+        on("visibilitychange", () => (vis = !document.hidden), document);
+        on("scroll", () => { heroVis = scrollY < innerHeight; });
+        const draw = (now: number) => {
+          raf(draw);
+          if (!vis || !heroVis || now - last < 33) return; // pause off-hero/hidden, cap ~30fps
+          last = now;
           mx += (tx - mx) * 0.06;
           my += (ty - my) * 0.06;
-          gl.uniform2f(uR, W, H);
-          gl.uniform1f(uT, (performance.now() - t0) / 1000);
-          gl.uniform2f(uM, mx, my);
-          gl.uniform3f(uC, clx, cly, (performance.now() - clt) / 1000);
-          gl.drawArrays(gl.TRIANGLES, 0, 3);
-        }
+          g.uniform2f(uR, W, H);
+          g.uniform1f(uT, (performance.now() - t0) / 1000);
+          g.uniform2f(uM, mx, my);
+          g.uniform3f(uC, clx, cly, (performance.now() - clt) / 1000);
+          g.drawArrays(g.TRIANGLES, 0, 3);
+        };
         raf(draw);
       };
-      draw();
+      const hasRIC = typeof window.requestIdleCallback === "function";
+      const idleId = hasRIC
+        ? window.requestIdleCallback(startGL, { timeout: 1400 })
+        : (setTimeout(startGL, 600) as unknown as number);
+      cleanups.push(() => {
+        killed = true;
+        if (hasRIC) window.cancelIdleCallback(idleId);
+        else clearTimeout(idleId);
+      });
     }
 
     // ---- custom cursor
@@ -197,7 +213,7 @@ export function ClientFX() {
     const pbar = document.getElementById("pbar");
     const h1 = document.querySelector("h1");
     if (pre && pcount && pbar) {
-      const dur = reduce ? 200 : 1500;
+      const dur = reduce ? 150 : 850;
       const st = performance.now();
       const pl = () => {
         const k = Math.min((performance.now() - st) / dur, 1);
