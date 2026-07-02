@@ -5,7 +5,8 @@
   --bg:#08080A; --bg2:#0B0B0E; --ink:#F4F2EC; --mut:#8d8d97; --line:rgba(244,242,236,.10);
   --line2:rgba(244,242,236,.17); --acc:#FF2E1F;
 }
-html{scroll-behavior:smooth}
+/* smooth-скролл отдан Lenis (см. ClientFX); нативный оставляем только как фолбэк для reduced-motion */
+@media (prefers-reduced-motion: no-preference){html.no-lenis{scroll-behavior:smooth}}
 body{background:var(--bg);color:var(--ink);font-family:var(--font-sans),sans-serif;-webkit-font-smoothing:antialiased;overflow-x:hidden;cursor:none}
 .mono{font-family:var(--font-mono),monospace}
 a{color:inherit;text-decoration:none}
@@ -14,7 +15,7 @@ a{color:inherit;text-decoration:none}
 canvas#gl{position:fixed;inset:0;width:100%;height:100vh;z-index:0;display:block}
 .grain{position:fixed;inset:0;z-index:3;pointer-events:none;opacity:.5;mix-blend-mode:overlay;
   background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
-.progress{position:fixed;top:0;left:0;height:2px;width:0;background:var(--acc);z-index:70}
+.progress{position:fixed;top:0;left:0;height:2px;width:0;background:var(--ink);opacity:.55;z-index:70}
 
 /* preloader */
 .pre{position:fixed;inset:0;z-index:200;background:var(--bg);display:flex;flex-direction:column;justify-content:flex-end;padding:44px;overflow:hidden}
@@ -48,7 +49,8 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:20px 4
 .status .pulse{width:8px;height:8px;border-radius:50%;background:var(--acc);position:relative}
 .status .pulse::after{content:"";position:absolute;inset:-5px;border-radius:50%;border:1px solid var(--acc);animation:pp 1.8s ease-out infinite}
 @keyframes pp{0%{transform:scale(.6);opacity:.9}100%{transform:scale(2.1);opacity:0}}
-h1{font-family:var(--font-unbounded);font-weight:900;font-size:clamp(44px,6.8vw,108px);line-height:.94;letter-spacing:-.045em;text-shadow:0 2px 40px rgba(0,0,0,.55)}
+.hero .wrap{max-width:1320px}
+h1{font-family:var(--font-unbounded);font-weight:900;font-size:clamp(46px,8vw,128px);line-height:.94;letter-spacing:-.045em;text-shadow:0 2px 40px rgba(0,0,0,.55)}
 h1 .ln{display:block;overflow:hidden;padding-bottom:.22em;margin-bottom:-.15em}
 h1 .ln i{display:inline-block;font-style:normal;transform:translateY(110%);animation:rise 1s cubic-bezier(.16,1,.3,1) forwards}
 h1 .ln:nth-child(1) i{animation-delay:.05s}h1 .ln:nth-child(2) i{animation-delay:.15s}h1 .ln:nth-child(3) i{animation-delay:.25s}
@@ -92,7 +94,22 @@ section.blk{position:relative;z-index:4;background:var(--bg);padding:130px 0}
 .eyebrow .n{color:var(--acc)}
 h2{font-family:var(--font-unbounded);font-weight:800;font-size:clamp(31px,4.3vw,58px);line-height:1.03;letter-spacing:-.035em;max-width:21ch}
 h2 .acc{color:var(--acc)}
+h2.h2-xl{font-size:clamp(34px,5.4vw,76px);max-width:none}
 .lead{margin-top:22px;font-size:17.5px;line-height:1.6;color:#BEBCB6;max-width:56ch}
+
+/* сплит-заголовок: h2 слева, лид справа у базовой линии — слом «всё слева столбиком» */
+.hd-split{display:grid;grid-template-columns:1.5fr 1fr;gap:24px 48px;align-items:end}
+.hd-split .lead{margin-top:0;padding-bottom:.35em}
+
+/* светлая инверт-секция (одна на страницу) — печатная нотка в той же ДНК */
+section.blk.light{background:#ECE9E0;color:#141310}
+section.blk.light .eyebrow{color:#6f6b5e}
+section.blk.light h2{color:#141310}
+section.blk.light .lead{color:#55524a}
+section.blk.light .steps{border-top-color:rgba(20,19,16,.28)}
+section.blk.light .step{border-bottom-color:rgba(20,19,16,.28)}
+section.blk.light .step:hover{background:rgba(20,19,16,.04)}
+section.blk.light .step p{color:#55524a}
 
 .reveal{opacity:0;transform:translateY(28px);transition:opacity .8s ease,transform .8s cubic-bezier(.16,1,.3,1)}
 .reveal.in{opacity:1;transform:none}
@@ -107,18 +124,22 @@ h2 .acc{color:var(--acc)}
 .painclose{margin-top:42px;font-family:var(--font-unbounded);font-weight:700;font-size:clamp(22px,2.7vw,36px);letter-spacing:-.03em}
 .painclose .acc{color:var(--acc)}
 
-/* services */
+/* services — bento: первая карта («Сайт под ключ») 2×2, остальные вокруг */
 .svc{margin-top:56px;display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);border:1px solid var(--line)}
 .svc .card{background:var(--bg);padding:36px 32px;transition:background .35s;position:relative;min-height:248px;display:flex;flex-direction:column;overflow:hidden}
 .svc .card::after{content:"";position:absolute;left:0;bottom:0;height:2px;width:0;background:var(--acc);transition:width .4s cubic-bezier(.16,1,.3,1)}
 .svc .card:hover{background:var(--bg2)}
 .svc .card:hover::after{width:100%}
-.svc .card .ic{width:30px;height:30px;color:var(--acc);margin-bottom:22px}
-.svc .card .ic svg{width:100%;height:100%;display:block}
+.svc .card .cn{font-family:var(--font-mono);font-size:13px;color:var(--acc);margin-bottom:22px}
 .svc .card h3{font-family:var(--font-unbounded);font-weight:700;font-size:20px;letter-spacing:-.02em;margin-bottom:13px}
 .svc .card p{font-size:14.5px;line-height:1.56;color:#A4A29D;flex:1}
 .svc .card .pr{margin-top:20px;font-family:var(--font-mono);font-size:12.5px;color:var(--mut)}
 .svc .card .pr b{color:var(--ink);font-weight:400}
+.svc .card:first-child{grid-column:1/3;grid-row:1/3;padding:48px 44px;justify-content:flex-end}
+.svc .card:first-child .cn{font-size:15px}
+.svc .card:first-child h3{font-size:clamp(28px,3vw,44px);letter-spacing:-.03em;margin-bottom:18px}
+.svc .card:first-child p{font-size:16.5px;max-width:44ch;flex:0}
+.svc .card:first-child .pr{margin-top:26px;font-size:14px}
 
 /* process */
 .steps{margin-top:56px;border-top:1px solid var(--line)}
@@ -137,13 +158,15 @@ h2 .acc{color:var(--acc)}
 .band .f2{color:#5d5d66}
 .band .d{color:var(--acc);font-size:.42em;transform:translateY(-.18em)}
 
-/* works */
-.works{margin-top:56px;display:grid;grid-template-columns:repeat(auto-fit,minmax(258px,1fr));gap:22px}
+/* works — 2 колонки крупных превью, ховер-проезд по странице */
+.works{margin-top:56px;display:grid;grid-template-columns:repeat(2,1fr);gap:26px}
 .work{border:1px solid var(--line);background:var(--bg2);overflow:hidden;transition:border-color .35s,transform .45s}
 .work:hover{border-color:var(--line2);transform:translateY(-5px)}
-.work .shot{position:relative;aspect-ratio:16/10;overflow:hidden;background:#0E0E12;border-bottom:1px solid var(--line)}
-.work .shot img{width:100%;height:100%;object-fit:contain;object-position:center;filter:grayscale(.4) brightness(.85);transition:transform .7s cubic-bezier(.16,1,.3,1),filter .5s}
-.work:hover .shot img{transform:scale(1.05);filter:grayscale(0) brightness(1)}
+.work .shot{position:relative;aspect-ratio:16/10;overflow:hidden;background:#0E0E12;border-bottom:1px solid var(--line);container-type:size}
+.work .shot img.tall{position:absolute;top:0;left:0;width:100%;height:auto;filter:grayscale(.4) brightness(.85);
+  transition:transform 1.2s cubic-bezier(.16,1,.3,1),filter .5s}
+.work:hover .shot img.tall{transform:translateY(calc(-100% + 100cqh));filter:grayscale(0) brightness(1);
+  transition:transform 9s cubic-bezier(.3,.35,.4,.9),filter .5s}
 .work .tag{position:absolute;top:13px;left:13px;display:flex;align-items:center;gap:7px;font-family:var(--font-mono);font-size:10.5px;letter-spacing:.04em;background:rgba(8,8,10,.8);padding:6px 10px;color:var(--ink);backdrop-filter:blur(4px);z-index:2}
 .work .tag i{width:6px;height:6px;border-radius:50%;background:var(--acc);box-shadow:0 0 8px var(--acc)}
 .work .openbadge{position:absolute;bottom:13px;right:13px;display:inline-flex;align-items:center;gap:6px;font-size:11px;letter-spacing:.04em;color:#fff;background:var(--acc);padding:8px 13px;transform:translateY(10px);opacity:0;transition:opacity .35s,transform .35s cubic-bezier(.16,1,.3,1);z-index:2}
@@ -225,6 +248,11 @@ footer .fl a:hover{color:var(--ink)}
   .wrap{padding:0 22px}
   nav{padding:18px 22px}
   .pain,.svc,.works{grid-template-columns:1fr}
+  .svc .card:first-child{grid-column:auto;grid-row:auto;padding:36px 32px}
+  .svc .card:first-child h3{font-size:24px}
+  .svc .card:first-child p{font-size:14.5px;flex:1}
+  .hd-split{grid-template-columns:1fr;align-items:start}
+  .hd-split .lead{padding-bottom:0;margin-top:18px}
   .contact .grid{grid-template-columns:1fr;gap:40px}
   .step{grid-template-columns:50px 1fr;gap:12px}
   .step p{grid-column:1/-1}

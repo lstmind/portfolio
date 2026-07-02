@@ -1,5 +1,4 @@
 import Image from "next/image";
-import { ServiceIcon } from "@/components/ServiceIcon";
 import { ContactForm } from "@/components/ContactForm";
 import { MobileNav } from "@/components/MobileNav";
 import { FaqList } from "@/components/FaqList";
@@ -60,7 +59,7 @@ export default function Home() {
                 {n.label}
               </a>
             ))}
-            <a className="nav-tg" href={SITE.telegram} data-cursor>
+            <a className="nav-tg" href={SITE.telegram} data-cursor data-magnet>
               [ Telegram ↗ ]
             </a>
           </div>
@@ -133,13 +132,15 @@ export default function Home() {
       {/* PAIN */}
       <section className="blk" id="why">
         <div className="wrap">
-          <div className="reveal">
-            <div className="eyebrow">
-              <span className="n">01</span> <span className="scramble">Почему сайты молчат</span>
+          <div className="reveal hd-split">
+            <div>
+              <div className="eyebrow">
+                <span className="n">01</span> <span className="scramble">Почему сайты молчат</span>
+              </div>
+              <h2 className="h2-xl">
+                Красивый — <span className="acc">не значит</span> работающий
+              </h2>
             </div>
-            <h2>
-              Красивый — <span className="acc">не значит</span> работающий
-            </h2>
             <p className="lead">
               Можно вбухать деньги в сайт и получить ноль заявок. Чаще всего виноваты три вещи:
             </p>
@@ -175,9 +176,9 @@ export default function Home() {
             </p>
           </div>
           <div className="svc reveal">
-            {SERVICES.map((s) => (
+            {SERVICES.map((s, i) => (
               <div className="card" key={s.title}>
-                <ServiceIcon name={s.icon} />
+                <div className="cn mono">{String(i + 1).padStart(2, "0")}</div>
                 <h3>{s.title}</h3>
                 <p>{s.text}</p>
                 <div className="pr" dangerouslySetInnerHTML={{ __html: s.price }} />
@@ -187,8 +188,8 @@ export default function Home() {
         </div>
       </section>
 
-      {/* PROCESS */}
-      <section className="blk" id="process">
+      {/* PROCESS — светлая инверсия, слом ритма */}
+      <section className="blk light" id="process">
         <div className="wrap">
           <div className="reveal">
             <div className="eyebrow">
@@ -225,13 +226,15 @@ export default function Home() {
       {/* WORKS */}
       <section className="blk" id="works" style={{ background: "var(--bg2)" }}>
         <div className="wrap">
-          <div className="reveal">
-            <div className="eyebrow">
-              <span className="n">04</span> <span className="scramble">Работы</span>
+          <div className="reveal hd-split">
+            <div>
+              <div className="eyebrow">
+                <span className="n">04</span> <span className="scramble">Работы</span>
+              </div>
+              <h2 className="h2-xl">
+                Не скриншоты. <span className="acc">Сами сайты.</span>
+              </h2>
             </div>
-            <h2>
-              Не скриншоты. <span className="acc">Сами сайты.</span>
-            </h2>
             <p className="lead">
               Открой любой в новой вкладке и потыкай руками — это рабочие коммерческие проекты в проде, а не
               картинки.
@@ -245,7 +248,14 @@ export default function Home() {
                     <i />
                     {w.tag}
                   </span>
-                  <Image src={w.img} alt={w.alt} fill sizes="(max-width:920px) 100vw, 380px" />
+                  <Image
+                    className="tall"
+                    src={w.imgTall}
+                    alt={w.alt}
+                    width={760}
+                    height={3800}
+                    sizes="(max-width:920px) 100vw, 560px"
+                  />
                   <span className="openbadge mono">Открыть ↗</span>
                 </div>
                 <div className="body">

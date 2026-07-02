@@ -114,6 +114,8 @@ export type Work = {
   text: string;
   stack: string[];
   img: string;
+  /** высокий полностраничный скрин для ховер-проезда (760×3800) */
+  imgTall: string;
   alt: string;
 };
 
@@ -126,6 +128,7 @@ export const WORKS: Work[] = [
     text: "Интернет-магазин премиальных арт-объектов ручной работы. Каталог с фильтрами, корзина, оформление заказа под ключ.",
     stack: ["WordPress", "WooCommerce", "Каталог + фильтры"],
     img: "/img/skaz.png",
+    imgTall: "/img/tall/skaz.jpg",
     alt: "Сказ по краю — интернет-магазин",
   },
   {
@@ -136,6 +139,7 @@ export const WORKS: Work[] = [
     text: "Сайт транспортной компании с нуля: грузоперевозки по России, расчёт заявки, галерея. Быстрая чистая вёрстка.",
     stack: ["Вёрстка", "Формы заявок", "SEO-база"],
     img: "/img/sibstar.png",
+    imgTall: "/img/tall/sibstar.jpg",
     alt: "СибСтар — сайт грузоперевозок",
   },
   {
@@ -146,6 +150,7 @@ export const WORKS: Work[] = [
     text: "Сайт кейтеринг-сервиса: услуги, портфолио, расчёт стоимости мероприятия. Адаптив и заявки прямо с первого экрана.",
     stack: ["Лендинг", "Портфолио", "Форма расчёта"],
     img: "/img/wellevent.png",
+    imgTall: "/img/tall/wellevent.jpg",
     alt: "Well Event — сайт кейтеринга",
   },
   {
@@ -156,6 +161,7 @@ export const WORKS: Work[] = [
     text: "Бренд-лендинг авторской керамики на Webflow: редакторская типографика, иллюстрации, плавные анимации. Премиальная подача под русские сказки.",
     stack: ["Webflow", "Брендинг", "Анимации"],
     img: "/img/skaz-online.png",
+    imgTall: "/img/tall/skaz-online.jpg",
     alt: "Сказ по краю — бренд-лендинг на Webflow",
   },
 ];
