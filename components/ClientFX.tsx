@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
+import Lenis from "lenis";
 
 export function ClientFX() {
   useEffect(() => {
@@ -16,6 +17,32 @@ export function ClientFX() {
       target.addEventListener(t, fn);
       cleanups.push(() => target.removeEventListener(t, fn));
     };
+
+    // ---- Lenis: инерционный скролл (десктоп, без reduced-motion; на таче — натив)
+    let lenis: Lenis | null = null;
+    const coarse = matchMedia("(pointer: coarse)").matches;
+    if (!reduce && !coarse) {
+      lenis = new Lenis({ lerp: 0.09 });
+      const lraf = (t: number) => {
+        lenis!.raf(t);
+        raf(lraf);
+      };
+      raf(lraf);
+      cleanups.push(() => lenis?.destroy());
+    } else {
+      document.documentElement.classList.add("no-lenis");
+    }
+    // якоря — через lenis (нативный smooth убран из css), с поправкой на шапку
+    document.querySelectorAll<HTMLAnchorElement>('a[href^="#"]:not([data-top])').forEach((a) =>
+      a.addEventListener("click", (e) => {
+        const id = a.getAttribute("href")!;
+        const el = id.length > 1 ? document.querySelector<HTMLElement>(id) : null;
+        if (!el) return;
+        e.preventDefault();
+        if (lenis) lenis.scrollTo(el, { offset: -64, duration: 1.4 });
+        else el.scrollIntoView({ behavior: reduce ? "auto" : "smooth" });
+      })
+    );
 
     // ---- WebGL smoke field
     const cv = document.getElementById("gl") as HTMLCanvasElement | null;
@@ -35,9 +62,10 @@ export function ClientFX() {
         float f=fbm(p*1.6+1.9*r);
         float d=length(p-m);float bl=smoothstep(.6,0.,d)*.32;f+=bl;
         float ca=u_click.z;float cr=ca*1.1;float ring=smoothstep(.08,0.,abs(length(p-u_click.xy)-cr))*smoothstep(1.3,0.,ca);f+=ring*.5;
-        float v=smoothstep(.28,.96,f);
-        float ink=v*(.24+.62*v);vec3 col=mix(vec3(.02),vec3(.58),ink);
-        col+=vec3(.1,.02,0.)*bl;col*=smoothstep(1.5,.4,length(uv-.5));
+        float v=smoothstep(.25,.93,f);
+        float ink=v*(.24+.66*v);vec3 col=mix(vec3(.02),vec3(.68),ink);
+        col+=vec3(.32,.05,.02)*smoothstep(.58,.95,f)*.55; // угли: красный тлеет в плотном дыме
+        col+=vec3(.14,.03,0.)*bl;col*=smoothstep(1.5,.4,length(uv-.5));
         gl_FragColor=vec4(col,1.);}`;
       let killed = false, started = false;
       const startGL = () => {
@@ -203,7 +231,8 @@ export function ClientFX() {
     document.querySelectorAll<HTMLElement>("a[data-top], a[href='#top']").forEach((a) =>
       a.addEventListener("click", (e) => {
         e.preventDefault();
-        scrollTo({ top: 0, behavior: "smooth" });
+        if (lenis) lenis.scrollTo(0, { duration: 1.4 });
+        else scrollTo({ top: 0, behavior: reduce ? "auto" : "smooth" });
       })
     );
 
