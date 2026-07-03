@@ -299,7 +299,7 @@ export default function Home() {
                 <figcaption className="mono">
                   <b>{r.name}</b>
                   <span>{r.job}</span>
-                  <span className="src">Kwork · 5★</span>
+                  <span className="src">{r.src}</span>
                 </figcaption>
               </figure>
             ))}
