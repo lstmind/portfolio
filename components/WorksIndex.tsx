@@ -12,12 +12,11 @@ export function WorksIndex() {
     <div className="widx reveal">
       <div className="widx-head">
         <div className="widx-title mono">Полный индекс · {WORKS_INDEX.length} проектов</div>
-        <div className="widx-chips" role="tablist" aria-label="Фильтр работ">
+        <div className="widx-chips" role="group" aria-label="Фильтр работ">
           {WORK_CATS.map((c) => (
             <button
               key={c}
-              role="tab"
-              aria-selected={cat === c}
+              aria-pressed={cat === c}
               className={`chip mono${cat === c ? " on" : ""}`}
               onClick={() => setCat(c)}
             >

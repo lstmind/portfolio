@@ -16,13 +16,14 @@ export function FaqList() {
               className="fqsum"
               data-cursor
               aria-expanded={isOpen}
+              aria-controls={`faq-a-${i}`}
               onClick={() => setOpen(isOpen ? null : i)}
             >
               <span>{f.q}</span>
-              <span className="pl">+</span>
+              <span className="pl" aria-hidden="true">+</span>
             </button>
             <div className="fqwrap" style={{ gridTemplateRows: isOpen ? "1fr" : "0fr" }}>
-              <div className="fqinner">
+              <div className="fqinner" id={`faq-a-${i}`} inert={!isOpen}>
                 <div className="fa">{f.a}</div>
               </div>
             </div>

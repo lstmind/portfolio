@@ -106,6 +106,7 @@ export default async function Home() {
         </nav>
       </header>
 
+      <main id="main">
       {/* HERO */}
       <section className="hero">
         <div className="legib" />
@@ -428,6 +429,7 @@ export default async function Home() {
           </div>
         </div>
       </section>
+      </main>
 
       <footer>
         <div className="wrap f-top">

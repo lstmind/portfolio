@@ -27,12 +27,15 @@ const manrope = Manrope({
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE.url),
-  title: "Алексей (lstmind) — веб-разработчик. Сайты, которые работают",
+  title: "Алексей (lstmind) — веб-разработчик. Сайты под ключ, починю чужой сайт",
   description:
-    "Фриланс веб-разработчик: сайты под ключ, интернет-магазины, доработки и ускорение. WordPress, Tilda, чистая вёрстка. Работаю на копии, с бэкапом. Рейтинг 5.0 на Kwork.",
+    "Фриланс веб-разработчик: сайты под ключ, интернет-магазины, спасение и ускорение чужих сайтов. WordPress, Tilda, чистая вёрстка. Работаю на копии, с бэкапом. Рейтинг 5.0 на Kwork.",
   keywords: [
     "веб-разработчик",
     "сайт под ключ",
+    "починить сайт",
+    "доработка сайта",
+    "спасение сайта",
     "wordpress",
     "интернет-магазин",
     "woocommerce",
@@ -51,6 +54,11 @@ export const metadata: Metadata = {
     description:
       "Сайты под ключ, магазины, доработки и ускорение. Чистый код, скорость, реальные кейсы. Рейтинг 5.0 на Kwork.",
   },
+  twitter: {
+    card: "summary_large_image",
+    title: "Алексей (lstmind) — сайты, которые работают",
+    description: "Сайты под ключ, магазины, спасение и ускорение чужих сайтов. Рейтинг 5.0 на Kwork.",
+  },
   robots: { index: true, follow: true },
   verification: { google: "sFBc1LBjy66FYgol2qlYubyt7aDi2Yfa2N2bWKylyRE" },
 };
@@ -59,6 +67,7 @@ export const viewport: Viewport = {
   themeColor: "#08080A",
   width: "device-width",
   initialScale: 1,
+  viewportFit: "cover",
 };
 
 const jsonLd = {
@@ -85,6 +94,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
+        <a className="skip" href="#main">
+          К содержимому
+        </a>
         <ClientFX />
         {children}
         <Script id="ym-init" strategy="afterInteractive">

@@ -32,14 +32,13 @@ export function CostCalc() {
     val: string,
     set: (v: string) => void
   ) => (
-    <div className="calc-g">
+    <div className="calc-g" role="group" aria-label={label}>
       <h4 className="mono">{label}</h4>
-      <div className="calc-opts" role="radiogroup" aria-label={label}>
+      <div className="calc-opts">
         {items.map((it) => (
           <button
             key={it.k}
-            role="radio"
-            aria-checked={val === it.k}
+            aria-pressed={val === it.k}
             className={`calc-chip${val === it.k ? " on" : ""}`}
             onClick={() => { touch(); set(it.k); }}
             data-cursor

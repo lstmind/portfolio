@@ -33,16 +33,18 @@ export function ClientFX() {
       document.documentElement.classList.add("no-lenis");
     }
     // якоря — через lenis (нативный smooth убран из css), с поправкой на шапку
-    document.querySelectorAll<HTMLAnchorElement>('a[href^="#"]:not([data-top])').forEach((a) =>
-      a.addEventListener("click", (e) => {
+    document.querySelectorAll<HTMLAnchorElement>('a[href^="#"]:not([data-top])').forEach((a) => {
+      const onClick = (e: Event) => {
         const id = a.getAttribute("href")!;
         const el = id.length > 1 ? document.querySelector<HTMLElement>(id) : null;
         if (!el) return;
         e.preventDefault();
         if (lenis) lenis.scrollTo(el, { offset: -64, duration: 1.4 });
         else el.scrollIntoView({ behavior: reduce ? "auto" : "smooth" });
-      })
-    );
+      };
+      a.addEventListener("click", onClick);
+      cleanups.push(() => a.removeEventListener("click", onClick));
+    });
 
     // ---- WebGL smoke field
     const cv = document.getElementById("gl") as HTMLCanvasElement | null;
@@ -142,9 +144,12 @@ export function ClientFX() {
       });
     }
 
-    // ---- custom cursor
+    // ---- custom cursor — прогрессивный энхансмент: cursor:none включается классом
+    // на <html> только когда кастомный курсор реально инициализирован
     const cur = document.getElementById("cursor");
     if (cur && !matchMedia("(max-width:920px)").matches) {
+      document.documentElement.classList.add("cur-on");
+      cleanups.push(() => document.documentElement.classList.remove("cur-on"));
       let cx = innerWidth / 2, cy = innerHeight / 2, px = cx, py = cy;
       on("pointermove", ((e: PointerEvent) => {
         cx = e.clientX;
@@ -158,8 +163,14 @@ export function ClientFX() {
       };
       cloop();
       document.querySelectorAll<HTMLElement>("[data-cursor]").forEach((el) => {
-        el.addEventListener("pointerenter", () => cur.classList.add("big"));
-        el.addEventListener("pointerleave", () => cur.classList.remove("big"));
+        const enter = () => cur.classList.add("big");
+        const leave = () => cur.classList.remove("big");
+        el.addEventListener("pointerenter", enter);
+        el.addEventListener("pointerleave", leave);
+        cleanups.push(() => {
+          el.removeEventListener("pointerenter", enter);
+          el.removeEventListener("pointerleave", leave);
+        });
       });
     }
 
@@ -175,6 +186,10 @@ export function ClientFX() {
       const leave = () => (el.style.transform = "translate(0,0)");
       el.addEventListener("pointermove", move as EventListener);
       el.addEventListener("pointerleave", leave);
+      cleanups.push(() => {
+        el.removeEventListener("pointermove", move as EventListener);
+        el.removeEventListener("pointerleave", leave);
+      });
     });
 
     // ---- header + progress
@@ -236,25 +251,33 @@ export function ClientFX() {
       })
     );
 
-    // ---- preloader
+    // ---- preloader: полный сплэш только на первый визит за сессию,
+    // повторные заходы не платят искусственные ~1.6с (сайт же про скорость)
     const pre = document.getElementById("pre");
     const pcount = document.getElementById("pcount");
     const pbar = document.getElementById("pbar");
     const h1 = document.querySelector("h1");
     if (pre && pcount && pbar) {
-      const dur = reduce ? 150 : 750;
-      const st = performance.now();
-      const pl = () => {
-        const k = Math.min((performance.now() - st) / dur, 1);
-        pcount.textContent = String(Math.floor(k * 100)).padStart(3, "0");
-        pbar.style.width = k * 100 + "%";
-        if (k < 1) raf(pl);
-        else {
-          pre.classList.add("done");
-          setTimeout(() => (pre.style.display = "none"), 1000);
-        }
-      };
-      pl();
+      let seen = false;
+      try { seen = sessionStorage.getItem("lst-seen") === "1"; } catch { /* private mode */ }
+      if (seen || reduce) {
+        pre.style.display = "none";
+      } else {
+        try { sessionStorage.setItem("lst-seen", "1"); } catch { /* private mode */ }
+        const dur = 750;
+        const st = performance.now();
+        const pl = () => {
+          const k = Math.min((performance.now() - st) / dur, 1);
+          pcount.textContent = String(Math.floor(k * 100)).padStart(3, "0");
+          pbar.style.width = k * 100 + "%";
+          if (k < 1) raf(pl);
+          else {
+            pre.classList.add("done");
+            setTimeout(() => (pre.style.display = "none"), 1000);
+          }
+        };
+        pl();
+      }
     }
 
     // ---- headline glitch

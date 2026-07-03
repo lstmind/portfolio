@@ -26,7 +26,7 @@ export const NAV = [
 
 export const FACTS = [
   { value: "5+", suffix: "", label: "лет в коммерческом коде" },
-  { value: "Под ключ", suffix: "", label: "от лендинга до магазина" },
+  { value: "29", suffix: "", label: "живых проектов в портфолио" },
   { value: "5.0", suffix: "★", label: "высший рейтинг на Kwork" },
   { value: "1500", suffix: "₽", label: "в час · по проекту фикс" },
 ];
@@ -117,7 +117,6 @@ export type Work = {
   kind: string;
   text: string;
   stack: string[];
-  img: string;
   /** высокий полностраничный скрин для ховер-проезда (ширина 760) */
   imgTall: string;
   /** реальная высота высокого скрина */
@@ -133,7 +132,6 @@ export const WORKS: Work[] = [
     kind: "Платёжный сервис",
     text: "Сайт цифрового кошелька: тёмная тема, крупная типографика, мультиязычность. Продуктовая подача уровня финтех-стартапа.",
     stack: ["WordPress", "Финтех", "EN"],
-    img: "/img/tall/wallerox.jpg",
     imgTall: "/img/tall/wallerox.jpg",
     imgTallH: 2690,
     alt: "Wallerox — сайт платёжного сервиса",
@@ -145,7 +143,6 @@ export const WORKS: Work[] = [
     kind: "Tilda",
     text: "Сайт производителя премиальных интерьерных зеркал: тёмная подача, галерея работ, запись на замер. Собран быстро и под рекламу.",
     stack: ["Tilda", "Каталог работ", "Заявки"],
-    img: "/img/tall/lavenir.jpg",
     imgTall: "/img/tall/lavenir.jpg",
     imgTallH: 3800,
     alt: "Lavenir — премиальные зеркала",
@@ -157,7 +154,6 @@ export const WORKS: Work[] = [
     kind: "WooCommerce",
     text: "Интернет-магазин премиальных арт-объектов ручной работы. Каталог с фильтрами, корзина, оформление заказа под ключ.",
     stack: ["WordPress", "WooCommerce", "Каталог + фильтры"],
-    img: "/img/skaz.png",
     imgTall: "/img/tall/skaz.jpg",
     imgTallH: 3605,
     alt: "Сказ по краю — интернет-магазин",
@@ -169,7 +165,6 @@ export const WORKS: Work[] = [
     kind: "WooCommerce",
     text: "Магазин дизайнерской женской одежды из Казани: коллекции, скидки, корзина, доставка и возврат. Чистая fashion-подача.",
     stack: ["WordPress", "WooCommerce", "Fashion"],
-    img: "/img/tall/qayna.jpg",
     imgTall: "/img/tall/qayna.jpg",
     imgTallH: 2660,
     alt: "QAYNA — магазин дизайнерской одежды",
@@ -181,7 +176,6 @@ export const WORKS: Work[] = [
     kind: "HoReCa",
     text: "Сайт бара с видом на колесо обозрения ВДНХ: атмосферная тёмная подача, галерея интерьера, меню, бронирование столов.",
     stack: ["WordPress", "Галерея", "Бронь"],
-    img: "/img/tall/hpvdnh.jpg",
     imgTall: "/img/tall/hpvdnh.jpg",
     imgTallH: 2239,
     alt: "HP VDNH — бар на ВДНХ",
@@ -193,7 +187,6 @@ export const WORKS: Work[] = [
     kind: "MODX",
     text: "Сайт кейтеринг-сервиса на MODX: услуги, портфолио, расчёт стоимости мероприятия. Адаптив и заявки прямо с первого экрана.",
     stack: ["MODX", "Портфолио", "Форма расчёта"],
-    img: "/img/wellevent.png",
     imgTall: "/img/tall/wellevent.jpg",
     imgTallH: 3800,
     alt: "Well Event — сайт кейтеринга",
@@ -205,7 +198,6 @@ export const WORKS: Work[] = [
     kind: "Мебель люкс",
     text: "Магазин американской мебели люкс-сегмента: каталог по брендам и коллекциям, поиск, корзина. Подача под дорогую аудиторию.",
     stack: ["WordPress", "WooCommerce", "Люкс-сегмент"],
-    img: "/img/tall/ainteriors.jpg",
     imgTall: "/img/tall/ainteriors.jpg",
     imgTallH: 1623,
     alt: "Luxury Design — магазин американской мебели",
@@ -217,7 +209,6 @@ export const WORKS: Work[] = [
     kind: "E-wallet",
     text: "Сайт международного e-wallet сервиса: лендинг продукта, тарифы, интеграция с кабинетом. Чистая сервисная подача, EN.",
     stack: ["WordPress", "Сервис", "EN"],
-    img: "/img/tall/marvli.jpg",
     imgTall: "/img/tall/marvli.jpg",
     imgTallH: 3800,
     alt: "Marvli — e-wallet сервис",

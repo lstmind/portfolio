@@ -8,7 +8,7 @@ const SECRET = process.env.TELEGRAM_WEBHOOK_SECRET;
 const API = `https://api.telegram.org/bot${TOKEN}`;
 const SITE = "https://lstmind.ru";
 const DIRECT = "https://t.me/lstmind";
-const BANNER = "https://portfolio-amber-eta-duclbiwm5n.vercel.app/opengraph-image";
+const BANNER = `${SITE}/opengraph-image`;
 
 type TgUser = { id: number; first_name?: string; last_name?: string; username?: string };
 type Btn = { text: string; callback_data?: string; url?: string };

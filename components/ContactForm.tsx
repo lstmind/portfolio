@@ -5,6 +5,7 @@ import { ymGoal } from "@/lib/metrika";
 
 export function ContactForm() {
   const [status, setStatus] = useState<"idle" | "sending" | "ok" | "error">("idle");
+  const [contactErr, setContactErr] = useState<string | null>(null);
 
   async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -12,6 +13,15 @@ export function ContactForm() {
     const data = new FormData(form);
     // honeypot
     if (data.get("company")) return;
+    // контакт должен быть достижимым: @ник, телефон или почта
+    const contact = String(data.get("contact") || "").trim();
+    const looksReachable = /@|\+?[\d\s().-]{7,}/.test(contact);
+    if (!looksReachable) {
+      setContactErr("похоже на опечатку — оставь @ник в Telegram, телефон или почту");
+      form.querySelector<HTMLInputElement>("#cf-contact")?.focus();
+      return;
+    }
+    setContactErr(null);
     setStatus("sending");
     try {
       const res = await fetch("/api/contact", {
@@ -36,12 +46,26 @@ export function ContactForm() {
     <form className="reveal" onSubmit={onSubmit}>
       <input className="hp" type="text" tabIndex={-1} autoComplete="off" aria-hidden="true" name="company" />
       <div className="field">
-        <label htmlFor="cf-name">Как вас зовут</label>
-        <input id="cf-name" name="name" type="text" placeholder="Имя" required />
+        <label htmlFor="cf-name">Как тебя зовут</label>
+        <input id="cf-name" name="name" type="text" placeholder="Имя" required minLength={2} />
       </div>
       <div className="field">
         <label htmlFor="cf-contact">Как связаться</label>
-        <input id="cf-contact" name="contact" type="text" placeholder="@telegram или телефон" required />
+        <input
+          id="cf-contact"
+          name="contact"
+          type="text"
+          placeholder="@telegram, телефон или почта"
+          required
+          aria-invalid={!!contactErr}
+          aria-describedby={contactErr ? "cf-contact-err" : undefined}
+          onChange={() => setContactErr(null)}
+        />
+        {contactErr && (
+          <div className="formok" id="cf-contact-err" role="alert" style={{ marginTop: 8 }}>
+            {contactErr}
+          </div>
+        )}
       </div>
       <div className="field">
         <label htmlFor="cf-task">Что нужно сделать</label>
