@@ -99,12 +99,12 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         </a>
         <ClientFX />
         {children}
-        <Script id="ym-init" strategy="afterInteractive">
+        <Script id="ym-init" strategy="lazyOnload">
           {`window.ym = window.ym || function(){(window.ym.a = window.ym.a || []).push(arguments)};
           window.ym.l = 1 * new Date();
           window.ym(${YM_ID}, 'init', {ssr:true, webvisor:true, clickmap:true, ecommerce:'dataLayer', referrer: document.referrer, url: location.href, accurateTrackBounce:true, trackLinks:true});`}
         </Script>
-        <Script id="ym-tag" src={`https://mc.yandex.ru/metrika/tag.js?id=${YM_ID}`} strategy="afterInteractive" />
+        <Script id="ym-tag" src={`https://mc.yandex.ru/metrika/tag.js?id=${YM_ID}`} strategy="lazyOnload" />
         <noscript>
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <div><img src={`https://mc.yandex.ru/watch/${YM_ID}`} style={{ position: "absolute", left: "-9999px" }} alt="" /></div>
