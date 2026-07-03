@@ -15,6 +15,7 @@ export const SITE = {
 
 export const NAV = [
   { label: "Услуги", href: "#services" },
+  { label: "Цена", href: "#calc" },
   { label: "Подход", href: "#process" },
   { label: "Работы", href: "#works" },
   { label: "FAQ", href: "#faq" },
@@ -123,54 +124,6 @@ export type Work = {
 
 export const WORKS: Work[] = [
   {
-    href: "https://www.skazpokrayu.ru/",
-    tag: "LIVE · Магазин",
-    title: "Сказ по краю",
-    kind: "WooCommerce",
-    text: "Интернет-магазин премиальных арт-объектов ручной работы. Каталог с фильтрами, корзина, оформление заказа под ключ.",
-    stack: ["WordPress", "WooCommerce", "Каталог + фильтры"],
-    img: "/img/skaz.png",
-    imgTall: "/img/tall/skaz.jpg",
-    imgTallH: 3605,
-    alt: "Сказ по краю — интернет-магазин",
-  },
-  {
-    href: "https://tksibstar.com/",
-    tag: "LIVE · С нуля",
-    title: "СибСтар",
-    kind: "Сайт с нуля",
-    text: "Сайт транспортной компании с нуля: грузоперевозки по России, расчёт заявки, галерея. Быстрая чистая вёрстка.",
-    stack: ["Вёрстка", "Формы заявок", "SEO-база"],
-    img: "/img/sibstar.png",
-    imgTall: "/img/tall/sibstar.jpg",
-    imgTallH: 3800,
-    alt: "СибСтар — сайт грузоперевозок",
-  },
-  {
-    href: "https://wellevent.ru/",
-    tag: "LIVE · Услуги",
-    title: "Well Event",
-    kind: "Кейтеринг",
-    text: "Сайт кейтеринг-сервиса: услуги, портфолио, расчёт стоимости мероприятия. Адаптив и заявки прямо с первого экрана.",
-    stack: ["Лендинг", "Портфолио", "Форма расчёта"],
-    img: "/img/wellevent.png",
-    imgTall: "/img/tall/wellevent.jpg",
-    imgTallH: 3800,
-    alt: "Well Event — сайт кейтеринга",
-  },
-  {
-    href: "https://skazpokrayu.online/",
-    tag: "LIVE · Бренд",
-    title: "Сказ по краю",
-    kind: "Webflow",
-    text: "Бренд-лендинг авторской керамики на Webflow: редакторская типографика, иллюстрации, плавные анимации. Премиальная подача под русские сказки.",
-    stack: ["Webflow", "Брендинг", "Анимации"],
-    img: "/img/skaz-online.png",
-    imgTall: "/img/tall/skaz-online.jpg",
-    imgTallH: 3800,
-    alt: "Сказ по краю — бренд-лендинг на Webflow",
-  },
-  {
     href: "https://wallerox.com/",
     tag: "LIVE · Финтех",
     title: "Wallerox",
@@ -195,16 +148,28 @@ export const WORKS: Work[] = [
     alt: "Lavenir — премиальные зеркала",
   },
   {
-    href: "https://a-interiors.ru/",
+    href: "https://www.skazpokrayu.ru/",
     tag: "LIVE · Магазин",
-    title: "Luxury Design",
-    kind: "Мебель люкс",
-    text: "Магазин американской мебели люкс-сегмента: каталог по брендам и коллекциям, поиск, корзина. Подача под дорогую аудиторию.",
-    stack: ["WordPress", "WooCommerce", "Люкс-сегмент"],
-    img: "/img/tall/ainteriors.jpg",
-    imgTall: "/img/tall/ainteriors.jpg",
-    imgTallH: 1623,
-    alt: "Luxury Design — магазин американской мебели",
+    title: "Сказ по краю",
+    kind: "WooCommerce",
+    text: "Интернет-магазин премиальных арт-объектов ручной работы. Каталог с фильтрами, корзина, оформление заказа под ключ.",
+    stack: ["WordPress", "WooCommerce", "Каталог + фильтры"],
+    img: "/img/skaz.png",
+    imgTall: "/img/tall/skaz.jpg",
+    imgTallH: 3605,
+    alt: "Сказ по краю — интернет-магазин",
+  },
+  {
+    href: "https://wellevent.ru/",
+    tag: "LIVE · Услуги",
+    title: "Well Event",
+    kind: "MODX",
+    text: "Сайт кейтеринг-сервиса на MODX: услуги, портфолио, расчёт стоимости мероприятия. Адаптив и заявки прямо с первого экрана.",
+    stack: ["MODX", "Портфолио", "Форма расчёта"],
+    img: "/img/wellevent.png",
+    imgTall: "/img/tall/wellevent.jpg",
+    imgTallH: 3800,
+    alt: "Well Event — сайт кейтеринга",
   },
   {
     href: "https://marvli.com/",
@@ -217,6 +182,42 @@ export const WORKS: Work[] = [
     imgTall: "/img/tall/marvli.jpg",
     imgTallH: 3800,
     alt: "Marvli — e-wallet сервис",
+  },
+  {
+    href: "https://a-interiors.ru/",
+    tag: "LIVE · Магазин",
+    title: "Luxury Design",
+    kind: "Мебель люкс",
+    text: "Магазин американской мебели люкс-сегмента: каталог по брендам и коллекциям, поиск, корзина. Подача под дорогую аудиторию.",
+    stack: ["WordPress", "WooCommerce", "Люкс-сегмент"],
+    img: "/img/tall/ainteriors.jpg",
+    imgTall: "/img/tall/ainteriors.jpg",
+    imgTallH: 1623,
+    alt: "Luxury Design — магазин американской мебели",
+  },
+  {
+    href: "https://tksibstar.com/",
+    tag: "LIVE · С нуля",
+    title: "СибСтар",
+    kind: "Сайт с нуля",
+    text: "Сайт транспортной компании с нуля: грузоперевозки по России, расчёт заявки, галерея. Быстрая чистая вёрстка.",
+    stack: ["Вёрстка", "Формы заявок", "SEO-база"],
+    img: "/img/sibstar.png",
+    imgTall: "/img/tall/sibstar.jpg",
+    imgTallH: 3800,
+    alt: "СибСтар — сайт грузоперевозок",
+  },
+  {
+    href: "https://skazpokrayu.online/",
+    tag: "LIVE · Бренд",
+    title: "Сказ по краю",
+    kind: "Webflow",
+    text: "Бренд-лендинг авторской керамики на Webflow: редакторская типографика, иллюстрации, плавные анимации. Премиальная подача под русские сказки.",
+    stack: ["Webflow", "Брендинг", "Анимации"],
+    img: "/img/skaz-online.png",
+    imgTall: "/img/tall/skaz-online.jpg",
+    imgTallH: 3800,
+    alt: "Сказ по краю — бренд-лендинг на Webflow",
   },
 ];
 
@@ -232,7 +233,7 @@ export type WorkIndexItem = {
   note: string;
 };
 
-export const WORK_CATS = ["Все", "Магазины", "Сайты и лендинги", "Порталы и сервисы"] as const;
+export const WORK_CATS = ["Все", "Магазины", "Сайты и лендинги", "Порталы и сервисы", "Функционал и интеграции"] as const;
 
 export const WORKS_INDEX: WorkIndexItem[] = [
   // магазины
@@ -243,8 +244,10 @@ export const WORKS_INDEX: WorkIndexItem[] = [
   { title: "АртХаус", href: "https://arthouse24.ru/", cat: "Магазины", engine: "WordPress · WooCommerce", note: "Магазин стройматериалов в СПб: каталог с категориями, популярные позиции, ипотечные программы" },
   { title: "FitPit", href: "https://fitpit.kz/", cat: "Магазины", engine: "WordPress · WooCommerce", note: "Магазин спортивного питания в Казахстане: бренды, каталог, корзина, оплата в тенге" },
   { title: "Modelium", href: "https://modelium.club/", cat: "Магазины", engine: "WooCommerce · цифровые товары", note: "Магазин STL-моделей для 3D-печати (EN): продажа цифровых файлов, категории, оплата в евро" },
-  { title: "КомпКМ", href: "https://kompkm.ru/", cat: "Магазины", engine: "WooCommerce · Авито-парсер", note: "Магазин компрессорной техники + автовыгрузка каталога в объявления Авито раз в неделю" },
-  { title: "Snowboardel", href: "http://snowboardel.com/", cat: "Магазины", engine: "WooCommerce · Авито-парсер", note: "Магазин сноубордов и экипировки с синхронизацией товарной базы с Авито" },
+  // функционал и интеграции
+  { title: "Калькулятор стоимости", href: "#calc", cat: "Функционал и интеграции", engine: "React · на этом сайте", note: "Интерактивный расчёт вилки цены и срока за три клика — работает прямо на этой странице, попробуй" },
+  { title: "КомпКМ", href: "https://kompkm.ru/", cat: "Функционал и интеграции", engine: "WooCommerce · Авито-парсер", note: "Магазин компрессорной техники + автовыгрузка каталога в объявления Авито раз в неделю" },
+  { title: "Snowboardel", href: "http://snowboardel.com/", cat: "Функционал и интеграции", engine: "WooCommerce · Авито-парсер", note: "Магазин сноубордов и экипировки с автоматической синхронизацией товарной базы с Авито" },
   // сайты и лендинги
   { title: "Сибирь Продукт", href: "https://siberiaproduct.com/", cat: "Сайты и лендинги", engine: "Tilda", note: "Сайт производителя смесей для мороженого: продукция, раздел для оптовиков, запрос прайса" },
   { title: "Донбасс Авто", href: "https://donbass-auto.ru/", cat: "Сайты и лендинги", engine: "Tilda", note: "Сайт автосалона: каталог автомобилей, условия, заявка на подбор" },
@@ -262,13 +265,47 @@ export const WORKS_INDEX: WorkIndexItem[] = [
   { title: "РязаньОкно", href: "https://ryazanokno.ru/", cat: "Сайты и лендинги", engine: "WordPress", note: "Сайт оконной компании в Рязани: окна, балконы, остекление, расчёт стоимости" },
   { title: "Storona", href: "https://storona.yolastudio.ru/", cat: "Сайты и лендинги", engine: "Вёрстка · WordPress", note: "Вёрстка по макету и сборка корпоративного сайта на WordPress под ключ" },
   { title: "Lazerviz", href: "https://lazerviz.yolastudio.ru/wp/", cat: "Сайты и лендинги", engine: "Вёрстка · WordPress", note: "Вёрстка по макету и натяжка на WordPress: пиксель-в-пиксель, адаптив" },
-  { title: "Sever", href: "https://sever.yolastudio.ru/", cat: "Сайты и лендинги", engine: "Вёрстка · PHP", note: "Чистая вёрстка лендинга + php-обработчики форм без CMS" },
-  { title: "Yaris", href: "https://yaris.yolastudio.ru/", cat: "Сайты и лендинги", engine: "Вёрстка · PHP", note: "Чистая вёрстка + настройка отправки форм на PHP" },
+  { title: "Sever", href: "https://sever.yolastudio.ru/", cat: "Функционал и интеграции", engine: "Вёрстка · PHP-формы", note: "Чистая вёрстка лендинга + php-обработчики форм без CMS: валидация, отправка, антиспам" },
+  { title: "Yaris", href: "https://yaris.yolastudio.ru/", cat: "Функционал и интеграции", engine: "Вёрстка · PHP-формы", note: "Чистая вёрстка + настройка отправки форм на PHP с проверкой полей" },
   // порталы и сервисы
-  { title: "Legio.news", href: "https://legio.news/", cat: "Порталы и сервисы", engine: "WordPress · кастом-механика", note: "Новостной сервис с уникальной механикой: прогнозы исходов по новостям, баллы, рейтинг лидеров" },
+  { title: "Legio.news", href: "https://legio.news/", cat: "Функционал и интеграции", engine: "WordPress · кастом-механика", note: "Новостной сервис с уникальной механикой: прогнозы исходов по новостям, баллы, рейтинг лидеров" },
   { title: "L2-Servera", href: "https://l2-servera.com/", cat: "Порталы и сервисы", engine: "WordPress", note: "Каталог игровых серверов Lineage 2: анонсы, рейтинги, фильтры по хроникам и датам" },
   { title: "Binolla Blog", href: "https://blog.binolla.com/", cat: "Порталы и сервисы", engine: "WordPress · EN", note: "Контент-платформа трейдинг-сервиса: статьи, категории, обучающие материалы" },
 ];
+
+/* ── Калькулятор стоимости (та же логика, что в telegram-боте) ── */
+
+export const CALC = {
+  types: [
+    { k: "land", label: "Лендинг" },
+    { k: "multi", label: "Многостраничный" },
+    { k: "shop", label: "Интернет-магазин" },
+    { k: "fix", label: "Доработка" },
+  ],
+  scales: [
+    { k: "s", label: "Простой" },
+    { k: "m", label: "Стандартный" },
+    { k: "l", label: "Сложный" },
+  ],
+  urgency: [
+    { k: "n", label: "Не горит" },
+    { k: "w", label: "2–3 недели" },
+    { k: "u", label: "Срочно" },
+  ],
+  /** диапазоны в тыс. ₽ по масштабу [s,m,l] */
+  prices: {
+    land: [[12, 20], [20, 35], [35, 55]],
+    multi: [[25, 45], [45, 75], [75, 120]],
+    shop: [[35, 60], [60, 100], [100, 180]],
+    fix: [[3, 8], [8, 20], [20, 45]],
+  } as Record<string, [number, number][]>,
+  terms: {
+    land: ["5–10 дней", "1–2 недели", "2–3 недели"],
+    multi: ["1–2 недели", "2–4 недели", "1–2 месяца"],
+    shop: ["2–3 недели", "1–2 месяца", "от 2 месяцев"],
+    fix: ["1–3 дня", "3–10 дней", "от 2 недель"],
+  } as Record<string, string[]>,
+} as const;
 
 export const FAQ = [
   {

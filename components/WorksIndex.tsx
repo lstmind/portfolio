@@ -31,7 +31,12 @@ export function WorksIndex() {
       </div>
       <div className="widx-list">
         {items.map((w, i) => (
-          <a key={w.href} href={w.href} target="_blank" rel="noopener noreferrer" data-cursor>
+          <a
+            key={w.href}
+            href={w.href}
+            {...(w.href.startsWith("#") ? {} : { target: "_blank", rel: "noopener noreferrer" })}
+            data-cursor
+          >
             <span className="no mono">{String(i + 1).padStart(2, "0")}</span>
             <span className="mid">
               <span className="nm">{w.title}</span>

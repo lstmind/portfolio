@@ -1,6 +1,7 @@
 import Image from "next/image";
 import { ContactForm } from "@/components/ContactForm";
 import { WorksIndex } from "@/components/WorksIndex";
+import { CostCalc } from "@/components/CostCalc";
 import { MobileNav } from "@/components/MobileNav";
 import { FaqList } from "@/components/FaqList";
 import {
@@ -189,12 +190,31 @@ export default function Home() {
         </div>
       </section>
 
+      {/* CALC — живой функционал вместо обещаний */}
+      <section className="blk" id="calc">
+        <div className="wrap">
+          <div className="reveal">
+            <div className="eyebrow">
+              <span className="n">03</span> <span className="scramble">Прикинь стоимость</span>
+            </div>
+            <h2>
+              Сколько будет <span className="acc">стоить</span>
+            </h2>
+            <p className="lead">
+              Три клика — и вилка цены с реальным сроком. Тот же калькулятор, что у меня в Telegram-боте:
+              без «оставьте телефон, вам перезвонит менеджер».
+            </p>
+          </div>
+          <CostCalc />
+        </div>
+      </section>
+
       {/* PROCESS — светлая инверсия, слом ритма */}
       <section className="blk light" id="process">
         <div className="wrap">
           <div className="reveal">
             <div className="eyebrow">
-              <span className="n">03</span> <span className="scramble">Как я работаю</span>
+              <span className="n">04</span> <span className="scramble">Как я работаю</span>
             </div>
             <h2>
               Один человек. <span className="acc">Никаких сюрпризов</span>
@@ -230,7 +250,7 @@ export default function Home() {
           <div className="reveal hd-split">
             <div>
               <div className="eyebrow">
-                <span className="n">04</span> <span className="scramble">Работы</span>
+                <span className="n">05</span> <span className="scramble">Работы</span>
               </div>
               <h2 className="h2-xl">
                 Не скриншоты. <span className="acc">Сами сайты.</span>
@@ -284,7 +304,7 @@ export default function Home() {
           <div className="reveal rev-head">
             <div>
               <div className="eyebrow">
-                <span className="n">05</span> <span className="scramble">Частые вопросы</span>
+                <span className="n">06</span> <span className="scramble">Частые вопросы</span>
               </div>
               <h2>
                 Отвечаю <span className="acc">заранее</span>
@@ -312,7 +332,7 @@ export default function Home() {
       <section className="contact" id="contact">
         <div className="wrap">
           <div className="eyebrow reveal">
-            <span className="n">06</span> <span className="scramble">Контакт</span>
+            <span className="n">07</span> <span className="scramble">Контакт</span>
           </div>
           <div className="grid">
           <div className="reveal">

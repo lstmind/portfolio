@@ -44,6 +44,24 @@ export function ClientFX() {
       })
     );
 
+    // ---- прогрев превью работ: догружаем высокие скрины ДО того, как клиент наведёт
+    const worksSec = document.getElementById("works");
+    if (worksSec) {
+      const wio = new IntersectionObserver(
+        (es) =>
+          es.forEach((e) => {
+            if (!e.isIntersecting) return;
+            worksSec.querySelectorAll<HTMLImageElement>("img[loading='lazy']").forEach((im) => {
+              im.loading = "eager";
+            });
+            wio.disconnect();
+          }),
+        { rootMargin: "180% 0%" }
+      );
+      wio.observe(worksSec);
+      cleanups.push(() => wio.disconnect());
+    }
+
     // ---- WebGL smoke field
     const cv = document.getElementById("gl") as HTMLCanvasElement | null;
     const gl = cv && ((cv.getContext("webgl") || cv.getContext("experimental-webgl")) as WebGLRenderingContext | null);
