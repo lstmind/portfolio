@@ -341,13 +341,14 @@ export default function Home() {
       </section>
 
       <footer>
-        <div className="wrap">
+        <div className="wrap f-top">
           <div className="logo">
             <span className="sq" />
             {SITE.name}
           </div>
           <div className="made mono">
-            Этот сайт собран на Next.js без шаблонов <span className="s">—</span> и он тоже мой кейс
+            Этот сайт собран на Next.js без шаблонов <span className="s">—</span> и он тоже мой кейс ·{" "}
+            © {new Date().getFullYear()}
           </div>
           <div className="fl mono">
             <a href={SITE.telegram} target="_blank" rel="noopener noreferrer" data-cursor>
@@ -360,6 +361,9 @@ export default function Home() {
               Наверх ↑
             </a>
           </div>
+        </div>
+        <div className="f-mark" aria-hidden="true">
+          lstmind<span>.</span>
         </div>
       </footer>
     </>

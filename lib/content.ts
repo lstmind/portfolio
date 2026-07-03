@@ -131,7 +131,7 @@ export const WORKS: Work[] = [
     stack: ["WordPress", "WooCommerce", "Каталог + фильтры"],
     img: "/img/skaz.png",
     imgTall: "/img/tall/skaz.jpg",
-    imgTallH: 3800,
+    imgTallH: 3605,
     alt: "Сказ по краю — интернет-магазин",
   },
   {
@@ -222,44 +222,52 @@ export const WORKS: Work[] = [
 
 /* ── Полный индекс работ (живые проекты, сгруппированы по типу) ── */
 
-export type WorkIndexItem = { title: string; href: string; cat: string; stack: string };
+export type WorkIndexItem = {
+  title: string;
+  href: string;
+  cat: string;
+  /** движок/платформа — короткий моно-чип */
+  engine: string;
+  /** суть проекта одной строкой */
+  note: string;
+};
 
 export const WORK_CATS = ["Все", "Магазины", "Сайты и лендинги", "Порталы и сервисы"] as const;
 
 export const WORKS_INDEX: WorkIndexItem[] = [
   // магазины
-  { title: "GrillMebel — уличная мебель и барбекю", href: "https://grillmebel.ru/", cat: "Магазины", stack: "WordPress · Woo" },
-  { title: "QAYNA — дизайнерская одежда", href: "https://qayna.ru/", cat: "Магазины", stack: "WordPress · Woo" },
-  { title: "SWG — светодиодное освещение", href: "https://swgshop.ru/", cat: "Магазины", stack: "WordPress · Woo" },
-  { title: "ТехноКварц — кварцевый агломерат", href: "https://tehnokvarc.ru/", cat: "Магазины", stack: "WordPress · Woo" },
-  { title: "АртХаус — стройматериалы", href: "https://arthouse24.ru/", cat: "Магазины", stack: "WordPress · Woo" },
-  { title: "FitPit — спортивное питание (KZ)", href: "https://fitpit.kz/", cat: "Магазины", stack: "WordPress · Woo" },
-  { title: "Modelium — 3D-модели для печати", href: "https://modelium.club/", cat: "Магазины", stack: "WordPress · Woo · EN" },
-  { title: "КомпКМ — компрессорная техника", href: "https://kompkm.ru/", cat: "Магазины", stack: "Woo · Авито-парсер" },
-  { title: "Snowboardel — сноуборды", href: "http://snowboardel.com/", cat: "Магазины", stack: "Woo · Авито-парсер" },
+  { title: "GrillMebel", href: "https://grillmebel.ru/", cat: "Магазины", engine: "WordPress · WooCommerce", note: "Магазин уличной мебели и барбекю-комплексов завода-производителя: каталог по решениям, поиск, заявки" },
+  { title: "QAYNA", href: "https://qayna.ru/", cat: "Магазины", engine: "WordPress · WooCommerce", note: "Магазин дизайнерской женской одежды из Казани: коллекции, скидки, корзина, доставка и возврат" },
+  { title: "SWG", href: "https://swgshop.ru/", cat: "Магазины", engine: "WordPress · WooCommerce", note: "Магазин светодиодного освещения производителя: большой каталог, кабинеты для дизайнеров и партнёров" },
+  { title: "ТехноКварц", href: "https://tehnokvarc.ru/", cat: "Магазины", engine: "WordPress · WooCommerce", note: "Магазин изделий из кварцевого агломерата: каталог, расчёт под размеры, оформление заказа" },
+  { title: "АртХаус", href: "https://arthouse24.ru/", cat: "Магазины", engine: "WordPress · WooCommerce", note: "Магазин стройматериалов в СПб: каталог с категориями, популярные позиции, ипотечные программы" },
+  { title: "FitPit", href: "https://fitpit.kz/", cat: "Магазины", engine: "WordPress · WooCommerce", note: "Магазин спортивного питания в Казахстане: бренды, каталог, корзина, оплата в тенге" },
+  { title: "Modelium", href: "https://modelium.club/", cat: "Магазины", engine: "WooCommerce · цифровые товары", note: "Магазин STL-моделей для 3D-печати (EN): продажа цифровых файлов, категории, оплата в евро" },
+  { title: "КомпКМ", href: "https://kompkm.ru/", cat: "Магазины", engine: "WooCommerce · Авито-парсер", note: "Магазин компрессорной техники + автовыгрузка каталога в объявления Авито раз в неделю" },
+  { title: "Snowboardel", href: "http://snowboardel.com/", cat: "Магазины", engine: "WooCommerce · Авито-парсер", note: "Магазин сноубордов и экипировки с синхронизацией товарной базы с Авито" },
   // сайты и лендинги
-  { title: "Сибирь Продукт — смеси для мороженого", href: "https://siberiaproduct.com/", cat: "Сайты и лендинги", stack: "Tilda" },
-  { title: "Донбасс Авто — автосалон", href: "https://donbass-auto.ru/", cat: "Сайты и лендинги", stack: "Tilda" },
-  { title: "HP VDNH — бар на ВДНХ", href: "https://hp-vdnh.ru/", cat: "Сайты и лендинги", stack: "WordPress" },
-  { title: "Базис ТК — транспортная компания", href: "https://bazis-tk.ru/", cat: "Сайты и лендинги", stack: "WordPress" },
-  { title: "Казаночка — баскетбольный клуб", href: "https://bckazanochka.ru/", cat: "Сайты и лендинги", stack: "WordPress" },
-  { title: "Курт и К — производство упаковки", href: "https://envelopes.ru/", cat: "Сайты и лендинги", stack: "WordPress" },
-  { title: "Sealt Siia — переезды (Эстония)", href: "https://sealtsiia.ee/", cat: "Сайты и лендинги", stack: "WordPress · EN" },
-  { title: "Alliance GT — грузоперевозки", href: "https://alliance-gt.ru/", cat: "Сайты и лендинги", stack: "WordPress" },
-  { title: "ЕваТур — туроператор (Грузия)", href: "https://evatour.com.ge/", cat: "Сайты и лендинги", stack: "WordPress" },
-  { title: "ДомУпак — упаковочные материалы", href: "https://domupack.ru/", cat: "Сайты и лендинги", stack: "WordPress" },
-  { title: "Демонтаж Москва — демонтажные работы", href: "https://demontazh-moscow.ru/", cat: "Сайты и лендинги", stack: "WordPress" },
-  { title: "Аренда Такси — таксопарк (KZ)", href: "https://arendataxi.kz/", cat: "Сайты и лендинги", stack: "WordPress" },
-  { title: "Оконный портал — окна и остекление", href: "https://okonnyiportal.ru/", cat: "Сайты и лендинги", stack: "WordPress" },
-  { title: "РязаньОкно — оконная компания", href: "https://ryazanokno.ru/", cat: "Сайты и лендинги", stack: "WordPress" },
-  { title: "Storona — вёрстка и сборка", href: "https://storona.yolastudio.ru/", cat: "Сайты и лендинги", stack: "Вёрстка" },
-  { title: "Lazerviz — вёрстка и сборка", href: "https://lazerviz.yolastudio.ru/wp/", cat: "Сайты и лендинги", stack: "Вёрстка" },
-  { title: "Sever — вёрстка + формы PHP", href: "https://sever.yolastudio.ru/", cat: "Сайты и лендинги", stack: "Вёрстка · PHP" },
-  { title: "Yaris — вёрстка + формы PHP", href: "https://yaris.yolastudio.ru/", cat: "Сайты и лендинги", stack: "Вёрстка · PHP" },
+  { title: "Сибирь Продукт", href: "https://siberiaproduct.com/", cat: "Сайты и лендинги", engine: "Tilda", note: "Сайт производителя смесей для мороженого: продукция, раздел для оптовиков, запрос прайса" },
+  { title: "Донбасс Авто", href: "https://donbass-auto.ru/", cat: "Сайты и лендинги", engine: "Tilda", note: "Сайт автосалона: каталог автомобилей, условия, заявка на подбор" },
+  { title: "HP VDNH", href: "https://hp-vdnh.ru/", cat: "Сайты и лендинги", engine: "WordPress", note: "Сайт бара у колеса обозрения на ВДНХ: атмосферная тёмная подача, меню, бронирование столов" },
+  { title: "Базис ТК", href: "https://bazis-tk.ru/", cat: "Сайты и лендинги", engine: "WordPress · вёрстка с нуля", note: "Корпоративный сайт транспортной компании: услуги, география, расчёт стоимости перевозки" },
+  { title: "Казаночка", href: "https://bckazanochka.ru/", cat: "Сайты и лендинги", engine: "WordPress", note: "Официальный сайт женского баскетбольного клуба: новости, состав, расписание игр, медиа" },
+  { title: "Курт и К", href: "https://envelopes.ru/", cat: "Сайты и лендинги", engine: "WordPress", note: "Сайт производственного холдинга упаковки: каталог продукции по направлениям, филиалы, заявки" },
+  { title: "Sealt Siia", href: "https://sealtsiia.ee/", cat: "Сайты и лендинги", engine: "WordPress · 3 языка", note: "Сайт мувинговой компании в Эстонии: услуги переездов, эстонский/русский/английский" },
+  { title: "Alliance GT", href: "https://alliance-gt.ru/", cat: "Сайты и лендинги", engine: "WordPress", note: "Сайт грузоперевозчика: направления, автопарк, форма расчёта заявки" },
+  { title: "ЕваТур", href: "https://evatour.com.ge/", cat: "Сайты и лендинги", engine: "WordPress", note: "Сайт туроператора по Грузии: туры, экскурсии, трансферы, бронирование" },
+  { title: "ДомУпак", href: "https://domupack.ru/", cat: "Сайты и лендинги", engine: "WordPress", note: "Каталожный сайт упаковочных материалов: категории, оптовые условия, доставка" },
+  { title: "Демонтаж Москва", href: "https://demontazh-moscow.ru/", cat: "Сайты и лендинги", engine: "WordPress", note: "Сайт демонтажных работ: услуги, цены, портфолио объектов, расчёт сметы" },
+  { title: "Аренда Такси", href: "https://arendataxi.kz/", cat: "Сайты и лендинги", engine: "WordPress", note: "Сайт таксопарка в Казахстане: условия аренды авто, автопарк, заявка водителям" },
+  { title: "Оконный портал", href: "https://okonnyiportal.ru/", cat: "Сайты и лендинги", engine: "WordPress", note: "Сайт оконной компании: продукция, бесплатный замер, акции, калькулятор" },
+  { title: "РязаньОкно", href: "https://ryazanokno.ru/", cat: "Сайты и лендинги", engine: "WordPress", note: "Сайт оконной компании в Рязани: окна, балконы, остекление, расчёт стоимости" },
+  { title: "Storona", href: "https://storona.yolastudio.ru/", cat: "Сайты и лендинги", engine: "Вёрстка · WordPress", note: "Вёрстка по макету и сборка корпоративного сайта на WordPress под ключ" },
+  { title: "Lazerviz", href: "https://lazerviz.yolastudio.ru/wp/", cat: "Сайты и лендинги", engine: "Вёрстка · WordPress", note: "Вёрстка по макету и натяжка на WordPress: пиксель-в-пиксель, адаптив" },
+  { title: "Sever", href: "https://sever.yolastudio.ru/", cat: "Сайты и лендинги", engine: "Вёрстка · PHP", note: "Чистая вёрстка лендинга + php-обработчики форм без CMS" },
+  { title: "Yaris", href: "https://yaris.yolastudio.ru/", cat: "Сайты и лендинги", engine: "Вёрстка · PHP", note: "Чистая вёрстка + настройка отправки форм на PHP" },
   // порталы и сервисы
-  { title: "Legio.news — новостной сервис с рейтингом прогнозов", href: "https://legio.news/", cat: "Порталы и сервисы", stack: "WordPress · кастом" },
-  { title: "L2-Servera — каталог игровых серверов", href: "https://l2-servera.com/", cat: "Порталы и сервисы", stack: "WordPress" },
-  { title: "Binolla Blog — контент-платформа", href: "https://blog.binolla.com/", cat: "Порталы и сервисы", stack: "WordPress · EN" },
+  { title: "Legio.news", href: "https://legio.news/", cat: "Порталы и сервисы", engine: "WordPress · кастом-механика", note: "Новостной сервис с уникальной механикой: прогнозы исходов по новостям, баллы, рейтинг лидеров" },
+  { title: "L2-Servera", href: "https://l2-servera.com/", cat: "Порталы и сервисы", engine: "WordPress", note: "Каталог игровых серверов Lineage 2: анонсы, рейтинги, фильтры по хроникам и датам" },
+  { title: "Binolla Blog", href: "https://blog.binolla.com/", cat: "Порталы и сервисы", engine: "WordPress · EN", note: "Контент-платформа трейдинг-сервиса: статьи, категории, обучающие материалы" },
 ];
 
 export const FAQ = [

@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { WORKS_INDEX, WORK_CATS } from "@/lib/content";
 
-/** Полный индекс работ: фильтр-чипы + строки с hairline, в ДНК сайта */
+/** Полный индекс работ: фильтр-чипы + строки с сутью и движком, в ДНК сайта */
 export function WorksIndex() {
   const [cat, setCat] = useState<string>("Все");
   const items = cat === "Все" ? WORKS_INDEX : WORKS_INDEX.filter((w) => w.cat === cat);
@@ -33,9 +33,12 @@ export function WorksIndex() {
         {items.map((w, i) => (
           <a key={w.href} href={w.href} target="_blank" rel="noopener noreferrer" data-cursor>
             <span className="no mono">{String(i + 1).padStart(2, "0")}</span>
-            <span className="nm">{w.title}</span>
-            <span className="st mono">{w.stack}</span>
-            <span className="ar mono">↗</span>
+            <span className="mid">
+              <span className="nm">{w.title}</span>
+              <span className="note">{w.note}</span>
+            </span>
+            <span className="eng mono">{w.engine}</span>
+            <span className="ar mono" aria-hidden="true">↗</span>
           </a>
         ))}
       </div>

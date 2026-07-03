@@ -12,6 +12,15 @@ body{background:var(--bg);color:var(--ink);font-family:var(--font-sans),sans-ser
 a{color:inherit;text-decoration:none}
 .wrap{max-width:1200px;margin:0 auto;padding:0 44px}
 
+/* премиум-мелочи: выделение, скроллбар, клавиатурный фокус */
+::selection{background:var(--acc);color:#fff}
+html{scrollbar-width:thin;scrollbar-color:#26262c var(--bg)}
+::-webkit-scrollbar{width:10px}
+::-webkit-scrollbar-track{background:var(--bg)}
+::-webkit-scrollbar-thumb{background:#26262c;border:2px solid var(--bg)}
+::-webkit-scrollbar-thumb:hover{background:#3a3a42}
+:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
+
 canvas#gl{position:fixed;inset:0;width:100%;height:100vh;z-index:0;display:block}
 .grain{position:fixed;inset:0;z-index:3;pointer-events:none;opacity:.5;mix-blend-mode:overlay;
   background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
@@ -189,12 +198,14 @@ section.blk.light .step p{color:#55524a}
 .widx .chip:hover{color:var(--ink);border-color:var(--line2)}
 .widx .chip.on{color:var(--ink);border-color:var(--acc)}
 .widx-list{border-top:1px solid var(--line)}
-.widx-list a{display:grid;grid-template-columns:44px 1fr auto 28px;align-items:baseline;gap:16px;padding:15px 4px;border-bottom:1px solid var(--line);transition:padding-left .3s,background .3s,color .3s}
+.widx-list a{display:grid;grid-template-columns:44px 1fr 220px 28px;align-items:center;gap:18px;padding:16px 4px;border-bottom:1px solid var(--line);transition:padding-left .3s,background .3s,color .3s}
 .widx-list a:hover{padding-left:14px;background:rgba(244,242,236,.025)}
 .widx-list a .no{font-size:11px;color:var(--mut)}
-.widx-list a .nm{font-size:15.5px;font-weight:600;letter-spacing:-.01em}
+.widx-list a .mid{display:flex;flex-direction:column;gap:4px;min-width:0}
+.widx-list a .nm{font-size:16px;font-weight:600;letter-spacing:-.01em}
 .widx-list a:hover .nm{color:var(--acc)}
-.widx-list a .st{font-size:11px;color:var(--mut);letter-spacing:.03em;white-space:nowrap}
+.widx-list a .note{font-size:13px;line-height:1.45;color:#94929B}
+.widx-list a .eng{font-size:11px;color:var(--mut);letter-spacing:.03em;text-align:right;line-height:1.5}
 .widx-list a .ar{font-size:13px;color:var(--mut);transition:transform .3s,color .3s}
 .widx-list a:hover .ar{transform:translate(3px,-3px);color:var(--acc)}
 
@@ -253,8 +264,11 @@ form .submit:disabled{opacity:.6}
 .formnote{font-family:var(--font-mono);font-size:11.5px;color:var(--mut)}
 .formok{font-family:var(--font-mono);font-size:13px;color:var(--acc)}
 
-footer{position:relative;z-index:4;background:var(--bg);border-top:1px solid var(--line);padding:54px 0}
-footer .wrap{display:flex;align-items:center;justify-content:space-between;gap:24px;flex-wrap:wrap}
+footer{position:relative;z-index:4;background:var(--bg);border-top:1px solid var(--line);padding:54px 0 0;overflow:hidden}
+footer .f-top{display:flex;align-items:center;justify-content:space-between;gap:24px;flex-wrap:wrap}
+/* гигантский призрачный вордмарк, срезанный по базовой линии — закрывает страницу */
+.f-mark{font-family:var(--font-unbounded);font-weight:900;font-size:clamp(88px,15.5vw,232px);letter-spacing:-.05em;line-height:.78;text-align:center;color:#141419;user-select:none;margin-top:44px;transform:translateY(14%);white-space:nowrap}
+.f-mark span{color:rgba(255,46,31,.32)}
 footer .made{font-family:var(--font-mono);font-size:12px;color:var(--mut);max-width:38ch}
 footer .made .s{color:var(--acc)}
 footer .fl{display:flex;gap:22px;font-family:var(--font-mono);font-size:12.5px;color:var(--mut)}
@@ -273,7 +287,8 @@ footer .fl a:hover{color:var(--ink)}
   .hd-split{grid-template-columns:1fr;align-items:start}
   .hd-split .lead{padding-bottom:0;margin-top:18px}
   .widx-list a{grid-template-columns:34px 1fr 22px}
-  .widx-list a .st{display:none}
+  .widx-list a .eng{display:none}
+  .widx-list a .note{font-size:12.5px}
   .widx .chip{cursor:pointer}
   .contact .grid{grid-template-columns:1fr;gap:40px}
   .step{grid-template-columns:50px 1fr;gap:12px}
