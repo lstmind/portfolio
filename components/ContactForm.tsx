@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { ymGoal } from "@/lib/metrika";
 
 export function ContactForm() {
   const [status, setStatus] = useState<"idle" | "sending" | "ok" | "error">("idle");
@@ -24,6 +25,7 @@ export function ContactForm() {
       });
       if (!res.ok) throw new Error("bad");
       setStatus("ok");
+      ymGoal("lead_form");
       form.reset();
     } catch {
       setStatus("error");

@@ -1,13 +1,23 @@
 "use client";
 
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { CALC, SITE } from "@/lib/content";
+import { ymGoal } from "@/lib/metrika";
 
 /** Интерактивный калькулятор стоимости — та же логика, что в telegram-боте */
 export function CostCalc() {
   const [type, setType] = useState("land");
   const [scale, setScale] = useState("m");
   const [urg, setUrg] = useState("n");
+  const touched = useRef(false);
+
+  // цель «калькулятором пользуются» — один раз за визит, на первом клике
+  const touch = () => {
+    if (!touched.current) {
+      touched.current = true;
+      ymGoal("calc_use");
+    }
+  };
 
   const idx = scale === "s" ? 0 : scale === "m" ? 1 : 2;
   const [lo, hi] = CALC.prices[type][idx];
@@ -31,7 +41,7 @@ export function CostCalc() {
             role="radio"
             aria-checked={val === it.k}
             className={`calc-chip${val === it.k ? " on" : ""}`}
-            onClick={() => set(it.k)}
+            onClick={() => { touch(); set(it.k); }}
             data-cursor
           >
             {it.label}
@@ -59,7 +69,7 @@ export function CostCalc() {
           без обязательств.
         </p>
         <div className="calc-cta">
-          <a className="magnet" href="#contact" data-cursor data-magnet>
+          <a className="magnet" href="#contact" data-cursor data-magnet onClick={() => ymGoal("calc_cta")}>
             <span className="lab">Зафиксировать смету →</span>
           </a>
           <a className="ghost" href={SITE.telegram} target="_blank" rel="noopener noreferrer" data-cursor>
