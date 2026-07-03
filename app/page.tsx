@@ -1,6 +1,6 @@
-import Image from "next/image";
 import { ContactForm } from "@/components/ContactForm";
 import { WorksIndex } from "@/components/WorksIndex";
+import { WorksFeatured } from "@/components/WorksFeatured";
 import { CostCalc } from "@/components/CostCalc";
 import { MobileNav } from "@/components/MobileNav";
 import { FaqList } from "@/components/FaqList";
@@ -13,7 +13,6 @@ import {
   SERVICES,
   PROCESS,
   BAND,
-  WORKS,
 } from "@/lib/content";
 
 function MarqueeSeg() {
@@ -261,39 +260,7 @@ export default function Home() {
               картинки.
             </p>
           </div>
-          <div className="works reveal">
-            {WORKS.map((w) => (
-              <a className="work" href={w.href} target="_blank" rel="noopener noreferrer" data-cursor key={w.href}>
-                <div className="shot">
-                  <span className="tag mono">
-                    <i />
-                    {w.tag}
-                  </span>
-                  <Image
-                    className="tall"
-                    src={w.imgTall}
-                    alt={w.alt}
-                    width={760}
-                    height={w.imgTallH}
-                    sizes="(max-width:920px) 100vw, 560px"
-                  />
-                  <span className="openbadge mono">Открыть ↗</span>
-                </div>
-                <div className="body">
-                  <div className="top">
-                    <h3>{w.title}</h3>
-                    <span className="yr mono">{w.kind}</span>
-                  </div>
-                  <p>{w.text}</p>
-                  <div className="stk mono">
-                    {w.stack.map((t) => (
-                      <span key={t}>{t}</span>
-                    ))}
-                  </div>
-                </div>
-              </a>
-            ))}
-          </div>
+          <WorksFeatured />
           <WorksIndex />
         </div>
       </section>
