@@ -36,3 +36,6 @@ npm-debug.log*
 
 # os
 .DS_Store
+
+# служебные скриншоты в корне
+/*.jpeg
