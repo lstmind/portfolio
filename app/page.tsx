@@ -13,6 +13,7 @@ import {
   SERVICES,
   PROCESS,
   BAND,
+  REVIEWS,
 } from "@/lib/content";
 
 function MarqueeSeg() {
@@ -265,16 +266,16 @@ export default function Home() {
         </div>
       </section>
 
-      {/* FAQ */}
-      <section className="blk" id="faq">
+      {/* REVIEWS — соцдоказательство, живые цитаты с Kwork */}
+      <section className="blk" id="reviews" style={{ background: "var(--bg2)" }}>
         <div className="wrap">
           <div className="reveal rev-head">
             <div>
               <div className="eyebrow">
-                <span className="n">06</span> <span className="scramble">Частые вопросы</span>
+                <span className="n">06</span> <span className="scramble">Отзывы</span>
               </div>
               <h2>
-                Отвечаю <span className="acc">заранее</span>
+                Не мои слова — <span className="acc">клиентов</span>
               </h2>
             </div>
             <div className="faq-badge">
@@ -287,9 +288,35 @@ export default function Home() {
                 28 отзывов на Kwork
               </span>
               <a href={SITE.kwork} target="_blank" rel="noopener noreferrer" data-cursor>
-                читать →
+                все отзывы →
               </a>
             </div>
+          </div>
+          <div className="revs reveal">
+            {REVIEWS.map((r) => (
+              <figure className="rev" key={r.text.slice(0, 24)}>
+                <blockquote>{r.text}</blockquote>
+                <figcaption className="mono">
+                  <b>{r.name}</b>
+                  <span>{r.job}</span>
+                  <span className="src">Kwork · 5★</span>
+                </figcaption>
+              </figure>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* FAQ */}
+      <section className="blk" id="faq">
+        <div className="wrap">
+          <div className="reveal">
+            <div className="eyebrow">
+              <span className="n">07</span> <span className="scramble">Частые вопросы</span>
+            </div>
+            <h2>
+              Отвечаю <span className="acc">заранее</span>
+            </h2>
           </div>
           <FaqList />
         </div>
@@ -299,7 +326,7 @@ export default function Home() {
       <section className="contact" id="contact">
         <div className="wrap">
           <div className="eyebrow reveal">
-            <span className="n">07</span> <span className="scramble">Контакт</span>
+            <span className="n">08</span> <span className="scramble">Контакт</span>
           </div>
           <div className="grid">
           <div className="reveal">
