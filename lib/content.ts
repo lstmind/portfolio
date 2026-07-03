@@ -13,6 +13,9 @@ export const SITE = {
   ratePerHour: 1500,
 } as const;
 
+/** Живой статус в герое — правь одной строчкой (например: "Занят до 15 июля · очередь открыта") */
+export const STATUS = "Беру проекты в работу · отвечаю в течение часа";
+
 export const NAV = [
   { label: "Услуги", href: "#services" },
   { label: "Цена", href: "#calc" },

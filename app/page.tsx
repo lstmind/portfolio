@@ -1,4 +1,5 @@
 import { ContactForm } from "@/components/ContactForm";
+import { FooterClock } from "@/components/FooterClock";
 import { WorksIndex } from "@/components/WorksIndex";
 import { WorksFeatured } from "@/components/WorksFeatured";
 import { CostCalc } from "@/components/CostCalc";
@@ -14,6 +15,7 @@ import {
   PROCESS,
   BAND,
   REVIEWS,
+  STATUS,
 } from "@/lib/content";
 
 function MarqueeSeg() {
@@ -75,7 +77,7 @@ export default function Home() {
         <div className="wrap">
           <div className="status mono">
             <span className="pulse" />
-            Беру проекты в работу · отвечаю в течение часа
+            {STATUS}
           </div>
           <h1>
             <span className="ln">
@@ -365,6 +367,7 @@ export default function Home() {
             © {new Date().getFullYear()}
           </div>
           <div className="fl mono">
+            <FooterClock />
             <a href={SITE.telegram} target="_blank" rel="noopener noreferrer" data-cursor>
               Telegram
             </a>

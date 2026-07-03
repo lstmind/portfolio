@@ -269,6 +269,13 @@ export function ClientFX() {
       cleanups.push(() => clearTimeout(glTimer));
     }
 
+    // ---- пасхалка для тех, кто открыл консоль
+    console.log(
+      "%clstmind.%c\n\nсобран руками на next.js — без шаблонов и конструкторов.\nоткрыл консоль? значит шаришь. такие клиенты — любимые.\n→ t.me/lstmind",
+      "font-size:28px;font-weight:900;color:#FF2E1F;letter-spacing:-2px",
+      "font-size:12px;color:#8d8d97;font-family:monospace"
+    );
+
     return () => {
       rafs.forEach(cancelAnimationFrame);
       cleanups.forEach((c) => c());

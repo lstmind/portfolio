@@ -25,6 +25,21 @@ export function WorksFeatured() {
     const w = window as Window & { requestIdleCallback?: (cb: () => void, o?: { timeout: number }) => number };
     if (w.requestIdleCallback) w.requestIdleCallback(warm, { timeout: 2500 });
     else setTimeout(warm, 1200);
+    // 3) тач-устройства: ховера нет — лента едет сама, пока карточка на экране
+    const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (matchMedia("(pointer: coarse)").matches && !reduce && imgs?.length) {
+      imgs.forEach((im) => im.classList.add("auto"));
+      const io = new IntersectionObserver(
+        (es) =>
+          es.forEach((e) => {
+            const im = (e.target as HTMLElement).querySelector("img.tall");
+            im?.classList.toggle("play", e.isIntersecting);
+          }),
+        { threshold: 0.45 }
+      );
+      rootRef.current?.querySelectorAll(".shot").forEach((s) => io.observe(s));
+      return () => io.disconnect();
+    }
   }, []);
 
   return (

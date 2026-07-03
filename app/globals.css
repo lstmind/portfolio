@@ -197,6 +197,10 @@ section.blk.light .step p{color:#55524a}
   transition:transform 9s cubic-bezier(.3,.35,.4,.9),filter .5s,opacity .5s ease}
 /* фолбэк без js: показываем ленты как есть */
 @media (scripting: none){.work .shot img.tall{opacity:1}}
+/* тач: автопроезд ленты, пока карточка в кадре (класс вешает WorksFeatured) */
+@keyframes ride{from{transform:translateY(0)}to{transform:translateY(calc(-100% + 100cqh))}}
+.work .shot img.tall.auto{animation:ride 22s linear infinite alternate;animation-play-state:paused;filter:grayscale(0) brightness(1)}
+.work .shot img.tall.auto.play{animation-play-state:running}
 .work .tag{position:absolute;top:13px;left:13px;display:flex;align-items:center;gap:7px;font-family:var(--font-mono);font-size:10.5px;letter-spacing:.04em;background:rgba(8,8,10,.8);padding:6px 10px;color:var(--ink);backdrop-filter:blur(4px);z-index:2}
 .work .tag i{width:6px;height:6px;border-radius:50%;background:var(--acc);box-shadow:0 0 8px var(--acc)}
 .work .openbadge{position:absolute;bottom:13px;right:13px;display:inline-flex;align-items:center;gap:6px;font-size:11px;letter-spacing:.04em;color:#fff;background:var(--acc);padding:8px 13px;transform:translateY(10px);opacity:0;transition:opacity .35s,transform .35s cubic-bezier(.16,1,.3,1);z-index:2}
@@ -306,6 +310,13 @@ footer .made{font-family:var(--font-mono);font-size:12px;color:var(--mut);max-wi
 footer .made .s{color:var(--acc)}
 footer .fl{display:flex;gap:22px;font-family:var(--font-mono);font-size:12.5px;color:var(--mut)}
 footer .fl a:hover{color:var(--ink)}
+
+/* 404 */
+.nf{position:relative;z-index:4;min-height:100vh;display:flex;align-items:center;padding:120px 0}
+.nf-title{font-family:var(--font-unbounded);font-weight:900;font-size:clamp(52px,11vw,170px);line-height:.94;letter-spacing:-.05em}
+.nf-title .acc{color:var(--acc)}
+.nf-sub{margin-top:26px;font-size:17px;line-height:1.6;color:#BEBCB6;max-width:46ch}
+.fclock{color:var(--mut)}
 
 .cursor{position:fixed;top:0;left:0;width:13px;height:13px;border-radius:50%;background:var(--acc);z-index:90;pointer-events:none;transform:translate(-50%,-50%);mix-blend-mode:difference;transition:width .25s,height .25s,background .25s}
 .cursor.big{width:56px;height:56px;background:var(--ink)}
