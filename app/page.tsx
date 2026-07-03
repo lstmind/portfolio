@@ -285,7 +285,7 @@ export default function Home() {
               <span>
                 высший рейтинг
                 <br />
-                28 отзывов на Kwork
+                29 отзывов на Kwork
               </span>
               <a href={SITE.kwork} target="_blank" rel="noopener noreferrer" data-cursor>
                 все отзывы →
