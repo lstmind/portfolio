@@ -1,5 +1,6 @@
 import Image from "next/image";
 import { ContactForm } from "@/components/ContactForm";
+import { WorksIndex } from "@/components/WorksIndex";
 import { MobileNav } from "@/components/MobileNav";
 import { FaqList } from "@/components/FaqList";
 import {
@@ -253,7 +254,7 @@ export default function Home() {
                     src={w.imgTall}
                     alt={w.alt}
                     width={760}
-                    height={3800}
+                    height={w.imgTallH}
                     sizes="(max-width:920px) 100vw, 560px"
                   />
                   <span className="openbadge mono">Открыть ↗</span>
@@ -273,6 +274,7 @@ export default function Home() {
               </a>
             ))}
           </div>
+          <WorksIndex />
         </div>
       </section>
 

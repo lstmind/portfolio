@@ -179,6 +179,25 @@ section.blk.light .step p{color:#55524a}
 .work .body .stk{margin-top:16px;display:flex;gap:7px;flex-wrap:wrap}
 .work .body .stk span{font-family:var(--font-mono);font-size:10.5px;color:var(--mut);border:1px solid var(--line);padding:5px 8px}
 
+/* works index — фильтр-чипы + строки */
+.widx{margin-top:64px}
+.widx-head{display:flex;align-items:baseline;justify-content:space-between;gap:20px;flex-wrap:wrap;margin-bottom:18px}
+.widx-title{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--mut)}
+.widx-chips{display:flex;gap:8px;flex-wrap:wrap}
+.widx .chip{background:none;border:1px solid var(--line);color:var(--mut);font-size:12px;letter-spacing:.03em;padding:8px 13px;cursor:none;display:inline-flex;align-items:center;gap:8px;transition:color .25s,border-color .25s}
+.widx .chip .cnt{font-size:10px;color:var(--acc)}
+.widx .chip:hover{color:var(--ink);border-color:var(--line2)}
+.widx .chip.on{color:var(--ink);border-color:var(--acc)}
+.widx-list{border-top:1px solid var(--line)}
+.widx-list a{display:grid;grid-template-columns:44px 1fr auto 28px;align-items:baseline;gap:16px;padding:15px 4px;border-bottom:1px solid var(--line);transition:padding-left .3s,background .3s,color .3s}
+.widx-list a:hover{padding-left:14px;background:rgba(244,242,236,.025)}
+.widx-list a .no{font-size:11px;color:var(--mut)}
+.widx-list a .nm{font-size:15.5px;font-weight:600;letter-spacing:-.01em}
+.widx-list a:hover .nm{color:var(--acc)}
+.widx-list a .st{font-size:11px;color:var(--mut);letter-spacing:.03em;white-space:nowrap}
+.widx-list a .ar{font-size:13px;color:var(--mut);transition:transform .3s,color .3s}
+.widx-list a:hover .ar{transform:translate(3px,-3px);color:var(--acc)}
+
 /* faq */
 .rev-head{display:flex;align-items:flex-end;justify-content:space-between;gap:30px;flex-wrap:wrap}
 .faq-badge{display:flex;align-items:center;gap:13px;font-family:var(--font-mono);font-size:12.5px;color:var(--mut);line-height:1.4}
@@ -253,6 +272,9 @@ footer .fl a:hover{color:var(--ink)}
   .svc .card:first-child p{font-size:14.5px;flex:1}
   .hd-split{grid-template-columns:1fr;align-items:start}
   .hd-split .lead{padding-bottom:0;margin-top:18px}
+  .widx-list a{grid-template-columns:34px 1fr 22px}
+  .widx-list a .st{display:none}
+  .widx .chip{cursor:pointer}
   .contact .grid{grid-template-columns:1fr;gap:40px}
   .step{grid-template-columns:50px 1fr;gap:12px}
   .step p{grid-column:1/-1}

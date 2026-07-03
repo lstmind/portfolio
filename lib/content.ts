@@ -114,8 +114,10 @@ export type Work = {
   text: string;
   stack: string[];
   img: string;
-  /** высокий полностраничный скрин для ховер-проезда (760×3800) */
+  /** высокий полностраничный скрин для ховер-проезда (ширина 760) */
   imgTall: string;
+  /** реальная высота высокого скрина */
+  imgTallH: number;
   alt: string;
 };
 
@@ -129,6 +131,7 @@ export const WORKS: Work[] = [
     stack: ["WordPress", "WooCommerce", "Каталог + фильтры"],
     img: "/img/skaz.png",
     imgTall: "/img/tall/skaz.jpg",
+    imgTallH: 3800,
     alt: "Сказ по краю — интернет-магазин",
   },
   {
@@ -140,6 +143,7 @@ export const WORKS: Work[] = [
     stack: ["Вёрстка", "Формы заявок", "SEO-база"],
     img: "/img/sibstar.png",
     imgTall: "/img/tall/sibstar.jpg",
+    imgTallH: 3800,
     alt: "СибСтар — сайт грузоперевозок",
   },
   {
@@ -151,6 +155,7 @@ export const WORKS: Work[] = [
     stack: ["Лендинг", "Портфолио", "Форма расчёта"],
     img: "/img/wellevent.png",
     imgTall: "/img/tall/wellevent.jpg",
+    imgTallH: 3800,
     alt: "Well Event — сайт кейтеринга",
   },
   {
@@ -162,8 +167,99 @@ export const WORKS: Work[] = [
     stack: ["Webflow", "Брендинг", "Анимации"],
     img: "/img/skaz-online.png",
     imgTall: "/img/tall/skaz-online.jpg",
+    imgTallH: 3800,
     alt: "Сказ по краю — бренд-лендинг на Webflow",
   },
+  {
+    href: "https://wallerox.com/",
+    tag: "LIVE · Финтех",
+    title: "Wallerox",
+    kind: "Платёжный сервис",
+    text: "Сайт цифрового кошелька: тёмная тема, крупная типографика, мультиязычность. Продуктовая подача уровня финтех-стартапа.",
+    stack: ["WordPress", "Финтех", "EN"],
+    img: "/img/tall/wallerox.jpg",
+    imgTall: "/img/tall/wallerox.jpg",
+    imgTallH: 2690,
+    alt: "Wallerox — сайт платёжного сервиса",
+  },
+  {
+    href: "https://lavenir-mirror.ru/",
+    tag: "LIVE · Каталог",
+    title: "Lavenir Zerkala",
+    kind: "Tilda",
+    text: "Сайт производителя премиальных интерьерных зеркал: тёмная подача, галерея работ, запись на замер. Собран быстро и под рекламу.",
+    stack: ["Tilda", "Каталог работ", "Заявки"],
+    img: "/img/tall/lavenir.jpg",
+    imgTall: "/img/tall/lavenir.jpg",
+    imgTallH: 3800,
+    alt: "Lavenir — премиальные зеркала",
+  },
+  {
+    href: "https://a-interiors.ru/",
+    tag: "LIVE · Магазин",
+    title: "Luxury Design",
+    kind: "Мебель люкс",
+    text: "Магазин американской мебели люкс-сегмента: каталог по брендам и коллекциям, поиск, корзина. Подача под дорогую аудиторию.",
+    stack: ["WordPress", "WooCommerce", "Люкс-сегмент"],
+    img: "/img/tall/ainteriors.jpg",
+    imgTall: "/img/tall/ainteriors.jpg",
+    imgTallH: 1623,
+    alt: "Luxury Design — магазин американской мебели",
+  },
+  {
+    href: "https://marvli.com/",
+    tag: "LIVE · Сервис",
+    title: "Marvli",
+    kind: "E-wallet",
+    text: "Сайт международного e-wallet сервиса: лендинг продукта, тарифы, интеграция с кабинетом. Чистая сервисная подача, EN.",
+    stack: ["WordPress", "Сервис", "EN"],
+    img: "/img/tall/marvli.jpg",
+    imgTall: "/img/tall/marvli.jpg",
+    imgTallH: 3800,
+    alt: "Marvli — e-wallet сервис",
+  },
+];
+
+/* ── Полный индекс работ (живые проекты, сгруппированы по типу) ── */
+
+export type WorkIndexItem = { title: string; href: string; cat: string; stack: string };
+
+export const WORK_CATS = ["Все", "Магазины", "Сайты и лендинги", "Порталы и сервисы"] as const;
+
+export const WORKS_INDEX: WorkIndexItem[] = [
+  // магазины
+  { title: "GrillMebel — уличная мебель и барбекю", href: "https://grillmebel.ru/", cat: "Магазины", stack: "WordPress · Woo" },
+  { title: "QAYNA — дизайнерская одежда", href: "https://qayna.ru/", cat: "Магазины", stack: "WordPress · Woo" },
+  { title: "SWG — светодиодное освещение", href: "https://swgshop.ru/", cat: "Магазины", stack: "WordPress · Woo" },
+  { title: "ТехноКварц — кварцевый агломерат", href: "https://tehnokvarc.ru/", cat: "Магазины", stack: "WordPress · Woo" },
+  { title: "АртХаус — стройматериалы", href: "https://arthouse24.ru/", cat: "Магазины", stack: "WordPress · Woo" },
+  { title: "FitPit — спортивное питание (KZ)", href: "https://fitpit.kz/", cat: "Магазины", stack: "WordPress · Woo" },
+  { title: "Modelium — 3D-модели для печати", href: "https://modelium.club/", cat: "Магазины", stack: "WordPress · Woo · EN" },
+  { title: "КомпКМ — компрессорная техника", href: "https://kompkm.ru/", cat: "Магазины", stack: "Woo · Авито-парсер" },
+  { title: "Snowboardel — сноуборды", href: "http://snowboardel.com/", cat: "Магазины", stack: "Woo · Авито-парсер" },
+  // сайты и лендинги
+  { title: "Сибирь Продукт — смеси для мороженого", href: "https://siberiaproduct.com/", cat: "Сайты и лендинги", stack: "Tilda" },
+  { title: "Донбасс Авто — автосалон", href: "https://donbass-auto.ru/", cat: "Сайты и лендинги", stack: "Tilda" },
+  { title: "HP VDNH — бар на ВДНХ", href: "https://hp-vdnh.ru/", cat: "Сайты и лендинги", stack: "WordPress" },
+  { title: "Базис ТК — транспортная компания", href: "https://bazis-tk.ru/", cat: "Сайты и лендинги", stack: "WordPress" },
+  { title: "Казаночка — баскетбольный клуб", href: "https://bckazanochka.ru/", cat: "Сайты и лендинги", stack: "WordPress" },
+  { title: "Курт и К — производство упаковки", href: "https://envelopes.ru/", cat: "Сайты и лендинги", stack: "WordPress" },
+  { title: "Sealt Siia — переезды (Эстония)", href: "https://sealtsiia.ee/", cat: "Сайты и лендинги", stack: "WordPress · EN" },
+  { title: "Alliance GT — грузоперевозки", href: "https://alliance-gt.ru/", cat: "Сайты и лендинги", stack: "WordPress" },
+  { title: "ЕваТур — туроператор (Грузия)", href: "https://evatour.com.ge/", cat: "Сайты и лендинги", stack: "WordPress" },
+  { title: "ДомУпак — упаковочные материалы", href: "https://domupack.ru/", cat: "Сайты и лендинги", stack: "WordPress" },
+  { title: "Демонтаж Москва — демонтажные работы", href: "https://demontazh-moscow.ru/", cat: "Сайты и лендинги", stack: "WordPress" },
+  { title: "Аренда Такси — таксопарк (KZ)", href: "https://arendataxi.kz/", cat: "Сайты и лендинги", stack: "WordPress" },
+  { title: "Оконный портал — окна и остекление", href: "https://okonnyiportal.ru/", cat: "Сайты и лендинги", stack: "WordPress" },
+  { title: "РязаньОкно — оконная компания", href: "https://ryazanokno.ru/", cat: "Сайты и лендинги", stack: "WordPress" },
+  { title: "Storona — вёрстка и сборка", href: "https://storona.yolastudio.ru/", cat: "Сайты и лендинги", stack: "Вёрстка" },
+  { title: "Lazerviz — вёрстка и сборка", href: "https://lazerviz.yolastudio.ru/wp/", cat: "Сайты и лендинги", stack: "Вёрстка" },
+  { title: "Sever — вёрстка + формы PHP", href: "https://sever.yolastudio.ru/", cat: "Сайты и лендинги", stack: "Вёрстка · PHP" },
+  { title: "Yaris — вёрстка + формы PHP", href: "https://yaris.yolastudio.ru/", cat: "Сайты и лендинги", stack: "Вёрстка · PHP" },
+  // порталы и сервисы
+  { title: "Legio.news — новостной сервис с рейтингом прогнозов", href: "https://legio.news/", cat: "Порталы и сервисы", stack: "WordPress · кастом" },
+  { title: "L2-Servera — каталог игровых серверов", href: "https://l2-servera.com/", cat: "Порталы и сервисы", stack: "WordPress" },
+  { title: "Binolla Blog — контент-платформа", href: "https://blog.binolla.com/", cat: "Порталы и сервисы", stack: "WordPress · EN" },
 ];
 
 export const FAQ = [
