@@ -298,7 +298,7 @@ export default function Home() {
                 <blockquote>{r.text}</blockquote>
                 <figcaption className="mono">
                   <b>{r.name}</b>
-                  <span>{r.job}</span>
+                  {r.job && <span>{r.job}</span>}
                   <span className="src">{r.src}</span>
                 </figcaption>
               </figure>
