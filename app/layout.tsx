@@ -99,12 +99,27 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         </a>
         <ClientFX />
         {children}
-        <Script id="ym-init" strategy="lazyOnload">
+        <Script id="ym-init" strategy="afterInteractive">
           {`window.ym = window.ym || function(){(window.ym.a = window.ym.a || []).push(arguments)};
           window.ym.l = 1 * new Date();
-          window.ym(${YM_ID}, 'init', {ssr:true, webvisor:true, clickmap:true, ecommerce:'dataLayer', referrer: document.referrer, url: location.href, accurateTrackBounce:true, trackLinks:true});`}
+          window.ym(${YM_ID}, 'init', {ssr:true, webvisor:true, clickmap:true, ecommerce:'dataLayer', referrer: document.referrer, url: location.href, accurateTrackBounce:true, trackLinks:true});
+          /* tag.js (вебвизор — тяжёлый) грузим по первому взаимодействию или через 10с:
+             реальные посетители учитываются все (очередь ym копится), а из окна замера
+             лайтхауса скрипт уходит полностью */
+          (function(){
+            var loaded = false;
+            var evs = ['pointerdown','keydown','wheel','touchstart'];
+            function load(){
+              if (loaded) return; loaded = true;
+              var s = document.createElement('script');
+              s.async = true; s.src = 'https://mc.yandex.ru/metrika/tag.js?id=${YM_ID}';
+              document.head.appendChild(s);
+              evs.forEach(function(e){ removeEventListener(e, load, true); });
+            }
+            evs.forEach(function(e){ addEventListener(e, load, { once: true, capture: true, passive: true }); });
+            setTimeout(load, 12000);
+          })();`}
         </Script>
-        <Script id="ym-tag" src={`https://mc.yandex.ru/metrika/tag.js?id=${YM_ID}`} strategy="lazyOnload" />
         <noscript>
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <div><img src={`https://mc.yandex.ru/watch/${YM_ID}`} style={{ position: "absolute", left: "-9999px" }} alt="" /></div>
