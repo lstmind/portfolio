@@ -234,6 +234,17 @@ section.blk.light .step p{color:#55524a}
 .widx-list a .ar{font-size:13px;color:var(--mut);transition:transform .3s,color .3s}
 .widx-list a:hover .ar{transform:translate(3px,-3px);color:var(--acc)}
 
+/* about — человек за сайтами: текст + дизер-портрет */
+.about{display:grid;grid-template-columns:1.25fr .75fr;gap:64px;align-items:center}
+.about .lead{margin-top:20px}
+.about h2{margin-top:0}
+.about-meta{margin-top:30px;display:flex;flex-direction:column;gap:10px;font-size:12px;letter-spacing:.05em;color:var(--mut)}
+.about-meta span{padding-left:16px;position:relative}
+.about-meta span::before{content:"";position:absolute;left:0;top:50%;transform:translateY(-50%);width:6px;height:6px;background:var(--acc)}
+.about-photo{margin:0;border:1px solid var(--line);background:var(--bg2);padding:22px 22px 14px}
+.about-photo img{display:block;width:100%;height:auto;image-rendering:pixelated}
+.about-photo figcaption{margin-top:12px;font-size:10.5px;letter-spacing:.08em;color:var(--mut);text-align:center}
+
 /* reviews — редакторские цитаты, первая (звёздная) крупнее */
 .revs{margin-top:52px;border-top:1px solid var(--line)}
 .rev{margin:0;padding:34px 4px;border-bottom:1px solid var(--line);display:grid;grid-template-columns:1fr 230px;gap:16px 40px;align-items:start;transition:padding-left .3s,background .3s}
@@ -334,6 +345,8 @@ footer .fl a:hover{color:var(--ink)}
   .calc-left,.calc-res{padding:28px 24px}
   .calc-chip{cursor:pointer}
   .calc-cta{margin-top:8px}
+  .about{grid-template-columns:1fr;gap:36px}
+  .about-photo{max-width:340px}
   .rev{grid-template-columns:1fr}
   .rev figcaption{flex-direction:row;flex-wrap:wrap;gap:12px;text-align:left}
   .widx-list a{grid-template-columns:34px 1fr 22px}

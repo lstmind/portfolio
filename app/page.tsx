@@ -309,12 +309,49 @@ export default function Home() {
         </div>
       </section>
 
+      {/* ABOUT — человек за сайтами */}
+      <section className="blk" id="about">
+        <div className="wrap">
+          <div className="about reveal">
+            <div className="about-txt">
+              <div className="eyebrow">
+                <span className="n">07</span> <span className="scramble">Кто я</span>
+              </div>
+              <h2>
+                Меня зовут <span className="acc">Алексей</span>
+              </h2>
+              <p className="lead">
+                5+ лет собираю и чиню сайты — сам, от структуры до релиза, без цепочки подрядчиков.
+                WordPress, вёрстка, магазины, интеграции: стек подбираю под задачу, а не под моду.
+              </p>
+              <p className="lead">
+                Люблю задачи со звёздочкой — те, с которых другие исполнители слились. Работаю официально
+                (самозанятый, договор — без проблем), на связи почти всегда: биржа приучила отвечать быстро.
+              </p>
+              <p className="lead">
+                Этот сайт тоже собрал сам, без шаблонов и конструкторов — он мой главный кейс.
+              </p>
+              <div className="about-meta mono">
+                <span>Россия · работаю удалённо</span>
+                <span>самозанятый · чек и договор</span>
+                <span>5.0 на Kwork · Profi.ru</span>
+              </div>
+            </div>
+            <figure className="about-photo">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src="/img/alex-dither.png" alt="Алексей — дизер-портрет" width={760} height={1016} loading="lazy" decoding="async" />
+              <figcaption className="mono">alex.png · bayer 8×8 · портрет собран своим же дизер-скриптом</figcaption>
+            </figure>
+          </div>
+        </div>
+      </section>
+
       {/* FAQ */}
       <section className="blk" id="faq">
         <div className="wrap">
           <div className="reveal">
             <div className="eyebrow">
-              <span className="n">07</span> <span className="scramble">Частые вопросы</span>
+              <span className="n">08</span> <span className="scramble">Частые вопросы</span>
             </div>
             <h2>
               Отвечаю <span className="acc">заранее</span>
@@ -328,7 +365,7 @@ export default function Home() {
       <section className="contact" id="contact">
         <div className="wrap">
           <div className="eyebrow reveal">
-            <span className="n">08</span> <span className="scramble">Контакт</span>
+            <span className="n">09</span> <span className="scramble">Контакт</span>
           </div>
           <div className="grid">
           <div className="reveal">
