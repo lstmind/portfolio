@@ -16,7 +16,9 @@ import {
   BAND,
   REVIEWS,
   STATUS,
+  FAQ,
 } from "@/lib/content";
+import { getKworkReviewsCount } from "@/lib/kwork";
 
 function MarqueeSeg() {
   return (
@@ -47,9 +49,43 @@ function BandSeg() {
   );
 }
 
-export default function Home() {
+export default async function Home() {
+  const reviewsCount = await getKworkReviewsCount();
+
+  // schema.org: звёзды и FAQ прямо в поисковой выдаче
+  const ratingLd = {
+    "@context": "https://schema.org",
+    "@type": "ProfessionalService",
+    name: "lstmind — веб-разработчик Алексей",
+    url: SITE.url,
+    priceRange: "от 1 500 ₽",
+    aggregateRating: {
+      "@type": "AggregateRating",
+      ratingValue: "5.0",
+      bestRating: "5",
+      reviewCount: reviewsCount,
+    },
+    review: REVIEWS.slice(0, 4).map((r) => ({
+      "@type": "Review",
+      author: { "@type": "Person", name: r.name },
+      reviewBody: r.text,
+      reviewRating: { "@type": "Rating", ratingValue: "5", bestRating: "5" },
+    })),
+  };
+  const faqLd = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: FAQ.map((f) => ({
+      "@type": "Question",
+      name: f.q,
+      acceptedAnswer: { "@type": "Answer", text: f.a },
+    })),
+  };
+
   return (
     <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(ratingLd) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqLd) }} />
       <MobileNav />
       <header id="hdr">
         <nav>
@@ -287,7 +323,7 @@ export default function Home() {
               <span>
                 высший рейтинг
                 <br />
-                29 отзывов на Kwork
+                {reviewsCount} отзывов на Kwork
               </span>
               <a href={SITE.kwork} target="_blank" rel="noopener noreferrer" data-cursor>
                 все отзывы →
