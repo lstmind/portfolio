@@ -196,6 +196,9 @@ section.blk.light .step p{color:#55524a}
 
 /* works — 2 колонки крупных превью, ховер-проезд по странице */
 .works{margin-top:56px;display:grid;grid-template-columns:repeat(2,1fr);gap:26px}
+/* нечётное число работ: последняя занимает ряд целиком, чтобы не висела половинкой */
+.works .work:last-child:nth-child(odd){grid-column:1/-1}
+.works .work:last-child:nth-child(odd) .shot{aspect-ratio:21/9}
 .work{border:1px solid var(--line);background:var(--bg2);overflow:hidden;transition:border-color .35s,transform .45s}
 .work:hover{border-color:var(--line2);transform:translateY(-5px)}
 .work .shot{position:relative;aspect-ratio:16/10;overflow:hidden;background:#0E0E12;border-bottom:1px solid var(--line);container-type:size}

@@ -59,15 +59,15 @@ export function WorksFeatured() {
             <picture>
               <source
                 type="image/webp"
-                srcSet={`${w.imgTall.replace(/\.jpg$/, "")}-400.webp 400w, ${w.imgTall.replace(/\.jpg$/, "")}.webp 760w`}
-                sizes="(max-width:920px) 100vw, 560px"
+                srcSet={`${w.imgTall.replace(/\.jpg$/, "")}-400.webp 400w, ${w.imgTall.replace(/\.jpg$/, "")}.webp ${w.imgTallW ?? 760}w`}
+                sizes={`(max-width:920px) 100vw, ${w.imgTallW ?? 560}px`}
               />
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 className="tall"
                 src={w.imgTall}
                 alt={w.alt}
-                width={760}
+                width={w.imgTallW ?? 760}
                 height={w.imgTallH}
                 loading="lazy"
                 decoding="async"

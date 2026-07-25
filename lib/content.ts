@@ -117,10 +117,12 @@ export type Work = {
   kind: string;
   text: string;
   stack: string[];
-  /** высокий полностраничный скрин для ховер-проезда (ширина 760) */
+  /** высокий полностраничный скрин для ховер-проезда (по умолчанию ширина 760) */
   imgTall: string;
   /** реальная высота высокого скрина */
   imgTallH: number;
+  /** реальная ширина скрина, если она не 760 (широкая карточка на весь ряд) */
+  imgTallW?: number;
   alt: string;
 };
 
@@ -212,6 +214,18 @@ export const WORKS: Work[] = [
     imgTall: "/img/tall/marvli.jpg",
     imgTallH: 3800,
     alt: "Marvli — e-wallet сервис",
+  },
+  {
+    href: "https://nega.lstmind.ru/",
+    tag: "DEMO · Свой проект",
+    title: "Нега",
+    kind: "Салон красоты",
+    text: "Мой демо-проект: салон с онлайн-записью за четыре шага — услуга, мастер, день, время. Расписание живое, занятые часы видно сразу, заявка сразу в Telegram. Lighthouse 100 на десктопе, код открыт на GitHub.",
+    stack: ["Next.js", "Онлайн-запись", "Lighthouse 100"],
+    imgTall: "/img/tall/nega.jpg",
+    imgTallH: 6197,
+    imgTallW: 1140,
+    alt: "Нега — демо-сайт салона красоты с онлайн-записью",
   },
 ];
 
