@@ -78,7 +78,7 @@ const jsonLd = {
   jobTitle: "Веб-разработчик",
   url: SITE.url,
   email: SITE.email,
-  sameAs: [SITE.telegram, SITE.kwork],
+  sameAs: [SITE.telegram, SITE.kwork, SITE.github],
   knowsAbout: ["WordPress", "WooCommerce", "Tilda", "JavaScript", "PHP", "Figma", "Вёрстка"],
   makesOffer: {
     "@type": "Offer",

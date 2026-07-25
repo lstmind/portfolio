@@ -423,6 +423,9 @@ export default async function Home() {
               <a href={SITE.kwork} target="_blank" rel="noopener noreferrer" data-cursor>
                 <span className="ic">✦</span>Kwork<span className="pull">Профиль · 5.0★</span>
               </a>
+              <a href={SITE.github} target="_blank" rel="noopener noreferrer" data-cursor>
+                <span className="ic">‹›</span>GitHub<span className="pull">Код проектов</span>
+              </a>
             </div>
           </div>
           <ContactForm />
@@ -448,6 +451,9 @@ export default async function Home() {
             </a>
             <a href={SITE.kwork} target="_blank" rel="noopener noreferrer" data-cursor>
               Kwork
+            </a>
+            <a href={SITE.github} target="_blank" rel="noopener noreferrer" data-cursor>
+              GitHub
             </a>
             <a href="#top" data-cursor data-top>
               Наверх ↑
