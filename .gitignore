@@ -38,7 +38,6 @@ npm-debug.log*
 .DS_Store
 
 # внутренняя кухня и черновики — в публичной репе не нужны
-/ассистент.md
 /.planning/
 /design-concepts/
 
