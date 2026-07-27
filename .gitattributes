@@ -1,0 +1,12 @@
+# core.autocrlf=true подменяет переводы строк в рабочей копии на CRLF.
+# Для шелл-скриптов это ломает запуск: bash спотыкается на \r в шебанге
+# и падает с «command not found». Держим LF принудительно.
+*.sh text eol=lf
+
+# Бинарники не трогать вообще.
+*.jpg binary
+*.jpeg binary
+*.png binary
+*.webp binary
+*.woff2 binary
+*.ico binary
