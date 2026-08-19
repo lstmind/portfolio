@@ -1,13 +1,13 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { Crumbs, PageCta, PageFooter, PageHeader } from "@/components/PageChrome";
-import { SERVICE_PAGES, serviceBySlug, type ServicePage } from "@/lib/services";
+import { INDUSTRY_PAGES, industryBySlug, workByHref } from "@/lib/industries";
+import { SERVICE_PAGES } from "@/lib/services";
 import { CASE_PAGES } from "@/lib/cases";
-import { INDUSTRY_PAGES } from "@/lib/industries";
-import { SITE, WORKS, PROCESS, REVIEWS } from "@/lib/content";
+import { SITE, WORKS, REVIEWS } from "@/lib/content";
 
 export function generateStaticParams() {
-  return SERVICE_PAGES.map((s) => ({ slug: s.slug }));
+  return INDUSTRY_PAGES.map((i) => ({ slug: i.slug }));
 }
 
 export async function generateMetadata({
@@ -16,28 +16,32 @@ export async function generateMetadata({
   params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
   const { slug } = await params;
-  const s = serviceBySlug(slug);
-  if (!s) return {};
+  const i = industryBySlug(slug);
+  if (!i) return {};
   return {
-    title: s.metaTitle,
-    description: s.metaDescription,
-    alternates: { canonical: `/uslugi/${s.slug}` },
+    title: i.metaTitle,
+    description: i.metaDescription,
+    alternates: { canonical: `/dlya/${i.slug}` },
     openGraph: {
       type: "article",
       locale: "ru_RU",
-      url: `${SITE.url}/uslugi/${s.slug}`,
-      title: s.metaTitle,
-      description: s.metaDescription,
+      url: `${SITE.url}/dlya/${i.slug}`,
+      title: i.metaTitle,
+      description: i.metaDescription,
     },
   };
 }
 
-export default async function ServicePageView({ params }: { params: Promise<{ slug: string }> }) {
+export default async function IndustryPageView({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
-  const s = serviceBySlug(slug);
-  if (!s) notFound();
+  const ind = industryBySlug(slug);
+  if (!ind) notFound();
 
-  const cases = s.cases
+  const types = ind.types
+    .map((t) => SERVICE_PAGES.find((s) => s.slug === t))
+    .filter(Boolean) as (typeof SERVICE_PAGES)[number][];
+
+  const cases = ind.cases
     .map((cs) => {
       const c = CASE_PAGES.find((x) => x.slug === cs);
       const w = c && WORKS.find((x) => x.href === c.href);
@@ -45,21 +49,18 @@ export default async function ServicePageView({ params }: { params: Promise<{ sl
     })
     .filter(Boolean) as { c: (typeof CASE_PAGES)[number]; w: (typeof WORKS)[number] }[];
 
-  const others = SERVICE_PAGES.filter((x) => x.slug !== s.slug);
-  // страница-хаб разводит общий запрос по типам сайтов, чтобы они не конкурировали друг с другом
-  const hub = (s.hub ?? [])
-    .map((x) => SERVICE_PAGES.find((y) => y.slug === x))
-    .filter(Boolean) as ServicePage[];
+  const others = INDUSTRY_PAGES.filter((x) => x.slug !== ind.slug);
 
   const ld = {
     "@context": "https://schema.org",
     "@graph": [
       {
         "@type": "Service",
-        name: s.h1,
-        description: s.answer,
-        url: `${SITE.url}/uslugi/${s.slug}`,
-        serviceType: s.h1,
+        name: ind.h1,
+        description: ind.answer,
+        url: `${SITE.url}/dlya/${ind.slug}`,
+        serviceType: "Разработка сайтов",
+        audience: { "@type": "BusinessAudience", name: ind.h1.replace("Сайт для ", "") },
         areaServed: [
           { "@type": "City", name: "Москва" },
           { "@type": "Country", name: "Россия" },
@@ -75,13 +76,13 @@ export default async function ServicePageView({ params }: { params: Promise<{ sl
         offers: {
           "@type": "Offer",
           priceCurrency: "RUB",
-          description: `${s.price.value} · ${s.price.note}`,
+          description: `${ind.price.value} · ${ind.price.note}`,
           availability: "https://schema.org/InStock",
         },
       },
       {
         "@type": "FAQPage",
-        mainEntity: s.faq.map((f) => ({
+        mainEntity: ind.faq.map((f) => ({
           "@type": "Question",
           name: f.q,
           acceptedAnswer: { "@type": "Answer", text: f.a },
@@ -92,7 +93,7 @@ export default async function ServicePageView({ params }: { params: Promise<{ sl
         itemListElement: [
           { "@type": "ListItem", position: 1, name: "Главная", item: SITE.url },
           { "@type": "ListItem", position: 2, name: "Услуги", item: `${SITE.url}/#services` },
-          { "@type": "ListItem", position: 3, name: s.h1, item: `${SITE.url}/uslugi/${s.slug}` },
+          { "@type": "ListItem", position: 3, name: ind.h1, item: `${SITE.url}/dlya/${ind.slug}` },
         ],
       },
     ],
@@ -109,18 +110,18 @@ export default async function ServicePageView({ params }: { params: Promise<{ sl
             items={[
               { name: "Главная", href: "/" },
               { name: "Услуги", href: "/#services" },
-              { name: s.h1 },
+              { name: ind.h1 },
             ]}
           />
 
-          <h1>{s.h1}</h1>
-          <p className="doc-answer">{s.answer}</p>
+          <h1>{ind.h1}</h1>
+          <p className="doc-answer">{ind.answer}</p>
 
           <figure className="doc-cover">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
-              src={`/img/svc/${s.slug}.webp`}
-              srcSet={`/img/svc/${s.slug}-720.webp 720w, /img/svc/${s.slug}.webp 1440w`}
+              src={`/img/dlya/${ind.slug}.webp`}
+              srcSet={`/img/dlya/${ind.slug}-720.webp 720w, /img/dlya/${ind.slug}.webp 1440w`}
               sizes="(max-width: 920px) 100vw, 1128px"
               alt=""
               width={1440}
@@ -132,89 +133,59 @@ export default async function ServicePageView({ params }: { params: Promise<{ sl
 
           <div className="doc-grid">
             <div>
-          {s.lead.map((p) => (
-            <p className="doc-lead" key={p}>
-              {p}
-            </p>
-          ))}
+              {ind.lead.map((p) => (
+                <p className="doc-lead" key={p}>
+                  {p}
+                </p>
+              ))}
 
-          {hub.length > 0 && (
-            <>
-              <h2>Какой сайт нужен</h2>
-              <p className="doc-lead">
-                «Под ключ» — это про то, что всё делаю я. А вот что именно делать, зависит от задачи:
-                каждому типу нужна своя структура, свой срок и своя цена.
-              </p>
-              <div className="doc-others">
-                {hub.map((x) => (
-                  <a href={`/uslugi/${x.slug}`} key={x.slug}>
-                    <b>{x.h1}</b>
-                    <span>{x.short}</span>
-                    <i className="mono">{x.price.value}</i>
-                  </a>
+              <h2>Что важно именно здесь</h2>
+              <div className="doc-spec">
+                {ind.specifics.map((sp) => (
+                  <div key={sp.title}>
+                    <h3>{sp.title}</h3>
+                    <p>{sp.text}</p>
+                  </div>
                 ))}
               </div>
-            </>
-          )}
 
-          {hub.length > 0 && (
-            <>
-              <h2>Под вашу нишу</h2>
-              <p className="doc-lead">
-                В некоторых нишах сайт устроен иначе: там свои обязательные блоки и свой путь
-                до заявки. Вот те, с которыми я работал плотнее всего.
-              </p>
-              <div className="doc-others">
-                {INDUSTRY_PAGES.map((x) => (
-                  <a href={`/dlya/${x.slug}`} key={x.slug}>
-                    <b>{x.h1}</b>
-                    <span>{x.short}</span>
-                    <i className="mono">{x.price.value}</i>
-                  </a>
+              <h2>Что входит в работу</h2>
+              <ul className="doc-list">
+                {ind.includes.map((x) => (
+                  <li key={x}>{x}</li>
                 ))}
-              </div>
-            </>
-          )}
+              </ul>
 
-          <h2>Что входит в работу</h2>
-          <ul className="doc-list">
-            {s.includes.map((i) => (
-              <li key={i}>{i}</li>
-            ))}
-          </ul>
-
-          <h2>Когда это нужно</h2>
-          <ul className="doc-list doc-list--plain">
-            {s.fit.map((i) => (
-              <li key={i}>{i}</li>
-            ))}
-          </ul>
-
-          <h2>Как идёт работа</h2>
-          <ol className="doc-steps doc-steps--short">
-            {PROCESS.map((p) => (
-              <li key={p.n}>
-                <span className="mono">{p.n}</span>
-                <b>{p.title}</b>
-              </li>
-            ))}
-          </ol>
-          <p className="doc-note">
-            Подробно про каждый шаг —{" "}
-            <a href="/#process">в разделе «Как я работаю»</a> на главной.
-          </p>
+              <h2>Работы в этой нише</h2>
+              <ul className="doc-refs">
+                {ind.examples.map((ex) => {
+                  const w = workByHref(ex.href);
+                  const host = ex.href.replace(/^https?:\/\/(www\.)?/, "").replace(/\/+$/, "");
+                  return (
+                    <li key={ex.href}>
+                      <a href={ex.href} target="_blank" rel="noopener noreferrer">
+                        <b>{w?.title ?? host}</b>
+                        <span className="doc-refs-note">{ex.note}</span>
+                        <span className="doc-refs-meta mono">
+                          {w?.engine} · {host} ↗
+                        </span>
+                      </a>
+                    </li>
+                  );
+                })}
+              </ul>
             </div>
 
             <aside className="doc-side">
               <div>
-                <span className="mono">{s.price.label}</span>
-                <b>{s.price.value}</b>
-                <i>{s.price.note}</i>
+                <span className="mono">{ind.price.label}</span>
+                <b>{ind.price.value}</b>
+                <i>{ind.price.note}</i>
               </div>
               <div>
-                <span className="mono">{s.term.label}</span>
-                <b>{s.term.value}</b>
-                <i>{s.term.note}</i>
+                <span className="mono">{ind.term.label}</span>
+                <b>{ind.term.value}</b>
+                <i>{ind.term.note}</i>
               </div>
               <div>
                 <span className="mono">Где работаю</span>
@@ -227,11 +198,11 @@ export default async function ServicePageView({ params }: { params: Promise<{ sl
                 </a>
                 <small className="mono">отвечаю в течение часа</small>
               </div>
-              {REVIEWS[s.review] && (
+              {REVIEWS[ind.review] && (
                 <div className="doc-side-rev">
-                  <blockquote>«{REVIEWS[s.review].text}»</blockquote>
+                  <blockquote>«{REVIEWS[ind.review].text}»</blockquote>
                   <cite className="mono">
-                    {REVIEWS[s.review].name} · {REVIEWS[s.review].src}
+                    {REVIEWS[ind.review].name} · {REVIEWS[ind.review].src}
                   </cite>
                 </div>
               )}
@@ -240,7 +211,7 @@ export default async function ServicePageView({ params }: { params: Promise<{ sl
 
           {cases.length > 0 && (
             <>
-              <h2>Примеры работ</h2>
+              <h2>Разборы проектов</h2>
               <div className="doc-cases">
                 {cases.map(({ c, w }) => (
                   <a className="doc-case doc-case--shot" href={`/works/${c.slug}`} key={c.slug}>
@@ -267,9 +238,9 @@ export default async function ServicePageView({ params }: { params: Promise<{ sl
             </>
           )}
 
-          <h2>Вопросы по услуге</h2>
+          <h2>Вопросы по нише</h2>
           <div className="doc-faq">
-            {s.faq.map((f) => (
+            {ind.faq.map((f) => (
               <div key={f.q}>
                 <h3>{f.q}</h3>
                 <p>{f.a}</p>
@@ -277,10 +248,21 @@ export default async function ServicePageView({ params }: { params: Promise<{ sl
             ))}
           </div>
 
-          <h2>Другие услуги</h2>
+          <h2>Какой сайт обычно берут</h2>
+          <div className="doc-others">
+            {types.map((s) => (
+              <a href={`/uslugi/${s.slug}`} key={s.slug}>
+                <b>{s.h1}</b>
+                <span>{s.short}</span>
+                <i className="mono">{s.price.value}</i>
+              </a>
+            ))}
+          </div>
+
+          <h2>Другие ниши</h2>
           <div className="doc-others">
             {others.map((o) => (
-              <a href={`/uslugi/${o.slug}`} key={o.slug}>
+              <a href={`/dlya/${o.slug}`} key={o.slug}>
                 <b>{o.h1}</b>
                 <span>{o.short}</span>
                 <i className="mono">{o.price.value}</i>
@@ -291,8 +273,8 @@ export default async function ServicePageView({ params }: { params: Promise<{ sl
       </main>
 
       <PageCta
-        title="Расскажи задачу"
-        text="Отвечу в течение часа и скажу честно: берусь, сколько это стоит и сколько займёт. Если задачу лучше решить иначе — так и скажу."
+        title="Расскажи про свой случай"
+        text="Отвечу в течение часа: скажу, что в твоей нише реально нужно, что можно не делать, сколько это стоит и сколько займёт."
       />
       <PageFooter />
     </>

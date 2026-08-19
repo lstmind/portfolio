@@ -19,6 +19,7 @@ import {
   FAQ,
 } from "@/lib/content";
 import { getKworkReviewsCount } from "@/lib/kwork";
+import { INDUSTRY_PAGES } from "@/lib/industries";
 
 function MarqueeSeg() {
   return (
@@ -284,6 +285,15 @@ export default async function Home() {
               </a>
             ))}
           </div>
+          <p className="svc-industries reveal">
+            Отдельно расписал, как устроен сайт в конкретных нишах:{" "}
+            {INDUSTRY_PAGES.map((x, i) => (
+              <span key={x.slug}>
+                <a href={`/dlya/${x.slug}`}>{x.h1.replace("Сайт для ", "")}</a>
+                {i < INDUSTRY_PAGES.length - 1 ? ", " : "."}
+              </span>
+            ))}
+          </p>
         </div>
       </section>
 

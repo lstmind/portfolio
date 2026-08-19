@@ -1,6 +1,7 @@
 import { SITE, SERVICES, WORKS, WORKS_INDEX, FAQ, PROJECTS_TOTAL } from "@/lib/content";
 import { SERVICE_PAGES } from "@/lib/services";
 import { CASE_PAGES } from "@/lib/cases";
+import { INDUSTRY_PAGES } from "@/lib/industries";
 
 /**
  * /llms.txt — короткая машинная выжимка о том, кто я и что делаю.
@@ -25,6 +26,10 @@ export function GET() {
     .map((w) => `- ${w.title} — ${w.href} · ${w.engine} · ${w.note}`)
     .join("\n");
 
+  const niches = INDUSTRY_PAGES.map(
+    (i) => `- ${i.h1} — ${SITE.url}/dlya/${i.slug}\n  ${i.answer}`
+  ).join("\n");
+
   const faq = FAQ.map((f) => `### ${f.q}\n${f.a}`).join("\n\n");
 
   const body = `# lstmind — Алексей, веб-разработчик на фрилансе
@@ -43,6 +48,10 @@ GitHub: ${SITE.github}
 ${money}
 
 Ставка за час — ${SITE.ratePerHour} ₽, по проекту считаю фикс-смету после разбора задачи. Оценку можно прикинуть самому в калькуляторе на сайте.
+
+## Ниши, в которых уже работал
+
+${niches}
 
 ## Технологии
 

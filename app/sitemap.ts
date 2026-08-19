@@ -2,6 +2,7 @@ import type { MetadataRoute } from "next";
 import { SITE } from "@/lib/content";
 import { SERVICE_PAGES } from "@/lib/services";
 import { CASE_PAGES } from "@/lib/cases";
+import { INDUSTRY_PAGES } from "@/lib/industries";
 
 /** дата берётся из сборки: каждый деплой обновляет lastmod, руками править нечего */
 const BUILT_AT = new Date();
@@ -14,6 +15,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
       lastModified: BUILT_AT,
       changeFrequency: "monthly" as const,
       priority: 0.9,
+    })),
+    ...INDUSTRY_PAGES.map((i) => ({
+      url: `${SITE.url}/dlya/${i.slug}`,
+      lastModified: BUILT_AT,
+      changeFrequency: "monthly" as const,
+      priority: 0.8,
     })),
     ...CASE_PAGES.map((c) => ({
       url: `${SITE.url}/works/${c.slug}`,
