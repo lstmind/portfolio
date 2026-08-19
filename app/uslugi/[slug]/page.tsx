@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { Crumbs, PageCta, PageFooter, PageHeader } from "@/components/PageChrome";
-import { SERVICE_PAGES, serviceBySlug } from "@/lib/services";
+import { SERVICE_PAGES, serviceBySlug, type ServicePage } from "@/lib/services";
 import { CASE_PAGES } from "@/lib/cases";
 import { SITE, WORKS, PROCESS, REVIEWS } from "@/lib/content";
 
@@ -45,6 +45,10 @@ export default async function ServicePageView({ params }: { params: Promise<{ sl
     .filter(Boolean) as { c: (typeof CASE_PAGES)[number]; w: (typeof WORKS)[number] }[];
 
   const others = SERVICE_PAGES.filter((x) => x.slug !== s.slug);
+  // страница-хаб разводит общий запрос по типам сайтов, чтобы они не конкурировали друг с другом
+  const hub = (s.hub ?? [])
+    .map((x) => SERVICE_PAGES.find((y) => y.slug === x))
+    .filter(Boolean) as ServicePage[];
 
   const ld = {
     "@context": "https://schema.org",
@@ -132,6 +136,25 @@ export default async function ServicePageView({ params }: { params: Promise<{ sl
               {p}
             </p>
           ))}
+
+          {hub.length > 0 && (
+            <>
+              <h2>Какой сайт нужен</h2>
+              <p className="doc-lead">
+                «Под ключ» — это про то, что всё делаю я. А вот что именно делать, зависит от задачи:
+                каждому типу нужна своя структура, свой срок и своя цена.
+              </p>
+              <div className="doc-others">
+                {hub.map((x) => (
+                  <a href={`/uslugi/${x.slug}`} key={x.slug}>
+                    <b>{x.h1}</b>
+                    <span>{x.short}</span>
+                    <i className="mono">{x.price.value}</i>
+                  </a>
+                ))}
+              </div>
+            </>
+          )}
 
           <h2>Что входит в работу</h2>
           <ul className="doc-list">
