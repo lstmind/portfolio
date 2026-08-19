@@ -27,9 +27,9 @@ const manrope = Manrope({
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE.url),
-  title: "Алексей (lstmind) — веб-разработчик. Сайты под ключ, починю чужой сайт",
+  title: "Алексей (lstmind) — веб-разработчик в Москве. Сайты под ключ, починю чужой сайт",
   description:
-    "Фриланс веб-разработчик: сайты под ключ, интернет-магазины, спасение и ускорение чужих сайтов. WordPress, Tilda, чистая вёрстка. Работаю на копии, с бэкапом. Рейтинг 5.0 на Kwork.",
+    "Фриланс веб-разработчик: сайты под ключ, интернет-магазины, спасение и ускорение чужих сайтов. Москва и вся Россия удалённо. WordPress, Tilda, чистая вёрстка. Работаю на копии, с бэкапом. Рейтинг 5.0 на Kwork.",
   keywords: [
     "веб-разработчик",
     "сайт под ключ",
@@ -60,7 +60,10 @@ export const metadata: Metadata = {
     description: "Сайты под ключ, магазины, спасение и ускорение чужих сайтов. Рейтинг 5.0 на Kwork.",
   },
   robots: { index: true, follow: true },
-  verification: { google: "sFBc1LBjy66FYgol2qlYubyt7aDi2Yfa2N2bWKylyRE" },
+  verification: {
+    google: "sFBc1LBjy66FYgol2qlYubyt7aDi2Yfa2N2bWKylyRE",
+    yandex: "bbd073da5a9dfea9",
+  },
 };
 
 export const viewport: Viewport = {
@@ -80,6 +83,8 @@ const jsonLd = {
   email: SITE.email,
   sameAs: [SITE.telegram, SITE.kwork, SITE.github],
   knowsAbout: ["WordPress", "WooCommerce", "Tilda", "JavaScript", "PHP", "Figma", "Вёрстка"],
+  address: { "@type": "PostalAddress", addressLocality: "Москва", addressCountry: "RU" },
+  workLocation: { "@type": "Place", name: "Москва и вся Россия — удалённо" },
   makesOffer: {
     "@type": "Offer",
     itemOffered: { "@type": "Service", name: "Разработка сайтов под ключ" },

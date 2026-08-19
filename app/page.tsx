@@ -52,13 +52,44 @@ function BandSeg() {
 export default async function Home() {
   const reviewsCount = await getKworkReviewsCount();
 
-  // schema.org: звёзды и FAQ прямо в поисковой выдаче
+  // schema.org: факты об услугах и ценах в машинном виде — для выдачи и быстрых ответов
   const ratingLd = {
     "@context": "https://schema.org",
     "@type": "ProfessionalService",
     name: "lstmind — веб-разработчик Алексей",
     url: SITE.url,
+    image: `${SITE.url}/img/alex-portrait.png`,
+    description:
+      "Фриланс веб-разработчик Алексей (lstmind): сайты под ключ, интернет-магазины на WooCommerce, " +
+      "доработка и ускорение чужих сайтов. Работаю один, от структуры до релиза.",
     priceRange: "от 1 500 ₽",
+    currenciesAccepted: "RUB",
+    areaServed: [
+      { "@type": "City", name: "Москва" },
+      { "@type": "Country", name: "Россия" },
+    ],
+    knowsLanguage: "ru",
+    founder: { "@type": "Person", name: SITE.person, alternateName: SITE.name, url: SITE.url },
+    sameAs: [SITE.telegram, SITE.kwork, SITE.github],
+    hasOfferCatalog: {
+      "@type": "OfferCatalog",
+      name: "Услуги веб-разработки",
+      itemListElement: SERVICES.map((s) => ({
+        "@type": "Offer",
+        itemOffered: { "@type": "Service", name: s.title, description: s.text },
+        ...(s.priceFrom
+          ? {
+              priceSpecification: {
+                "@type": "PriceSpecification",
+                minPrice: s.priceFrom,
+                priceCurrency: "RUB",
+                valueAddedTaxIncluded: true,
+                description: `от ${s.priceFrom} ₽ за ${s.priceUnit}`,
+              },
+            }
+          : {}),
+      })),
+    },
     aggregateRating: {
       "@type": "AggregateRating",
       ratingValue: "5.0",
@@ -99,7 +130,7 @@ export default async function Home() {
                 {n.label}
               </a>
             ))}
-            <a className="nav-tg" href={SITE.telegram} data-cursor data-magnet>
+            <a className="nav-tg" href={SITE.telegram} target="_blank" rel="noopener noreferrer" data-cursor data-magnet>
               [ Telegram ↗ ]
             </a>
           </div>
@@ -189,6 +220,19 @@ export default async function Home() {
           <div className="pain reveal">
             {PAIN.map((p) => (
               <div className="p" key={p.n}>
+                <span className="p-shot">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src={`/img/pain/${p.n}.webp`}
+                    srcSet={`/img/pain/${p.n}-720.webp 720w, /img/pain/${p.n}.webp 1440w`}
+                    sizes="(max-width: 920px) 100vw, 380px"
+                    alt=""
+                    width={1440}
+                    height={960}
+                    loading="lazy"
+                    decoding="async"
+                  />
+                </span>
                 <div className="pn mono">{p.n}</div>
                 <h3>{p.title}</h3>
                 <p>{p.text}</p>
@@ -213,17 +257,31 @@ export default async function Home() {
             </h2>
             <p className="lead">
               Берусь и за большие проекты с нуля, и за аккуратные доработки. Стек подбираю под задачу и
-              бюджет, а не под моду. Ставка {SITE.ratePerHour} ₽/час, по проекту — фикс-смета после разбора.
+              бюджет, а не под моду. Ставка {SITE.ratePerHour} ₽/час, по проекту — фикс-смета после разбора. Работаю из Москвы, по всей России удалённо.
             </p>
           </div>
           <div className="svc reveal">
             {SERVICES.map((s, i) => (
-              <div className="card" key={s.title}>
+              <a className="card" key={s.title} href={s.slug ? `/uslugi/${s.slug}` : "#contact"} data-cursor>
+                {s.slug && (
+                  <span className="card-bg" aria-hidden="true">
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img
+                      src={`/img/svc/${s.slug}-720.webp`}
+                      alt=""
+                      width={720}
+                      height={480}
+                      loading="lazy"
+                      decoding="async"
+                    />
+                  </span>
+                )}
                 <div className="cn mono">{String(i + 1).padStart(2, "0")}</div>
                 <h3>{s.title}</h3>
                 <p>{s.text}</p>
                 <div className="pr" dangerouslySetInnerHTML={{ __html: s.price }} />
-              </div>
+                <span className="card-go mono">Подробно об услуге ↗</span>
+              </a>
             ))}
           </div>
         </div>
@@ -263,6 +321,20 @@ export default async function Home() {
               рабочего сайта.
             </p>
           </div>
+          <figure className="proc-shot reveal">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="/img/scene/process.webp"
+              srcSet="/img/scene/process-720.webp 720w, /img/scene/process.webp 1440w"
+              sizes="(max-width: 920px) 100vw, 1112px"
+              alt="Схема в блокноте, макет на планшете и готовая страница на телефоне"
+              width={1440}
+              height={960}
+              loading="lazy"
+              decoding="async"
+            />
+            <figcaption className="mono">схема → макет → рабочий сайт</figcaption>
+          </figure>
           <div className="steps reveal">
             {PROCESS.map((s) => (
               <div className="step" key={s.n}>
@@ -358,26 +430,23 @@ export default async function Home() {
                 Меня зовут <span className="acc">Алексей</span>
               </h2>
               <p className="lead">
-                5+ лет собираю и чиню сайты — сам, от структуры до релиза, без цепочки подрядчиков.
-                WordPress, вёрстка, магазины, интеграции: стек подбираю под задачу, а не под моду.
+                Пять лет собираю и чиню сайты. Один: от структуры до релиза, без передачи по цепочке
+                подрядчиков.
               </p>
               <p className="lead">
-                Люблю задачи со звёздочкой — те, с которых другие исполнители слились. Работаю официально
-                (самозанятый, договор — без проблем), на связи почти всегда: биржа приучила отвечать быстро.
-              </p>
-              <p className="lead">
-                Этот сайт тоже собрал сам, без шаблонов и конструкторов — он мой главный кейс.
+                Берусь за то, с чего другие исполнители слились. Этот сайт тоже собрал сам — он мой
+                главный кейс.
               </p>
               <div className="about-meta mono">
-                <span>Россия · работаю удалённо</span>
+                <span>Москва и вся Россия · удалённо</span>
                 <span>самозанятый · чек и договор</span>
                 <span>5.0 на Kwork · Profi.ru</span>
               </div>
             </div>
             <figure className="about-photo">
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src="/img/alex-dither.png" alt="Алексей — дизер-портрет" width={760} height={1016} loading="lazy" decoding="async" />
-              <figcaption className="mono">alex.png · bayer 8×8 · портрет собран своим же дизер-скриптом</figcaption>
+              <img src="/img/alex-portrait.png" alt="Алексей — веб-разработчик" width={760} height={805} loading="lazy" decoding="async" />
+              <figcaption className="mono">Алексей · lstmind · Россия, работаю удалённо</figcaption>
             </figure>
           </div>
         </div>
@@ -400,6 +469,19 @@ export default async function Home() {
 
       {/* CONTACT */}
       <section className="contact" id="contact">
+        <span className="contact-shot" aria-hidden="true">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src="/img/scene/contact.webp"
+            srcSet="/img/scene/contact-720.webp 720w, /img/scene/contact.webp 1440w"
+            sizes="100vw"
+            alt=""
+            width={1440}
+            height={960}
+            loading="lazy"
+            decoding="async"
+          />
+        </span>
         <div className="wrap">
           <div className="eyebrow reveal">
             <span className="n">09</span> <span className="scramble">Контакт</span>

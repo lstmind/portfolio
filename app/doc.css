@@ -1,0 +1,621 @@
+/* ── Внутренние страницы: услуги и кейсы ──────────────────────────────
+   Тот же язык, что на главной, но плотнее и спокойнее: здесь читают,
+   а не смотрят. Шрифты и цвета берём из globals.css.                  */
+
+.doc-hdr {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background: rgba(8, 8, 10, 0.86);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--line);
+}
+.doc-hdr nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 16px 44px;
+  max-width: 1320px;
+  margin: 0 auto;
+}
+.doc-hdr .logo {
+  font-family: var(--font-unbounded);
+  font-weight: 900;
+  font-size: 18px;
+  letter-spacing: -0.04em;
+  display: flex;
+  align-items: center;
+  gap: 9px;
+}
+
+.doc {
+  position: relative;
+  z-index: 4;
+  background: var(--bg); /* фоновый canvas — fixed со своим слоем, контент должен быть над ним */
+  padding: 54px 0 90px;
+}
+.doc-wrap {
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 0 56px;
+}
+
+.doc-crumbs {
+  /* глобальное правило для nav растягивает элементы по ширине — крошкам это ни к чему */
+  display: flex;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+  font-size: 11.5px;
+  letter-spacing: 0.08em;
+  color: var(--mut);
+  margin-bottom: 30px;
+}
+.doc-crumbs a {
+  color: var(--mut);
+  transition: color 0.25s;
+}
+.doc-crumbs a:hover {
+  color: var(--ink);
+}
+.doc-crumbs i {
+  font-style: normal;
+  padding: 0 9px;
+  opacity: 0.5;
+}
+
+.doc-tag {
+  display: inline-block;
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  color: var(--acc);
+  margin-bottom: 14px;
+}
+
+.doc h1 {
+  font-family: var(--font-unbounded);
+  font-weight: 900;
+  font-size: clamp(32px, 5.4vw, 58px);
+  line-height: 1.02;
+  letter-spacing: -0.04em;
+  margin-bottom: 24px;
+}
+.doc h2 {
+  font-family: var(--font-unbounded);
+  font-weight: 800;
+  font-size: clamp(22px, 2.6vw, 31px);
+  letter-spacing: -0.03em;
+  margin: 66px 0 22px;
+}
+.doc h3 {
+  font-size: 17.5px;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+/* прямой ответ на вопрос — первое, что видит человек и забирает поисковик */
+.doc-answer {
+  font-size: clamp(17.5px, 2vw, 21px);
+  line-height: 1.55;
+  color: var(--ink);
+  max-width: 64ch;
+  border-left: 2px solid var(--acc);
+  padding-left: 20px;
+  margin-bottom: 34px;
+}
+.doc-lead {
+  font-size: 17.5px;
+  line-height: 1.72;
+  color: #d8d6d0;
+  max-width: 68ch;
+  margin-bottom: 18px;
+}
+
+.doc-meta {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+  gap: 1px;
+  background: var(--line);
+  border: 1px solid var(--line);
+  margin-bottom: 40px;
+}
+.doc-meta > div {
+  background: var(--bg2);
+  padding: 20px 22px;
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+.doc-meta span.mono {
+  font-size: 10.5px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--mut);
+}
+.doc-meta b {
+  font-family: var(--font-unbounded);
+  font-weight: 800;
+  font-size: 20px;
+  letter-spacing: -0.02em;
+}
+.doc-meta b a {
+  border-bottom: 1px solid var(--line2);
+  transition: color 0.25s, border-color 0.25s;
+}
+.doc-meta b a:hover {
+  color: var(--acc);
+  border-color: var(--acc);
+}
+.doc-meta i {
+  font-style: normal;
+  font-size: 13.5px;
+  line-height: 1.5;
+  color: #a8a6a1;
+}
+
+.doc-list {
+  list-style: none;
+  margin-bottom: 10px;
+}
+.doc-list li {
+  position: relative;
+  padding: 13px 0 13px 26px;
+  border-bottom: 1px solid var(--line);
+  font-size: 16.5px;
+  line-height: 1.62;
+  color: #d8d6d0;
+}
+.doc-list li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 21px;
+  width: 7px;
+  height: 7px;
+  background: var(--acc);
+}
+.doc-list--plain li::before {
+  background: var(--mut);
+}
+
+.doc-steps {
+  list-style: none;
+  counter-reset: step;
+}
+.doc-steps li {
+  display: grid;
+  grid-template-columns: 46px 1fr;
+  gap: 4px 16px;
+  padding: 16px 0;
+  border-bottom: 1px solid var(--line);
+}
+.doc-steps li span.mono {
+  font-size: 12px;
+  color: var(--acc);
+  letter-spacing: 0.08em;
+}
+.doc-steps li b {
+  font-size: 16.5px;
+  font-weight: 700;
+}
+.doc-steps li span:last-child {
+  grid-column: 2;
+  font-size: 15.5px;
+  line-height: 1.62;
+  color: #bfbdb8;
+  max-width: 74ch;
+}
+
+/* скриншот проекта: показываем верх ленты, остальное уводим в затухание */
+.doc-shot {
+  position: relative;
+  margin: 0 0 40px;
+  border: 1px solid var(--line);
+  background: var(--bg2);
+  max-height: 72vh;
+  overflow: hidden;
+}
+.doc-shot img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+.doc-shot::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 180px;
+  background: linear-gradient(to bottom, transparent, var(--bg));
+  pointer-events: none;
+}
+.doc-shot figcaption {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 2;
+  padding: 14px 18px;
+  font-size: 10.5px;
+  letter-spacing: 0.1em;
+  color: var(--mut);
+  text-align: center;
+}
+
+.doc-live {
+  margin: 30px 0 10px;
+}
+.doc-live a {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--font-mono);
+  font-size: 14px;
+  letter-spacing: 0.02em;
+  color: var(--ink);
+  border: 1px solid var(--line2);
+  padding: 15px 22px;
+  min-height: 48px;
+  transition: background 0.25s, border-color 0.25s, color 0.25s;
+}
+.doc-live a:hover {
+  background: var(--accBtn);
+  border-color: var(--accBtn);
+  color: #fff;
+}
+
+.doc-cases {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+  gap: 14px;
+}
+.doc-case {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  padding: 22px;
+  border: 1px solid var(--line);
+  background: var(--bg2);
+  transition: border-color 0.25s, background 0.25s;
+}
+.doc-case:hover {
+  border-color: var(--line2);
+  background: rgba(244, 242, 236, 0.03);
+}
+.doc-case span.mono {
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  color: var(--acc);
+}
+.doc-case b {
+  font-family: var(--font-unbounded);
+  font-weight: 800;
+  font-size: 19px;
+  letter-spacing: -0.02em;
+}
+.doc-case-txt {
+  font-size: 14.5px;
+  color: #bfbdb8;
+}
+.doc-case-go {
+  margin-top: auto;
+  padding-top: 12px;
+  font-size: 11px !important;
+  letter-spacing: 0.1em;
+  color: var(--mut) !important;
+}
+
+.doc-faq > div {
+  padding: 20px 0;
+  border-bottom: 1px solid var(--line);
+}
+.doc-faq p {
+  font-size: 16px;
+  line-height: 1.68;
+  color: #bfbdb8;
+  max-width: 76ch;
+}
+
+.doc-others {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+  gap: 14px;
+}
+.doc-others a {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  padding: 20px;
+  border: 1px solid var(--line);
+  transition: border-color 0.25s, background 0.25s;
+}
+.doc-others a:hover {
+  border-color: var(--line2);
+  background: rgba(244, 242, 236, 0.03);
+}
+.doc-others b {
+  font-size: 16.5px;
+  font-weight: 700;
+}
+.doc-others span {
+  font-size: 14.5px;
+  line-height: 1.55;
+  color: #bfbdb8;
+}
+.doc-others i {
+  font-style: normal;
+  font-size: 11.5px;
+  color: var(--acc);
+  letter-spacing: 0.06em;
+}
+
+.doc-cta {
+  position: relative;
+  z-index: 4;
+  border-top: 1px solid var(--line);
+  background: var(--bg2);
+  padding: 70px 0;
+}
+.doc-cta h2 {
+  font-family: var(--font-unbounded);
+  font-weight: 900;
+  font-size: clamp(26px, 4vw, 42px);
+  letter-spacing: -0.035em;
+  margin-bottom: 14px;
+}
+.doc-cta p {
+  font-size: 17px;
+  line-height: 1.68;
+  color: #bfbdb8;
+  max-width: 58ch;
+}
+.doc-cta-row {
+  margin-top: 26px;
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  flex-wrap: wrap;
+}
+.doc-status {
+  margin-top: 22px;
+  font-size: 12px;
+  letter-spacing: 0.04em;
+  color: var(--mut);
+}
+
+.doc-ftr {
+  position: relative;
+  z-index: 4;
+  border-top: 1px solid var(--line);
+  padding: 26px 0;
+}
+.doc-ftr-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+  font-size: 12.5px;
+  color: var(--mut);
+}
+.doc-ftr-row a:hover {
+  color: var(--ink);
+}
+
+@media (max-width: 920px) {
+  .doc-hdr nav {
+    padding: 14px 20px;
+  }
+  .doc-hdr .nav-r a.l {
+    display: none;
+  }
+  .doc-wrap {
+    padding: 0 20px;
+  }
+  .doc-lead,
+  .doc-answer {
+    max-width: none;
+  }
+  .doc {
+    padding: 34px 0 70px;
+  }
+  .doc-answer {
+    padding-left: 16px;
+  }
+  .doc-shot {
+    max-height: 60vh;
+  }
+  .doc-steps li {
+    grid-template-columns: 38px 1fr;
+  }
+}
+
+/* ── Широкий экран: слева читаем, справа держим цену и связь ──────────
+   Одна длинная колонка по центру на 1900px выглядит зажатой, поэтому
+   сводку выносим в липкую панель — она же заполняет ширину.          */
+.doc-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 330px;
+  gap: 60px;
+  align-items: start;
+}
+.doc-side {
+  position: sticky;
+  top: 92px;
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  background: var(--line);
+  border: 1px solid var(--line);
+}
+.doc-side > div {
+  background: var(--bg2);
+  padding: 18px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.doc-side span.mono {
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--mut);
+}
+.doc-side b {
+  font-family: var(--font-unbounded);
+  font-weight: 800;
+  font-size: 19px;
+  letter-spacing: -0.02em;
+  line-height: 1.15;
+}
+.doc-side i {
+  font-style: normal;
+  font-size: 13px;
+  line-height: 1.5;
+  color: #a8a6a1;
+}
+.doc-side b a {
+  border-bottom: 1px solid var(--line2);
+  transition: color 0.25s, border-color 0.25s;
+}
+.doc-side b a:hover {
+  color: var(--acc);
+  border-color: var(--acc);
+}
+.doc-side .doc-side-cta {
+  background: var(--bg2);
+  padding: 18px 20px;
+  gap: 10px;
+}
+.doc-side .doc-side-cta a {
+  display: block;
+  text-align: center;
+  background: var(--accBtn);
+  color: #fff;
+  font-weight: 700;
+  font-size: 15px;
+  padding: 14px 12px;
+  min-height: 48px;
+  transition: background 0.25s;
+}
+.doc-side .doc-side-cta a:hover {
+  background: var(--acc);
+}
+.doc-side .doc-side-cta small {
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  letter-spacing: 0.06em;
+  color: var(--mut);
+  text-align: center;
+}
+
+@media (max-width: 1100px) {
+  .doc-grid {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+  .doc-side {
+    /* на телефоне цена и срок должны идти сразу после вводного абзаца,
+       а не в самом низу, куда их сносит порядок разметки */
+    order: -1;
+    position: static;
+    margin-bottom: 36px;
+  }
+}
+
+/* первый заголовок внутри колонки не отбивается сверху — над ним уже есть кадр */
+.doc-h2-first {
+  margin-top: 0;
+}
+
+/* ── Картинки на страницах ───────────────────────────────────────────── */
+
+/* обложка услуги: единственный крупный образ на странице, поэтому во всю ширину */
+.doc-cover {
+  margin: 0 0 44px;
+  border: 1px solid var(--line);
+  background: var(--bg2);
+  overflow: hidden;
+}
+.doc-cover img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+/* карточка работы с превью первого экрана */
+.doc-case--shot {
+  padding: 0;
+  overflow: hidden;
+}
+.doc-case--shot > span.mono,
+.doc-case--shot > b,
+.doc-case--shot > .doc-case-txt {
+  padding: 0 20px;
+}
+.doc-case--shot > span.mono {
+  padding-top: 18px;
+}
+.doc-case--shot .doc-case-go {
+  padding: 12px 20px 18px;
+}
+.doc-case-img {
+  display: block;
+  border-bottom: 1px solid var(--line);
+  background: var(--bg);
+  overflow: hidden;
+}
+.doc-case-img img {
+  display: block;
+  width: 100%;
+  height: auto;
+  transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.doc-case--shot:hover .doc-case-img img {
+  transform: scale(1.03);
+}
+
+/* короткий список шагов — без длинных описаний, они живут на главной */
+.doc-steps--short li {
+  grid-template-columns: 46px 1fr;
+  padding: 13px 0;
+}
+.doc-note {
+  margin-top: 16px;
+  font-size: 14px;
+  color: var(--mut);
+}
+.doc-note a {
+  color: var(--ink);
+  border-bottom: 1px solid var(--line2);
+  transition: color 0.25s, border-color 0.25s;
+}
+.doc-note a:hover {
+  color: var(--acc);
+  border-color: var(--acc);
+}
+
+/* отзыв в боковой панели */
+.doc-side-rev {
+  background: var(--bg2);
+  padding: 18px 20px;
+  gap: 10px;
+}
+.doc-side-rev blockquote {
+  font-size: 14px;
+  line-height: 1.6;
+  color: #d8d6d0;
+}
+.doc-side-rev cite {
+  font-style: normal;
+  font-size: 10.5px;
+  letter-spacing: 0.08em;
+  color: var(--mut);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .doc-case-img img {
+    transition: none;
+  }
+}

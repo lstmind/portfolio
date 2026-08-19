@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@import "./doc.css";
 
 *{margin:0;padding:0;box-sizing:border-box}
 :root{
@@ -135,7 +136,13 @@ section.blk.light .step p{color:#55524a}
 
 /* pain */
 .pain{margin-top:60px;display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
-.pain .p{border:1px solid var(--line);padding:32px 28px;transition:border-color .35s,background .35s}
+.pain .p{border:1px solid var(--line);padding:0 0 32px;transition:border-color .35s,background .35s;overflow:hidden}
+/* кадр проблемы — первое, что видит человек в карточке боли */
+.pain .p-shot{display:block;border-bottom:1px solid var(--line);overflow:hidden}
+.pain .p-shot img{display:block;width:100%;height:auto;transition:transform .6s cubic-bezier(.16,1,.3,1)}
+.pain .p:hover .p-shot img{transform:scale(1.04)}
+.pain .p .pn,.pain .p h3,.pain .p p{padding-left:28px;padding-right:28px}
+.pain .p .pn{padding-top:26px}
 .pain .p:hover{border-color:var(--acc);background:var(--bg2)}
 .pain .p .pn{font-family:var(--font-mono);font-size:13px;color:var(--acc);margin-bottom:20px}
 .pain .p h3{font-family:var(--font-unbounded);font-weight:700;font-size:19px;letter-spacing:-.02em;margin-bottom:12px}
@@ -154,6 +161,10 @@ section.blk.light .step p{color:#55524a}
 .svc .card p{font-size:14.5px;line-height:1.56;color:#A4A29D;flex:1}
 .svc .card .pr{margin-top:20px;font-family:var(--font-mono);font-size:12.5px;color:var(--mut)}
 .svc .card .pr b{color:var(--ink);font-weight:400}
+/* карточка услуги ведёт на свою страницу — подпись появляется при наведении */
+.svc .card-go{margin-top:10px;font-size:11px;letter-spacing:.1em;color:var(--acc);opacity:0;transform:translateY(4px);transition:opacity .3s,transform .3s}
+.svc .card:hover .card-go,.svc .card:focus-visible .card-go{opacity:1;transform:translateY(0)}
+@media(hover:none){.svc .card-go{opacity:1;transform:none}}
 .svc .card:first-child{grid-column:1/3;grid-row:1/3;padding:48px 44px;justify-content:flex-end}
 .svc .card:first-child .cn{font-size:15px}
 .svc .card:first-child h3{font-size:clamp(28px,3vw,44px);letter-spacing:-.03em;margin-bottom:18px}
@@ -235,6 +246,13 @@ section.blk.light .step p{color:#55524a}
 .widx .chip .cnt{font-size:10px;color:var(--acc)}
 .widx .chip:hover{color:var(--ink);border-color:var(--line2)}
 .widx .chip.on{color:var(--ink);border-color:var(--acc)}
+/* список показывается частями — кнопка разворачивает остальное */
+.widx-more{display:block;width:100%;margin-top:18px;background:none;border:1px solid var(--line2);color:var(--mut);
+  font-family:var(--font-mono);font-size:12.5px;letter-spacing:.06em;padding:15px 10px;min-height:48px;cursor:pointer;
+  transition:color .25s,border-color .25s,background .25s}
+.widx-more:hover{color:var(--ink);border-color:var(--ink);background:rgba(244,242,236,.03)}
+/* в сетке избранных кнопка занимает всю строку, а не ячейку */
+.works .widx-more{grid-column:1/-1;margin-top:8px}
 .widx-list{border-top:1px solid var(--line)}
 .widx-list a{display:grid;grid-template-columns:44px 1fr 220px 28px;align-items:center;gap:18px;padding:16px 4px;border-bottom:1px solid var(--line);transition:padding-left .3s,background .3s,color .3s}
 .widx-list a:hover{padding-left:14px;background:rgba(244,242,236,.025)}
@@ -255,7 +273,8 @@ section.blk.light .step p{color:#55524a}
 .about-meta span{padding-left:16px;position:relative}
 .about-meta span::before{content:"";position:absolute;left:0;top:50%;transform:translateY(-50%);width:6px;height:6px;background:var(--acc)}
 .about-photo{margin:0;border:1px solid var(--line);background:var(--bg2);padding:22px 22px 14px}
-.about-photo img{display:block;width:100%;height:auto;image-rendering:pixelated}
+/* портрет уже растровый: сглаживание при сжатии оставляем браузеру, иначе на не-ретине идёт муар */
+.about-photo img{display:block;width:100%;height:auto}
 .about-photo figcaption{margin-top:12px;font-size:10.5px;letter-spacing:.08em;color:var(--mut);text-align:center}
 
 /* reviews — редакторские цитаты, первая (звёздная) крупнее */
@@ -404,3 +423,31 @@ footer .fl a:hover{color:var(--ink)}
   .cursor{display:none}
   .cur-on body,.cur-on a,.cur-on button{cursor:auto}
 }
+
+/* обложка услуги в карточке на главной: фактура за текстом, а не картинка ради картинки */
+.svc .card-bg{position:absolute;inset:0;z-index:0;overflow:hidden;opacity:.72;transition:opacity .45s,transform .6s cubic-bezier(.16,1,.3,1)}
+.svc .card-bg img{width:100%;height:100%;object-fit:cover;display:block}
+.svc .card-bg::after{content:"";position:absolute;inset:0;
+  background:linear-gradient(115deg,rgba(11,11,14,.97) 14%,rgba(11,11,14,.8) 46%,rgba(11,11,14,.42) 100%)}
+.svc .card:hover .card-bg{opacity:1;transform:scale(1.04)}
+.svc .card > .cn,.svc .card > h3,.svc .card > p,.svc .card > .pr,.svc .card > .card-go{position:relative;z-index:1}
+@media (prefers-reduced-motion: reduce){.svc .card-bg{transition:none}.svc .card:hover .card-bg{transform:none}}
+
+/* кадр на 404: фон страницы, приглушённый, чтобы текст оставался главным */
+.nf-shot{position:absolute;inset:0;z-index:-1;overflow:hidden;display:block}
+.nf-shot img{width:100%;height:100%;object-fit:cover;opacity:.5}
+.nf-shot::after{content:"";position:absolute;inset:0;
+  background:linear-gradient(100deg,var(--bg) 26%,rgba(8,8,10,.9) 55%,rgba(8,8,10,.6) 100%)}
+
+/* кадр переписки за секцией контакта: справа проявляется, слева уходит в фон под текст */
+.contact{position:relative}
+.contact-shot{position:absolute;inset:0;z-index:0;overflow:hidden;display:block;pointer-events:none}
+.contact-shot img{width:100%;height:100%;object-fit:cover;opacity:.42}
+.contact-shot::after{content:"";position:absolute;inset:0;
+  background:linear-gradient(92deg,var(--bg) 34%,rgba(8,8,10,.92) 58%,rgba(8,8,10,.62) 100%)}
+.contact .wrap{position:relative;z-index:1}
+
+/* кадр в светлой секции процесса: тёмный блок-разделитель между заголовком и шагами */
+.proc-shot{margin:44px 0 10px;border:1px solid rgba(20,19,16,.14);background:#141310;overflow:hidden}
+.proc-shot img{display:block;width:100%;height:auto}
+.proc-shot figcaption{padding:12px 16px;font-size:10.5px;letter-spacing:.12em;color:#6f6b5e;text-align:center;background:#ECE9E0}

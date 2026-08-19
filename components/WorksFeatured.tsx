@@ -1,7 +1,11 @@
 "use client";
 
-import { useEffect, useRef } from "react";
-import { WORKS } from "@/lib/content";
+import { useEffect, useRef, useState } from "react";
+import { WORKS, plural } from "@/lib/content";
+import { CASE_PAGES } from "@/lib/cases";
+
+/** сколько карточек показываем сразу — остальные по кнопке, чтобы страница не растягивалась */
+const PREVIEW = 6;
 
 /**
  * Избранные работы с ховер-проездом.
@@ -11,6 +15,9 @@ import { WORKS } from "@/lib/content";
  */
 export function WorksFeatured() {
   const rootRef = useRef<HTMLDivElement>(null);
+  const [all, setAll] = useState(false);
+  const shown = all ? WORKS : WORKS.slice(0, PREVIEW);
+  const rest = WORKS.length - shown.length;
 
   useEffect(() => {
     // 1) пометить готовые ленты (включая закэшированные до гидрации)
@@ -45,12 +52,17 @@ export function WorksFeatured() {
       rootRef.current?.querySelectorAll(".shot").forEach((s) => io.observe(s));
       return () => io.disconnect();
     }
-  }, []);
+  }, [all]);
 
   return (
     <div className="works reveal" ref={rootRef}>
-      {WORKS.map((w) => (
-        <a className="work" href={w.href} target="_blank" rel="noopener noreferrer" data-cursor key={w.href}>
+      {shown.map((w) => (
+        <a
+          className="work"
+          href={`/works/${CASE_PAGES.find((c) => c.href === w.href)?.slug ?? ""}`}
+          data-cursor
+          key={w.href}
+        >
           <div className="shot">
             <span className="tag mono">
               <i />
@@ -73,7 +85,7 @@ export function WorksFeatured() {
                 decoding="async"
               />
             </picture>
-            <span className="openbadge mono">Открыть ↗</span>
+            <span className="openbadge mono">Разбор проекта ↗</span>
           </div>
           <div className="body">
             <div className="top">
@@ -89,6 +101,11 @@ export function WorksFeatured() {
           </div>
         </a>
       ))}
+      {rest > 0 && (
+        <button className="widx-more mono" onClick={() => setAll(true)} data-cursor>
+          Показать ещё {rest} {plural(rest, ["работу", "работы", "работ"])} ↓
+        </button>
+      )}
     </div>
   );
 }

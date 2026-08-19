@@ -47,7 +47,12 @@ export function ClientFX() {
     });
 
     // ---- WebGL smoke field
-    const cv = document.getElementById("gl") as HTMLCanvasElement | null;
+    // Дым живёт только на главной: на страницах услуг и кейсов он подсвечивает фон
+    // из-под текста и мешает читать, а читают там больше, чем смотрят.
+    const onHome = location.pathname === "/";
+    const cv = onHome ? (document.getElementById("gl") as HTMLCanvasElement | null) : null;
+    const bg = document.getElementById("gl");
+    if (!onHome && bg) bg.style.display = "none";
     const gl = cv && ((cv.getContext("webgl") || cv.getContext("experimental-webgl")) as WebGLRenderingContext | null);
     if (cv && gl) {
       const g: WebGLRenderingContext = gl;
@@ -260,7 +265,10 @@ export function ClientFX() {
     if (pre && pcount && pbar) {
       let seen = false;
       try { seen = sessionStorage.getItem("lst-seen") === "1"; } catch { /* private mode */ }
-      if (seen || reduce) {
+      // на страницах услуг и кейсов сплэша нет: человек пришёл из поиска за ответом,
+      // а не за представлением — показываем контент сразу
+      const isHome = location.pathname === "/";
+      if (seen || reduce || !isHome) {
         pre.style.display = "none";
       } else {
         try { sessionStorage.setItem("lst-seen", "1"); } catch { /* private mode */ }

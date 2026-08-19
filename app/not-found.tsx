@@ -4,6 +4,19 @@ import { SITE } from "@/lib/content";
 export default function NotFound() {
   return (
     <section className="nf">
+      <span className="nf-shot" aria-hidden="true">
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src="/img/scene/404.webp"
+          srcSet="/img/scene/404-720.webp 720w, /img/scene/404.webp 1440w"
+          sizes="100vw"
+          alt=""
+          width={1440}
+          height={960}
+          loading="eager"
+          decoding="async"
+        />
+      </span>
       <div className="wrap">
         <div className="eyebrow">
           <span className="n">404</span> Страница не найдена
