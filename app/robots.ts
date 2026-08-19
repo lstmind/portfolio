@@ -12,8 +12,6 @@ const ANSWER_BOTS = [
   "ChatGPT-User",
   "PerplexityBot",
   "Perplexity-User",
-  "ClaudeBot",
-  "Claude-User",
   "Google-Extended",
   "Applebot-Extended",
   "YandexAdditional", // быстрые ответы Яндекса
