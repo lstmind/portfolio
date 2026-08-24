@@ -7,7 +7,9 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "deploy": "bash scripts/deploy.sh"
+    "deploy": "bash scripts/deploy.sh",
+    "indexnow": "node scripts/indexnow.mjs",
+    "bots": "node scripts/bots.mjs"
   },
   "dependencies": {
     "lenis": "^1.3.25",
