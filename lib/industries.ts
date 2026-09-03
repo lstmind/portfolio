@@ -206,6 +206,7 @@ export const INDUSTRY_PAGES: IndustryPage[] = [
       "Скорость и адаптив: почти весь трафик с телефона",
     ],
     examples: [
+      { href: "https://drova.lstmind.ru/", note: "мой демо-проект: пиццерия, где заказ пишут словами, а он уходит на кухню и в Telegram" },
       { href: "https://hp-vdnh.ru/", note: "бар с видом на колесо обозрения ВДНХ: галерея, меню, бронь" },
       { href: "https://wellevent.ru/", note: "кейтеринг: страницы под каждый тип мероприятия, расчёт заявки" },
       { href: "https://perlovskiebani.ru/", note: "банный комплекс: разряды, цены, бронирование, сертификаты" },
@@ -225,7 +226,7 @@ export const INDUSTRY_PAGES: IndustryPage[] = [
       },
     ],
     types: ["sayt-vizitka", "lending"],
-    cases: ["hp-vdnh", "well-event", "nega"],
+    cases: ["drovyanaya", "hp-vdnh", "well-event"],
     price: { label: "Цена", value: "от 15 000 ₽", note: "визитка с меню и бронью — дешевле, сайт с банкетами — дороже" },
     term: { label: "Срок", value: "от недели", note: "если фотографии уже есть" },
     review: 4,

@@ -81,7 +81,7 @@ export const SERVICE_PAGES: ServicePage[] = [
         a: "Правки на этапе макета входят в работу. Я показываю структуру и дизайн до вёрстки, поэтому разворот на 180 градусов случается на бумаге, а не на готовом сайте.",
       },
     ],
-    cases: ["nega", "lavenir", "well-event"],
+    cases: ["drovyanaya", "nega", "lavenir"],
     hub: ["sayt-vizitka", "lending", "korporativnyy-sayt", "sayt-katalog", "internet-magazin"],
     review: 2,
     short: "Собираю с нуля: структура, дизайн, вёрстка, запуск",
@@ -425,9 +425,9 @@ export const SERVICE_PAGES: ServicePage[] = [
       }
     ],
     cases: [
+      "drovyanaya",
       "lavenir",
-      "nega",
-      "well-event"
+      "nega"
     ],
     review: 4,
     short: "Одна страница, один путь до заявки, под рекламный трафик",

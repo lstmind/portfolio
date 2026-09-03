@@ -243,6 +243,36 @@
   text-align: center;
 }
 
+/* Кадры экранов кейса: то, что за паролем — кухня, админка, статус заказа */
+.doc-shots {
+  display: grid;
+  gap: 26px;
+  margin: 26px 0 40px;
+}
+@media (min-width: 900px) {
+  .doc-shots {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+.doc-shots figure {
+  margin: 0;
+  border: 1px solid var(--line);
+  background: var(--bg2);
+  overflow: hidden;
+}
+.doc-shots img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+.doc-shots figcaption {
+  padding: 12px 14px 14px;
+  font-size: 13.5px;
+  line-height: 1.45;
+  color: var(--mut);
+  border-top: 1px solid var(--line);
+}
+
 .doc-live {
   margin: 30px 0 10px;
 }

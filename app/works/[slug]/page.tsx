@@ -177,6 +177,30 @@ export default async function CasePageView({ params }: { params: Promise<{ slug:
             </aside>
           </div>
 
+          {c.shots && c.shots.length > 0 && (
+            <>
+              <h2>Как это выглядит внутри</h2>
+              <div className="doc-shots">
+                {c.shots.map((sh) => (
+                  <figure key={sh.src}>
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img
+                      src={`${sh.src}.webp`}
+                      srcSet={`${sh.src}-564.webp 564w, ${sh.src}.webp ${sh.w}w`}
+                      sizes="(max-width: 900px) 100vw, 560px"
+                      alt={sh.alt}
+                      width={sh.w}
+                      height={sh.h}
+                      loading="lazy"
+                      decoding="async"
+                    />
+                    <figcaption>{sh.caption}</figcaption>
+                  </figure>
+                ))}
+              </div>
+            </>
+          )}
+
           {services.length > 0 && (
             <>
               <h2>Услуги в этом проекте</h2>
