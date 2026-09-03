@@ -13,7 +13,7 @@ export default function NotFound() {
           alt=""
           width={1440}
           height={960}
-          loading="eager"
+          loading="lazy"
           decoding="async"
         />
       </span>

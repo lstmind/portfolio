@@ -17,6 +17,8 @@ const mono = JetBrains_Mono({
   weight: ["400", "700"],
   variable: "--font-mono",
   display: "swap",
+  // моноширинный идёт в мелких подписях: пусть не конкурирует с заголовками за канал
+  preload: false,
 });
 const manrope = Manrope({
   subsets: ["cyrillic", "latin"],
