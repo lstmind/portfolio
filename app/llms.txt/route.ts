@@ -1,4 +1,4 @@
-import { SITE, SERVICES, WORKS, WORKS_INDEX, FAQ, PROJECTS_TOTAL } from "@/lib/content";
+import { SITE, SERVICES, STACK, WORKS, WORKS_INDEX, FAQ, PROJECTS_TOTAL } from "@/lib/content";
 import { SERVICE_PAGES } from "@/lib/services";
 import { CASE_PAGES } from "@/lib/cases";
 import { INDUSTRY_PAGES } from "@/lib/industries";
@@ -55,7 +55,7 @@ ${niches}
 
 ## Технологии
 
-WordPress и WooCommerce, Tilda, MODX, 1С-Битрикс, чистая вёрстка по Figma, Next.js, Astro, Svelte, PHP, JavaScript, TypeScript. Стек подбираю под задачу и бюджет.
+${STACK.join(', ')}. Стек подбираю под задачу и бюджет.
 
 ## Избранные проекты
 
