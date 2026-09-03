@@ -45,6 +45,7 @@ export function WorksIndex() {
             key={w.href}
             href={w.href}
             {...(w.href.startsWith("#") ? {} : { target: "_blank", rel: "noopener noreferrer" })}
+            style={{ animationDelay: Math.min(i, 8) * 40 + "ms" }}
             data-cursor
           >
             <span className="no mono">{String(i + 1).padStart(2, "0")}</span>

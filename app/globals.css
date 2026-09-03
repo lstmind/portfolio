@@ -7,6 +7,9 @@
   --line2:rgba(244,242,236,.17); --acc:#FF2E1F;
   /* тёмный красный для заливок под белым текстом — контраст 5.05:1 (AA) */
   --accBtn:#D91F12;
+  /* кривые: вход и движение по экрану — ease-out, уезд шторки — старт без задержки */
+  --ease-out:cubic-bezier(.16,1,.3,1);
+  --ease-exit:cubic-bezier(.32,.72,0,1);
 }
 /* smooth-скролл отдан Lenis (см. ClientFX); нативный оставляем только как фолбэк для reduced-motion */
 @media (prefers-reduced-motion: no-preference){html.no-lenis{scroll-behavior:smooth}}
@@ -34,11 +37,12 @@ html{scrollbar-width:thin;scrollbar-color:#26262c var(--bg)}
 canvas#gl{position:fixed;inset:0;width:100%;height:100vh;z-index:0;display:block}
 .grain{position:fixed;inset:0;z-index:3;pointer-events:none;opacity:.5;mix-blend-mode:overlay;
   background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
-.progress{position:fixed;top:0;left:0;height:2px;width:0;background:var(--ink);opacity:.55;z-index:70}
+/* полоса прогресса едет через scaleX: width дёргал layout на каждом кадре скролла */
+.progress{position:fixed;top:0;left:0;height:2px;width:100%;background:var(--ink);opacity:.55;z-index:70;transform:scaleX(0);transform-origin:0 50%;will-change:transform}
 
 /* preloader */
 .pre{position:fixed;inset:0;z-index:200;background:var(--bg);display:flex;flex-direction:column;justify-content:flex-end;padding:44px;overflow:hidden}
-.pre.done{transform:translateY(-100%);transition:transform .9s cubic-bezier(.76,0,.24,1)}
+.pre.done{transform:translateY(-100%);transition:transform .9s var(--ease-exit)}
 .pre .ptag{position:absolute;top:44px;left:44px;font-family:var(--font-mono);font-size:12px;color:var(--mut);letter-spacing:.2em}
 .pre .pcount{position:absolute;top:40px;right:44px;font-family:var(--font-mono);font-size:clamp(34px,6vw,90px);font-weight:700;color:var(--mut)}
 .pre .pname{font-family:var(--font-unbounded);font-weight:900;font-size:clamp(46px,11vw,170px);letter-spacing:-.05em;line-height:.82;color:var(--ink)}
@@ -51,7 +55,6 @@ header.solid{background:rgba(8,8,10,.82);backdrop-filter:blur(12px);border-botto
 nav{display:flex;align-items:center;justify-content:space-between;padding:20px 44px;max-width:1320px;margin:0 auto}
 .logo{font-family:var(--font-unbounded);font-weight:900;font-size:19px;letter-spacing:-.04em;display:flex;align-items:center;gap:9px}
 .logo .sq{width:11px;height:11px;background:var(--acc);transition:transform .4s}
-.logo:hover .sq{transform:rotate(135deg)}
 .nav-r{display:flex;align-items:center;gap:26px}
 .nav-r a.l{color:var(--mut);font-size:13.5px;font-weight:500;transition:color .25s}
 .nav-r a.l:hover{color:var(--ink)}
@@ -71,27 +74,28 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:20px 4
 .hero .wrap{max-width:1320px}
 h1{font-family:var(--font-unbounded);font-weight:900;font-size:clamp(46px,8vw,128px);line-height:.94;letter-spacing:-.045em;text-shadow:0 2px 40px rgba(0,0,0,.55)}
 h1 .ln{display:block;overflow:hidden;padding-bottom:.22em;margin-bottom:-.15em}
-h1 .ln i{display:inline-block;font-style:normal;transform:translateY(110%);animation:rise 1s cubic-bezier(.16,1,.3,1) forwards}
-h1 .ln:nth-child(1) i{animation-delay:.05s}h1 .ln:nth-child(2) i{animation-delay:.15s}h1 .ln:nth-child(3) i{animation-delay:.25s}
+h1 .ln i{display:inline-block;font-style:normal;transform:translateY(110%);animation:rise 1s var(--ease-out) forwards}
+h1 .ln:nth-child(1) i{animation-delay:.04s}h1 .ln:nth-child(2) i{animation-delay:.08s}h1 .ln:nth-child(3) i{animation-delay:.12s}
 @keyframes rise{to{transform:translateY(0)}}
 h1 .acc{color:var(--acc);position:relative;display:inline-block}
 h1 .acc::before,h1 .acc::after{content:attr(data-t);position:absolute;left:0;top:0;width:100%;height:100%;opacity:0;pointer-events:none}
-h1 .acc:hover::before,h1.glitchon .acc::before{opacity:.85;color:#21e6ff;animation:gl1 .5s steps(2) infinite;clip-path:inset(0 0 55% 0)}
-h1 .acc:hover::after,h1.glitchon .acc::after{opacity:.85;color:#ff2e6b;animation:gl2 .5s steps(2) infinite;clip-path:inset(55% 0 0 0)}
+h1.glitchon .acc::before{opacity:.85;color:#21e6ff;animation:gl1 .5s steps(2) infinite;clip-path:inset(0 0 55% 0)}
+h1.glitchon .acc::after{opacity:.85;color:#ff2e6b;animation:gl2 .5s steps(2) infinite;clip-path:inset(55% 0 0 0)}
 @keyframes gl1{0%{transform:translate(0)}50%{transform:translate(-3px,1px)}100%{transform:translate(2px,-1px)}}
 @keyframes gl2{0%{transform:translate(0)}50%{transform:translate(3px,-1px)}100%{transform:translate(-2px,1px)}}
-.sub{margin-top:32px;font-size:18.5px;line-height:1.55;color:#D6D4CE;max-width:48ch;font-weight:500;opacity:0;animation:fade 1s ease .55s forwards;text-shadow:0 1px 24px rgba(0,0,0,.7)}
+.sub{margin-top:32px;font-size:18.5px;line-height:1.55;color:#D6D4CE;max-width:48ch;font-weight:500;opacity:0;animation:fade 1s var(--ease-out) .55s forwards;text-shadow:0 1px 24px rgba(0,0,0,.7)}
 .sub b{color:var(--ink);font-weight:600}
 @keyframes fade{to{opacity:1}}
-.cta-row{margin-top:38px;display:flex;align-items:center;gap:26px;flex-wrap:wrap;opacity:0;animation:fade 1s ease .68s forwards}
-.magnet{position:relative;display:inline-flex;align-items:center;gap:11px;background:var(--accBtn);color:#fff;padding:18px 32px;font-weight:700;font-size:16px;will-change:transform;overflow:hidden}
-.magnet::before{content:"";position:absolute;inset:0;background:#fff;transform:translateY(101%);transition:transform .4s cubic-bezier(.16,1,.3,1)}
-.magnet:hover::before{transform:translateY(0)}
+.cta-row{margin-top:38px;display:flex;align-items:center;gap:26px;flex-wrap:wrap;opacity:0;animation:fade 1s var(--ease-out) .68s forwards}
+.magnet{position:relative;display:inline-flex;align-items:center;gap:11px;background:var(--accBtn);color:#fff;padding:18px 32px;font-weight:700;font-size:16px;overflow:hidden;transition:transform .4s var(--ease-out)}
+/* пока курсор внутри — следуем за ним мгновенно; отпустили — возврат едет плавно */
+.magnet.pulling{transition:none;will-change:transform}
+.magnet::before{content:"";position:absolute;inset:0;background:#fff;transform:translateY(101%);transition:transform .4s var(--ease-out)}
 .magnet .lab{position:relative;z-index:1;transition:color .35s}
 .magnet:hover .lab{color:var(--accBtn)}
 .ghost{font-family:var(--font-mono);font-size:13.5px;letter-spacing:.02em;display:inline-flex;align-items:center;gap:9px;color:#CFCDC7}
-.ghost .ar{transition:transform .3s}.ghost:hover .ar{transform:translate(4px,4px)}
-.facts{margin-top:54px;display:flex;gap:32px;flex-wrap:wrap;opacity:0;animation:fade 1s ease .82s forwards}
+.ghost .ar{transition:transform .3s}
+.facts{margin-top:54px;display:flex;gap:32px;flex-wrap:wrap;opacity:0;animation:fade 1s var(--ease-out) .82s forwards}
 .facts .f{display:flex;flex-direction:column;gap:7px}
 .facts .f b{font-family:var(--font-unbounded);font-weight:700;font-size:23px;letter-spacing:-.02em}
 .facts .f b .s{color:var(--acc)}
@@ -131,7 +135,7 @@ section.blk.light .step{border-bottom-color:rgba(20,19,16,.28)}
 section.blk.light .step:hover{background:rgba(20,19,16,.04)}
 section.blk.light .step p{color:#55524a}
 
-.reveal{opacity:0;transform:translateY(28px);transition:opacity .8s ease,transform .8s cubic-bezier(.16,1,.3,1)}
+.reveal{opacity:0;transform:translateY(28px);transition:opacity .8s var(--ease-out),transform .8s var(--ease-out)}
 .reveal.in{opacity:1;transform:none}
 
 /* pain */
@@ -139,8 +143,7 @@ section.blk.light .step p{color:#55524a}
 .pain .p{border:1px solid var(--line);padding:0 0 32px;transition:border-color .35s,background .35s;overflow:hidden}
 /* кадр проблемы — первое, что видит человек в карточке боли */
 .pain .p-shot{display:block;border-bottom:1px solid var(--line);overflow:hidden}
-.pain .p-shot img{display:block;width:100%;height:auto;transition:transform .6s cubic-bezier(.16,1,.3,1)}
-.pain .p:hover .p-shot img{transform:scale(1.04)}
+.pain .p-shot img{display:block;width:100%;height:auto;transition:transform .6s var(--ease-out)}
 .pain .p .pn,.pain .p h3,.pain .p p{padding-left:28px;padding-right:28px}
 .pain .p .pn{padding-top:26px}
 .pain .p:hover{border-color:var(--acc);background:var(--bg2)}
@@ -153,9 +156,8 @@ section.blk.light .step p{color:#55524a}
 /* services — bento: первая карта («Сайт под ключ») 2×2, остальные вокруг */
 .svc{margin-top:56px;display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);border:1px solid var(--line)}
 .svc .card{background:var(--bg);padding:36px 32px;transition:background .35s;position:relative;min-height:248px;display:flex;flex-direction:column;overflow:hidden}
-.svc .card::after{content:"";position:absolute;left:0;bottom:0;height:2px;width:100%;background:var(--acc);transform:scaleX(0);transform-origin:left;transition:transform .4s cubic-bezier(.16,1,.3,1)}
+.svc .card::after{content:"";position:absolute;left:0;bottom:0;height:2px;width:100%;background:var(--acc);transform:scaleX(0);transform-origin:left;transition:transform .4s var(--ease-out)}
 .svc .card:hover{background:var(--bg2)}
-.svc .card:hover::after{transform:scaleX(1)}
 .svc .card .cn{font-family:var(--font-mono);font-size:13px;color:var(--acc);margin-bottom:22px}
 .svc .card h3{font-family:var(--font-unbounded);font-weight:700;font-size:20px;letter-spacing:-.02em;margin-bottom:13px}
 .svc .card p{font-size:14.5px;line-height:1.56;color:#A4A29D;flex:1}
@@ -163,7 +165,7 @@ section.blk.light .step p{color:#55524a}
 .svc .card .pr b{color:var(--ink);font-weight:400}
 /* карточка услуги ведёт на свою страницу — подпись появляется при наведении */
 .svc .card-go{margin-top:10px;font-size:11px;letter-spacing:.1em;color:var(--acc);opacity:0;transform:translateY(4px);transition:opacity .3s,transform .3s}
-.svc .card:hover .card-go,.svc .card:focus-visible .card-go{opacity:1;transform:translateY(0)}
+.svc .card:focus-visible .card-go{opacity:1;transform:translateY(0)}
 @media(hover:none){.svc .card-go{opacity:1;transform:none}}
 .svc .card:first-child{grid-column:1/3;grid-row:1/3;padding:48px 44px;justify-content:flex-end}
 .svc .card:first-child .cn{font-size:15px}
@@ -191,9 +193,8 @@ section.blk.light .step p{color:#55524a}
 /* process */
 .steps{margin-top:56px;border-top:1px solid var(--line)}
 .step{display:grid;grid-template-columns:84px 1.1fr 2fr;gap:30px;padding:32px 4px;border-bottom:1px solid var(--line);align-items:baseline;transition:background .35s}
-.step > *{transition:transform .35s cubic-bezier(.16,1,.3,1)}
+.step > *{transition:transform .35s var(--ease-out)}
 .step:hover{background:rgba(244,242,236,.02)}
-.step:hover > *{transform:translateX(18px)}
 .step .num{font-family:var(--font-unbounded);font-weight:800;font-size:24px;color:var(--acc)}
 .step h3{font-family:var(--font-unbounded);font-weight:700;font-size:21px;letter-spacing:-.02em}
 .step p{font-size:15px;line-height:1.55;color:#A4A29D}
@@ -201,6 +202,11 @@ section.blk.light .step p{color:#55524a}
 /* giant band */
 .band{position:relative;z-index:4;background:var(--bg);padding:64px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line);overflow:hidden}
 .band .bt{display:flex;width:max-content;animation:scroll 20s linear infinite;font-family:var(--font-unbounded);font-weight:900;font-size:clamp(50px,10vw,130px);letter-spacing:-.04em;line-height:1}
+/* обе ленты крутятся только в кадре: класс vis вешает наблюдатель из ClientFX.
+   правило стоит после обоих объявлений animation — шорткат сбрасывает play-state */
+.marq .track,.band .bt{animation-play-state:paused}
+.marq.vis .track,.band.vis .bt{animation-play-state:running}
+.marq:hover .track{animation-play-state:paused}
 .band .seg{display:inline-flex;align-items:center;flex:none}
 .band .seg span{padding:0 30px;display:inline-flex;align-items:center;gap:30px}
 .band .f1{color:var(--ink)}
@@ -213,14 +219,11 @@ section.blk.light .step p{color:#55524a}
 .works .work:last-child:nth-child(odd){grid-column:1/-1}
 .works .work:last-child:nth-child(odd) .shot{aspect-ratio:21/9}
 .work{border:1px solid var(--line);background:var(--bg2);overflow:hidden;transition:border-color .35s,transform .45s}
-.work:hover{border-color:var(--line2);transform:translateY(-5px)}
 .work .shot{position:relative;aspect-ratio:16/10;overflow:hidden;background:#0E0E12;border-bottom:1px solid var(--line);container-type:size}
 .work .shot img.tall{position:absolute;top:0;left:0;width:100%;height:auto;filter:grayscale(.4) brightness(.85);
   opacity:0; /* проявляется только полностью загруженной — без белых кадров на проезде */
-  transition:transform 1.2s cubic-bezier(.16,1,.3,1),filter .5s,opacity .5s ease}
+  transition:transform 1.2s var(--ease-out),filter .5s,opacity .5s ease}
 .work .shot img.tall.ready{opacity:1}
-.work:hover .shot img.tall{transform:translateY(calc(-100% + 100cqh));filter:grayscale(0) brightness(1);
-  transition:transform 9s cubic-bezier(.3,.35,.4,.9),filter .5s,opacity .5s ease}
 /* фолбэк без js: показываем ленты как есть */
 @media (scripting: none){.work .shot img.tall{opacity:1}}
 /* тач: автопроезд ленты, пока карточка в кадре (класс вешает WorksFeatured) */
@@ -229,8 +232,7 @@ section.blk.light .step p{color:#55524a}
 .work .shot img.tall.auto.play{animation-play-state:running}
 .work .tag{position:absolute;top:13px;left:13px;display:flex;align-items:center;gap:7px;font-family:var(--font-mono);font-size:10.5px;letter-spacing:.04em;background:rgba(8,8,10,.8);padding:6px 10px;color:var(--ink);backdrop-filter:blur(4px);z-index:2}
 .work .tag i{width:6px;height:6px;border-radius:50%;background:var(--acc);box-shadow:0 0 8px var(--acc)}
-.work .openbadge{position:absolute;bottom:13px;right:13px;display:inline-flex;align-items:center;gap:6px;font-size:11px;letter-spacing:.04em;color:#fff;background:var(--accBtn);padding:8px 13px;transform:translateY(10px);opacity:0;transition:opacity .35s,transform .35s cubic-bezier(.16,1,.3,1);z-index:2}
-.work:hover .openbadge{opacity:1;transform:none}
+.work .openbadge{position:absolute;bottom:13px;right:13px;display:inline-flex;align-items:center;gap:6px;font-size:11px;letter-spacing:.04em;color:#fff;background:var(--accBtn);padding:8px 13px;transform:translateY(10px);opacity:0;transition:opacity .35s,transform .35s var(--ease-out);z-index:2}
 .work .body{padding:24px 24px 28px}
 .work .body .top{display:flex;align-items:center;justify-content:space-between;margin-bottom:11px}
 .work .body h3{font-family:var(--font-unbounded);font-weight:700;font-size:21px;letter-spacing:-.02em}
@@ -256,10 +258,11 @@ section.blk.light .step p{color:#55524a}
 /* в сетке избранных кнопка занимает всю строку, а не ячейку */
 .works .widx-more{grid-column:1/-1;margin-top:8px}
 .widx-list{border-top:1px solid var(--line)}
-.widx-list a{display:grid;grid-template-columns:44px 1fr 220px 28px;align-items:center;gap:18px;padding:16px 4px;border-bottom:1px solid var(--line);transition:background .3s,color .3s}
-.widx-list a > *:not(.ar){transition:transform .3s cubic-bezier(.16,1,.3,1)}
+.widx-list a{display:grid;grid-template-columns:44px 1fr 220px 28px;align-items:center;gap:18px;padding:16px 4px;border-bottom:1px solid var(--line);transition:background .3s,color .3s;animation:wrow .34s var(--ease-out) both}
+/* смена фильтра: строки входят волной, а не подставляются на чужие места */
+@keyframes wrow{from{opacity:0;transform:translateY(6px)}}
+.widx-list a > *:not(.ar){transition:transform .3s var(--ease-out)}
 .widx-list a:hover{background:rgba(244,242,236,.025)}
-.widx-list a:hover > *:not(.ar){transform:translateX(14px)}
 .widx-list a .no{font-size:11px;color:var(--mut)}
 .widx-list a .mid{display:flex;flex-direction:column;gap:4px;min-width:0}
 .widx-list a .nm{font-size:16px;font-weight:600;letter-spacing:-.01em}
@@ -267,7 +270,6 @@ section.blk.light .step p{color:#55524a}
 .widx-list a .note{font-size:13px;line-height:1.45;color:#94929B}
 .widx-list a .eng{font-size:11px;color:var(--mut);letter-spacing:.03em;text-align:right;line-height:1.5}
 .widx-list a .ar{font-size:13px;color:var(--mut);transition:transform .3s,color .3s}
-.widx-list a:hover .ar{transform:translate(3px,-3px);color:var(--acc)}
 
 /* about — человек за сайтами: текст + дизер-портрет */
 .about{display:grid;grid-template-columns:1.25fr .75fr;gap:64px;align-items:center}
@@ -284,9 +286,8 @@ section.blk.light .step p{color:#55524a}
 /* reviews — редакторские цитаты, первая (звёздная) крупнее */
 .revs{margin-top:52px;border-top:1px solid var(--line)}
 .rev{margin:0;padding:34px 4px;border-bottom:1px solid var(--line);display:grid;grid-template-columns:1fr 230px;gap:16px 40px;align-items:start;transition:background .3s}
-.rev > *{transition:transform .3s cubic-bezier(.16,1,.3,1)}
+.rev > *{transition:transform .3s var(--ease-out)}
 .rev:hover{background:rgba(244,242,236,.02)}
-.rev:hover > *{transform:translateX(14px)}
 .rev blockquote{font-size:clamp(16.5px,1.5vw,20px);line-height:1.6;color:#CFCDC7;max-width:64ch;position:relative;padding-left:26px}
 .rev blockquote::before{content:"«";position:absolute;left:0;top:-2px;color:var(--acc);font-family:var(--font-unbounded);font-weight:800;font-size:1.3em;line-height:1}
 .rev:first-child blockquote{font-size:clamp(19px,1.9vw,25px);color:var(--ink);font-weight:500}
@@ -305,13 +306,12 @@ section.blk.light .step p{color:#55524a}
 .faq{margin-top:50px;border-top:1px solid var(--line)}
 .fq{border-bottom:1px solid var(--line)}
 .fqsum{width:100%;background:none;border:0;text-align:left;cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:20px;padding:27px 4px;color:var(--ink);font-family:var(--font-unbounded);font-weight:700;font-size:clamp(17px,2vw,23px);letter-spacing:-.025em;transition:color .3s}
-.fqsum > span:first-child{transition:transform .35s cubic-bezier(.16,1,.3,1)}
+.fqsum > span:first-child{transition:transform .35s var(--ease-out)}
 .fqsum:hover{color:var(--acc)}
-.fqsum:hover > span:first-child{transform:translateX(14px)}
 .fqsum .pl{font-family:var(--font-mono);font-weight:400;color:var(--acc);font-size:26px;line-height:1;transition:transform .4s;flex:none}
 .fq.open .fqsum{color:var(--acc)}
 .fq.open .fqsum .pl{transform:rotate(135deg)}
-.fqwrap{display:grid;grid-template-rows:0fr;transition:grid-template-rows .42s cubic-bezier(.16,1,.3,1)}
+.fqwrap{display:grid;grid-template-rows:0fr;transition:grid-template-rows .42s var(--ease-out)}
 .fqinner{overflow:hidden}
 .fa{padding:0 4px 30px;max-width:66ch;font-size:15.5px;line-height:1.62;color:#B4B2AC}
 
@@ -338,9 +338,8 @@ section.contact{position:relative;z-index:4;background:var(--bg2);padding:130px 
 .contact .note{margin-top:24px;font-size:16.5px;line-height:1.6;color:#BEBCB6;max-width:42ch}
 .contact .direct{margin-top:36px;display:flex;flex-direction:column;gap:6px}
 .contact .direct a{display:flex;align-items:center;gap:14px;font-family:var(--font-mono);font-size:14px;color:var(--ink);padding:14px 0;border-bottom:1px solid var(--line);transition:color .3s}
-.contact .direct a > *:not(.pull){transition:transform .3s cubic-bezier(.16,1,.3,1)}
+.contact .direct a > *:not(.pull){transition:transform .3s var(--ease-out)}
 .contact .direct a:hover{color:var(--acc)}
-.contact .direct a:hover > *:not(.pull){transform:translateX(10px)}
 .contact .direct a .ic{width:18px;color:var(--acc)}
 .contact .direct a .pull{margin-left:auto;font-size:12px;color:var(--mut)}
 form{display:flex;flex-direction:column;gap:18px}
@@ -352,7 +351,9 @@ form{display:flex;flex-direction:column;gap:18px}
 form .submit{position:relative;overflow:hidden;margin-top:6px;background:var(--accBtn);color:#fff;border:0;padding:18px;font-family:var(--font-sans);font-weight:700;font-size:15.5px;cursor:pointer;transition:opacity .25s}
 form .submit:disabled{opacity:.6}
 .formnote{font-family:var(--font-mono);font-size:11.5px;color:var(--mut)}
-.formok{font-family:var(--font-mono);font-size:13px;color:var(--acc)}
+/* результат отправки выезжает из-под кнопки, которая его породила */
+.formok{font-family:var(--font-mono);font-size:13px;color:var(--acc);animation:formin .3s var(--ease-out) both}
+@keyframes formin{from{opacity:0;transform:translateY(-4px)}}
 
 footer{position:relative;z-index:4;background:var(--bg);border-top:1px solid var(--line);padding:54px 0 0;overflow:hidden}
 footer .f-top{display:flex;align-items:center;justify-content:space-between;gap:24px;flex-wrap:wrap}
@@ -375,7 +376,7 @@ footer .fl a:hover{color:var(--ink)}
 .fclock{color:var(--mut)}
 
 .cursor{position:fixed;top:0;left:0;width:0;height:0;z-index:90;pointer-events:none;mix-blend-mode:difference}
-.cursor::before{content:"";position:absolute;left:0;top:0;width:56px;height:56px;margin:-28px 0 0 -28px;border-radius:50%;background:var(--acc);transform:scale(.232);transition:transform .25s,background .25s}
+.cursor::before{content:"";position:absolute;left:0;top:0;width:56px;height:56px;margin:-28px 0 0 -28px;border-radius:50%;background:var(--acc);transform:scale(.232);transition:transform .14s,background .14s}
 .cursor.big::before{transform:scale(1);background:var(--ink)}
 
 @media(max-width:920px){
@@ -414,12 +415,36 @@ footer .fl a:hover{color:var(--ink)}
 /* липкий мобильный CTA — контакт в один тап (desktop скрыт) */
 .mcta{position:fixed;left:0;right:0;bottom:0;z-index:80;display:none}
 @media(max-width:920px){
-  .mcta{display:flex;background:var(--bg);border-top:1px solid var(--line2);transform:translateY(105%);transition:transform .35s cubic-bezier(.16,1,.3,1);padding-bottom:env(safe-area-inset-bottom)}
+  .mcta{display:flex;background:var(--bg);border-top:1px solid var(--line2);transform:translateY(105%);transition:transform .35s var(--ease-out);padding-bottom:env(safe-area-inset-bottom)}
   .mcta.on{transform:translateY(0)}
   .mcta-main{flex:1;background:var(--accBtn);color:#fff;font-weight:700;font-size:15.5px;text-align:center;padding:16px 10px}
   .mcta-tg{flex:0 0 86px;display:flex;align-items:center;justify-content:center;background:var(--bg2);color:var(--ink);font-size:13px;letter-spacing:.04em;border-left:1px solid var(--line)}
   /* тач-цели фильтров до 44px */
   .widx .chip{padding:13px 16px;font-size:13px}
+}
+
+/* ховер-эффекты только для точного указателя: на тач-экране :hover залипает
+   после тапа, и карточка остаётся приподнятой до тапа в другом месте */
+@media (hover: hover) and (pointer: fine){
+  .logo:hover .sq{transform:rotate(135deg)}
+  .magnet:hover::before{transform:translateY(0)}
+  .pain .p:hover .p-shot img{transform:scale(1.04)}
+  .svc .card:hover::after{transform:scaleX(1)}
+  .step:hover > *{transform:translateX(18px)}
+  .work:hover{border-color:var(--line2);transform:translateY(-5px)}
+  .work:hover .openbadge{opacity:1;transform:none}
+  .widx-list a:hover > *:not(.ar){transform:translateX(14px)}
+  .widx-list a:hover .ar{transform:translate(3px,-3px);color:var(--acc)}
+  .rev:hover > *{transform:translateX(14px)}
+  .fqsum:hover > span:first-child{transform:translateX(14px)}
+  .contact .direct a:hover > *:not(.pull){transform:translateX(10px)}
+  .svc .card:hover .card-bg{opacity:1;transform:scale(1.04)}
+  .ghost:hover .ar{transform:translate(4px,4px)}
+  .svc .card:hover .card-go{opacity:1;transform:translateY(0)}
+  .work:hover .shot img.tall{transform:translateY(calc(-100% + 100cqh));filter:grayscale(0) brightness(1);
+  transition:transform 9s cubic-bezier(.3,.35,.4,.9),filter .5s,opacity .5s ease}
+  h1 .acc:hover::before{opacity:.85;color:#21e6ff;animation:gl1 .5s steps(2) infinite;clip-path:inset(0 0 55% 0)}
+  h1 .acc:hover::after{opacity:.85;color:#ff2e6b;animation:gl2 .5s steps(2) infinite;clip-path:inset(55% 0 0 0)}
 }
 
 /* уважение к prefers-reduced-motion: глушим и css-движение, js гасит своё сам */
@@ -430,17 +455,17 @@ footer .fl a:hover{color:var(--ink)}
   .sub,.cta-row,.facts{opacity:1!important;animation:none!important}
   .reveal{opacity:1!important;transform:none!important}
   .status .pulse::after{animation:none!important}
+  .widx-list a,.formok{animation:none!important}
   .work:hover .shot img.tall{transform:none!important}
   .cursor{display:none}
   .cur-on body,.cur-on a,.cur-on button{cursor:auto}
 }
 
 /* обложка услуги в карточке на главной: фактура за текстом, а не картинка ради картинки */
-.svc .card-bg{position:absolute;inset:0;z-index:0;overflow:hidden;opacity:.72;transition:opacity .45s,transform .6s cubic-bezier(.16,1,.3,1)}
+.svc .card-bg{position:absolute;inset:0;z-index:0;overflow:hidden;opacity:.72;transition:opacity .45s,transform .6s var(--ease-out)}
 .svc .card-bg img{width:100%;height:100%;object-fit:cover;display:block}
 .svc .card-bg::after{content:"";position:absolute;inset:0;
   background:linear-gradient(115deg,rgba(11,11,14,.97) 14%,rgba(11,11,14,.8) 46%,rgba(11,11,14,.42) 100%)}
-.svc .card:hover .card-bg{opacity:1;transform:scale(1.04)}
 .svc .card > .cn,.svc .card > h3,.svc .card > p,.svc .card > .pr,.svc .card > .card-go{position:relative;z-index:1}
 @media (prefers-reduced-motion: reduce){.svc .card-bg{transition:none}.svc .card:hover .card-bg{transform:none}}
 

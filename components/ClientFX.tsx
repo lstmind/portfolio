@@ -152,7 +152,7 @@ export function ClientFX() {
     // ---- custom cursor — прогрессивный энхансмент: cursor:none включается классом
     // на <html> только когда кастомный курсор реально инициализирован
     const cur = document.getElementById("cursor");
-    if (cur && !matchMedia("(max-width:920px)").matches) {
+    if (cur && !reduce && !matchMedia("(max-width:920px)").matches) {
       document.documentElement.classList.add("cur-on");
       cleanups.push(() => document.documentElement.classList.remove("cur-on"));
       let cx = innerWidth / 2, cy = innerHeight / 2, px = cx, py = cy;
@@ -179,34 +179,70 @@ export function ClientFX() {
       });
     }
 
-    // ---- magnetic
-    document.querySelectorAll<HTMLElement>("[data-magnet]").forEach((el) => {
-      const s = 18;
-      const move = (e: PointerEvent) => {
-        const r = el.getBoundingClientRect();
-        const dx = (e.clientX - (r.left + r.width / 2)) / r.width;
-        const dy = (e.clientY - (r.top + r.height / 2)) / r.height;
-        el.style.transform = `translate(${dx * s}px,${dy * s}px)`;
-      };
-      const leave = () => (el.style.transform = "translate(0,0)");
-      el.addEventListener("pointermove", move as EventListener);
-      el.addEventListener("pointerleave", leave);
-      cleanups.push(() => {
-        el.removeEventListener("pointermove", move as EventListener);
-        el.removeEventListener("pointerleave", leave);
+    // ---- magnetic — прямоугольник меряем один раз на входе, а не на каждом движении мыши;
+    // возврат в ноль отдан css (.magnet), пока курсор внутри — transition снят классом pulling
+    if (!reduce) {
+      document.querySelectorAll<HTMLElement>("[data-magnet]").forEach((el) => {
+        const s = 18;
+        let r: DOMRect | null = null;
+        let frame = 0;
+        const enter = () => {
+          r = el.getBoundingClientRect();
+          el.classList.add("pulling");
+        };
+        const move = (e: PointerEvent) => {
+          if (!r) r = el.getBoundingClientRect();
+          const rect = r;
+          if (frame) return;
+          frame = raf(() => {
+            frame = 0;
+            const dx = (e.clientX - (rect.left + rect.width / 2)) / rect.width;
+            const dy = (e.clientY - (rect.top + rect.height / 2)) / rect.height;
+            el.style.transform = `translate(${dx * s}px,${dy * s}px)`;
+          });
+        };
+        const leave = () => {
+          r = null;
+          el.classList.remove("pulling");
+          el.style.transform = "translate(0,0)";
+        };
+        el.addEventListener("pointerenter", enter);
+        el.addEventListener("pointermove", move as EventListener);
+        el.addEventListener("pointerleave", leave);
+        cleanups.push(() => {
+          el.removeEventListener("pointerenter", enter);
+          el.removeEventListener("pointermove", move as EventListener);
+          el.removeEventListener("pointerleave", leave);
+        });
       });
-    });
+    }
 
     // ---- header + progress
+    // высоту документа меряем вне обработчика: чтение scrollHeight на каждом скролле
+    // форсировало layout. полоса едет через scaleX — только композитинг, без layout
     const hdr = document.getElementById("hdr");
     const prog = document.getElementById("prog");
-    on("scroll", () => {
-      hdr?.classList.toggle("solid", scrollY > 40);
-      if (prog) {
-        const h = document.documentElement.scrollHeight - innerHeight;
-        prog.style.width = (scrollY / h) * 100 + "%";
-      }
-    });
+    let docH = Math.max(1, document.documentElement.scrollHeight - innerHeight);
+    const measure = () => {
+      docH = Math.max(1, document.documentElement.scrollHeight - innerHeight);
+    };
+    on("resize", measure);
+    const ro = new ResizeObserver(measure);
+    ro.observe(document.body);
+    cleanups.push(() => ro.disconnect());
+    let ticking = false;
+    const onScroll = () => {
+      if (ticking) return;
+      ticking = true;
+      raf(() => {
+        ticking = false;
+        hdr?.classList.toggle("solid", scrollY > 40);
+        if (prog) prog.style.transform = `scaleX(${Math.min(scrollY / docH, 1)})`;
+      });
+    };
+    window.addEventListener("scroll", onScroll, { passive: true });
+    cleanups.push(() => window.removeEventListener("scroll", onScroll));
+    onScroll();
 
     // ---- scramble + reveal
     const GLY = "АБВГДЕЖЗИКЛМНОПРСТ#%&_/<>*01";
@@ -246,6 +282,14 @@ export function ClientFX() {
     );
     document.querySelectorAll(".reveal").forEach((el) => io.observe(el));
     cleanups.push(() => io.disconnect());
+
+    // ---- бегущие строки крутятся только в кадре: вне вьюпорта композитинг не нужен
+    const loopIO = new IntersectionObserver(
+      (es) => es.forEach((e) => e.target.classList.toggle("vis", e.isIntersecting)),
+      { threshold: 0 }
+    );
+    document.querySelectorAll(".marq, .band").forEach((el) => loopIO.observe(el));
+    cleanups.push(() => loopIO.disconnect());
 
     // ---- back to top
     document.querySelectorAll<HTMLElement>("a[data-top], a[href='#top']").forEach((a) =>
@@ -288,16 +332,34 @@ export function ClientFX() {
       }
     }
 
-    // ---- headline glitch
+    // ---- headline glitch — только пока заголовок в кадре и вкладка активна:
+    // на пятом экране дёргать псевдоэлементы героя незачем
     if (!reduce && h1) {
-      let glTimer: ReturnType<typeof setTimeout>;
+      let glTimer: ReturnType<typeof setTimeout> | undefined;
+      let offTimer: ReturnType<typeof setTimeout> | undefined;
+      let heroOn = true;
       const gloop = () => {
-        h1.classList.add("glitchon");
-        setTimeout(() => h1.classList.remove("glitchon"), 240);
+        if (heroOn && !document.hidden) {
+          h1.classList.add("glitchon");
+          offTimer = setTimeout(() => h1.classList.remove("glitchon"), 240);
+        }
         glTimer = setTimeout(gloop, 2800 + ((Math.random() * 2800) | 0));
       };
+      const heroIO = new IntersectionObserver(
+        (es) =>
+          es.forEach((e) => {
+            heroOn = e.isIntersecting;
+            if (!heroOn) h1.classList.remove("glitchon");
+          }),
+        { threshold: 0.2 }
+      );
+      heroIO.observe(h1);
       gloop();
-      cleanups.push(() => clearTimeout(glTimer));
+      cleanups.push(() => {
+        clearTimeout(glTimer);
+        clearTimeout(offTimer);
+        heroIO.disconnect();
+      });
     }
 
     // ---- пасхалка для тех, кто открыл консоль
