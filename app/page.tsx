@@ -12,6 +12,7 @@ import {
   MARQUEE,
   PAIN,
   SERVICES,
+  MORE_SERVICES,
   PROCESS,
   BAND,
   REVIEWS,
@@ -286,10 +287,19 @@ export default async function Home() {
             ))}
           </div>
           <p className="svc-industries reveal">
+            Ещё делаю:{" "}
+            {MORE_SERVICES.map((x, i) => (
+              <span key={x.slug}>
+                <a href={`/uslugi/${x.slug}`}>{x.label}</a>
+                {i < MORE_SERVICES.length - 1 ? ", " : "."}
+              </span>
+            ))}
+          </p>
+          <p className="svc-industries reveal">
             Отдельно расписал, как устроен сайт в конкретных нишах:{" "}
             {INDUSTRY_PAGES.map((x, i) => (
               <span key={x.slug}>
-                <a href={`/dlya/${x.slug}`}>{x.h1.replace("Сайт для ", "")}</a>
+                <a href={`/dlya/${x.slug}`}>{x.nav}</a>
                 {i < INDUSTRY_PAGES.length - 1 ? ", " : "."}
               </span>
             ))}

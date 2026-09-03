@@ -60,7 +60,7 @@ export default async function IndustryPageView({ params }: { params: Promise<{ s
         description: ind.answer,
         url: `${SITE.url}/dlya/${ind.slug}`,
         serviceType: "Разработка сайтов",
-        audience: { "@type": "BusinessAudience", name: ind.h1.replace("Сайт для ", "") },
+        audience: { "@type": "BusinessAudience", name: ind.nav },
         areaServed: [
           { "@type": "City", name: "Москва" },
           { "@type": "Country", name: "Россия" },

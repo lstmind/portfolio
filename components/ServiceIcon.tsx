@@ -21,6 +21,24 @@ const PATHS: Record<string, React.ReactNode> = {
     </>
   ),
   migrate: <path d="M4 8h13l-3-3M20 16H7l3 3" />,
+  bot: (
+    <>
+      <rect x="4" y="7" width="16" height="12" rx="2" />
+      <path d="M12 4v3M8.5 12h.01M15.5 12h.01M9 16h6" />
+    </>
+  ),
+  panel: (
+    <>
+      <rect x="3" y="4" width="18" height="16" rx="1.5" />
+      <path d="M3 9h18M9 9v11" />
+    </>
+  ),
+  search: (
+    <>
+      <circle cx="11" cy="11" r="6" />
+      <path d="M15.5 15.5 21 21" />
+    </>
+  ),
 };
 
 export function ServiceIcon({ name }: { name: string }) {

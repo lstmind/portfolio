@@ -45,7 +45,14 @@ export default async function ServicePageView({ params }: { params: Promise<{ sl
     })
     .filter(Boolean) as { c: (typeof CASE_PAGES)[number]; w: (typeof WORKS)[number] }[];
 
-  const others = SERVICE_PAGES.filter((x) => x.slug !== s.slug);
+  // сначала близкие услуги, дальше добираем остальными: список из шестнадцати ссылок никто не читает
+  const related = (s.related ?? [])
+    .map((x) => SERVICE_PAGES.find((y) => y.slug === x))
+    .filter(Boolean) as ServicePage[];
+  const others = [
+    ...related,
+    ...SERVICE_PAGES.filter((x) => x.slug !== s.slug && !related.some((r) => r.slug === x.slug)),
+  ].slice(0, 6);
   // страница-хаб разводит общий запрос по типам сайтов, чтобы они не конкурировали друг с другом
   const hub = (s.hub ?? [])
     .map((x) => SERVICE_PAGES.find((y) => y.slug === x))
