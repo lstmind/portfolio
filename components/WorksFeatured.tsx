@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { WORKS, plural } from "@/lib/content";
+import { WORKS, plural, shotSrcSet, SHOT_W } from "@/lib/content";
 import { CASE_PAGES } from "@/lib/cases";
 
 /** сколько карточек показываем сразу — остальные по кнопке, чтобы страница не растягивалась */
@@ -32,7 +32,8 @@ export function WorksFeatured() {
     const conn = (navigator as Navigator & { connection?: { saveData?: boolean; effectiveType?: string } }).connection;
     const slow = conn?.saveData || /2g/.test(conn?.effectiveType || "");
     if (matchMedia("(pointer: fine)").matches && !slow) {
-      const warm = () => WORKS.forEach((w) => { new window.Image().src = w.imgTall.replace(/\.jpg$/, ".webp"); });
+      // греем ровно тот размер, который лента и показывает: большой нужен только странице кейса
+      const warm = () => WORKS.forEach((w) => { new window.Image().src = w.imgTall.replace(/\.jpg$/, "-760.webp"); });
       const w = window as Window & { requestIdleCallback?: (cb: () => void, o?: { timeout: number }) => number };
       if (w.requestIdleCallback) w.requestIdleCallback(warm, { timeout: 2500 });
       else setTimeout(warm, 1200);
@@ -71,15 +72,15 @@ export function WorksFeatured() {
             <picture>
               <source
                 type="image/webp"
-                srcSet={`${w.imgTall.replace(/\.jpg$/, "")}-400.webp 400w, ${w.imgTall.replace(/\.jpg$/, "")}.webp ${w.imgTallW ?? 760}w`}
-                sizes={`(max-width:920px) 100vw, ${w.imgTallW ?? 560}px`}
+                srcSet={shotSrcSet(w.imgTall)}
+                sizes="(max-width:920px) 100vw, 560px"
               />
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 className="tall"
                 src={w.imgTall}
                 alt={w.alt}
-                width={w.imgTallW ?? 760}
+                width={SHOT_W}
                 height={w.imgTallH}
                 loading="lazy"
                 decoding="async"

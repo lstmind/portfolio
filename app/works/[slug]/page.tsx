@@ -3,7 +3,7 @@ import { notFound } from "next/navigation";
 import { Crumbs, PageCta, PageFooter, PageHeader } from "@/components/PageChrome";
 import { CASE_PAGES, caseBySlug } from "@/lib/cases";
 import { SERVICE_PAGES } from "@/lib/services";
-import { SITE, WORKS } from "@/lib/content";
+import { SITE, WORKS, shotSrcSet, SHOT_W } from "@/lib/content";
 
 export function generateStaticParams() {
   return CASE_PAGES.map((c) => ({ slug: c.slug }));
@@ -103,20 +103,20 @@ export default async function CasePageView({ params }: { params: Promise<{ slug:
               {/* webp вдвое легче jpg на таких длинных лентах — отдаём его всем, кто умеет */}
               <source
                 type="image/webp"
-                srcSet={`${w.imgTall.replace(/\.jpg$/, "")}-400.webp 400w, ${w.imgTall.replace(/\.jpg$/, "")}.webp ${w.imgTallW ?? 760}w`}
+                srcSet={shotSrcSet(w.imgTall)}
                 sizes="(max-width: 920px) 100vw, 1128px"
               />
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src={w.imgTall}
                 alt={w.alt}
-                width={w.imgTallW ?? 760}
+                width={SHOT_W}
                 height={w.imgTallH}
                 loading="eager"
                 decoding="async"
               />
             </picture>
-            <figcaption className="mono">Полная страница сайта {w.title}</figcaption>
+            <figcaption className="mono">Сайт {w.title} с прокруткой</figcaption>
           </figure>
 
           <div className="doc-grid">
