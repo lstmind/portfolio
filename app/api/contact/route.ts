@@ -3,7 +3,15 @@ import { NextResponse } from "next/server";
 export const runtime = "nodejs";
 
 export async function POST(req: Request) {
-  let body: { name?: string; contact?: string; task?: string; company?: string };
+  let body: {
+    name?: string;
+    contact?: string;
+    task?: string;
+    company?: string;
+    budget?: string;
+    page?: string;
+    from?: string;
+  };
   try {
     body = await req.json();
   } catch {
@@ -28,11 +36,18 @@ export async function POST(req: Request) {
     return NextResponse.json({ ok: false, error: "not configured" }, { status: 500 });
   }
 
+  // страница и источник: без них не понять, какие страницы реально приносят заявки
+  const budget = (body.budget || "").toString().slice(0, 60).trim();
+  const page = (body.page || "").toString().slice(0, 200).trim();
+  const from = (body.from || "").toString().slice(0, 200).trim();
+
   const text =
     `🔥 Новая заявка с сайта\n\n` +
     `👤 Имя: ${name}\n` +
     `📨 Контакт: ${contact}\n` +
-    (task ? `📝 Задача: ${task}\n` : "");
+    (task ? `📝 Задача: ${task}\n` : "") +
+    (page ? `📄 Страница: ${page}\n` : "") +
+    (from ? `↩️ Источник: ${from}\n` : "");
 
   try {
     const res = await fetch(`https://api.telegram.org/bot${token}/sendMessage`, {

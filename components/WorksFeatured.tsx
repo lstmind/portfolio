@@ -32,8 +32,10 @@ export function WorksFeatured() {
     const conn = (navigator as Navigator & { connection?: { saveData?: boolean; effectiveType?: string } }).connection;
     const slow = conn?.saveData || /2g/.test(conn?.effectiveType || "");
     if (matchMedia("(pointer: fine)").matches && !slow) {
-      // греем ровно тот размер, который лента и показывает: большой нужен только странице кейса
-      const warm = () => WORKS.forEach((w) => { new window.Image().src = w.imgTall.replace(/\.jpg$/, "-760.webp"); });
+      // греем ровно тот файл, который возьмёт этот экран: на ретине браузер выберет 1128,
+      // и прогрев 760-го был бы лишней закачкой мимо кэша
+      const px = devicePixelRatio > 1.5 ? "-1128.webp" : "-760.webp";
+      const warm = () => WORKS.forEach((w) => { new window.Image().src = w.imgTall.replace(/\.jpg$/, px); });
       const w = window as Window & { requestIdleCallback?: (cb: () => void, o?: { timeout: number }) => number };
       if (w.requestIdleCallback) w.requestIdleCallback(warm, { timeout: 2500 });
       else setTimeout(warm, 1200);
@@ -73,7 +75,7 @@ export function WorksFeatured() {
               <source
                 type="image/webp"
                 srcSet={shotSrcSet(w.imgTall)}
-                sizes="(max-width:920px) 100vw, 560px"
+                sizes="(max-width:920px) 100vw, (max-width:1280px) 46vw, 560px"
               />
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img

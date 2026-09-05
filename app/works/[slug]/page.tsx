@@ -24,7 +24,14 @@ export async function generateMetadata({
     openGraph: {
       type: "article",
       locale: "ru_RU",
+      siteName: SITE.ogName,
       url: `${SITE.url}/works/${c.slug}`,
+      title: c.metaTitle,
+      description: c.metaDescription,
+    },
+    // без своего twitter-блока карточка наследует заголовок главной и врёт про страницу
+    twitter: {
+      card: "summary_large_image",
       title: c.metaTitle,
       description: c.metaDescription,
     },
@@ -42,7 +49,11 @@ export default async function CasePageView({ params }: { params: Promise<{ slug:
     .map((s) => SERVICE_PAGES.find((x) => x.slug === s))
     .filter(Boolean) as (typeof SERVICE_PAGES)[number][];
 
-  const next = CASE_PAGES.filter((x) => x.slug !== c.slug).slice(0, 3);
+  // сдвигаем окно от текущего кейса, чтобы ссылки расходились по всем страницам,
+  // а не копились на первых трёх
+  const pos = CASE_PAGES.findIndex((x) => x.slug === c.slug);
+  const ring = [...CASE_PAGES.slice(pos + 1), ...CASE_PAGES.slice(0, pos)];
+  const next = ring.slice(0, 3);
   const host = c.href.replace(/^https?:\/\/(www\.)?/, "").replace(/\/+$/, "");
 
   const ld = {
@@ -54,17 +65,13 @@ export default async function CasePageView({ params }: { params: Promise<{ slug:
         headline: c.metaTitle,
         description: c.answer,
         url: `${SITE.url}/works/${c.slug}`,
-        image: `${SITE.url}${w.imgTall}`,
+        // превью 760x471, а не лента во всю страницу: поисковику нужна картинка,
+        // которую можно показать в выдаче, а не полотно в мегабайт
+        image: `${SITE.url}/img/prev/${c.slug}.webp`,
         inLanguage: "ru",
-        about: w.kind,
+        about: { "@type": "Thing", name: w.kind },
+        creator: { "@id": `${SITE.url}#person` },
         keywords: w.stack.join(", "),
-        creator: {
-          "@type": "Person",
-          name: SITE.person,
-          alternateName: SITE.name,
-          url: SITE.url,
-          jobTitle: "Веб-разработчик",
-        },
         mainEntityOfPage: `${SITE.url}/works/${c.slug}`,
         sameAs: c.href,
       },
@@ -72,7 +79,7 @@ export default async function CasePageView({ params }: { params: Promise<{ slug:
         "@type": "BreadcrumbList",
         itemListElement: [
           { "@type": "ListItem", position: 1, name: "Главная", item: SITE.url },
-          { "@type": "ListItem", position: 2, name: "Работы", item: `${SITE.url}/#works` },
+          { "@type": "ListItem", position: 2, name: "Работы", item: `${SITE.url}/works` },
           { "@type": "ListItem", position: 3, name: w.title, item: `${SITE.url}/works/${c.slug}` },
         ],
       },
@@ -89,7 +96,7 @@ export default async function CasePageView({ params }: { params: Promise<{ slug:
           <Crumbs
             items={[
               { name: "Главная", href: "/" },
-              { name: "Работы", href: "/#works" },
+              { name: "Работы", href: "/works" },
               { name: w.title },
             ]}
           />

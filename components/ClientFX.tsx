@@ -1,9 +1,14 @@
 "use client";
 
+import { usePathname } from "next/navigation";
+
 import { useEffect } from "react";
 import Lenis from "lenis";
 
 export function ClientFX() {
+  // сплэш нужен только на главной: на страницах из поиска он лишний экран между
+  // человеком и ответом, за которым он пришёл
+  const isHome = usePathname() === "/";
   useEffect(() => {
     const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
     const rafs: number[] = [];
@@ -380,6 +385,7 @@ export function ClientFX() {
       <canvas id="gl" />
       <div className="grain" />
       <div className="progress" id="prog" />
+      {isHome && (
       <div className="pre" id="pre">
         <div className="ptag mono">ЗАГРУЗКА ПОРТФОЛИО</div>
         <div className="pcount mono" id="pcount">
@@ -391,6 +397,7 @@ export function ClientFX() {
         <div className="psub mono">Алексей — веб-разработчик · сайты, которые работают</div>
         <div className="pbar" id="pbar" />
       </div>
+      )}
       <div className="cursor" id="cursor" />
     </>
   );

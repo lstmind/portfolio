@@ -31,6 +31,10 @@ export function ContactForm() {
           name: data.get("name"),
           contact: data.get("contact"),
           task: data.get("task"),
+          // с какой страницы и откуда пришёл: без этого не понять, какие страницы приносят заявки
+          budget: data.get("budget"),
+          page: location.pathname + location.search,
+          from: document.referrer || "",
         }),
       });
       if (!res.ok) throw new Error("bad");
@@ -69,22 +73,44 @@ export function ContactForm() {
       </div>
       <div className="field">
         <label htmlFor="cf-task">Что нужно сделать</label>
-        <textarea id="cf-task" name="task" placeholder="Пара слов о задаче — новый сайт, доработка, магазин, ускорение..." />
+        <textarea
+          id="cf-task"
+          name="task"
+          placeholder="Своими словами: новый сайт, доработка, магазин, ускорение. Ссылку на сайт тоже кидай, если он есть"
+        />
+      </div>
+      <div className="field">
+        <label htmlFor="cf-budget">Бюджет</label>
+        <select id="cf-budget" name="budget" defaultValue="">
+          <option value="">пока не знаю</option>
+          <option value="до 15 000 ₽">до 15 000 ₽</option>
+          <option value="15–35 000 ₽">15–35 000 ₽</option>
+          <option value="35–100 000 ₽">35–100 000 ₽</option>
+          <option value="больше 100 000 ₽">больше 100 000 ₽</option>
+        </select>
+        <small className="fieldnote">Цифра не финальная — нужна, чтобы не оценить мимо.</small>
       </div>
       <button className="submit" data-cursor data-magnet disabled={status === "sending"}>
-        {status === "sending" ? "Отправляю…" : "Отправить заявку →"}
+        {status === "sending" ? "Отправляю…" : "Получить оценку задачи →"}
       </button>
-      {status === "ok" && <div className="formok">Заявка ушла — отвечу в течение часа. Спасибо!</div>}
+      {status === "ok" && (
+        <div className="formok">
+          Дошло. Читаю и отвечаю сам, других людей тут нет — обычно в течение часа.
+        </div>
+      )}
       {status === "error" && (
         <div className="formok">
-          Не отправилось. Напишите напрямую в{" "}
+          Не отправилось — текст из поля никуда не делся, его можно скопировать. Напиши напрямую в{" "}
           <a href="https://t.me/lstmind" style={{ borderBottom: "1px solid currentColor" }}>
             Telegram
           </a>
           .
         </div>
       )}
-      <div className="formnote">Заявка придёт мне в Telegram. Без спама и рассылок.</div>
+      <div className="formnote">
+        Отвечаю сам, обычно в течение часа. Скажу, как это собрать, сколько стоит и сколько займёт.
+        Если задача не моя — скажу прямо и подскажу, к кому идти.
+      </div>
     </form>
   );
 }

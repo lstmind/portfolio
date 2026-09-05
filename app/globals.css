@@ -87,6 +87,7 @@ h1.glitchon .acc::after{opacity:.85;color:#ff2e6b;animation:gl2 .5s steps(2) inf
 .sub b{color:var(--ink);font-weight:600}
 @keyframes fade{to{opacity:1}}
 .cta-row{margin-top:38px;display:flex;align-items:center;gap:26px;flex-wrap:wrap;opacity:0;animation:fade 1s var(--ease-out) .68s forwards}
+.cta-note{margin-top:16px;font-size:12px;color:var(--mut);letter-spacing:.04em;opacity:0;animation:fade 1s var(--ease-out) .78s forwards}
 .magnet{position:relative;display:inline-flex;align-items:center;gap:11px;background:var(--accBtn);color:#fff;padding:18px 32px;font-weight:700;font-size:16px;overflow:hidden;transition:transform .4s var(--ease-out)}
 /* пока курсор внутри — следуем за ним мгновенно; отпустили — возврат едет плавно */
 .magnet.pulling{transition:none;will-change:transform}
@@ -349,8 +350,11 @@ section.contact{position:relative;z-index:4;background:var(--bg2);padding:130px 
 .contact .direct a .pull{margin-left:auto;font-size:12px;color:var(--mut)}
 form{display:flex;flex-direction:column;gap:18px}
 .field label{font-family:var(--font-mono);font-size:11.5px;letter-spacing:.05em;color:var(--mut);text-transform:uppercase;display:block;margin-bottom:9px}
-.field input,.field textarea{width:100%;background:var(--bg);border:1px solid var(--line);color:var(--ink);font-family:var(--font-sans);font-size:15px;padding:15px 16px;transition:border-color .25s}
-.field input:focus,.field textarea:focus{outline:none;border-color:var(--acc)}
+.field input,.field textarea,.field select{width:100%;background:var(--bg);border:1px solid var(--line);color:var(--ink);font-family:var(--font-sans);font-size:15px;padding:15px 16px;transition:border-color .25s}
+.field input:focus,.field textarea:focus,.field select:focus{outline:none;border-color:var(--acc)}
+.field select{appearance:none;cursor:pointer;background-image:linear-gradient(45deg,transparent 50%,var(--mut) 50%),linear-gradient(135deg,var(--mut) 50%,transparent 50%);background-position:calc(100% - 19px) 22px,calc(100% - 14px) 22px;background-size:5px 5px,5px 5px;background-repeat:no-repeat}
+.field select option{background:var(--bg2);color:var(--ink)}
+.fieldnote{display:block;margin-top:8px;font-family:var(--font-mono);font-size:11px;color:var(--mut);letter-spacing:.03em}
 .field textarea{resize:vertical;min-height:104px}
 .hp{position:absolute;left:-9999px}
 form .submit{position:relative;overflow:hidden;margin-top:6px;background:var(--accBtn);color:#fff;border:0;padding:18px;font-family:var(--font-sans);font-weight:700;font-size:15.5px;cursor:pointer;transition:opacity .25s}
@@ -378,6 +382,9 @@ footer .fl a:hover{color:var(--ink)}
 .nf-title{font-family:var(--font-unbounded);font-weight:900;font-size:clamp(52px,11vw,170px);line-height:.94;letter-spacing:-.05em}
 .nf-title .acc{color:var(--acc)}
 .nf-sub{margin-top:26px;font-size:17px;line-height:1.6;color:#BEBCB6;max-width:46ch}
+.nf-links{margin-top:26px;font-size:13px;color:var(--mut);letter-spacing:.04em}
+.nf-links a{color:var(--mut);border-bottom:1px solid rgba(255,255,255,.18)}
+.nf-links a:hover{color:var(--ink);border-color:var(--acc)}
 .fclock{color:var(--mut)}
 
 .cursor{position:fixed;top:0;left:0;width:0;height:0;z-index:90;pointer-events:none;mix-blend-mode:difference}
@@ -460,7 +467,7 @@ footer .fl a:hover{color:var(--ink)}
   *,::before,::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.15s!important}
   .marq .track,.band .bt,.work .shot img.tall.auto{animation:none!important}
   h1 .ln i{transform:none!important;animation:none!important}
-  .sub,.cta-row,.facts{opacity:1!important;animation:none!important}
+  .sub,.cta-row,.cta-note,.facts{opacity:1!important;animation:none!important}
   .reveal{opacity:1!important;transform:none!important}
   .status .pulse::after{animation:none!important}
   .widx-list a,.formok{animation:none!important}

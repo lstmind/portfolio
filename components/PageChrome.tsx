@@ -1,6 +1,7 @@
 import { SITE, STATUS } from "@/lib/content";
 
-/** Шапка внутренних страниц: тот же язык, что на главной, но все ссылки ведут на неё. */
+/** Шапка внутренних страниц: ведёт в разделы, а не в якоря главной — иначе с внутренней
+ * страницы человек всегда возвращался в начало и терял, где был. */
 export function PageHeader() {
   return (
     <header className="doc-hdr">
@@ -10,11 +11,14 @@ export function PageHeader() {
           {SITE.name}
         </a>
         <div className="nav-r">
-          <a className="l" href="/#services">
+          <a className="l" href="/uslugi">
             Услуги
           </a>
-          <a className="l" href="/#works">
+          <a className="l" href="/works">
             Работы
+          </a>
+          <a className="l" href="/dlya">
+            Ниши
           </a>
           <a className="l" href="/#calc">
             Цена

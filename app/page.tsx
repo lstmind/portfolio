@@ -13,6 +13,7 @@ import {
   PAIN,
   SERVICES,
   MORE_SERVICES,
+  NOT_DOING,
   PROCESS,
   BAND,
   REVIEWS,
@@ -58,6 +59,7 @@ export default async function Home() {
   const ratingLd = {
     "@context": "https://schema.org",
     "@type": "ProfessionalService",
+    "@id": `${SITE.url}#service`,
     name: "lstmind — веб-разработчик Алексей",
     url: SITE.url,
     image: `${SITE.url}/img/alex-portrait.png`,
@@ -71,7 +73,16 @@ export default async function Home() {
       { "@type": "Country", name: "Россия" },
     ],
     knowsLanguage: "ru",
-    founder: { "@type": "Person", name: SITE.person, alternateName: SITE.name, url: SITE.url },
+    founder: { "@id": `${SITE.url}#person` },
+    provider: { "@id": `${SITE.url}#person` },
+    address: { "@type": "PostalAddress", addressLocality: "Москва", addressCountry: "RU" },
+    contactPoint: {
+      "@type": "ContactPoint",
+      contactType: "customer service",
+      email: SITE.email,
+      url: SITE.telegram,
+      availableLanguage: "ru",
+    },
     sameAs: [SITE.telegram, SITE.kwork, SITE.github],
     hasOfferCatalog: {
       "@type": "OfferCatalog",
@@ -85,25 +96,16 @@ export default async function Home() {
                 "@type": "PriceSpecification",
                 minPrice: s.priceFrom,
                 priceCurrency: "RUB",
-                valueAddedTaxIncluded: true,
+                valueAddedTaxIncluded: false,
                 description: `от ${s.priceFrom} ₽ за ${s.priceUnit}`,
               },
             }
           : {}),
       })),
     },
-    aggregateRating: {
-      "@type": "AggregateRating",
-      ratingValue: "5.0",
-      bestRating: "5",
-      reviewCount: reviewsCount,
-    },
-    review: REVIEWS.slice(0, 4).map((r) => ({
-      "@type": "Review",
-      author: { "@type": "Person", name: r.name },
-      reviewBody: r.text,
-      reviewRating: { "@type": "Rating", ratingValue: "5", bestRating: "5" },
-    })),
+    // рейтинг и отзывы о себе на своём же сайте поисковики не принимают: для них это
+    // self-serving разметка, за которую прилетает не звёздочка, а ручная санкция.
+    // сами отзывы остаются в видимом тексте со ссылкой на профиль, где их можно проверить.
   };
   const faqLd = {
     "@context": "https://schema.org",
@@ -166,18 +168,21 @@ export default async function Home() {
             </span>
           </h1>
           <p className="sub">
-            Я разработчик, а не сборщик шаблонов на коленке. Собираю с нуля и спасаю чужое:{" "}
-            <b>чистый код, скорость, ноль «почти работает»</b>. Сайт, который не стыдно пустить в рекламу и
-            показать клиенту.
+            Собираю сайты с нуля и спасаю чужие. Работаю один: <b>с кем переписываешься, тот и пишет
+            код</b> — без менеджеров и передачи по цепочке. От 15 000 ₽, срок от недели, самозанятый:
+            договор и чек.
           </p>
           <div className="cta-row">
             <a className="magnet" href="#contact" data-cursor data-magnet>
-              <span className="lab">Обсудить проект →</span>
+              <span className="lab">Получить оценку задачи →</span>
             </a>
             <a className="ghost" href="#works" data-cursor>
               Сначала покажи работы <span className="ar">↘</span>
             </a>
           </div>
+          <p className="cta-note mono">
+            разбор задачи бесплатный · отвечаю в течение часа · не возьмусь — скажу сразу
+          </p>
           <div className="facts mono">
             {FACTS.map((f, i) => (
               <div key={i} style={{ display: "contents" }}>
@@ -296,6 +301,17 @@ export default async function Home() {
             ))}
           </p>
           <p className="svc-industries reveal">
+            «Сайты любой сложности» не делает никто, включая меня. Мимо меня:{" "}
+            {NOT_DOING.map((n, i) => (
+              <span key={n.what}>
+                {n.short}
+                {i < NOT_DOING.length - 1 ? ", " : ". "}
+              </span>
+            ))}
+            Скажу об этом в первом же ответе, а не после предоплаты —{" "}
+            <a href="/uslugi">весь список с ценами тут</a>.
+          </p>
+          <p className="svc-industries reveal">
             Отдельно расписал, как устроен сайт в конкретных нишах:{" "}
             {INDUSTRY_PAGES.map((x, i) => (
               <span key={x.slug}>
@@ -338,7 +354,7 @@ export default async function Home() {
             </h2>
             <p className="lead">
               Без пинг-понга между подрядчиками и без «ой, это считается отдельно». Пять шагов от задачи до
-              рабочего сайта.
+              рабочего сайта — и на каждом видно, за что платишь.
             </p>
           </div>
           <figure className="proc-shot reveal">
@@ -388,8 +404,8 @@ export default async function Home() {
               </h2>
             </div>
             <p className="lead">
-              Открой любой в новой вкладке и потыкай руками — это рабочие коммерческие проекты в проде, а не
-              картинки.
+              Открой любой в новой вкладке и потыкай руками — всё работает прямо сейчас. Клиентские
+              проекты в проде и мои демо, где видно, что я умею, когда никто не ограничивает.
             </p>
           </div>
           <WorksFeatured />
@@ -457,6 +473,12 @@ export default async function Home() {
                 Берусь за то, с чего другие исполнители слились. Этот сайт тоже собрал сам — он мой
                 главный кейс.
               </p>
+              <p className="lead">
+                В студии платят за офис и менеджера, который пересказывает мои слова разработчику.
+                Здесь платят только за работу. Чтобы я при этом не выглядел анонимным исполнителем из
+                чата: договор и чек как самозанятый, код части проектов открыт на GitHub, а каждую
+                работу ниже можно открыть и потыкать.
+              </p>
               <div className="about-meta mono">
                 <span>Москва и вся Россия · удалённо</span>
                 <span>самозанятый · чек и договор</span>
@@ -465,7 +487,16 @@ export default async function Home() {
             </div>
             <figure className="about-photo">
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src="/img/alex-portrait.png" alt="Алексей — веб-разработчик" width={760} height={805} loading="lazy" decoding="async" />
+              <img
+                src="/img/alex-portrait.png"
+                srcSet="/img/alex-portrait-380.webp 380w, /img/alex-portrait.png 760w"
+                sizes="(max-width: 900px) 340px, 380px"
+                alt="Алексей — веб-разработчик"
+                width={760}
+                height={805}
+                loading="lazy"
+                decoding="async"
+              />
               <figcaption className="mono">Алексей · lstmind · Россия, работаю удалённо</figcaption>
             </figure>
           </div>
@@ -512,8 +543,9 @@ export default async function Home() {
               Расскажи <span className="acc">задачу</span>
             </h2>
             <p className="note">
-              Опиши в двух словах, что нужно — отвечу в течение часа и скажу честно, что стоит сделать и
-              сколько. Консультация бесплатная, без обязательств.
+              Опиши в двух словах, что нужно. В ответ скажу, как это собрать, сколько будет стоить и
+              сколько займёт. В телеграме отвечаю я сам: ни бота, ни менеджера тут нет. Заказывать
+              после этого не обязательно.
             </p>
             <div className="direct mono">
               <a href={SITE.telegram} target="_blank" rel="noopener noreferrer" data-cursor data-magnet>

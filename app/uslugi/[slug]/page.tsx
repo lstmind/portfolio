@@ -4,7 +4,7 @@ import { Crumbs, PageCta, PageFooter, PageHeader } from "@/components/PageChrome
 import { SERVICE_PAGES, serviceBySlug, type ServicePage } from "@/lib/services";
 import { CASE_PAGES } from "@/lib/cases";
 import { INDUSTRY_PAGES } from "@/lib/industries";
-import { SITE, WORKS, PROCESS, REVIEWS } from "@/lib/content";
+import { SITE, WORKS, PROCESS, REVIEWS, priceNumber } from "@/lib/content";
 
 export function generateStaticParams() {
   return SERVICE_PAGES.map((s) => ({ slug: s.slug }));
@@ -25,7 +25,14 @@ export async function generateMetadata({
     openGraph: {
       type: "article",
       locale: "ru_RU",
+      siteName: SITE.ogName,
       url: `${SITE.url}/uslugi/${s.slug}`,
+      title: s.metaTitle,
+      description: s.metaDescription,
+    },
+    // без своего twitter-блока карточка наследует заголовок главной и врёт про страницу
+    twitter: {
+      card: "summary_large_image",
       title: s.metaTitle,
       description: s.metaDescription,
     },
@@ -49,9 +56,13 @@ export default async function ServicePageView({ params }: { params: Promise<{ sl
   const related = (s.related ?? [])
     .map((x) => SERVICE_PAGES.find((y) => y.slug === x))
     .filter(Boolean) as ServicePage[];
+  const pos = SERVICE_PAGES.findIndex((x) => x.slug === s.slug);
+  const ring = [...SERVICE_PAGES.slice(pos + 1), ...SERVICE_PAGES.slice(0, pos)];
   const others = [
     ...related,
-    ...SERVICE_PAGES.filter((x) => x.slug !== s.slug && !related.some((r) => r.slug === x.slug)),
+    // добираем не с начала списка, а по кругу от текущей: иначе одни и те же
+    // шесть услуг собирают ссылки со всех страниц раздела
+    ...ring.filter((x) => x.slug !== s.slug && !related.some((r) => r.slug === x.slug)),
   ].slice(0, 6);
   // страница-хаб разводит общий запрос по типам сайтов, чтобы они не конкурировали друг с другом
   const hub = (s.hub ?? [])
@@ -71,17 +82,23 @@ export default async function ServicePageView({ params }: { params: Promise<{ sl
           { "@type": "City", name: "Москва" },
           { "@type": "Country", name: "Россия" },
         ],
-        provider: {
-          "@type": "Person",
-          name: SITE.person,
-          alternateName: SITE.name,
-          url: SITE.url,
-          jobTitle: "Веб-разработчик",
-          sameAs: [SITE.telegram, SITE.kwork, SITE.github],
-        },
+        provider: { "@id": `${SITE.url}#person` },
         offers: {
           "@type": "Offer",
           priceCurrency: "RUB",
+          // цена числом, иначе поисковик Offer не читает и в выдаче её не показывает
+          ...(priceNumber(s.price.value) !== null
+            ? {
+                price: priceNumber(s.price.value),
+                priceSpecification: {
+                  "@type": "PriceSpecification",
+                  priceCurrency: "RUB",
+                  minPrice: priceNumber(s.price.value),
+                  valueAddedTaxIncluded: false,
+                },
+              }
+            : {}),
+          url: `${SITE.url}/uslugi/${s.slug}`,
           description: `${s.price.value} · ${s.price.note}`,
           availability: "https://schema.org/InStock",
         },
@@ -98,7 +115,7 @@ export default async function ServicePageView({ params }: { params: Promise<{ sl
         "@type": "BreadcrumbList",
         itemListElement: [
           { "@type": "ListItem", position: 1, name: "Главная", item: SITE.url },
-          { "@type": "ListItem", position: 2, name: "Услуги", item: `${SITE.url}/#services` },
+          { "@type": "ListItem", position: 2, name: "Услуги", item: `${SITE.url}/uslugi` },
           { "@type": "ListItem", position: 3, name: s.h1, item: `${SITE.url}/uslugi/${s.slug}` },
         ],
       },
@@ -115,7 +132,7 @@ export default async function ServicePageView({ params }: { params: Promise<{ sl
           <Crumbs
             items={[
               { name: "Главная", href: "/" },
-              { name: "Услуги", href: "/#services" },
+              { name: "Услуги", href: "/uslugi" },
               { name: s.h1 },
             ]}
           />
@@ -133,6 +150,7 @@ export default async function ServicePageView({ params }: { params: Promise<{ sl
               width={1440}
               height={960}
               loading="eager"
+              fetchPriority="high"
               decoding="async"
             />
           </figure>

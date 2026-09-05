@@ -29,9 +29,10 @@ const manrope = Manrope({
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE.url),
-  title: "Алексей (lstmind) — веб-разработчик в Москве. Сайты под ключ, починю чужой сайт",
+  // запрос впереди, бренд в хвост: в выдаче видно первые ~60 знаков, и имя там ничего не ловит
+  title: "Веб-разработчик в Москве: сайты под ключ, ремонт чужих | lstmind",
   description:
-    "Фриланс веб-разработчик: сайты под ключ, интернет-магазины, спасение и ускорение чужих сайтов. Москва и вся Россия удалённо. WordPress, Tilda, чистая вёрстка. Работаю на копии, с бэкапом. Рейтинг 5.0 на Kwork.",
+    "Фриланс веб-разработчик: сайты под ключ, магазины, боты и админки, спасение и ускорение чужих сайтов. Москва и вся Россия удалённо. Рейтинг 5.0 на Kwork.",
   keywords: [
     "веб-разработчик",
     "сайт под ключ",
@@ -43,6 +44,10 @@ export const metadata: Metadata = {
     "woocommerce",
     "вёрстка по figma",
     "ускорение сайта",
+    "телеграм-бот",
+    "админка и crm",
+    "парсер",
+    "техническое seo",
     "фрилансер",
   ],
   authors: [{ name: "Алексей (lstmind)" }],
@@ -75,22 +80,71 @@ export const viewport: Viewport = {
   viewportFit: "cover",
 };
 
+/**
+ * Один граф на весь сайт: сущности связаны через @id, чтобы поисковик видел
+ * одного человека, а не три разных описания на трёх страницах. Person здесь
+ * канонический, остальные страницы ссылаются на него по `${SITE.url}#person`.
+ */
 const jsonLd = {
   "@context": "https://schema.org",
-  "@type": "Person",
-  name: "Алексей",
-  alternateName: "lstmind",
-  jobTitle: "Веб-разработчик",
-  url: SITE.url,
-  email: SITE.email,
-  sameAs: [SITE.telegram, SITE.kwork, SITE.github],
-  knowsAbout: ["WordPress", "WooCommerce", "Tilda", "JavaScript", "PHP", "Figma", "Вёрстка"],
-  address: { "@type": "PostalAddress", addressLocality: "Москва", addressCountry: "RU" },
-  workLocation: { "@type": "Place", name: "Москва и вся Россия — удалённо" },
-  makesOffer: {
-    "@type": "Offer",
-    itemOffered: { "@type": "Service", name: "Разработка сайтов под ключ" },
-  },
+  "@graph": [
+    {
+      "@type": "Person",
+      "@id": `${SITE.url}#person`,
+      name: "Алексей",
+      alternateName: "lstmind",
+      jobTitle: "Веб-разработчик",
+      description:
+        "Фриланс веб-разработчик: сайты под ключ, интернет-магазины, телеграм-боты, админки и CRM, починка и ускорение чужих сайтов.",
+      url: SITE.url,
+      email: SITE.email,
+      image: `${SITE.url}/img/alex-portrait.png`,
+      sameAs: [SITE.telegram, SITE.kwork, SITE.github],
+      knowsAbout: [
+        "WordPress",
+        "WooCommerce",
+        "1С-Битрикс",
+        "Tilda",
+        "MODX",
+        "Next.js",
+        "React",
+        "TypeScript",
+        "Astro",
+        "Svelte",
+        "JavaScript",
+        "PHP",
+        "Node.js",
+        "Telegram Bot API",
+        "Figma",
+        "Вёрстка",
+        "Техническое SEO",
+        "Парсинг данных",
+      ],
+      address: { "@type": "PostalAddress", addressLocality: "Москва", addressCountry: "RU" },
+      workLocation: { "@type": "Place", name: "Москва и вся Россия — удалённо" },
+      makesOffer: {
+        "@type": "Offer",
+        priceCurrency: "RUB",
+        price: 15000,
+        priceSpecification: {
+          "@type": "PriceSpecification",
+          priceCurrency: "RUB",
+          minPrice: 15000,
+          valueAddedTaxIncluded: false,
+        },
+        url: `${SITE.url}/uslugi`,
+        itemOffered: { "@type": "Service", name: "Разработка сайтов под ключ" },
+      },
+    },
+    {
+      "@type": "WebSite",
+      "@id": `${SITE.url}#website`,
+      url: SITE.url,
+      name: SITE.ogName,
+      inLanguage: "ru",
+      publisher: { "@id": `${SITE.url}#person` },
+    },
+  ],
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

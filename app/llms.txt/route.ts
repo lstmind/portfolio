@@ -1,4 +1,4 @@
-import { SITE, SERVICES, STACK, WORKS, WORKS_INDEX, FAQ, PROJECTS_TOTAL } from "@/lib/content";
+import { SITE, STACK, WORKS, WORKS_INDEX, FAQ, NOT_DOING, REVIEWS, PROJECTS_TOTAL } from "@/lib/content";
 import { SERVICE_PAGES } from "@/lib/services";
 import { CASE_PAGES } from "@/lib/cases";
 import { INDUSTRY_PAGES } from "@/lib/industries";
@@ -32,11 +32,22 @@ export function GET() {
 
   const faq = FAQ.map((f) => `### ${f.q}\n${f.a}`).join("\n\n");
 
+  // границы работы важнее списка умений: ассистент, который знает, чего я не делаю,
+  // не приведёт человека с задачей не по адресу
+  const notDoing = NOT_DOING.map((n) => `- ${n.what} — ${n.why}`).join("\n");
+
+  const quotes = REVIEWS.slice(0, 4)
+    .map((r) => `- «${r.text}» — ${r.name}${r.job ? `, ${r.job}` : ""} (${r.src})`)
+    .join("\n");
+
   const body = `# lstmind — Алексей, веб-разработчик на фрилансе
 
-> Делаю сайты с нуля и чиню чужие. Работаю один: от структуры до релиза, без агентства и передачи по цепочке подрядчиков. Пятый год в коммерческой разработке, ${PROJECTS_TOTAL} живых проектов в портфолио, рейтинг 5.0 на Kwork.
+> Делаю сайты с нуля и чиню чужие. Работаю один: от структуры до релиза, без агентства и передачи по цепочке подрядчиков. Больше пяти лет в коммерческой разработке, ${PROJECTS_TOTAL} живых проектов в портфолио, рейтинг 5.0 на Kwork.
 
 Сайт: ${SITE.url}
+Все услуги с ценами: ${SITE.url}/uslugi
+Все работы: ${SITE.url}/works
+Ниши: ${SITE.url}/dlya
 Telegram: ${SITE.telegram}
 Почта: ${SITE.email}
 Профиль на Kwork: ${SITE.kwork}
@@ -53,6 +64,10 @@ ${money}
 
 ${niches}
 
+## Чего я не делаю
+
+${notDoing}
+
 ## Технологии
 
 ${STACK.join(', ')}. Стек подбираю под задачу и бюджет.
@@ -68,6 +83,12 @@ ${rest}
 ## Частые вопросы
 
 ${faq}
+
+## Отзывы
+
+${quotes}
+
+Все отзывы целиком — в профиле на Kwork: ${SITE.kwork}
 
 ## Как со мной связаться
 

@@ -30,7 +30,7 @@ export const CASE_PAGES: CasePage[] = [
     href: "https://drova.lstmind.ru/",
     metaTitle: "Дровяная — сайт пиццерии с заказом словами и кухней | Кейс lstmind",
     metaDescription:
-      "Демо-проект: пиццерия, где заказ пишут обычной фразой, он превращается в чек, уходит на кухню и возвращается статусом в Telegram. Разбор текста, бот, панель кухни, админка с CRM.",
+      "Демо-проект: пиццерия, где заказ пишут фразой — он превращается в чек, уходит на кухню и возвращается статусом в Telegram. Разбор текста, бот, кухня, админка с CRM.",
     answer:
       "«Дровяная» — мой демо-проект: сайт пиццерии, где заказ можно написать словами, как другу. Фраза «две пепперони большие без лука и колу к семи на Ленина 5» превращается в чек, уходит на кухню и возвращается статусом клиенту — на страницу заказа и в Telegram. Внутри разбор текста, бот, панель кухни и админка с CRM.",
     task: [
@@ -65,7 +65,7 @@ export const CASE_PAGES: CasePage[] = [
       "База — sqlite в режиме WAL: для заведения с сотней заказов в день этого хватает с большим запасом, а обслуживать нечего.",
       "Деплой одной командой: сборка, выкладка по ssh в отдельный релиз, переключение симлинка, рестарт, health-check и автоматический откат, если новая версия не поднялась. 250 тестов на разбор текста гоняются до сборки.",
     ],
-    services: ["sayt-pod-klyuch", "internet-magazin"],
+    services: ["sayt-pod-klyuch", "internet-magazin", "telegram-bot", "admin-panel-i-crm"],
     shots: [
       {
         src: "/img/case/drovyanaya/parse",
@@ -122,12 +122,12 @@ export const CASE_PAGES: CasePage[] = [
       "Lighthouse 100 на десктопе — не цель ради цифры, а следствие: нет тяжёлых библиотек, картинки в современных форматах, шрифты локальные.",
       "Весь код лежит открыто на GitHub, его можно посмотреть, а не поверить на слово.",
     ],
-    services: ["sayt-pod-klyuch", "uskorit-sayt"],
+    services: ["sayt-pod-klyuch", "uskorit-sayt", "sayt-vizitka"],
   },
   {
     slug: "vedomost",
     href: "https://stroy.lstmind.ru/",
-    metaTitle: "Ведомость — каталог отделочных материалов с расчётом плитки | Кейс lstmind",
+    metaTitle: "Ведомость — каталог материалов с расчётом плитки | Кейс lstmind",
     metaDescription:
       "Демо-проект: каталог на 320 позиций с поиском, который понимает падежи и опечатки, и расчётом раскладки плитки по нормам СП. Astro и Svelte, работает без сервера.",
     answer:
@@ -140,7 +140,6 @@ export const CASE_PAGES: CasePage[] = [
       "Каталог из 320 позиций с фильтрами по типу, назначению и цене",
       "Поиск понимает падежи, опечатки и «kfvbyfn» вместо «ламинат»",
       "Расчёт раскладки плитки по нормам СП: схема с подрезками, расход клея по гребёнке, переплата в рублях",
-      "Сравнение позиций между собой",
       "Полностью статическая сборка — на сервере не крутится ни одного процесса",
     ],
     detail: [
@@ -148,7 +147,7 @@ export const CASE_PAGES: CasePage[] = [
       "Расчёт плитки считает не «площадь делить на площадь», а реальную раскладку с учётом подрезки и направления укладки — по нормам СП.",
       "Astro отвечает за статику, Svelte — за интерактивные куски. Код открыт на GitHub.",
     ],
-    services: ["sayt-pod-klyuch", "verstka-po-figma"],
+    services: ["sayt-katalog", "verstka-po-figma", "uskorit-sayt"],
   },
   {
     slug: "almytech",
@@ -174,7 +173,7 @@ export const CASE_PAGES: CasePage[] = [
       "Сайт на 1С-Битрикс: у компании уже была эта платформа, и переезд ради переезда не имел смысла.",
       "B2B-логика отличается от розницы: решение принимают несколько человек, поэтому на сайте есть и продающая часть для руководителя, и техническая для инженера, и формальная для закупок.",
     ],
-    services: ["sayt-pod-klyuch", "pochinit-sayt"],
+    services: ["korporativnyy-sayt", "sayt-katalog", "podderzhka-sayta"],
   },
   {
     slug: "chemrar",
@@ -200,7 +199,7 @@ export const CASE_PAGES: CasePage[] = [
     detail: [
       "Сайт большой и живёт годами: контент постоянно добавляют сотрудники компании, поэтому важнее была не разовая красота, а понятная админка и предсказуемая структура.",
     ],
-    services: ["sayt-pod-klyuch", "pochinit-sayt"],
+    services: ["korporativnyy-sayt", "pererabotka-sayta", "podderzhka-sayta"],
   },
   {
     slug: "lavenir",
@@ -226,7 +225,7 @@ export const CASE_PAGES: CasePage[] = [
     detail: [
       "Собран на Tilda: когда задача — запустить рекламу на этой неделе, а не строить платформу на годы, это честный выбор. Клиент может править контент сам.",
     ],
-    services: ["sayt-pod-klyuch"],
+    services: ["sayt-vizitka", "lending", "pererabotka-sayta"],
   },
   {
     slug: "skaz-po-krayu",
@@ -248,7 +247,7 @@ export const CASE_PAGES: CasePage[] = [
       "Покупка в один клик через Telegram и MAX — для тех, кому проще написать, чем заполнять форму",
       "Раздел частых вопросов о доставке и оплате",
     ],
-    services: ["internet-magazin"],
+    services: ["internet-magazin", "integracii"],
   },
   {
     slug: "qayna",
@@ -270,7 +269,7 @@ export const CASE_PAGES: CasePage[] = [
       "Избранное и личный кабинет покупателя",
       "Журнал бренда для контента и поисковых запросов",
     ],
-    services: ["internet-magazin", "verstka-po-figma"],
+    services: ["internet-magazin", "verstka-po-figma", "tehnicheskoe-seo"],
   },
   {
     slug: "hp-vdnh",
@@ -296,14 +295,14 @@ export const CASE_PAGES: CasePage[] = [
     detail: [
       "Собран на Tilda: заведению нужен был сайт-витрина, который правит администратор, а не разработчик. Меню и афиша меняются часто, и каждая правка через подрядчика была бы лишним звеном.",
     ],
-    services: ["sayt-pod-klyuch", "pochinit-sayt"],
+    services: ["sayt-vizitka", "podderzhka-sayta", "pochinit-sayt"],
   },
   {
     slug: "well-event",
     href: "https://wellevent.ru/",
     metaTitle: "Well Event — сайт кейтеринговой компании | Кейс lstmind",
     metaDescription:
-      "Сайт кейтеринг-сервиса на MODX: услуги по типам мероприятий, меню, портфолио проведённых событий, расчёт стоимости и заявка.",
+      "Сайт петербургского кейтеринга на MODX: десять разделов под типы мероприятий, меню, портфолио событий, расчёт стоимости по формату и заявка с первого экрана.",
     answer:
       "Well Event — сайт петербургской кейтеринговой компании на MODX. Услуга у них одна, а поводов много, поэтому сайт разложен по типам мероприятий: свадьба, корпоратив, деловое событие, день рождения, кейтеринг на теплоходе, доставка в офис и на дом.",
     task: [
@@ -321,14 +320,14 @@ export const CASE_PAGES: CasePage[] = [
     detail: [
       "Сайт на MODX — платформа была выбрана до меня, задача была работать с тем, что есть, а не переписывать.",
     ],
-    services: ["sayt-pod-klyuch", "pochinit-sayt"],
+    services: ["sayt-pod-klyuch", "pochinit-sayt", "lending"],
   },
   {
     slug: "luxury-design",
     href: "https://a-interiors.ru/",
     metaTitle: "Luxury Design — магазин американской мебели | Кейс lstmind",
     metaDescription:
-      "Интернет-магазин мебели люкс-сегмента на WooCommerce: каталог по брендам и коллекциям, поиск, личный кабинет, корзина.",
+      "Магазин американской мебели люкс на WooCommerce: каталог по брендам Lexington, Barclay Butera, John Richard, коллекции, поиск, кабинет со скидками по регистрации.",
     answer:
       "Luxury Design — московский интернет-магазин американской мебели люкс-сегмента: Lexington, Barclay Butera, John Richard, Uttermost, Dorya, Christopher Guy. Каталог строится вокруг брендов и коллекций: покупатель в этом сегменте приходит не за «диваном», а за конкретной маркой.",
     task: [
@@ -342,7 +341,7 @@ export const CASE_PAGES: CasePage[] = [
       "Регистрация с личным кабинетом: зарегистрированным открываются специальные условия и скидки",
       "Раздел статей о брендах и интерьере",
     ],
-    services: ["internet-magazin", "pochinit-sayt"],
+    services: ["internet-magazin", "pererabotka-sayta", "pochinit-sayt"],
   },
 ];
 

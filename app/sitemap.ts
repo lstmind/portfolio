@@ -10,6 +10,10 @@ const BUILT_AT = new Date();
 export default function sitemap(): MetadataRoute.Sitemap {
   return [
     { url: SITE.url, lastModified: BUILT_AT, changeFrequency: "weekly", priority: 1 },
+    // витрины разделов: с них расходится вес на частные страницы
+    { url: `${SITE.url}/uslugi`, lastModified: BUILT_AT, changeFrequency: "weekly", priority: 0.9 },
+    { url: `${SITE.url}/works`, lastModified: BUILT_AT, changeFrequency: "weekly", priority: 0.9 },
+    { url: `${SITE.url}/dlya`, lastModified: BUILT_AT, changeFrequency: "monthly", priority: 0.8 },
     ...SERVICE_PAGES.map((s) => ({
       url: `${SITE.url}/uslugi/${s.slug}`,
       lastModified: BUILT_AT,

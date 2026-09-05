@@ -1,9 +1,19 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { SITE } from "@/lib/content";
 
+// без своих метаданных 404 наследует title, description и canonical главной —
+// то есть заявляет поисковику, что это дубль главной страницы
+export const metadata: Metadata = {
+  title: "Страница не найдена | lstmind",
+  description: "Такой страницы нет. Услуги, работы и контакты — на главной.",
+  robots: { index: false, follow: true },
+  alternates: {},
+};
+
 export default function NotFound() {
   return (
-    <section className="nf">
+    <main className="nf" id="main">
       <span className="nf-shot" aria-hidden="true">
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
@@ -36,7 +46,11 @@ export default function NotFound() {
             написать в Telegram <span className="ar">↗</span>
           </a>
         </div>
+        <p className="nf-links mono">
+          <Link href="/uslugi">услуги</Link> · <Link href="/works">работы</Link> ·{" "}
+          <Link href="/dlya">ниши</Link>
+        </p>
       </div>
-    </section>
+    </main>
   );
 }

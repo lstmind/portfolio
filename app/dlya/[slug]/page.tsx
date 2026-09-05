@@ -4,7 +4,7 @@ import { Crumbs, PageCta, PageFooter, PageHeader } from "@/components/PageChrome
 import { INDUSTRY_PAGES, industryBySlug, workByHref } from "@/lib/industries";
 import { SERVICE_PAGES } from "@/lib/services";
 import { CASE_PAGES } from "@/lib/cases";
-import { SITE, WORKS, REVIEWS } from "@/lib/content";
+import { SITE, WORKS, REVIEWS, priceNumber } from "@/lib/content";
 
 export function generateStaticParams() {
   return INDUSTRY_PAGES.map((i) => ({ slug: i.slug }));
@@ -25,7 +25,14 @@ export async function generateMetadata({
     openGraph: {
       type: "article",
       locale: "ru_RU",
+      siteName: SITE.ogName,
       url: `${SITE.url}/dlya/${i.slug}`,
+      title: i.metaTitle,
+      description: i.metaDescription,
+    },
+    // без своего twitter-блока карточка наследует заголовок главной и врёт про страницу
+    twitter: {
+      card: "summary_large_image",
       title: i.metaTitle,
       description: i.metaDescription,
     },
@@ -65,17 +72,23 @@ export default async function IndustryPageView({ params }: { params: Promise<{ s
           { "@type": "City", name: "Москва" },
           { "@type": "Country", name: "Россия" },
         ],
-        provider: {
-          "@type": "Person",
-          name: SITE.person,
-          alternateName: SITE.name,
-          url: SITE.url,
-          jobTitle: "Веб-разработчик",
-          sameAs: [SITE.telegram, SITE.kwork, SITE.github],
-        },
+        provider: { "@id": `${SITE.url}#person` },
         offers: {
           "@type": "Offer",
           priceCurrency: "RUB",
+          // цена числом, иначе поисковик Offer не читает и в выдаче её не показывает
+          ...(priceNumber(ind.price.value) !== null
+            ? {
+                price: priceNumber(ind.price.value),
+                priceSpecification: {
+                  "@type": "PriceSpecification",
+                  priceCurrency: "RUB",
+                  minPrice: priceNumber(ind.price.value),
+                  valueAddedTaxIncluded: false,
+                },
+              }
+            : {}),
+          url: `${SITE.url}/dlya/${ind.slug}`,
           description: `${ind.price.value} · ${ind.price.note}`,
           availability: "https://schema.org/InStock",
         },
@@ -92,7 +105,7 @@ export default async function IndustryPageView({ params }: { params: Promise<{ s
         "@type": "BreadcrumbList",
         itemListElement: [
           { "@type": "ListItem", position: 1, name: "Главная", item: SITE.url },
-          { "@type": "ListItem", position: 2, name: "Услуги", item: `${SITE.url}/#services` },
+          { "@type": "ListItem", position: 2, name: "Ниши", item: `${SITE.url}/dlya` },
           { "@type": "ListItem", position: 3, name: ind.h1, item: `${SITE.url}/dlya/${ind.slug}` },
         ],
       },
@@ -109,7 +122,7 @@ export default async function IndustryPageView({ params }: { params: Promise<{ s
           <Crumbs
             items={[
               { name: "Главная", href: "/" },
-              { name: "Услуги", href: "/#services" },
+              { name: "Ниши", href: "/dlya" },
               { name: ind.h1 },
             ]}
           />
@@ -127,6 +140,7 @@ export default async function IndustryPageView({ params }: { params: Promise<{ s
               width={1440}
               height={960}
               loading="eager"
+              fetchPriority="high"
               decoding="async"
             />
           </figure>
