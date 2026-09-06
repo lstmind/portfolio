@@ -143,13 +143,25 @@ export function ClientFX() {
         };
         raf(draw);
       };
-      const hasRIC = typeof window.requestIdleCallback === "function";
-      const idleId = hasRIC
-        ? window.requestIdleCallback(startGL, { timeout: 1400 })
-        : (setTimeout(startGL, 600) as unknown as number);
+      // ждём полной загрузки и только потом заводим шейдер: раньше он стартовал по таймауту
+      // ровно в тот момент, когда браузер рисует первый экран, и отъедал у него кадр
+      const boot = () => {
+        const hasRIC = typeof window.requestIdleCallback === "function";
+        return hasRIC
+          ? window.requestIdleCallback(startGL, { timeout: 2600 })
+          : (setTimeout(startGL, 900) as unknown as number);
+      };
+      let idleId: number;
+      if (document.readyState === "complete") idleId = boot();
+      else {
+        const onLoad = () => { idleId = boot(); };
+        addEventListener("load", onLoad, { once: true });
+        idleId = 0;
+      }
       cleanups.push(() => {
         killed = true;
-        if (hasRIC) window.cancelIdleCallback(idleId);
+        if (!idleId) return;
+        if (typeof window.requestIdleCallback === "function") window.cancelIdleCallback(idleId);
         else clearTimeout(idleId);
       });
     }
@@ -321,7 +333,7 @@ export function ClientFX() {
         pre.style.display = "none";
       } else {
         try { sessionStorage.setItem("lst-seen", "1"); } catch { /* private mode */ }
-        const dur = 750;
+        const dur = 420;
         const st = performance.now();
         const pl = () => {
           const k = Math.min((performance.now() - st) / dur, 1);
@@ -330,7 +342,7 @@ export function ClientFX() {
           if (k < 1) raf(pl);
           else {
             pre.classList.add("done");
-            setTimeout(() => (pre.style.display = "none"), 1000);
+            setTimeout(() => (pre.style.display = "none"), 700);
           }
         };
         pl();

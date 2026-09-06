@@ -42,7 +42,7 @@ canvas#gl{position:fixed;inset:0;width:100%;height:100vh;z-index:0;display:block
 
 /* preloader */
 .pre{position:fixed;inset:0;z-index:200;background:var(--bg);display:flex;flex-direction:column;justify-content:flex-end;padding:44px;overflow:hidden}
-.pre.done{transform:translateY(-100%);transition:transform .9s var(--ease-exit)}
+.pre.done{transform:translateY(-100%);transition:transform .6s var(--ease-exit)}
 .pre .ptag{position:absolute;top:44px;left:44px;font-family:var(--font-mono);font-size:12px;color:var(--mut);letter-spacing:.2em}
 .pre .pcount{position:absolute;top:40px;right:44px;font-family:var(--font-mono);font-size:clamp(34px,6vw,90px);font-weight:700;color:var(--mut)}
 .pre .pname{font-family:var(--font-unbounded);font-weight:900;font-size:clamp(46px,11vw,170px);letter-spacing:-.05em;line-height:.82;color:var(--ink)}
@@ -74,8 +74,8 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:20px 4
 .hero .wrap{max-width:1320px}
 h1{font-family:var(--font-unbounded);font-weight:900;font-size:clamp(46px,8vw,128px);line-height:.94;letter-spacing:-.045em;text-shadow:0 2px 40px rgba(0,0,0,.55)}
 h1 .ln{display:block;overflow:hidden;padding-bottom:.22em;margin-bottom:-.15em}
-h1 .ln i{display:inline-block;font-style:normal;transform:translateY(110%);animation:rise 1s var(--ease-out) forwards}
-h1 .ln:nth-child(1) i{animation-delay:.04s}h1 .ln:nth-child(2) i{animation-delay:.08s}h1 .ln:nth-child(3) i{animation-delay:.12s}
+h1 .ln i{display:inline-block;font-style:normal;transform:translateY(110%);animation:rise .6s var(--ease-out) forwards}
+h1 .ln:nth-child(1) i{animation-delay:.03s}h1 .ln:nth-child(2) i{animation-delay:.06s}h1 .ln:nth-child(3) i{animation-delay:.09s}
 @keyframes rise{to{transform:translateY(0)}}
 h1 .acc{color:var(--acc);position:relative;display:inline-block}
 h1 .acc::before,h1 .acc::after{content:attr(data-t);position:absolute;left:0;top:0;width:100%;height:100%;opacity:0;pointer-events:none}
@@ -83,11 +83,11 @@ h1.glitchon .acc::before{opacity:.85;color:#21e6ff;animation:gl1 .5s steps(2) in
 h1.glitchon .acc::after{opacity:.85;color:#ff2e6b;animation:gl2 .5s steps(2) infinite;clip-path:inset(55% 0 0 0)}
 @keyframes gl1{0%{transform:translate(0)}50%{transform:translate(-3px,1px)}100%{transform:translate(2px,-1px)}}
 @keyframes gl2{0%{transform:translate(0)}50%{transform:translate(3px,-1px)}100%{transform:translate(-2px,1px)}}
-.sub{margin-top:32px;font-size:18.5px;line-height:1.55;color:#D6D4CE;max-width:48ch;font-weight:500;opacity:0;animation:fade 1s var(--ease-out) .55s forwards;text-shadow:0 1px 24px rgba(0,0,0,.7)}
+.sub{margin-top:32px;font-size:18.5px;line-height:1.55;color:#D6D4CE;max-width:48ch;font-weight:500;opacity:0;animation:fade .7s var(--ease-out) .34s forwards;text-shadow:0 1px 24px rgba(0,0,0,.7)}
 .sub b{color:var(--ink);font-weight:600}
 @keyframes fade{to{opacity:1}}
-.cta-row{margin-top:38px;display:flex;align-items:center;gap:26px;flex-wrap:wrap;opacity:0;animation:fade 1s var(--ease-out) .68s forwards}
-.cta-note{margin-top:16px;font-size:12px;color:var(--mut);letter-spacing:.04em;opacity:0;animation:fade 1s var(--ease-out) .78s forwards}
+.cta-row{margin-top:38px;display:flex;align-items:center;gap:26px;flex-wrap:wrap;opacity:0;animation:fade .7s var(--ease-out) .42s forwards}
+.cta-note{margin-top:16px;font-size:12px;color:var(--mut);letter-spacing:.04em;opacity:0;animation:fade .7s var(--ease-out) .5s forwards}
 .magnet{position:relative;display:inline-flex;align-items:center;gap:11px;background:var(--accBtn);color:#fff;padding:18px 32px;font-weight:700;font-size:16px;overflow:hidden;transition:transform .4s var(--ease-out)}
 /* пока курсор внутри — следуем за ним мгновенно; отпустили — возврат едет плавно */
 .magnet.pulling{transition:none;will-change:transform}
@@ -96,7 +96,7 @@ h1.glitchon .acc::after{opacity:.85;color:#ff2e6b;animation:gl2 .5s steps(2) inf
 .magnet:hover .lab{color:var(--accBtn)}
 .ghost{font-family:var(--font-mono);font-size:13.5px;letter-spacing:.02em;display:inline-flex;align-items:center;gap:9px;color:#CFCDC7}
 .ghost .ar{transition:transform .3s}
-.facts{margin-top:54px;display:flex;gap:32px;flex-wrap:wrap;opacity:0;animation:fade 1s var(--ease-out) .82s forwards}
+.facts{margin-top:54px;display:flex;gap:32px;flex-wrap:wrap;opacity:0;animation:fade .7s var(--ease-out) .54s forwards}
 .facts .f{display:flex;flex-direction:column;gap:7px}
 .facts .f b{font-family:var(--font-unbounded);font-weight:700;font-size:23px;letter-spacing:-.02em}
 .facts .f b .s{color:var(--acc)}
@@ -502,3 +502,10 @@ footer .fl a:hover{color:var(--ink)}
 .proc-shot{margin:44px 0 10px;border:1px solid rgba(20,19,16,.14);background:#141310;overflow:hidden}
 .proc-shot img{display:block;width:100%;height:auto}
 .proc-shot figcaption{padding:12px 16px;font-size:10.5px;letter-spacing:.12em;color:#6f6b5e;text-align:center;background:#ECE9E0}
+
+/* Секции ниже первого экрана браузер может не размечать, пока до них не долистали.
+   На главной их девять, и первый расчёт стилей для всех сразу задерживал отрисовку
+   героя почти на секунду. Высота задана заранее, поэтому полоса прокрутки не прыгает. */
+@supports (content-visibility: auto) {
+  .blk:not(#why), .contact { content-visibility: auto; contain-intrinsic-size: auto 1200px }
+}

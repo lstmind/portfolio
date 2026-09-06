@@ -1,30 +1,41 @@
 import type { Metadata, Viewport } from "next";
 import Script from "next/script";
-import { Unbounded, JetBrains_Mono, Manrope } from "next/font/google";
+import localFont from "next/font/local";
 import { SITE } from "@/lib/content";
 import { ClientFX } from "@/components/ClientFX";
 import { YM_ID } from "@/lib/metrika";
 import "./globals.css";
 
-const unbounded = Unbounded({
-  subsets: ["cyrillic", "latin"],
-  weight: ["700", "800", "900"],
+/**
+ * Шрифты собраны в свои подмножества и лежат рядом с кодом.
+ * Через next/font/google Google отдаёт их кусками по unicode-range, и один только
+ * знак ₽ в заголовке тянул latin-ext на 115 кб — там вся диакритика Европы,
+ * которой на русском сайте не будет никогда. Здесь каждый шрифт это один
+ * переменный файл: латиница, кириллица, пунктуация, стрелки и валюта.
+ * Было девять запросов и 300 кб, стало три и 105.
+ */
+const unbounded = localFont({
+  src: "./fonts/unbounded.woff2",
+  weight: "700 900",
   variable: "--font-unbounded",
   display: "swap",
+  fallback: ["Arial Black", "system-ui", "sans-serif"],
 });
-const mono = JetBrains_Mono({
-  subsets: ["cyrillic", "latin"],
-  weight: ["400", "700"],
+const mono = localFont({
+  src: "./fonts/jbmono.woff2",
+  weight: "400 700",
   variable: "--font-mono",
   display: "swap",
+  fallback: ["ui-monospace", "SFMono-Regular", "Consolas", "monospace"],
   // моноширинный идёт в мелких подписях: пусть не конкурирует с заголовками за канал
   preload: false,
 });
-const manrope = Manrope({
-  subsets: ["cyrillic", "latin"],
-  weight: ["400", "500", "600", "700"],
+const manrope = localFont({
+  src: "./fonts/manrope.woff2",
+  weight: "400 700",
   variable: "--font-sans",
   display: "swap",
+  fallback: ["system-ui", "Segoe UI", "Arial", "sans-serif"],
 });
 
 export const metadata: Metadata = {
