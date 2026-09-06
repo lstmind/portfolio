@@ -368,7 +368,8 @@ footer{position:relative;z-index:4;background:var(--bg);border-top:1px solid var
 footer .f-top{display:flex;align-items:center;justify-content:space-between;gap:24px;flex-wrap:wrap}
 /* гигантский призрачный вордмарк, срезанный по базовой линии — закрывает страницу */
 .f-mark{font-family:var(--font-unbounded);font-weight:900;font-size:clamp(88px,15.5vw,232px);letter-spacing:-.05em;line-height:.78;text-align:center;color:#141419;user-select:none;margin-top:44px;transform:translateY(14%);white-space:nowrap}
-.f-mark span{color:rgba(255,46,31,.32)}
+.f-mark::before{content:"lstmind"}
+.f-mark::after{content:".";color:rgba(255,46,31,.32)}
 footer .made{font-family:var(--font-mono);font-size:12px;color:var(--mut);max-width:38ch}
 footer .made .s{color:var(--acc)}
 footer .fl{display:flex;gap:22px;font-family:var(--font-mono);font-size:12.5px;color:var(--mut);flex-wrap:wrap}

@@ -12,22 +12,24 @@ import { INDUSTRY_PAGES } from "@/lib/industries";
 export const dynamic = "force-static";
 
 export function GET() {
+  // спека llmstxt.org ждёт markdown-ссылки: голый адрес за ссылку не считается,
+  // и файл читается как текст без единого перехода
   const money = SERVICE_PAGES.map(
-    (s) => `- ${s.h1} — ${SITE.url}/uslugi/${s.slug}\n  ${s.answer}`
+    (s) => `- [${s.h1}](${SITE.url}/uslugi/${s.slug}) — ${s.price.value}, ${s.term.value}\n  ${s.answer}`
   ).join("\n");
 
   const cases = WORKS.map((w) => {
     const c = CASE_PAGES.find((x) => x.href === w.href);
-    const detail = c ? `\n  Разбор проекта: ${SITE.url}/works/${c.slug}` : "";
-    return `- ${w.title} (${w.kind}) — живой сайт ${w.href}${detail}\n  ${w.text}\n  Стек: ${w.stack.join(", ")}`;
+    const detail = c ? `\n  [Разбор проекта](${SITE.url}/works/${c.slug})` : "";
+    return `- [${w.title}](${w.href}) — ${w.kind}${detail}\n  ${w.text}\n  Стек: ${w.stack.join(", ")}`;
   }).join("\n");
 
   const rest = WORKS_INDEX.filter((w) => w.href.startsWith("http"))
-    .map((w) => `- ${w.title} — ${w.href} · ${w.engine} · ${w.note}`)
+    .map((w) => `- [${w.title}](${w.href}) · ${w.engine} · ${w.note}`)
     .join("\n");
 
   const niches = INDUSTRY_PAGES.map(
-    (i) => `- ${i.h1} — ${SITE.url}/dlya/${i.slug}\n  ${i.answer}`
+    (i) => `- [${i.h1}](${SITE.url}/dlya/${i.slug}) — ${i.price.value}\n  ${i.answer}`
   ).join("\n");
 
   const faq = FAQ.map((f) => `### ${f.q}\n${f.a}`).join("\n\n");
@@ -44,15 +46,19 @@ export function GET() {
 
 > Делаю сайты с нуля и чиню чужие. Работаю один: от структуры до релиза, без агентства и передачи по цепочке подрядчиков. Больше пяти лет в коммерческой разработке, ${PROJECTS_TOTAL} живых проектов в портфолио, рейтинг 5.0 на Kwork.
 
-Сайт: ${SITE.url}
-Все услуги с ценами: ${SITE.url}/uslugi
-Все работы: ${SITE.url}/works
-Ниши: ${SITE.url}/dlya
-Telegram: ${SITE.telegram}
-Почта: ${SITE.email}
-Профиль на Kwork: ${SITE.kwork}
-GitHub: ${SITE.github}
 Язык работы: русский. Где работаю: Москва и вся Россия удалённо. Оформление: самозанятый, договор и чек.
+
+## Куда смотреть
+
+- [Главная](${SITE.url}) — кто я, что делаю, цены и работы одним экраном
+- [Все услуги с ценами](${SITE.url}/uslugi) — восемнадцать направлений, у каждого своя страница
+- [Все работы](${SITE.url}/works) — разборы проектов и полный список живых сайтов
+- [Ниши](${SITE.url}/dlya) — как устроен сайт в конкретной отрасли
+- [Telegram](${SITE.telegram}) — быстрее всего написать сюда, отвечаю в течение часа
+- [Профиль на Kwork](${SITE.kwork}) — отзывы и рейтинг, которые можно проверить
+- [GitHub](${SITE.github}) — код части проектов открыт
+
+Почта: ${SITE.email}
 
 ## Чем занимаюсь
 
