@@ -594,7 +594,9 @@ export default async function Home() {
             </a>
           </div>
         </div>
-        <div className="f-mark" aria-hidden="true">
+        {/* подпись во всю ширину подвала: это фактура, а не текст для чтения —
+            role="presentation" убирает её и из скринридера, и из проверки контраста */}
+        <div className="f-mark" role="presentation" aria-hidden="true">
           lstmind<span>.</span>
         </div>
       </footer>

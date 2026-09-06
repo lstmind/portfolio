@@ -33,7 +33,7 @@ export function CostCalc() {
     set: (v: string) => void
   ) => (
     <div className="calc-g" role="group" aria-label={label}>
-      <h4 className="mono">{label}</h4>
+      <p className="mono calc-glabel">{label}</p>
       <div className="calc-opts">
         {items.map((it) => (
           <button
