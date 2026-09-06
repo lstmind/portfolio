@@ -20,6 +20,7 @@ export function WorksFeatured() {
   const rest = WORKS.length - shown.length;
 
   useEffect(() => {
+    const cleanups: (() => void)[] = [];
     // 1) пометить готовые ленты (включая закэшированные до гидрации)
     const imgs = rootRef.current?.querySelectorAll<HTMLImageElement>("img.tall");
     imgs?.forEach((im) => {
@@ -27,18 +28,30 @@ export function WorksFeatured() {
       if (im.complete && im.naturalWidth > 0) mark();
       else im.addEventListener("load", mark, { once: true });
     });
-    // 2) фоновая предзагрузка лент — ТОЛЬКО десктоп и не-экономные сети;
-    // мобиле хватает ленивой загрузки видимых карточек (бережём LCP и трафик)
+    // 2) ленты греем по подходу к экрану, а не все разом. Раньше на десктопе
+    // сразу качались все одиннадцать — 2.2 МБ, из которых человек видел одну-две.
+    // Теперь карточка тянет свою ленту, когда до неё остаётся экран прокрутки,
+    // и ещё раз — при наведении, если почему-то не успела.
     const conn = (navigator as Navigator & { connection?: { saveData?: boolean; effectiveType?: string } }).connection;
     const slow = conn?.saveData || /2g/.test(conn?.effectiveType || "");
+    const warmed = new Set<string>();
+    const px = devicePixelRatio > 1.5 ? "-1128.webp" : "-760.webp";
+    const warmOne = (el: Element) => {
+      const src = el.querySelector<HTMLImageElement>("img.tall")?.getAttribute("src");
+      if (!src || warmed.has(src)) return;
+      warmed.add(src);
+      new window.Image().src = src.replace(/\.jpg$/, px);
+    };
     if (matchMedia("(pointer: fine)").matches && !slow) {
-      // греем ровно тот файл, который возьмёт этот экран: на ретине браузер выберет 1128,
-      // и прогрев 760-го был бы лишней закачкой мимо кэша
-      const px = devicePixelRatio > 1.5 ? "-1128.webp" : "-760.webp";
-      const warm = () => WORKS.forEach((w) => { new window.Image().src = w.imgTall.replace(/\.jpg$/, px); });
-      const w = window as Window & { requestIdleCallback?: (cb: () => void, o?: { timeout: number }) => number };
-      if (w.requestIdleCallback) w.requestIdleCallback(warm, { timeout: 2500 });
-      else setTimeout(warm, 1200);
+      const near = new IntersectionObserver(
+        (es) => es.forEach((e) => { if (e.isIntersecting) { warmOne(e.target); near.unobserve(e.target); } }),
+        { rootMargin: "700px 0px" }
+      );
+      rootRef.current?.querySelectorAll(".work").forEach((c) => {
+        near.observe(c);
+        c.addEventListener("pointerenter", () => warmOne(c), { once: true });
+      });
+      cleanups.push(() => near.disconnect());
     }
     // 3) тач-устройства: ховера нет — лента едет сама, пока карточка на экране
     const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -53,8 +66,9 @@ export function WorksFeatured() {
         { threshold: 0.45 }
       );
       rootRef.current?.querySelectorAll(".shot").forEach((s) => io.observe(s));
-      return () => io.disconnect();
+      cleanups.push(() => io.disconnect());
     }
+    return () => cleanups.forEach((f) => f());
   }, [all]);
 
   return (
