@@ -192,6 +192,7 @@ section.blk.light .step p{color:#55524a}
 .calc-sum{margin-top:14px;font-family:var(--font-unbounded);font-weight:800;font-size:clamp(32px,3.8vw,54px);letter-spacing:-.03em;line-height:1;font-variant-numeric:tabular-nums}
 .calc-sum .s{color:var(--acc);font-size:.5em;font-weight:700}
 .calc-term{margin-top:14px;font-size:13px;color:var(--mut);letter-spacing:.03em}
+.calc-hint{margin-top:10px;font-size:13px;line-height:1.5;color:#94929B}
 .calc-note{margin-top:18px;font-size:13.5px;line-height:1.55;color:#94929B;max-width:38ch}
 .calc-cta{margin-top:auto;padding-top:28px;display:flex;align-items:center;gap:22px;flex-wrap:wrap}
 .calc-cta .magnet{padding:15px 24px;font-size:14.5px}

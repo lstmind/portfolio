@@ -24,13 +24,14 @@ export function CostCalc() {
   const mult = urg === "u" ? 1.25 : 1;
   const low = Math.round(lo * mult);
   const high = Math.round(hi * mult);
-  const term = urg === "u" ? "срочно — обсудим" : CALC.terms[type][idx];
+  const term = (urg === "u" ? CALC.termsUrgent : CALC.terms)[type][idx];
 
   const group = (
     label: string,
     items: readonly { k: string; label: string }[],
     val: string,
-    set: (v: string) => void
+    set: (v: string) => void,
+    hint?: string
   ) => (
     <div className="calc-g" role="group" aria-label={label}>
       <p className="mono calc-glabel">{label}</p>
@@ -47,6 +48,7 @@ export function CostCalc() {
           </button>
         ))}
       </div>
+      {hint && <p className="calc-hint">{hint}</p>}
     </div>
   );
 
@@ -54,7 +56,7 @@ export function CostCalc() {
     <div className="calc reveal">
       <div className="calc-left">
         {group("01 · Что нужно", CALC.types, type, setType)}
-        {group("02 · Масштаб", CALC.scales, scale, setScale)}
+        {group("02 · Масштаб", CALC.scales, scale, setScale, CALC.hints[type][idx])}
         {group("03 · Сроки", CALC.urgency, urg, setUrg)}
       </div>
       <div className="calc-res" aria-live="polite">
@@ -63,6 +65,7 @@ export function CostCalc() {
           ≈ {low}–{high} <span className="s">тыс ₽</span>
         </div>
         <div className="calc-term mono">срок: {term}</div>
+        <div className="calc-hint">{CALC.termNote}</div>
         <p className="calc-note">
           Это ориентир, не оферта. Точную фикс-смету назову после короткого разбора задачи — бесплатно и
           без обязательств.

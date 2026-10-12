@@ -46,6 +46,7 @@ export async function POST(req: Request) {
     `👤 Имя: ${name}\n` +
     `📨 Контакт: ${contact}\n` +
     (task ? `📝 Задача: ${task}\n` : "") +
+    (budget ? `💰 Бюджет: ${budget}\n` : "") +
     (page ? `📄 Страница: ${page}\n` : "") +
     (from ? `↩️ Источник: ${from}\n` : "");
 

@@ -168,9 +168,9 @@ export default async function Home() {
             </span>
           </h1>
           <p className="sub">
-            Собираю сайты с нуля и спасаю чужие. Работаю один: <b>с кем переписываешься, тот и пишет
-            код</b> — без менеджеров и передачи по цепочке. От 15 000 ₽, срок от недели, самозанятый:
-            договор и чек.
+            Собираю сайты с нуля и спасаю чужие. Работаю один: <b>с кем говорите, тот и пишет
+            код</b>, без передачи по цепочке и смены состава на середине. От 15 000 ₽, срок от недели,
+            самозанятый: договор, акт и чек.
           </p>
           <div className="cta-row">
             <a className="magnet" href="#contact" data-cursor data-magnet>
@@ -482,7 +482,7 @@ export default async function Home() {
               <div className="about-meta mono">
                 <span>Москва и вся Россия · удалённо</span>
                 <span>самозанятый · чек и договор</span>
-                <span>5.0 на Kwork · Profi.ru</span>
+                <span>5.0★ по отзывам · каждый можно проверить</span>
               </div>
             </div>
             <figure className="about-photo">
@@ -554,9 +554,6 @@ export default async function Home() {
               <a href={`mailto:${SITE.email}`} data-cursor>
                 <span className="ic">@</span>Почта<span className="pull">{SITE.email}</span>
               </a>
-              <a href={SITE.kwork} target="_blank" rel="noopener noreferrer" data-cursor>
-                <span className="ic">✦</span>Kwork<span className="pull">Профиль · 5.0★</span>
-              </a>
               <a href={SITE.github} target="_blank" rel="noopener noreferrer" data-cursor>
                 <span className="ic">‹›</span>GitHub<span className="pull">Код проектов</span>
               </a>
@@ -582,9 +579,6 @@ export default async function Home() {
             <FooterClock />
             <a href={SITE.telegram} target="_blank" rel="noopener noreferrer" data-cursor>
               Telegram
-            </a>
-            <a href={SITE.kwork} target="_blank" rel="noopener noreferrer" data-cursor>
-              Kwork
             </a>
             <a href={SITE.github} target="_blank" rel="noopener noreferrer" data-cursor>
               GitHub

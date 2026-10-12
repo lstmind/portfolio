@@ -76,7 +76,7 @@ export function ContactForm() {
         <textarea
           id="cf-task"
           name="task"
-          placeholder="Своими словами: новый сайт, доработка, магазин, ускорение. Ссылку на сайт тоже кидай, если он есть"
+          placeholder="Своими словами: новый сайт, магазин, переработка старого, админка под процесс. Ссылку на сайт тоже пришлите, если он есть"
         />
       </div>
       <div className="field">
@@ -88,7 +88,7 @@ export function ContactForm() {
           <option value="35–100 000 ₽">35–100 000 ₽</option>
           <option value="больше 100 000 ₽">больше 100 000 ₽</option>
         </select>
-        <small className="fieldnote">Цифра не финальная — нужна, чтобы не оценить мимо.</small>
+        <small className="fieldnote">Цифра не финальная, нужна, чтобы не оценить мимо.</small>
       </div>
       <button className="submit" data-cursor data-magnet disabled={status === "sending"}>
         {status === "sending" ? "Отправляю…" : "Получить оценку задачи →"}

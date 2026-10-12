@@ -483,12 +483,12 @@ export function screenCalcResult(type: string, scale: string, urg: string): Scre
   const mult = urg === "u" ? 1.25 : 1;
   const low = Math.round(lo * mult);
   const high = Math.round(hi * mult);
-  const term = urg === "u" ? "срочно — обсудим" : CALC.terms[type][idx];
+  const term = (urg === "u" ? CALC.termsUrgent : CALC.terms)[type][idx];
   return {
     text: clamp(
       "🧮 <b>Примерный расчёт</b>\n\n" +
         `Тип: <b>${clean(typeLabel(type))}</b>\nМасштаб: ${clean(scaleLabel(scale))}\nСроки: ${clean(urgLabel(urg))}\n\n` +
-        `💰 <b>≈ ${low} 000 – ${high} 000 ₽</b>\n⏱ ${clean(term)}\n\n` +
+        `💰 <b>≈ ${low} 000 – ${high} 000 ₽</b>\n⏱ ${clean(term)}\n<i>${clean(CALC.termNote)}</i>\n\n` +
         "<i>Это ориентир. Точную фикс-смету назову после короткого разбора — бесплатно.</i>",
     ),
     rows: [

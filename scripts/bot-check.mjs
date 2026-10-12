@@ -13,7 +13,9 @@ const { INDUSTRY_PAGES } = await import("../lib/industries.ts");
 const { CALC, FAQ, REVIEWS } = await import("../lib/content.ts");
 const { CASE_PAGES } = await import("../lib/cases.ts");
 
-const CAPTION_LIMIT = 1024;
+// bot.ts режет текст на 1000 символах (LIMIT). Сравнивать с телеграмными 1024
+// бессмысленно: обрезание случится раньше, и проверка его не увидит.
+const CAPTION_LIMIT = 1000;
 const problems = [];
 const screens = [];
 

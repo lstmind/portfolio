@@ -65,7 +65,7 @@ export default async function Image() {
           <div style={{ display: "flex", color: "#9A9AA2" }}>
             lstmind · сайты под ключ, магазины, ускорение
           </div>
-          <div style={{ display: "flex", color: "#FF2E1F" }}>Рейтинг 5.0 на Kwork</div>
+          <div style={{ display: "flex", color: "#FF2E1F" }}>Договор, фикс-смета, гарантия</div>
         </div>
       </div>
     ),
