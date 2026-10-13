@@ -123,3 +123,8 @@
 @media (prefers-reduced-motion:reduce){
   .s-prices *,.s-prices *::after{transition:none!important}
 }
+
+/* скорость: секция ниже первого экрана не раскладывается, пока до неё далеко (место держит contain-intrinsic-size, потом запоминается).
+   overflow-clip-margin: кольцо фокуса и тени у края секции не обрезаются */
+#prices.s-prices{content-visibility:auto;contain-intrinsic-size:auto 1150px;overflow-clip-margin:32px}
+@media (min-width:700px){#prices.s-prices{contain-intrinsic-size:auto 1050px}}

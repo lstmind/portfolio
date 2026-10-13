@@ -13,6 +13,13 @@ const NB = " ";
  * страницы-хаба, и вторая ступень их крошек указывала в «Услуги» — то есть
  * раздела как такового не существовало.
  */
+const N_NICHES = INDUSTRY_PAGES.length;
+const N_SITES = new Set(INDUSTRY_PAGES.flatMap((i) => sitesOf(i).map((s) => s.host))).size;
+const OG_TITLE = "Сайты для кафе, салонов, производства и не только";
+const OG_TEXT =
+  `${N_NICHES} ${plural(N_NICHES, ["ниша", "ниши", "ниш"])}, где я уже делал сайты: кафе, салоны, производство, окна, мебель, доставка, перевозки, одежда, ремонт. ` +
+  `${N_SITES} ${plural(N_SITES, ["живой сайт", "живых сайта", "живых сайтов"])} можно открыть, цены и сроки по каждой нише.`;
+
 export const metadata: Metadata = {
   title: "Сайты по нишам: общепит, салоны, производство, магазины | lstmind",
   description:
@@ -23,13 +30,13 @@ export const metadata: Metadata = {
     locale: "ru_RU",
     siteName: SITE.ogName,
     url: `${SITE.url}/dlya`,
-    title: "Сайты по нишам | lstmind",
-    description: "Кафе и бары, салоны красоты, производство, окна, мебель, доставка еды, перевозки, магазины.",
+    title: OG_TITLE,
+    description: OG_TEXT,
   },
   twitter: {
     card: "summary_large_image",
-    title: "Сайты по нишам | lstmind",
-    description: "Кафе и бары, салоны красоты, производство, окна, мебель, доставка еды, перевозки, магазины.",
+    title: OG_TITLE,
+    description: OG_TEXT,
   },
 };
 

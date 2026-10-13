@@ -24,10 +24,13 @@ export function heroRun(hero) {
   });
 
   /* ---------- геометрия ---------- */
-  var G = {};
-  function layout() {
+  var G = {}, laidOut = '';
+  // force: пересчёт после загрузки шрифта нужен, только если что-то мерили canvas-ом (иначе размеры те же)
+  function layout(force) {
     if (dead) return;
     var W = hero.clientWidth, H = hero.clientHeight, mob = W < 700;
+    if (force === 'font' && !byCanvas && laidOut === W + 'x' + H) return;
+    laidOut = W + 'x' + H;
     var ch = mob ? Math.min(H * 0.4, 350) : Math.min(H * 0.43, W * 0.3);
     var cw = ch * 390 / 844;
     var R = mob ? cw * 2.35 : cw * 3.7;
@@ -62,7 +65,17 @@ export function heroRun(hero) {
   var FIRST = (hero.dataset.words || 'делаю,чиню,ускоряю').split(',');
   var wi = 0, letters = [], fs = 100;
   var mctx = document.createElement('canvas').getContext('2d');
-  function adv(s) { mctx.font = '900 ' + fs + 'px ' + FAM; return mctx.measureText(s).width; }
+  // ширины строк шрифтом Fira Sans Condensed 900 на 100px, с кернингом (сняты canvas-ом с загруженным шрифтом).
+  // по ним геометрия героя сразу та же, что после загрузки шрифта: фигура и карточки не прыгают, когда шрифт догружается.
+  // строки, которой нет в таблице (сменили слова в lib/home.ts), меряем как раньше, тогда после загрузки шрифта пересчёт
+  var W100 = { 'Д': 59.9, 'Е': 47, 'Л': 59.1, 'ДЕ': 106.9, 'А': 55.4, 'ДЕЛ': 166, 'Ю': 87.4, 'ДЕЛА': 221.4, 'ДЕЛАЮ': 308.8, 'Ч': 56.9, 'И': 59, 'Н': 59.6, 'ЧИ': 115.9, 'ЧИН': 175.5, 'ЧИНЮ': 262.9, 'У': 54.6, 'С': 53.5, 'К': 59.4, 'УС': 107.1, 'О': 63.2, 'УСК': 166.5, 'Р': 55.7, 'УСКО': 227.7, 'Я': 55.8, 'УСКОР': 283.4, 'УСКОРЯ': 339.2, 'УСКОРЯЮ': 426.6, 'Й': 59, 'СА': 108.9, 'Т': 50.4, 'САЙ': 167.9, 'Ы': 79.8, 'САЙТ': 218.3, 'САЙТЫ': 298.1 };
+  var byCanvas = false;
+  function adv(s) {
+    if (!s) return 0;
+    if (Object.prototype.hasOwnProperty.call(W100, s)) return W100[s] * fs / 100;
+    byCanvas = true;
+    mctx.font = '900 ' + fs + 'px ' + FAM; return mctx.measureText(s).width;
+  }
   function buildWord(first, animate) {
     var placed = placeJ(first);
     // буквы второго слова переиспользуем: они едут по дуге, первое слово меняется на барабане
@@ -205,18 +218,23 @@ export function heroRun(hero) {
       var c = document.createElement('canvas'); c.width = w; c.height = h;
       var x = c.getContext('2d', { willReadFrequently: true }); x.drawImage(im, 0, 0, w, h);
       masks.set(im, { data: x.getImageData(0, 0, w, h).data, w: w, h: h });
-    } catch (e) { masks.delete(im); }
+    } catch (e) { masks.set(im, null); }
+  }
+  // маску снимаем при первой надобности (наведение, касание): рисование кадра в canvas разжимает картинку
+  // на главном потоке, и при загрузке страницы это была лишняя длинная задача
+  function maskOf(im) {
+    if (!masks.has(im) && im.complete && im.naturalWidth) readMask(im);
+    return masks.get(im);
   }
   function overPortrait(px, py) {
     var im = poseImgs[pose - 1] || me;
     var r = im.getBoundingClientRect();
     if (px < r.left || px > r.right || py < r.top || py > r.bottom) return false;
-    var mask = masks.get(im) || masks.get(me);
+    var mask = maskOf(im) || maskOf(me);
     if (!mask) return py > r.top + r.height * 0.05 && Math.abs(px - (r.left + r.width / 2)) < r.width * 0.25;
     var ix = Math.floor((px - r.left) / r.width * mask.w), iy = Math.floor((py - r.top) / r.height * mask.h);
     return mask.data[(iy * mask.w + ix) * 4 + 3] > 100;
   }
-  if (me.complete && me.naturalWidth) readMask(me); else on(me, 'load', function () { readMask(me); });
 
   /* ---------- жест: стрелка тушью от кончика пальца (поза 3) к кнопке ---------- */
   var ptSvg = hero.querySelector('#point'), pL = hero.querySelector('#pL'), pH = hero.querySelector('#pH');
@@ -306,7 +324,7 @@ export function heroRun(hero) {
       im.sizes = me.sizes;
       im.srcset = PF.hs.map(function (h, j) { return IMG + PF.pre + p + '-' + h + '.webp ' + PF.ws[j] + 'w'; }).join(', ');
       im.src = IMG + PF.pre + p + '-780.webp';
-      var ok = function () { if (dead) return; poseReady[p - 1] = true; readMask(im); };
+      var ok = function () { if (dead) return; poseReady[p - 1] = true; };
       (im.decode ? im.decode() : Promise.reject()).then(ok, function () { im.addEventListener('load', ok, { once: true }); });
     });
   }
@@ -487,7 +505,11 @@ export function heroRun(hero) {
     if (moved <= 6 && e.type === 'pointerup') {
       var c = cardAt(e.clientX, e.clientY);
       if (c) {
-        if (e.pointerType === 'mouse' || selected === c) { window.open(c.el.href, '_blank', 'noopener'); }
+        if (e.pointerType === 'mouse' || selected === c) {
+          window.open(c.el.href, '_blank', 'noopener');
+          // цель Метрики: клик достался герою, а не ссылке, поэтому сообщаем сами (слушает components/v4/goals.tsx)
+          hero.dispatchEvent(new CustomEvent('hero-open', { bubbles: true, detail: { host: c.host } }));
+        }
         else { select(c); }
       } else if (selected) { select(null); }
     }
@@ -510,9 +532,9 @@ export function heroRun(hero) {
 
   var rz = 0;
   on(window, 'resize', function () { clearTimeout(rz); rz = setTimeout(layout, 120); });
-  document.fonts.load('900 120px ' + FAM, 'ДЕЛАЮ').then(function () { layout(); });
+  document.fonts.load('900 120px ' + FAM, 'ДЕЛАЮ').then(function () { layout('font'); });
   // подписи меряются шрифтом Montserrat: пересчёт, когда догрузятся все шрифты
-  document.fonts.ready.then(function () { layout(); });
+  document.fonts.ready.then(function () { layout('font'); });
   layout();
   raf = requestAnimationFrame(tick);
   // цикл кадров и смена слова живут, только пока герой в кадре

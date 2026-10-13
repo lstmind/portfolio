@@ -3,7 +3,7 @@
 /* Островки секций главной: разметка с сервера, поведение из ванильного кода статики (*.run.js).
    React секции не перерисовывает: код меняет DOM сам и всё за собой убирает при размонтировании. */
 import { useEffect } from "react";
-import { useRun } from "../islands";
+import { useRun, useRunNear } from "../islands";
 import { runWorks } from "./works.run";
 import { runPrices } from "./prices.run";
 import { runProcess } from "./process.run";
@@ -46,18 +46,19 @@ export function WorksIsland() {
   return null;
 }
 export function PricesIsland() {
-  useRun("#prices", runPrices);
+  useRunNear("#prices", runPrices);
   return null;
 }
 export function ReviewsIsland() {
-  useRun("#reviews", runReviews);
+  useRunNear("#reviews", runReviews);
   return null;
 }
 export function ProcessIsland() {
+  // процесс на десктопе закрепляется и вырастает в высоту (400vh): запуск сразу, чтобы высота страницы не менялась по ходу прокрутки
   useRun("#process", runProcess);
   return null;
 }
 export function FinalIsland() {
-  useRun("#final", runFinal);
+  useRunNear("#final", runFinal);
   return null;
 }

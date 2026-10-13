@@ -2,7 +2,7 @@
 
 /* Островки раздела ниш: разметка с сервера, поведение ванильным кодом, всё убирается при размонтировании. */
 import { useEffect } from "react";
-import { useRun } from "../islands";
+import { runNear, useRun, useRunNear } from "../islands";
 import { runPrices } from "../home/prices.run";
 import { runCards, runCenter, runFan, runHubPose, runWords } from "./dlya.run";
 import { runDemo } from "./demo.run";
@@ -21,7 +21,7 @@ export function WordsIsland() {
 
 /** карточки работ на телефоне */
 export function CardsIsland() {
-  useRun("#dl-works", runCards);
+  useRunNear("#dl-works", runCards);
   return null;
 }
 
@@ -29,7 +29,8 @@ export function CardsIsland() {
 export function SignsIsland() {
   useEffect(() => {
     const roots = [...document.querySelectorAll<HTMLElement>(".dl-sign")];
-    const offs = roots.map((r) => runPrices(r) as () => void);
+    // каждая вывеска запускается на подходе: замеры колонок не нужны при загрузке страницы
+    const offs = roots.map((r) => runNear(r, (el) => runPrices(el) as () => void));
     return () => offs.forEach((f) => f());
   }, []);
   return null;
@@ -49,6 +50,6 @@ export function HubPoseIsland() {
 
 /** другие ниши: строка у середины экрана получает цвет кропа на телефоне */
 export function OthersIsland() {
-  useRun("#dl-others .dl-niches", runCenter);
+  useRunNear("#dl-others .dl-niches", runCenter);
   return null;
 }

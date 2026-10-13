@@ -75,3 +75,9 @@
   .s-footer .footer-a{transition:none}
   .s-footer.footer-pre .footer-ch,.s-footer.footer-pre .footer-fig{opacity:1;transform:none}
 }
+
+/* скорость: подвал всегда ниже первого экрана, браузер не раскладывает его, пока до него далеко.
+   место держит contain-intrinsic-size (примерная высота, потом браузер запоминает настоящую); обрезка та же, что у overflow:hidden */
+.s-footer{content-visibility:auto;contain-intrinsic-size:auto 1050px}
+@media (min-width:700px){.s-footer{contain-intrinsic-size:auto 690px}}
+@media (min-width:1100px){.s-footer{contain-intrinsic-size:auto 900px}}

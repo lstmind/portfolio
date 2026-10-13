@@ -2,6 +2,7 @@
    нижний язычок Telegram на телефоне выезжает, когда кнопка героя ушла вверх, и уезжает перед финалом.
    Считается по положению на каждом кадре прокрутки, а не по событиям IntersectionObserver: при прыжке (якорь, "наверх",
    перезагрузка в середине) наблюдатель не срабатывает, если элемент перескочил экран целиком. */
+import { ymGoal } from '../../lib/metrika';
 
 export function runHeader(top) {
   var solid = null, rq = 0;
@@ -20,6 +21,31 @@ export function runHeader(top) {
     removeEventListener('resize', req);
     top.classList.remove('is-solid');
   };
+}
+
+/* Пришли по ссылке с якорем с другой страницы (/#final, /#process): браузер сразу ставит блок наверх, а потом
+   секции выше меняют высоту (сцены прокрутки вырастают, когда запускается их код), и блок уезжает на экраны вниз.
+   Пока человек сам ничего не трогал, первые секунды возвращаем блок на место. При перезагрузке и "назад"
+   браузер восстанавливает свою позицию, тогда не вмешиваемся */
+export function runHashHold() {
+  var h = location.hash, t = null;
+  try { t = h.length > 1 ? document.getElementById(decodeURIComponent(h.slice(1))) : null; } catch (e) { t = null; }
+  var nav = performance.getEntriesByType ? performance.getEntriesByType('navigation')[0] : null;
+  if (!t || !('ResizeObserver' in window) || (nav && nav.type !== 'navigate')) return function () {};
+  var done = false, rq = 0;
+  var evs = ['wheel', 'touchstart', 'keydown', 'pointerdown'];
+  var ro = new ResizeObserver(function () { if (!rq) rq = requestAnimationFrame(fix); });
+  function fix() { rq = 0; if (!done) t.scrollIntoView({ block: 'start' }); }
+  function stop() {
+    if (done) return;
+    done = true;
+    cancelAnimationFrame(rq); clearTimeout(end); ro.disconnect();
+    evs.forEach(function (e) { removeEventListener(e, stop, true); });
+  }
+  var end = setTimeout(stop, 4000);
+  evs.forEach(function (e) { addEventListener(e, stop, { capture: true, passive: true }); });
+  ro.observe(document.documentElement);
+  return stop;
 }
 
 /* after: после какой кнопки язычок появляется (нет на странице: после первого экрана);
@@ -79,6 +105,7 @@ export function runMenu(top) {
   /* ── панели десктопа ── */
   var trs = [].slice.call(top.querySelectorAll('.top-tr'));
   var cur = null, by = '', at = 0, tOpen = 0, tClose = 0, warmed = false, gone = 0;
+  var goaled = {};
   var panelOf = function (tr) { return document.getElementById(tr.getAttribute('aria-controls')); };
 
   // картинки панели ниш ленивые и лежат в скрытом блоке: качаем их при первом намерении, а не на каждой странице сразу
@@ -108,6 +135,9 @@ export function runMenu(top) {
     tr.setAttribute('aria-expanded', 'true');
     cur = tr; by = how; at = Date.now();
     top.classList.add('is-open');
+    // цель Метрики: панель раскрылась (кликом, наведением или с клавиатуры), по разу на панель за страницу
+    var g = tr.getAttribute('aria-controls') === 'np-dlya' ? 'nav_niches' : 'nav_services';
+    if (!goaled[g]) { goaled[g] = 1; ymGoal(g); }
   }
   function close(back) {
     clearTimeout(tOpen); clearTimeout(tClose);

@@ -406,3 +406,9 @@
 @media (min-width:700px) and (max-width:1099px){
   .dl-fan,.dl-fan[data-k="2"],.dl-fan[data-k="1"]{--cw:clamp(118px,15.5vw,170px)}
 }
+
+/* скорость: блоки ниже первого экрана не раскладываются, пока до них далеко. Место держит contain-intrinsic-size
+   (примерная высота, после первого показа браузер запоминает настоящую). overflow-clip-margin: кольцо фокуса,
+   тени и подписи у края блока не обрезаются */
+.dl-flow>.dl-block,.dl-flow>.dl-works,.dl-wide,.dl-final{content-visibility:auto;contain-intrinsic-size:auto 640px;overflow-clip-margin:40px}
+@media (min-width:700px){.dl-flow>.dl-block,.dl-flow>.dl-works,.dl-wide,.dl-final{contain-intrinsic-size:auto 560px}}

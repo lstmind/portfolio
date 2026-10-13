@@ -3,7 +3,7 @@
  * Факты (названия, адреса, цены, ставка, тексты вопросов) не дублируются, а берутся из
  * content.ts, services.ts и industries.ts: поменяли там, поменялось и здесь.
  */
-import { SITE, LIVE_SITES, PROJECTS_TOTAL, FAQ, hostOf, plural } from "./content";
+import { SITE, SERVICES, LIVE_SITES, PROJECTS_TOTAL, FAQ, hostOf, plural } from "./content";
 import { serviceBySlug } from "./services";
 import { INDUSTRY_PAGES } from "./industries";
 
@@ -11,6 +11,9 @@ const NB = " ";
 
 /** 15000 → "15 000" с неразрывным пробелом */
 export const rub = (n: number) => String(n).replace(/\B(?=(\d{3})+(?!\d))/g, NB);
+
+/** нижняя цена сайта строкой: "от 15 000 ₽", из услуги "Сайт под ключ" */
+export const SITE_FROM = `от${NB}${rub(SERVICES.find((s) => s.slug === "sayt-pod-klyuch")?.priceFrom ?? 15000)}${NB}₽`;
 
 /** ставка строкой: "2 000 ₽/час" */
 export const RATE = `${rub(SITE.ratePerHour)}${NB}₽/час`;

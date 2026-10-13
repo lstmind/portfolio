@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { CASE_PAGES } from "@/lib/cases";
 import { SITE, WORKS, PROJECTS_TOTAL, hostOf } from "@/lib/content";
+import { liveSitesWord } from "@/lib/home";
 import { Hub } from "@/components/v4/works/Hub";
 import { SITES } from "@/components/v4/works/data";
 
@@ -8,23 +9,27 @@ import { SITES } from "@/components/v4/works/data";
  * Витрина работ: все живые сайты карточками с фильтром и разборы проектов.
  * На главной показаны шесть сайтов и строка адресов, эта страница отдаёт роботу и человеку всё сразу.
  */
+const N_CASES = SITES.filter((s) => s.caseSlug).length;
+const OG_TITLE = `${PROJECTS_TOTAL} ${liveSitesWord()}, каждый открывается`;
+const OG_TEXT = `Магазины, сайты компаний, каталоги и свои демо. Каждый можно открыть и потыкать руками, у ${N_CASES} есть разбор: задача, стек и что сделано.`;
+
 export const metadata: Metadata = {
   title: `Работы: ${PROJECTS_TOTAL} живых сайтов и разборы проектов | lstmind`,
   description:
-    `Портфолио веб-разработчика: ${PROJECTS_TOTAL} проектов в проде — магазины на WooCommerce, корпоративные сайты, каталоги, боты и демо-проекты. Разборы кейсов с задачей, стеком и ссылкой на живой сайт.`,
+    `Портфолио веб-разработчика, ${PROJECTS_TOTAL} проектов в проде: магазины на WooCommerce, корпоративные сайты, каталоги, боты и демо-проекты. Разборы кейсов с задачей, стеком и ссылкой на живой сайт.`,
   alternates: { canonical: "/works" },
   openGraph: {
     type: "website",
     locale: "ru_RU",
     siteName: SITE.ogName,
     url: `${SITE.url}/works`,
-    title: `Работы: ${PROJECTS_TOTAL} живых сайтов | lstmind`,
-    description: "Магазины, корпоративные сайты, каталоги, боты и демо-проекты с разбором и ссылками.",
+    title: OG_TITLE,
+    description: OG_TEXT,
   },
   twitter: {
     card: "summary_large_image",
-    title: `Работы: ${PROJECTS_TOTAL} живых сайтов | lstmind`,
-    description: "Магазины, корпоративные сайты, каталоги, боты и демо-проекты с разбором и ссылками.",
+    title: OG_TITLE,
+    description: OG_TEXT,
   },
 };
 

@@ -9,6 +9,14 @@ import "./works-ill.css";
 const OWN = "Свои проекты";
 /** сколько карточек видно до кнопки "показать все": две строки на десктопе, шесть на телефоне */
 const FIRST = 12;
+/** сколько первых карточек грузить сразу и сколько из них с высоким приоритетом (первая строка на телефоне, там LCP) */
+const EAGER = 6;
+const URGENT = 2;
+
+/* Фильтр, кнопка "показать все" и обрезка сетки до первых 12 приходят уже в разметке: без этого после гидрации
+   фильтр вставал над сеткой и сдвигал карточки (CLS), а 24 лишние карточки успевали попасть в первую раскладку.
+   Без скрипта всё как раньше: фильтра и кнопки нет, видны все карточки. */
+const NOSCRIPT = "<style>.w-hub .w-filters,.w-hub .w-more{display:none}html .w-hub.is-cut .w-site[data-more]{display:flex}</style>";
 
 /**
  * Витрина: все живые сайты карточками, как в карусели героя (серые в покое, цвет при наведении, в фокусе
@@ -23,7 +31,8 @@ export function Hub() {
   const nCases = SITES.filter((s) => s.caseSlug).length;
 
   return (
-    <main id="main" className="w-hub">
+    <main id="main" className="w-hub is-cut">
+      <noscript dangerouslySetInnerHTML={{ __html: NOSCRIPT }} />
       <header className="w-hub__head">
         <Crumbs items={[{ name: "Главная", href: "/" }, { name: "Работы" }]} />
         <div className="w-hub__title">
@@ -41,7 +50,7 @@ export function Hub() {
           Магазины, сайты компаний, каталоги и свои демо. Каждый можно открыть и потыкать руками, у {nCases} есть разбор проекта.
         </p>
 
-        <div className="w-filters" hidden>
+        <div className="w-filters">
           <div className="w-filter" role="group" aria-label="Тип сайта" data-dim="cat">
             <button type="button" aria-pressed="true" data-v="">
               Все <i>{total}</i>
@@ -105,7 +114,8 @@ export function Hub() {
                       width={240}
                       height={519}
                       alt=""
-                      loading={k < 6 ? "eager" : "lazy"}
+                      loading={k < EAGER ? "eager" : "lazy"}
+                      fetchPriority={k < URGENT ? "high" : undefined}
                       decoding="async"
                       draggable={false}
                     />
@@ -149,7 +159,7 @@ export function Hub() {
             );
           })}
         </ul>
-        <p className="w-more" hidden>
+        <p className="w-more">
           <button type="button" className="w-more__btn" aria-controls="w-grid">
             Показать все {total}
             <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.9" aria-hidden="true">

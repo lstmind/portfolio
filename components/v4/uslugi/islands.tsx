@@ -2,7 +2,7 @@
 
 /* Островки раздела услуг: разметка с сервера, поведение ванильным кодом, всё убирается при размонтировании. */
 import { useEffect } from "react";
-import { useRun } from "../islands";
+import { runNear, useRun, useRunNear } from "../islands";
 import { runPrices } from "../home/prices.run";
 import { runHero, runCards, runWords, runNiches, runSignFigs, runStrike } from "./uslugi.run";
 import { runDemos } from "./demos.run";
@@ -21,7 +21,7 @@ export function WordsIsland() {
 
 /** карточки работ на телефоне */
 export function CardsIsland() {
-  useRun("#u-works", runCards);
+  useRunNear("#u-works", runCards);
   return null;
 }
 
@@ -29,7 +29,17 @@ export function CardsIsland() {
 export function SignsIsland() {
   useEffect(() => {
     const roots = [...document.querySelectorAll<HTMLElement>(".u-sign")];
-    const offs = roots.flatMap((r) => [runPrices(r) as () => void, runSignFigs(r) as () => void]);
+    // каждая вывеска запускается на подходе: на длинной странице их несколько, и замеры колонок не нужны при загрузке
+    const offs = roots.map((r) =>
+      runNear(r, (el) => {
+        const a = runPrices(el) as () => void;
+        const b = runSignFigs(el) as () => void;
+        return () => {
+          a();
+          b();
+        };
+      }),
+    );
     return () => offs.forEach((f) => f());
   }, []);
   return null;
@@ -43,12 +53,12 @@ export function DemosIsland() {
 
 /** строки ниш: цвет у середины экрана на телефоне */
 export function NichesIsland() {
-  useRun("#u-niches", runNiches);
+  useRunNear("#u-niches", runNiches);
   return null;
 }
 
 /** "Не делаю": зачёркивание по входу в кадр */
 export function StrikeIsland() {
-  useRun("#u-no", runStrike);
+  useRunNear("#u-no", runStrike);
   return null;
 }

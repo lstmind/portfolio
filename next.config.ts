@@ -6,6 +6,8 @@ const nextConfig: NextConfig = {
   // standalone нужен для собственного сервера (VPS): собирает .next/standalone/server.js
   // со всеми зависимостями. На Vercel игнорируется — там своя сборка.
   output: "standalone",
+  // отдельная папка сборки для замеров скорости, пока рядом работает dev-сервер (по умолчанию .next)
+  distDir: process.env.NEXT_DIST_DIR || ".next",
 };
 
 export default nextConfig;

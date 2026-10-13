@@ -22,6 +22,7 @@
 # node / next
 /node_modules
 /.next/
+/.next-perf/
 /out/
 /build
 /.vercel

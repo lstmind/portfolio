@@ -194,3 +194,9 @@
 @media (prefers-reduced-motion:reduce){
   .s-final *,.s-final *::before,.s-final *::after{transition:none!important}
 }
+
+/* скорость: секция ниже первого экрана не раскладывается, пока до неё далеко (место держит contain-intrinsic-size, потом запоминается).
+   overflow-clip-margin: кольцо фокуса и тени у края секции не обрезаются */
+#final.s-final{content-visibility:auto;contain-intrinsic-size:auto 1980px;overflow-clip-margin:32px}
+@media (min-width:700px){#final.s-final{contain-intrinsic-size:auto 1500px}}
+@media (min-width:1100px){#final.s-final{contain-intrinsic-size:auto 1350px}}

@@ -1,9 +1,11 @@
 import type { Metadata, Viewport } from "next";
 import Script from "next/script";
 import { Fira_Sans_Condensed, Montserrat } from "next/font/google";
-import { SITE } from "@/lib/content";
-import { PROFI_URL } from "@/lib/reviews";
+import { SITE, PROJECTS_TOTAL } from "@/lib/content";
+import { liveSitesWord, SITE_FROM } from "@/lib/home";
+import { PROFI_STATS, PROFI_URL } from "@/lib/reviews";
 import { YM_ID } from "@/lib/metrika";
+import { Goals } from "@/components/v4/goals";
 import "./globals.css";
 /* шапка есть на каждой странице, включая 404: её стили общие, иначе Next предзагружал бы их отдельным файлом */
 import "@/components/v4/header.css";
@@ -19,6 +21,14 @@ const display = Fira_Sans_Condensed({
   variable: "--display",
   fallback: ["Arial Narrow", "sans-serif"],
 });
+/* тексты превью главной: голос сайта, факты из lib (число живых сайтов, рейтинг Профи), без длинных тире */
+const LIVE = `${PROJECTS_TOTAL} ${liveSitesWord()}`;
+const FROM = SITE_FROM;
+const OG_TITLE = "Алексей (lstmind): делаю, чиню и ускоряю сайты";
+const OG_TEXT =
+  `Работаю один: с кем переписываетесь, тот и пишет код. ${LIVE}, каждый открывается. ` +
+  `Сайт ${FROM}, договор и чек. Kwork 5.0, Профи ${PROFI_STATS.rating.replace(".", ",")}.`;
+
 const sans = Montserrat({
   weight: ["600", "700"],
   subsets: ["cyrillic", "latin"],
@@ -31,8 +41,7 @@ export const metadata: Metadata = {
   metadataBase: new URL(SITE.url),
   // запрос впереди, бренд в хвост: в выдаче видно первые ~60 знаков, и имя там ничего не ловит
   title: "Веб-разработчик в Москве: сайты под ключ, ремонт чужих | lstmind",
-  description:
-    "Фриланс веб-разработчик: сайты под ключ, магазины, боты и админки, спасение и ускорение чужих сайтов. Москва и вся Россия удалённо. Договор и чек.",
+  description: `Веб-разработчик на фрилансе: сайты под ключ ${FROM}, магазины, боты, починка и ускорение чужих сайтов. Работаю один, ${LIVE}, договор и чек.`,
   keywords: [
     "веб-разработчик",
     "сайт под ключ",
@@ -56,15 +65,14 @@ export const metadata: Metadata = {
     type: "website",
     locale: "ru_RU",
     url: SITE.url,
-    siteName: "lstmind — веб-разработчик",
-    title: "Алексей (lstmind) — сайты, которые работают",
-    description:
-      "Сайты под ключ, магазины, доработки и ускорение. Чистый код, скорость, реальные кейсы. Договор и чек.",
+    siteName: SITE.ogName,
+    title: OG_TITLE,
+    description: OG_TEXT,
   },
   twitter: {
     card: "summary_large_image",
-    title: "Алексей (lstmind) — сайты, которые работают",
-    description: "Сайты под ключ, магазины, спасение и ускорение чужих сайтов. Договор и чек.",
+    title: OG_TITLE,
+    description: OG_TEXT,
   },
   robots: { index: true, follow: true },
   verification: {
@@ -163,6 +171,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           К содержимому
         </a>
         {children}
+        <Goals />
         <Script id="ym-init" strategy="afterInteractive">
           {`window.ym = window.ym || function(){(window.ym.a = window.ym.a || []).push(arguments)};
           window.ym.l = 1 * new Date();

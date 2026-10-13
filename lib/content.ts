@@ -10,7 +10,7 @@ export const SITE = {
   kwork: "https://kwork.ru/user/lstmind",
   github: "https://github.com/lstmind",
   /** подпись сайта в превью ссылок — одна на все страницы */
-  ogName: "lstmind — веб-разработчик",
+  ogName: "lstmind, веб-разработчик",
   // Боевой домен. NEXT_PUBLIC_SITE_URL в Vercel переопределит при необходимости.
   url: process.env.NEXT_PUBLIC_SITE_URL || "https://lstmind.ru",
   ratePerHour: 2000,

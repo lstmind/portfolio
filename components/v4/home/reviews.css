@@ -162,3 +162,7 @@
   .s-reviews .reviews-c{transform:none!important;opacity:1}
   .s-reviews .reviews-card:not(.is-on) .reviews-c{opacity:0}
 }
+
+/* скорость: секция ниже первого экрана не раскладывается, пока до неё далеко (место держит contain-intrinsic-size, потом запоминается).
+   overflow-clip-margin: кольцо фокуса и тени у края секции не обрезаются */
+#reviews.s-reviews{content-visibility:auto;contain-intrinsic-size:auto 880px;overflow-clip-margin:32px}

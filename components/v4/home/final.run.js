@@ -1,7 +1,11 @@
 /* Финал: ванильный код статики (design-concepts/v4/karusel/sections/final/section.html).
-   Калькулятор (та же логика, что CostCalc.tsx и бот: цифры в тыс ₽, срочно ×1.25 с округлением), позы 3 и 2,
+   Калькулятор (та же логика, что у бота в lib/bot.ts: цифры в тыс ₽, срочно ×1.25 с округлением), позы 3 и 2,
    стрелка к кнопке, запасная форма на /api/contact, аккордеон вопросов. Данные калькулятора приходят из lib через data-calc.
-   Возвращает полную очистку. */
+   Возвращает полную очистку.
+   Цели Метрики те же, что у старых калькулятора и формы: calc_use (первое изменение расчёта за визит), lead_form (заявка дошла).
+   calc_cta (кнопка Telegram калькулятора) ловит общий обработчик кликов, components/v4/goals.tsx. */
+import { ymGoal, ymGoalOnce } from '../../../lib/metrika';
+
 export function runFinal(root) {
   var dead = false, offs = [];
   var on = function (t, type, fn, opt) { t.addEventListener(type, fn, opt); offs.push(function () { t.removeEventListener(type, fn, opt); }); };
@@ -25,12 +29,13 @@ export function runFinal(root) {
         st[key] = v;
         all.forEach(function (c) { c.setAttribute('aria-pressed', String(c === b)); });
         update(true);
+        ymGoalOnce('calc_use');
       });
     });
   }
   chips(root.querySelector('[data-final-k="type"]'), 'type');
   chips(root.querySelector('[data-final-k="scale"]'), 'scale');
-  on(urgEl, 'change', function () { st.urg = urgEl.checked ? 'u' : 'n'; update(true); });
+  on(urgEl, 'change', function () { st.urg = urgEl.checked ? 'u' : 'n'; update(true); ymGoalOnce('calc_use'); });
 
   /* ---------- цифры: изменившиеся знаки перекатываются барабаном, как слово в герое ---------- */
   function setDigits(text, animate) {
@@ -222,6 +227,7 @@ export function runFinal(root) {
         page: location.pathname + location.search, from: document.referrer || '' })
     }).then(function (res) {
       if (!res.ok) throw new Error('bad');
+      ymGoal('lead_form');
       form.reset();
       status.textContent = 'Дошло. Уже читаю, отвечаю сам.';
       send.textContent = 'Отправлено';

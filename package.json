@@ -14,17 +14,14 @@
     "bot:setup": "node scripts/bot-setup.mjs"
   },
   "dependencies": {
-    "lenis": "^1.3.25",
     "next": "^16.2.9",
     "react": "19.1.1",
     "react-dom": "19.1.1"
   },
   "devDependencies": {
-    "@tailwindcss/postcss": "^4.1.13",
     "@types/node": "^22",
     "@types/react": "^19",
     "@types/react-dom": "^19",
-    "tailwindcss": "^4.1.13",
     "typescript": "^5"
   }
 }

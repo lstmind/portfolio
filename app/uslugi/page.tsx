@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { SERVICE_PAGES } from "@/lib/services";
 import { INDUSTRY_PAGES } from "@/lib/industries";
 import { SITE, NOT_DOING } from "@/lib/content";
-import { RATE } from "@/lib/home";
+import { RATE, SITE_FROM } from "@/lib/home";
 import { Figure } from "@/components/v4/Figure";
 import { Crumbs, FinalCta, Go, TgButton, Word } from "@/components/v4/uslugi/bits";
 import { Niches } from "@/components/v4/uslugi/Service";
@@ -15,6 +15,9 @@ import { NichesIsland, SignsIsland, StrikeIsland, WordsIsland } from "@/componen
  * ссылками с главной, а /uslugi отдавал 404 — крошкам было некуда вести,
  * а вес с главной размазывался на шестнадцать адресов сразу.
  */
+const OG_TITLE = "Что делаю и сколько это стоит";
+const OG_TEXT = `Сайты ${SITE_FROM}, магазины, боты, админки, починка и ускорение чужих сайтов. У каждой услуги своя цена и срок, ставка ${RATE}, договор и чек.`;
+
 export const metadata: Metadata = {
   title: "Услуги веб-разработчика: цены и сроки | lstmind",
   description:
@@ -25,13 +28,13 @@ export const metadata: Metadata = {
     locale: "ru_RU",
     siteName: SITE.ogName,
     url: `${SITE.url}/uslugi`,
-    title: "Услуги веб-разработчика: цены и сроки | lstmind",
-    description: "Сайты под ключ, магазины, боты, админки, починка и ускорение чужих сайтов. Цена и срок по каждой услуге.",
+    title: OG_TITLE,
+    description: OG_TEXT,
   },
   twitter: {
     card: "summary_large_image",
-    title: "Услуги веб-разработчика: цены и сроки | lstmind",
-    description: "Сайты под ключ, магазины, боты, админки, починка и ускорение чужих сайтов.",
+    title: OG_TITLE,
+    description: OG_TEXT,
   },
 };
 
