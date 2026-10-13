@@ -1,0 +1,323 @@
+{
+ "figs": {
+  "j1": {
+   "w": 406,
+   "h": 582,
+   "full": 1000,
+   "top": 48,
+   "hx": 0.4112,
+   "l": 0.0172,
+   "r": 0.968
+  },
+  "j5": {
+   "w": 406,
+   "h": 582,
+   "full": 1000,
+   "top": 48,
+   "hx": 0.5344,
+   "l": 0.0961,
+   "r": 0.8005
+  },
+  "h-papka": {
+   "w": 406,
+   "h": 582,
+   "full": 1000,
+   "top": 48,
+   "hx": 0.417,
+   "l": 0.0493,
+   "r": 0.8522
+  },
+  "h-priglashaet": {
+   "w": 484,
+   "h": 582,
+   "full": 1000,
+   "top": 48,
+   "hx": 0.3032,
+   "l": 0.0372,
+   "r": 0.9897
+  },
+  "j6": {
+   "w": 471,
+   "h": 604,
+   "full": 1160,
+   "top": 26,
+   "hx": 0.4053,
+   "l": 0.0764,
+   "r": 0.8769,
+   "screen": [
+    109.4,
+    286.7,
+    190.6,
+    123.5
+   ]
+  },
+  "j7": {
+   "w": 471,
+   "h": 604,
+   "full": 1160,
+   "top": 26,
+   "hx": 0.3863,
+   "l": 0.0658,
+   "r": 0.8323
+  },
+  "n-dostavka": {
+   "w": 575,
+   "h": 604,
+   "full": 1160,
+   "top": 26,
+   "hx": 0.5078,
+   "l": 0.0139,
+   "r": 0.8991
+  },
+  "n-kafe": {
+   "w": 585,
+   "h": 604,
+   "full": 1160,
+   "top": 26,
+   "hx": 0.5022,
+   "l": 0.0137,
+   "r": 0.988
+  },
+  "n-mebel": {
+   "w": 695,
+   "h": 604,
+   "full": 1160,
+   "top": 26,
+   "hx": 0.5853,
+   "l": 0.1655,
+   "r": 0.9065
+  },
+  "n-odezhda": {
+   "w": 674,
+   "h": 604,
+   "full": 1160,
+   "top": 26,
+   "hx": 0.622,
+   "l": 0.0104,
+   "r": 0.908
+  },
+  "n-okna": {
+   "w": 578,
+   "h": 604,
+   "full": 1160,
+   "top": 26,
+   "hx": 0.4603,
+   "l": 0.0121,
+   "r": 0.8685
+  },
+  "n-proizvodstvo": {
+   "w": 471,
+   "h": 604,
+   "full": 1160,
+   "top": 26,
+   "hx": 0.4307,
+   "l": 0.0573,
+   "r": 0.8769
+  },
+  "n-remont": {
+   "w": 540,
+   "h": 604,
+   "full": 1160,
+   "top": 26,
+   "hx": 0.4626,
+   "l": 0.0148,
+   "r": 0.9852
+  },
+  "n-salon": {
+   "w": 516,
+   "h": 604,
+   "full": 1160,
+   "top": 26,
+   "hx": 0.4012,
+   "l": 0.0136,
+   "r": 0.9787
+  },
+  "n-transport": {
+   "w": 514,
+   "h": 604,
+   "full": 1160,
+   "top": 26,
+   "hx": 0.493,
+   "l": 0.0136,
+   "r": 0.8774
+  },
+  "s-admin": {
+   "w": 471,
+   "h": 604,
+   "full": 1160,
+   "top": 26,
+   "hx": 0.4112,
+   "l": 0.0637,
+   "r": 0.8811
+  },
+  "s-bot": {
+   "w": 471,
+   "h": 604,
+   "full": 1160,
+   "top": 26,
+   "hx": 0.4257,
+   "l": 0.0786,
+   "r": 0.879
+  },
+  "s-integracii": {
+   "w": 474,
+   "h": 604,
+   "full": 1160,
+   "top": 26,
+   "hx": 0.5175,
+   "l": 0.0148,
+   "r": 0.8755
+  },
+  "s-magazin": {
+   "w": 471,
+   "h": 604,
+   "full": 1160,
+   "top": 26,
+   "hx": 0.4379,
+   "l": 0.0255,
+   "r": 0.9915
+  },
+  "s-parsing": {
+   "w": 502,
+   "h": 604,
+   "full": 1160,
+   "top": 26,
+   "hx": 0.5147,
+   "l": 0.0737,
+   "r": 0.9781
+  },
+  "s-perenos": {
+   "w": 471,
+   "h": 604,
+   "full": 1160,
+   "top": 26,
+   "hx": 0.4219,
+   "l": 0.0658,
+   "r": 0.8981
+  },
+  "s-pererabotka": {
+   "w": 486,
+   "h": 604,
+   "full": 1160,
+   "top": 26,
+   "hx": 0.4181,
+   "l": 0.0165,
+   "r": 0.8745
+  },
+  "s-pochinit": {
+   "w": 524,
+   "h": 604,
+   "full": 1160,
+   "top": 26,
+   "hx": 0.3681,
+   "l": 0.0153,
+   "r": 0.9103
+  },
+  "s-podderzhka": {
+   "w": 476,
+   "h": 604,
+   "full": 1160,
+   "top": 26,
+   "hx": 0.5226,
+   "l": 0.0441,
+   "r": 0.9853
+  },
+  "s-seo": {
+   "w": 471,
+   "h": 604,
+   "full": 1160,
+   "top": 26,
+   "hx": 0.3288,
+   "l": 0.087,
+   "r": 0.9066
+  },
+  "s-uskorit": {
+   "w": 471,
+   "h": 604,
+   "full": 1160,
+   "top": 26,
+   "hx": 0.4579,
+   "l": 0.0552,
+   "r": 0.8408
+  },
+  "s-verstka": {
+   "w": 533,
+   "h": 604,
+   "full": 1160,
+   "top": 26,
+   "hx": 0.4975,
+   "l": 0.015,
+   "r": 0.8818
+  }
+ },
+ "sites": [
+  "/img/v4/a-interiors",
+  "/img/v4/almytech",
+  "/img/v4/chemrar",
+  "/img/v4/devabala",
+  "/img/v4/drova",
+  "/img/v4/hp-vdnh",
+  "/img/v4/lavenir-mirror",
+  "/img/v4/mcdparking",
+  "/img/v4/nega",
+  "/img/v4/perlovskiebani",
+  "/img/v4/prices-wellevent",
+  "/img/v4/qayna",
+  "/img/v4/skazpokrayu",
+  "/img/v4/stroy",
+  "/img/v4/swgshop",
+  "/img/v4/works/agroindustriy-ru",
+  "/img/v4/works/arendataxi-kz",
+  "/img/v4/works/arthouse24-ru",
+  "/img/v4/works/blog-binolla-com",
+  "/img/v4/works/domupack-ru",
+  "/img/v4/works/envelopes-ru",
+  "/img/v4/works/kitoservices-ru",
+  "/img/v4/works/kompkm-ru",
+  "/img/v4/works/l2-servera-com",
+  "/img/v4/works/legio-news",
+  "/img/v4/works/marvli-com",
+  "/img/v4/works/modelium-club",
+  "/img/v4/works/okonnyiportal-ru",
+  "/img/v4/works/radarplus-shop",
+  "/img/v4/works/ryazanokno-ru",
+  "/img/v4/works/sealtsiia-ee",
+  "/img/v4/works/sever-yolastudio-ru",
+  "/img/v4/works/snowboardel-com",
+  "/img/v4/works/tehnokvarc-ru",
+  "/img/v4/works/tksibstar-com",
+  "/img/v4/works/wellevent-ru",
+  "/img/v4/works/yaris-yolastudio-ru"
+ ],
+ "color": [
+  "/img/v4/a-interiors",
+  "/img/v4/almytech",
+  "/img/v4/chemrar",
+  "/img/v4/devabala",
+  "/img/v4/drova",
+  "/img/v4/hp-vdnh",
+  "/img/v4/lavenir-mirror",
+  "/img/v4/mcdparking",
+  "/img/v4/nega",
+  "/img/v4/perlovskiebani",
+  "/img/v4/prices-wellevent",
+  "/img/v4/qayna",
+  "/img/v4/skazpokrayu",
+  "/img/v4/stroy",
+  "/img/v4/swgshop",
+  "/img/v4/works/wellevent-ru"
+ ],
+ "shots": [
+  "ainteriors",
+  "almytech",
+  "chemrar",
+  "drovyanaya",
+  "hpvdnh",
+  "lavenir",
+  "nega",
+  "qayna",
+  "skaz",
+  "stroy",
+  "wellevent"
+ ]
+}

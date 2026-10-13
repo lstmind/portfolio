@@ -33,6 +33,19 @@ const Cross = () => (
   </svg>
 );
 
+/**
+ * Логотип: слово и красный блок-курсор высотой со строчные, как в строке, где сейчас печатают.
+ * Тот же знак, что во вкладке и на иконках (design-concepts/v4/brand, направление A).
+ */
+function Logo() {
+  return (
+    <a className="logo" href="/" aria-label={`${SITE.name}, на главную`}>
+      {SITE.name}
+      <i className="logo-cur" aria-hidden="true" />
+    </a>
+  );
+}
+
 /** цена строкой меню: "от" мельче, число жирно, единица следом */
 function Price({ p }: { p: { pre: string; value: string; unit: string } }) {
   return (
@@ -59,9 +72,7 @@ export function Header({ inner = false, current }: { inner?: boolean; current?: 
 
   return (
     <header className="top">
-      <a className="logo" href="/" aria-label={`${SITE.name}, на главную`}>
-        {SITE.name}
-      </a>
+      <Logo />
       <div className="top-r">
         <nav className="top-nav" aria-label="Разделы">
           <button type="button" className="top-tr" aria-expanded="false" aria-controls="np-uslugi" aria-current={cur("/uslugi")}>
@@ -163,9 +174,7 @@ export function Header({ inner = false, current }: { inner?: boolean; current?: 
       {/* лист меню на телефоне: свой верх с логотипом и крестиком на месте шапки */}
       <div className="ns" id="ns" role="dialog" aria-modal="true" aria-label="Меню" tabIndex={-1} hidden>
         <div className="ns-bar">
-          <a className="logo" href="/" aria-label={`${SITE.name}, на главную`}>
-            {SITE.name}
-          </a>
+          <Logo />
           <button type="button" className="ns-x">
             Закрыть
             <Cross />

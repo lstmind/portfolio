@@ -34,6 +34,9 @@ const LABELS: Record<string, string> = {
   integracii: "Интеграции",
 };
 
+/** короткое имя услуги: в меню и крупным словом в превью ссылки */
+export const serviceLabel = (slug: string) => LABELS[slug];
+
 // у каждой услуги из lib есть имя в меню: новая услуга без подписи не соберётся молча
 for (const s of SERVICE_PAGES) {
   if (!LABELS[s.slug]) throw new Error(`нет имени услуги ${s.slug} для меню в components/v4/nav.data.ts`);

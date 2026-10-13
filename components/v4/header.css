@@ -7,6 +7,11 @@
 /* сброс кнопок без веса селектора: размер и начертание задают классы ниже */
 :where(.top) button{font:inherit;color:inherit;background:none;border:0;cursor:pointer;-webkit-tap-highlight-color:transparent}
 .logo{font-family:var(--display);font-weight:900;font-size:26px;letter-spacing:-.01em;line-height:1}
+/* курсор после слова: размеры из знака стенда (v-wordA.svg): .27em в ширину, .48em от базовой линии, отступ .09em.
+   пустой inline-block стоит нижним краем на базовой линии. при загрузке мигает три раза и замирает, под указателем мигает */
+.logo-cur{display:inline-block;width:.27em;height:.48em;margin-left:.09em;background:var(--red);animation:logo-blink 1.06s steps(1,end) .4s 3}
+.logo:hover .logo-cur,.logo:focus-visible .logo-cur{animation:logo-blink 1.06s steps(1,end) infinite}
+@keyframes logo-blink{50%{opacity:0}}
 .tg{font-weight:600;font-size:13px;letter-spacing:.04em;text-transform:uppercase;display:inline-flex;gap:.45em;align-items:center;padding:8px 0}
 .tg svg{width:15px;height:15px}
 .tg:hover{color:var(--red)}
@@ -133,5 +138,6 @@ html.ns-lock body{overflow:hidden}
 
 @media (prefers-reduced-motion:reduce){
   .top,.top-chev,.top-nav>a::after,.top-tr::after,.np-card img,.ns,.ns.is-open{transition:none}
+  .logo-cur,.logo:hover .logo-cur,.logo:focus-visible .logo-cur{animation:none}
   .np.is-in{animation:none}
 }
