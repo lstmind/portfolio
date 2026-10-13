@@ -1,0 +1,152 @@
+{
+ "sheet": "svc-fix",
+ "src": "design-concepts/v4/ill/svc-fix/",
+ "canvasH": 984,
+ "sole": 978,
+ "soleRatio": 0.9939,
+ "ax400": 188,
+ "heights": [
+  560,
+  780,
+  984,
+  1400
+ ],
+ "note": "холст как pose-j: подошвы на 978 из 984, ось корпуса ax; shift_vs_400 = ax - 188 (холст шире 400 сдвигать влево на столько px холста, чтобы совпасть с pose-j)",
+ "poses": [
+  {
+   "slug": "s-pochinit",
+   "canvas": [
+    444,
+    984
+   ],
+   "ax": 190,
+   "sole": 978,
+   "shift_vs_400": 2,
+   "top": 7,
+   "left": 6,
+   "right": 436,
+   "widths": [
+    253,
+    352,
+    444,
+    632
+   ],
+   "files": [
+    {
+     "src": "/img/v4/ill/s-pochinit-560.webp",
+     "w": 253,
+     "h": 560,
+     "kb": 18.1
+    },
+    {
+     "src": "/img/v4/ill/s-pochinit-780.webp",
+     "w": 352,
+     "h": 780,
+     "kb": 29.1
+    },
+    {
+     "src": "/img/v4/ill/s-pochinit-984.webp",
+     "w": 444,
+     "h": 984,
+     "kb": 40.5
+    },
+    {
+     "src": "/img/v4/ill/s-pochinit-1400.webp",
+     "w": 632,
+     "h": 1400,
+     "kb": 66.4
+    }
+   ]
+  },
+  {
+   "slug": "s-uskorit",
+   "canvas": [
+    400,
+    984
+   ],
+   "ax": 188,
+   "sole": 978,
+   "shift_vs_400": 0,
+   "top": 13,
+   "left": 22,
+   "right": 335,
+   "widths": [
+    228,
+    317,
+    400,
+    569
+   ],
+   "files": [
+    {
+     "src": "/img/v4/ill/s-uskorit-560.webp",
+     "w": 228,
+     "h": 560,
+     "kb": 14.6
+    },
+    {
+     "src": "/img/v4/ill/s-uskorit-780.webp",
+     "w": 317,
+     "h": 780,
+     "kb": 23.4
+    },
+    {
+     "src": "/img/v4/ill/s-uskorit-984.webp",
+     "w": 400,
+     "h": 984,
+     "kb": 32.5
+    },
+    {
+     "src": "/img/v4/ill/s-uskorit-1400.webp",
+     "w": 569,
+     "h": 1400,
+     "kb": 53.7
+    }
+   ]
+  },
+  {
+   "slug": "s-perenos",
+   "canvas": [
+    400,
+    984
+   ],
+   "ax": 188,
+   "sole": 978,
+   "shift_vs_400": 0,
+   "top": 4,
+   "left": 26,
+   "right": 358,
+   "widths": [
+    228,
+    317,
+    400,
+    569
+   ],
+   "files": [
+    {
+     "src": "/img/v4/ill/s-perenos-560.webp",
+     "w": 228,
+     "h": 560,
+     "kb": 13.9
+    },
+    {
+     "src": "/img/v4/ill/s-perenos-780.webp",
+     "w": 317,
+     "h": 780,
+     "kb": 22.2
+    },
+    {
+     "src": "/img/v4/ill/s-perenos-984.webp",
+     "w": 400,
+     "h": 984,
+     "kb": 31.0
+    },
+    {
+     "src": "/img/v4/ill/s-perenos-1400.webp",
+     "w": 569,
+     "h": 1400,
+     "kb": 50.7
+    }
+   ]
+  }
+ ]
+}

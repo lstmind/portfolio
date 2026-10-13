@@ -1,0 +1,24 @@
+/* шапка: стили статики (hero.html, sections/_page.html) как есть.
+   над героем прозрачная, при прокрутке бумага и тонкая линия, текст секций под ней не просвечивает */
+.top{position:fixed;inset:0 0 auto;z-index:20;display:flex;justify-content:space-between;align-items:center;
+  padding:22px clamp(16px,2.6vw,40px);pointer-events:none}
+.top a{pointer-events:auto}
+.logo{font-family:var(--display);font-weight:900;font-size:26px;letter-spacing:-.01em;line-height:1}
+.tg{font-weight:600;font-size:13px;letter-spacing:.04em;text-transform:uppercase;display:inline-flex;gap:.45em;align-items:center;padding:8px 0}
+.tg svg{width:15px;height:15px}
+.tg:hover{color:var(--red)}
+.top{transition:background-color .25s ease-out,box-shadow .25s ease-out}
+.top.is-solid{background:var(--paper);box-shadow:0 1px 0 rgba(12,11,11,.12);pointer-events:auto}
+/* внутренние страницы: три раздела между логотипом и Telegram, тем же шрифтом, что Telegram */
+.top-r{display:flex;align-items:center;gap:clamp(18px,2.4vw,36px)}
+.top-nav{display:flex;gap:clamp(18px,2.4vw,36px)}
+.top-nav a{font-weight:600;font-size:13px;letter-spacing:.04em;text-transform:uppercase;padding:8px 0;transition:color .15s ease-out}
+.top-nav a:hover,.top-nav a[aria-current="page"]{color:var(--red)}
+@media (max-width:699px){
+  .top{padding:16px 16px}
+  .logo{font-size:19px}
+  .top-r,.top-nav{gap:14px}
+  .top-nav a,.top-r .tg{font-size:12px;letter-spacing:.03em}
+}
+@media (max-width:379px){.top-nav{display:none}}
+@media (prefers-reduced-motion:reduce){.top{transition:none}}

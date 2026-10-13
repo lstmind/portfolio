@@ -1,0 +1,164 @@
+/* отзывы: стили статики design-concepts/v4/karusel/sections/reviews/section.html как есть */
+/* отзывы: слева огромное 47 (все отзывы) как предмет, под ним две площадки рядом, у каждой свой рейтинг и ссылка.
+   ниже указатель из десяти имён: колонки стоят под своей площадкой, слева Kwork, справа Профи.
+   справа одна цитата крупно, ключевые слова клиента подчёркнуты маркером, остальное серое: глаз читает суть за секунду.
+   десктоп: смена цитаты по имени, стрелкам или клавишам, счётчик крутится барабаном, как слово в герое.
+   телефон: лента карточек на scroll-snap с краем следующей, соседние карточки в тумане, как дальние карточки карусели. */
+.s-reviews{--reviews-pad:clamp(16px,2.6vw,40px);--reviews-rule:rgba(12,11,11,.88);--reviews-ease:cubic-bezier(.16,1,.3,1);
+  --reviews-mute:#716d68;--reviews-hl:#e4e0d8;--reviews-big:clamp(170px,23vw,400px);
+  position:relative;background:var(--paper);color:var(--ink);padding:clamp(72px,6vw,104px) var(--reviews-pad) clamp(80px,8vw,128px)}
+.s-reviews *{box-sizing:border-box}
+.s-reviews .reviews-sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.s-reviews a,.s-reviews button{-webkit-tap-highlight-color:transparent}
+.s-reviews a:focus-visible,.s-reviews button:focus-visible,.s-reviews .reviews-track:focus-visible{outline:2px solid var(--red);outline-offset:4px;border-radius:6px}
+
+/* шапка блока: как у прайса, две подписи над линейкой */
+.s-reviews .reviews-head{display:flex;justify-content:space-between;align-items:baseline;gap:16px;padding-bottom:16px;border-bottom:1px solid var(--reviews-rule)}
+.s-reviews .reviews-head h2,.s-reviews .reviews-head p{font:700 13px/1.2 var(--sans);letter-spacing:.04em;text-transform:uppercase;margin:0}
+.s-reviews .reviews-head p{color:var(--ink-2);text-align:right}
+
+.s-reviews .reviews-body{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:clamp(32px,5vw,96px);padding-top:clamp(28px,3vw,48px)}
+
+/* 47: предмет блока */
+.s-reviews .reviews-score{display:flex;flex-direction:column;min-width:0}
+.s-reviews .reviews-num{display:flex;font-family:var(--display);font-weight:900;font-size:var(--reviews-big);line-height:.72;letter-spacing:-.02em;
+  margin:0 0 0 -.05em;padding-top:.04em;perspective:900px}
+.s-reviews .reviews-num .reviews-d{display:inline-block;transform-origin:50% 55% -.42em;backface-visibility:hidden}
+
+/* две площадки: у каждой свой рейтинг, своё число отзывов, своя ссылка. общего рейтинга нет */
+.s-reviews .reviews-plat,.s-reviews .reviews-index{display:grid;grid-template-columns:1fr 1fr;column-gap:24px;list-style:none}
+.s-reviews .reviews-plat{margin:clamp(26px,2.6vw,40px) 0 0;padding:0}
+.s-reviews .reviews-pf{display:flex;flex-direction:column;gap:10px;padding-top:14px;border-top:1.5px solid var(--ink);color:inherit;text-decoration:none}
+.s-reviews .reviews-pf-r{display:flex;align-items:center;gap:.16em;font:900 clamp(38px,3.4vw,56px)/.8 var(--display);letter-spacing:-.01em;font-variant-numeric:tabular-nums}
+.s-reviews .reviews-pf-r svg{width:.4em;height:.4em;margin-top:-.04em}
+.s-reviews .reviews-pf-t{font:700 15px/1.25 var(--sans);white-space:nowrap}
+.s-reviews .reviews-nw{white-space:nowrap}
+.s-reviews .reviews-pf-t svg{width:.82em;height:.82em;margin-left:.3em;vertical-align:-.04em;transition:transform .4s var(--reviews-ease)}
+.s-reviews .reviews-pf:hover .reviews-pf-t{text-decoration:underline;text-underline-offset:.22em;text-decoration-thickness:1px}
+.s-reviews .reviews-pf:hover .reviews-pf-t svg{transform:translate(2px,-2px)}
+
+/* десять имён: указатель, он же навигация. порядок через одного, поэтому слева встают Kwork, справа Профи */
+.s-reviews .reviews-index{margin:auto 0 0;padding:clamp(28px,3vw,48px) 0 0}
+.s-reviews .reviews-who{display:flex;align-items:baseline;gap:12px;width:100%;padding:9px 0 10px;border:0;border-top:1px solid rgba(12,11,11,.14);background:none;
+  font:600 15px/1.2 var(--sans);color:var(--reviews-mute);text-align:left;cursor:pointer;transition:color .2s ease-out,border-color .2s ease-out}
+.s-reviews .reviews-who i{font-style:normal;font-size:11px;font-weight:700;letter-spacing:.04em;min-width:1.6em}
+.s-reviews .reviews-who:hover{color:var(--ink)}
+.s-reviews .reviews-who[aria-current=true]{color:var(--ink);border-top-color:var(--ink)}
+
+/* сцена цитаты: все десять лежат в одной ячейке, высота по самой длинной, ничего не прыгает */
+.s-reviews .reviews-stage{display:flex;flex-direction:column;min-width:0}
+.s-reviews .reviews-track{display:grid;outline:none}
+.s-reviews .reviews-card{grid-area:1/1;margin:0;display:flex;flex-direction:column;min-width:0;visibility:hidden;transition:visibility 0s linear .7s}
+.s-reviews .reviews-card.is-on{visibility:visible;transition:none}
+.s-reviews .reviews-card blockquote,.s-reviews .reviews-card figcaption{opacity:0;transition:opacity .16s ease-in}
+.s-reviews .reviews-card.is-on blockquote,.s-reviews .reviews-card.is-on figcaption{opacity:1;transition:opacity .32s ease-out .16s}
+
+/* крупно: слова самого клиента, капсом. меняются барабаном букв, как слово в герое */
+.s-reviews .reviews-word{display:flex;flex-wrap:wrap;align-content:flex-end;column-gap:.22em;row-gap:.06em;min-height:calc(var(--reviews-big) * .735 + .115em);margin:0 0 clamp(22px,2.2vw,34px);
+  font:900 calc(clamp(60px,7vw,124px) * var(--reviews-wk,1))/.9 var(--display);text-transform:uppercase;letter-spacing:-.01em;color:var(--ink);perspective:1100px}
+.s-reviews .reviews-gap{display:inline-block;width:.22em}
+.s-reviews .reviews-wd{display:inline-flex;white-space:nowrap;padding-top:.2em;margin-top:-.2em}
+.s-reviews .reviews-c{display:inline-block;transform-origin:50% 55% -.42em;backface-visibility:hidden;
+  transform:rotateX(-78deg);opacity:0;transition:none}
+.s-reviews .is-on .reviews-c{transform:none;opacity:1;transition:transform .75s cubic-bezier(.16,1,.3,1) calc(var(--reviews-i) * 28ms + .2s),opacity .4s ease-out calc(var(--reviews-i) * 28ms + .2s)}
+.s-reviews .is-off .reviews-c{transform:rotateX(78deg);opacity:0;transition:transform .3s cubic-bezier(.5,0,.75,0) calc(var(--reviews-i) * 12ms),opacity .2s ease-in calc(var(--reviews-i) * 12ms)}
+
+.s-reviews blockquote{margin:0}
+.s-reviews .reviews-q{margin:0;font:600 var(--reviews-fs,26px)/1.32 var(--sans);letter-spacing:-.01em;color:var(--ink-2);
+  text-wrap:pretty;hyphens:manual;max-width:30em}
+.s-reviews .reviews-card[data-len=s] .reviews-q{--reviews-fs:clamp(22px,2vw,30px)}
+.s-reviews .reviews-card[data-len=m] .reviews-q{--reviews-fs:clamp(19px,1.62vw,25px)}
+.s-reviews .reviews-card[data-len=l] .reviews-q{--reviews-fs:clamp(18px,1.5vw,23px)}
+/* маркер по тем же словам в цитате: проводится, когда цитата встала на место */
+.s-reviews mark{color:var(--ink);background:linear-gradient(var(--reviews-hl),var(--reviews-hl)) 0 90%/0% .5em no-repeat;
+  -webkit-box-decoration-break:clone;box-decoration-break:clone;padding:0 .08em;margin:0 -.08em;
+  transition:background-size .2s ease-in}
+.s-reviews .is-on mark{background-size:100% .5em;transition:background-size .7s cubic-bezier(.65,0,.35,1) .5s}
+
+/* подпись: кто, что заказывал, где оставил (ссылка на профиль площадки) */
+.s-reviews figcaption{display:grid;grid-template-columns:auto minmax(0,1fr) auto;align-items:baseline;gap:6px 14px;margin-top:clamp(22px,2.2vw,34px);padding-top:14px;
+  border-top:1px solid rgba(12,11,11,.14);font:600 14px/1.35 var(--sans);color:var(--ink-2)}
+.s-reviews figcaption b{font-weight:700;color:var(--ink);font-size:15px}
+.s-reviews .reviews-src{grid-column:3;display:inline-flex;align-items:center;gap:.4em;font-weight:700;font-size:11.5px;letter-spacing:.06em;text-transform:uppercase;
+  color:var(--ink);white-space:nowrap;text-decoration:none}
+.s-reviews .reviews-src svg{width:12px;height:12px;transition:transform .4s var(--reviews-ease)}
+.s-reviews .reviews-src:hover svg{transform:translate(2px,-2px)}
+
+/* счётчик и стрелки */
+.s-reviews .reviews-nav{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-top:auto;padding-top:clamp(28px,3vw,44px)}
+.s-reviews .reviews-ctr{display:flex;align-items:baseline;gap:.35em;margin:0;font:700 15px/1 var(--sans);letter-spacing:.04em;font-variant-numeric:tabular-nums}
+.s-reviews .reviews-ctr-n{position:relative;display:inline-block;width:1.4em;height:1.15em;perspective:300px}
+.s-reviews .reviews-ctr-n span{position:absolute;left:0;bottom:0;transform-origin:50% 55% -.42em;backface-visibility:hidden;
+  transition:transform .55s var(--reviews-ease),opacity .3s ease-out}
+.s-reviews .reviews-ctr-n span.pre{transform:rotateX(-78deg);opacity:0;transition:none}
+.s-reviews .reviews-ctr-n span.out{transform:rotateX(78deg);opacity:0;transition:transform .3s cubic-bezier(.5,0,.75,0),opacity .2s ease-in}
+.s-reviews .reviews-ctr em{font-style:normal;color:var(--reviews-mute)}
+.s-reviews .reviews-ticks{display:none}
+.s-reviews .reviews-arrows{display:flex;gap:10px}
+.s-reviews .reviews-arrow{display:grid;place-items:center;width:52px;height:52px;border-radius:50%;border:1.5px solid var(--ink);background:none;color:var(--ink);cursor:pointer;
+  transition:background-color .2s ease-out,color .2s ease-out,transform .2s ease-out}
+.s-reviews .reviews-arrow svg{width:20px;height:20px}
+.s-reviews .reviews-arrow:hover{background:var(--ink);color:var(--paper)}
+.s-reviews .reviews-arrow:active{transform:scale(.94)}
+
+/* вход: цифры 47 выкатываются барабаном, один раз */
+.s-reviews.reviews-pre .reviews-d{transform:rotateX(-78deg);opacity:0}
+.s-reviews.reviews-in .reviews-d{transition:transform .75s var(--reviews-ease),opacity .45s ease-out}
+.s-reviews.reviews-in .reviews-d + .reviews-d{transition-delay:.08s}
+
+/* планшет: колонки теснее */
+@media (max-width:1100px) and (min-width:761px){
+  .s-reviews .reviews-body{grid-template-columns:minmax(0,4fr) minmax(0,6fr)}
+  .s-reviews .reviews-plat,.s-reviews .reviews-index{column-gap:16px}
+  .s-reviews .reviews-pf-t{font-size:14px;white-space:normal}
+  .s-reviews .reviews-who{font-size:14px;gap:8px}
+}
+
+/* телефон: 47 и две площадки в одну строку, ниже лента карточек */
+@media (max-width:760px){
+  .s-reviews{padding-top:72px;padding-bottom:64px}
+  .s-reviews .reviews-head{flex-direction:column;align-items:flex-start;gap:6px;padding-bottom:12px}
+  .s-reviews .reviews-head p{text-align:left;font-size:11.5px}
+  .s-reviews .reviews-body{display:block;padding-top:20px}
+  .s-reviews .reviews-score{display:grid;grid-template-columns:auto minmax(0,1fr);align-items:end;column-gap:18px}
+  .s-reviews .reviews-num{font-size:min(132px,34vw)}
+  .s-reviews .reviews-plat{grid-template-columns:1fr;row-gap:9px;margin:0}
+  .s-reviews .reviews-pf{gap:4px;padding-top:8px;border-top-width:1px}
+  .s-reviews .reviews-pf-r{font-size:27px}
+  .s-reviews .reviews-pf-t{font-size:13px}
+  .s-reviews .reviews-index{display:none}
+  .s-reviews .reviews-stage{margin:24px calc(var(--reviews-pad) * -1) 0}
+  .s-reviews .reviews-track{display:flex;align-items:stretch;gap:10px;overflow-x:auto;overscroll-behavior-x:contain;scroll-snap-type:x mandatory;
+    padding:4px var(--reviews-pad) 6px;scroll-padding-inline:var(--reviews-pad);scrollbar-width:none}
+  .s-reviews .reviews-track::-webkit-scrollbar{display:none}
+  .s-reviews .reviews-card{flex:0 0 calc(100% - var(--reviews-pad) * 2 - 34px);scroll-snap-align:start;scroll-snap-stop:always;
+    visibility:visible;padding:20px 20px 18px;border-radius:26px;background:#fff;
+    box-shadow:0 0 0 1px rgba(12,11,11,.08);transition:none}
+  .s-reviews .reviews-card > *{transition:opacity .35s ease-out}
+  .s-reviews .reviews-card:not(.is-on) > *{opacity:.32}
+  .s-reviews .reviews-word{font-size:calc(min(50px,12.4vw) * var(--reviews-wk,1));min-height:0;margin-bottom:16px}
+  .s-reviews .reviews-c,.s-reviews .is-off .reviews-c{transform:none;opacity:1;transition:none}
+  .s-reviews .reviews-card blockquote,.s-reviews .reviews-card figcaption,.s-reviews .reviews-card.is-on blockquote,.s-reviews .reviews-card.is-on figcaption{opacity:1;transition:none}
+  .s-reviews .reviews-card[data-len] .reviews-q{--reviews-fs:17px;line-height:1.42;letter-spacing:0;max-width:none}
+  .s-reviews .reviews-card[data-len=s] .reviews-q{--reviews-fs:21px;line-height:1.3}
+  .s-reviews figcaption{display:flex;flex-wrap:wrap;margin-top:0;padding-top:14px;font-size:13px;gap:4px 12px}
+  .s-reviews figcaption > span{flex-basis:100%;order:2}
+  .s-reviews .reviews-src{order:1}
+  .s-reviews blockquote{margin-bottom:22px;flex:1}
+  /* карточки ленты одной высоты: подпись у всех по нижнему краю, под короткой цитатой не зияет пустая бумага */
+  .s-reviews figcaption b{font-size:14px}
+  .s-reviews .reviews-nav{order:-1;margin:0;padding:0 var(--reviews-pad) 14px}
+  .s-reviews .reviews-track{margin-bottom:-24px}
+  .s-reviews .reviews-ticks{display:flex;gap:5px;flex:1;max-width:150px}
+  .s-reviews .reviews-ticks i{flex:1;height:2px;background:rgba(12,11,11,.16);transition:background-color .3s ease-out}
+  .s-reviews .reviews-ticks i.is-on{background:var(--ink)}
+  .s-reviews .reviews-arrow{width:44px;height:44px}
+  .s-reviews .reviews-arrow svg{width:18px;height:18px}
+}
+
+@media (prefers-reduced-motion:reduce){
+  .s-reviews *,.s-reviews *::before,.s-reviews *::after{transition:none!important;animation:none!important}
+  .s-reviews.reviews-pre .reviews-d{transform:none;opacity:1}
+  .s-reviews .reviews-c{transform:none!important;opacity:1}
+  .s-reviews .reviews-card:not(.is-on) .reviews-c{opacity:0}
+}

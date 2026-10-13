@@ -1,41 +1,30 @@
 import type { Metadata, Viewport } from "next";
 import Script from "next/script";
-import localFont from "next/font/local";
+import { Fira_Sans_Condensed, Montserrat } from "next/font/google";
 import { SITE } from "@/lib/content";
-import { ClientFX } from "@/components/ClientFX";
+import { PROFI_URL } from "@/lib/reviews";
 import { YM_ID } from "@/lib/metrika";
 import "./globals.css";
+/* шапка есть на каждой странице, включая 404: её стили общие, иначе Next предзагружал бы их отдельным файлом */
+import "@/components/v4/header.css";
 
 /**
- * Шрифты собраны в свои подмножества и лежат рядом с кодом.
- * Через next/font/google Google отдаёт их кусками по unicode-range, и один только
- * знак ₽ в заголовке тянул latin-ext на 115 кб — там вся диакритика Европы,
- * которой на русском сайте не будет никогда. Здесь каждый шрифт это один
- * переменный файл: латиница, кириллица, пунктуация, стрелки и валюта.
- * Было девять запросов и 300 кб, стало три и 105.
+ * Новый дизайн: два шрифта. Fira Sans Condensed 900 на крупные слова, Montserrat 600/700 на всё остальное.
+ * Только кириллица и латиница, display: swap.
  */
-const unbounded = localFont({
-  src: "./fonts/unbounded.woff2",
-  weight: "700 900",
-  variable: "--font-unbounded",
+const display = Fira_Sans_Condensed({
+  weight: "900",
+  subsets: ["cyrillic", "latin"],
   display: "swap",
-  fallback: ["Arial Black", "system-ui", "sans-serif"],
+  variable: "--display",
+  fallback: ["Arial Narrow", "sans-serif"],
 });
-const mono = localFont({
-  src: "./fonts/jbmono.woff2",
-  weight: "400 700",
-  variable: "--font-mono",
+const sans = Montserrat({
+  weight: ["600", "700"],
+  subsets: ["cyrillic", "latin"],
   display: "swap",
-  fallback: ["ui-monospace", "SFMono-Regular", "Consolas", "monospace"],
-  // моноширинный идёт в мелких подписях: пусть не конкурирует с заголовками за канал
-  preload: false,
-});
-const manrope = localFont({
-  src: "./fonts/manrope.woff2",
-  weight: "400 700",
-  variable: "--font-sans",
-  display: "swap",
-  fallback: ["system-ui", "Segoe UI", "Arial", "sans-serif"],
+  variable: "--sans",
+  fallback: ["system-ui", "sans-serif"],
 });
 
 export const metadata: Metadata = {
@@ -85,7 +74,7 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#08080A",
+  themeColor: "#f7f6f3",
   width: "device-width",
   initialScale: 1,
   viewportFit: "cover",
@@ -110,7 +99,7 @@ const jsonLd = {
       url: SITE.url,
       email: SITE.email,
       image: `${SITE.url}/img/alex-portrait.png`,
-      sameAs: [SITE.telegram, SITE.kwork, SITE.github],
+      sameAs: [SITE.telegram, SITE.kwork, PROFI_URL, SITE.github],
       knowsAbout: [
         "WordPress",
         "WooCommerce",
@@ -160,7 +149,11 @@ const jsonLd = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="ru" className={`${unbounded.variable} ${mono.variable} ${manrope.variable}`} suppressHydrationWarning>
+    <html
+      lang="ru"
+      className={`${display.variable} ${sans.variable}`}
+      suppressHydrationWarning
+    >
       <body>
         <script
           type="application/ld+json"
@@ -169,7 +162,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <a className="skip" href="#main">
           К содержимому
         </a>
-        <ClientFX />
         {children}
         <Script id="ym-init" strategy="afterInteractive">
           {`window.ym = window.ym || function(){(window.ym.a = window.ym.a || []).push(arguments)};

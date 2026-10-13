@@ -1,0 +1,152 @@
+{
+ "sheet": "niche-food",
+ "src": "design-concepts/v4/ill/niche-food/",
+ "canvasH": 984,
+ "sole": 978,
+ "soleRatio": 0.9939,
+ "ax400": 188,
+ "heights": [
+  560,
+  780,
+  984,
+  1400
+ ],
+ "note": "холст как pose-j: подошвы на 978 из 984, ось корпуса ax; shift_vs_400 = ax - 188 (холст шире 400 сдвигать влево на столько px холста, чтобы совпасть с pose-j)",
+ "poses": [
+  {
+   "slug": "n-dostavka",
+   "canvas": [
+    488,
+    984
+   ],
+   "ax": 276,
+   "sole": 978,
+   "shift_vs_400": 88,
+   "top": 9,
+   "left": 7,
+   "right": 438,
+   "widths": [
+    278,
+    387,
+    488,
+    694
+   ],
+   "files": [
+    {
+     "src": "/img/v4/ill/n-dostavka-560.webp",
+     "w": 278,
+     "h": 560,
+     "kb": 15.9
+    },
+    {
+     "src": "/img/v4/ill/n-dostavka-780.webp",
+     "w": 387,
+     "h": 780,
+     "kb": 25.8
+    },
+    {
+     "src": "/img/v4/ill/n-dostavka-984.webp",
+     "w": 488,
+     "h": 984,
+     "kb": 34.8
+    },
+    {
+     "src": "/img/v4/ill/n-dostavka-1400.webp",
+     "w": 694,
+     "h": 1400,
+     "kb": 56.8
+    }
+   ]
+  },
+  {
+   "slug": "n-kafe",
+   "canvas": [
+    496,
+    984
+   ],
+   "ax": 277,
+   "sole": 978,
+   "shift_vs_400": 89,
+   "top": 9,
+   "left": 6,
+   "right": 489,
+   "widths": [
+    282,
+    393,
+    496,
+    706
+   ],
+   "files": [
+    {
+     "src": "/img/v4/ill/n-kafe-560.webp",
+     "w": 282,
+     "h": 560,
+     "kb": 15.2
+    },
+    {
+     "src": "/img/v4/ill/n-kafe-780.webp",
+     "w": 393,
+     "h": 780,
+     "kb": 24.7
+    },
+    {
+     "src": "/img/v4/ill/n-kafe-984.webp",
+     "w": 496,
+     "h": 984,
+     "kb": 33.8
+    },
+    {
+     "src": "/img/v4/ill/n-kafe-1400.webp",
+     "w": 706,
+     "h": 1400,
+     "kb": 55.2
+    }
+   ]
+  },
+  {
+   "slug": "n-salon",
+   "canvas": [
+    438,
+    984
+   ],
+   "ax": 207,
+   "sole": 978,
+   "shift_vs_400": 19,
+   "top": 9,
+   "left": 6,
+   "right": 430,
+   "widths": [
+    249,
+    347,
+    438,
+    623
+   ],
+   "files": [
+    {
+     "src": "/img/v4/ill/n-salon-560.webp",
+     "w": 249,
+     "h": 560,
+     "kb": 16.4
+    },
+    {
+     "src": "/img/v4/ill/n-salon-780.webp",
+     "w": 347,
+     "h": 780,
+     "kb": 26.3
+    },
+    {
+     "src": "/img/v4/ill/n-salon-984.webp",
+     "w": 438,
+     "h": 984,
+     "kb": 36.2
+    },
+    {
+     "src": "/img/v4/ill/n-salon-1400.webp",
+     "w": 623,
+     "h": 1400,
+     "kb": 59.2
+    }
+   ]
+  }
+ ]
+}

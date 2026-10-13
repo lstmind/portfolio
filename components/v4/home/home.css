@@ -1,0 +1,9 @@
+/* стыки секций главной: стили статики sections/_page.html как есть */
+/* якоря не прячутся под шапку */
+#works-more,#prices,#reviews,#final{scroll-margin-top:72px}
+/* стык "сайты" → прайс: у обеих секций свои большие поля, вместе выходило 210-280px пустой бумаги */
+#works .s-works__more{padding-bottom:clamp(24px,4vw,64px)}
+/* стык прайс → отзывы на телефоне: 72 + 72px пустой бумаги читались как обрыв страницы */
+@media (max-width:760px){#prices.s-prices{padding-bottom:36px}}
+/* стык вопросы финала → подвал на десктопе: 120 + 152px пустой бумаги после последней линейки, подвал отрывался от страницы */
+@media (min-width:700px){#final.s-final{padding-bottom:clamp(48px,4.4vw,72px)}#footer.s-footer{padding-top:clamp(72px,7vw,104px)}}

@@ -1,0 +1,125 @@
+/* стили статики design-concepts/v4/karusel/sections/prices/section.html как есть */
+/* прайс-вывеска: крупное слово, цена на той же базовой линии, линейка во всю ширину.
+   десктоп: таблица из трёх колонок. цены стоят колонкой сразу за самым длинным словом,
+   у правого края из линейки торчит серая карточка живого сайта, как дальние карточки карусели.
+   наведение или фокус поднимает карточку целиком и заливает цветом, остальные строки гаснут.
+   телефон: карточка справа от слова, цвет получает строка у середины экрана. */
+.s-prices{--prices-pad:clamp(16px,2.6vw,40px);--prices-rule:rgba(12,11,11,.88);--prices-ease:cubic-bezier(.16,1,.3,1);
+  position:relative;background:var(--paper);color:var(--ink);padding:clamp(96px,8vw,128px) var(--prices-pad) clamp(56px,5vw,80px)}
+.s-prices *{box-sizing:border-box}
+.s-prices .prices-sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+
+/* шапка блока: две подписи, как "работаю один / 36 живых сайтов" в герое */
+.s-prices .prices-head{display:flex;justify-content:space-between;align-items:baseline;gap:16px;padding-bottom:16px}
+.s-prices .prices-head h2,.s-prices .prices-head p{font:700 13px/1.2 var(--sans);letter-spacing:.04em;text-transform:uppercase;margin:0}
+.s-prices .prices-head p{color:var(--ink-2);text-align:right}
+
+.s-prices .prices-list{list-style:none;margin:0;padding:0;border-top:1px solid var(--prices-rule)}
+.s-prices .prices-row{position:relative;border-bottom:1px solid var(--prices-rule)}
+.s-prices .prices-link{position:relative;z-index:2;display:flex;align-items:baseline;justify-content:space-between;gap:24px;
+  padding:clamp(12px,1.1vw,18px) 0 clamp(16px,1.5vw,24px);color:inherit;text-decoration:none;-webkit-tap-highlight-color:transparent;
+  transition:opacity .3s ease-out}
+.s-prices .prices-link:focus-visible{outline:2px solid var(--red);outline-offset:4px;border-radius:6px}
+.s-prices .prices-txt{display:contents}
+
+/* слово: Fira 900 капсом, буквы по одной, как барабан героя. сверху запас под кратку Й */
+.s-prices .prices-word{display:block;font-family:var(--display);font-weight:900;text-transform:uppercase;
+  font-size:clamp(60px,7.4vw,128px);line-height:.86;letter-spacing:-.012em;white-space:nowrap;padding-top:.17em}
+.s-prices .prices-wd{display:inline-block;white-space:nowrap}
+.s-prices .prices-ch{display:inline-block;transform-origin:50% 55% -.42em;padding-top:.24em;margin-top:-.24em}
+
+/* цена */
+.s-prices .prices-cost{display:flex;flex-direction:column;align-items:flex-end;text-align:right;flex:none}
+.s-prices .prices-num{display:inline-flex;align-items:baseline;gap:.34em;font:700 clamp(22px,2.55vw,40px)/1 var(--sans);letter-spacing:-.01em;white-space:nowrap}
+.s-prices .prices-num i{font-style:normal;font-weight:600;font-size:.52em;color:var(--ink-2);letter-spacing:0}
+.s-prices .prices-num u{text-decoration:none;font-size:.6em;font-weight:600;letter-spacing:0}
+.s-prices .prices-num svg{width:.5em;height:.5em;align-self:center;flex:none;color:var(--ink-2);transition:transform .4s var(--prices-ease),color .2s}
+.s-prices .prices-note{margin-top:10px;max-width:340px;font:600 13px/1.35 var(--sans);color:var(--ink-2)}
+
+/* карточка в щели под линейкой: в покое торчит верх, серый, низ срезан по линейке строки.
+   при наведении карточка выходит целиком и встаёт так, чтобы не вылезти за список */
+.s-prices .prices-slot{position:absolute;z-index:3;top:20px;left:var(--prices-x,58%);width:var(--prices-cw,130px);
+  height:calc(var(--prices-cw,130px) * 2.165);pointer-events:none}
+.s-prices .prices-card{--prices-r:calc(var(--prices-cw,130px) * .085);position:absolute;inset:0;border-radius:var(--prices-r);
+  overflow:hidden;background:#efede9;
+  clip-path:inset(0 0 var(--prices-hide,70%) 0 round var(--prices-r) var(--prices-r) 0 0);
+  transform-origin:50% 0;
+  transition:transform .42s cubic-bezier(.5,0,.75,0),clip-path .42s cubic-bezier(.5,0,.75,0),opacity .3s ease-out}
+.s-prices .prices-card::after{content:"";position:absolute;inset:0;z-index:1;border-radius:inherit;box-shadow:inset 0 0 0 1px rgba(12,11,11,.08);pointer-events:none}
+.s-prices .prices-card img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:top;display:block;
+  filter:grayscale(1) contrast(.46) brightness(1.36);transition:filter .5s ease-out}
+.s-prices:not(.prices-ready) .prices-card{transition:none}
+.s-prices .prices-cap{position:absolute;z-index:2;left:8px;right:8px;bottom:8px;display:flex;flex-direction:column;gap:3px;padding:8px 10px 9px;border-radius:10px;
+  background:var(--paper);box-shadow:0 8px 20px -12px rgba(12,11,11,.5);font:700 12px/1.15 var(--sans);color:var(--ink);
+  opacity:0;transform:translateY(8px);transition:opacity .2s ease-out,transform .4s var(--prices-ease)}
+.s-prices .prices-cap span{font-weight:600;color:var(--ink-2);font-size:11.5px}
+
+.s-prices .prices-mini{display:none}
+
+.s-prices .prices-more{display:inline-flex;align-items:center;gap:.5em;margin-top:24px;font:700 13px/1 var(--sans);letter-spacing:.04em;text-transform:uppercase;
+  color:var(--ink);text-decoration:none;padding:8px 0}
+.s-prices .prices-more svg{width:14px;height:14px;transition:transform .3s var(--prices-ease)}
+.s-prices .prices-more:hover svg{transform:translate(2px,-2px)}
+
+/* десктоп: слово | цена | карточка. ширину колонки слов и место карточки считает скрипт */
+@media (min-width:700px){
+  .s-prices{--prices-gut:clamp(32px,3.6vw,64px)}
+  .s-prices .prices-link{display:grid;grid-template-columns:var(--prices-wcol,auto) minmax(0,auto) 1fr;column-gap:var(--prices-gut);
+    justify-content:start;align-items:baseline}
+  .s-prices .prices-cost{align-items:flex-start;text-align:left}
+  .s-prices .prices-note{max-width:min(300px,var(--prices-nw,300px))}
+}
+
+/* наведение (только мышь) и фокус с клавиатуры: одинаковое состояние */
+@media (min-width:700px){
+  .s-prices .prices-list.prices-hot .prices-link{opacity:.16}
+  .s-prices .prices-list.prices-hot .prices-card{opacity:.4}
+  .s-prices .prices-list .prices-row.prices-on .prices-link{opacity:1}
+  .s-prices .prices-row.prices-on .prices-num svg{color:var(--ink);transform:translate(2px,-2px)}
+  .s-prices .prices-list .prices-row.prices-on .prices-slot{z-index:5;filter:drop-shadow(0 22px 22px rgba(12,11,11,.22))}
+  .s-prices .prices-list .prices-row.prices-on .prices-card{opacity:1;transform:translateY(var(--prices-lift,0px));
+    clip-path:inset(0 0 0 0 round var(--prices-r));
+    transition:transform .62s var(--prices-ease),clip-path .62s var(--prices-ease),opacity .2s}
+  .s-prices .prices-row.prices-on .prices-card img{filter:none}
+  .s-prices .prices-row.prices-on .prices-cap{opacity:1;transform:none;transition-delay:.18s}
+}
+
+/* вход: строки по очереди, буквы на барабане, линейка прочерчивается слева */
+.s-prices.prices-js .prices-row{border-bottom-color:transparent}
+.s-prices.prices-js .prices-row::after{content:"";position:absolute;left:0;right:0;bottom:-1px;height:1px;background:var(--prices-rule);
+  transform:scaleX(0);transform-origin:0 50%;transition:transform 1s var(--prices-ease) var(--prices-d,0ms)}
+.s-prices.prices-js .prices-ch{transform:perspective(520px) rotateX(-78deg);opacity:0}
+.s-prices.prices-js .prices-cost,.s-prices.prices-js .prices-slot,.s-prices.prices-js .prices-mini{opacity:0}
+.s-prices.prices-js .prices-cost{transform:translateY(10px)}
+.s-prices.prices-js .prices-row.prices-in::after{transform:none}
+.s-prices.prices-js .prices-row.prices-in .prices-ch{transform:none;opacity:1;
+  transition:transform .75s var(--prices-ease) var(--prices-cd,0ms),opacity .45s ease-out var(--prices-cd,0ms)}
+.s-prices.prices-js .prices-row.prices-in .prices-cost{opacity:1;transform:none;
+  transition:opacity .5s ease-out calc(var(--prices-d,0ms) + 260ms),transform .7s var(--prices-ease) calc(var(--prices-d,0ms) + 260ms)}
+.s-prices.prices-js .prices-row.prices-in .prices-slot,.s-prices.prices-js .prices-row.prices-in .prices-mini{opacity:1;transition:opacity .6s ease-out calc(var(--prices-d,0ms) + 380ms),filter .5s ease-out}
+
+/* телефон: слово и цена столбцом слева, карточка справа стоит на линейке */
+@media (max-width:699px){
+  .s-prices{padding:96px 16px 72px}
+  .s-prices .prices-head{flex-direction:column;align-items:flex-start;gap:6px;padding-bottom:12px}
+  .s-prices .prices-head p{text-align:left;font-size:11.5px}
+  .s-prices .prices-link{display:flex;align-items:flex-end;gap:14px;padding:12px 0 16px}
+  .s-prices .prices-txt{display:flex;flex-direction:column;flex:1;min-width:0}
+  .s-prices .prices-word{font-size:clamp(44px,13.8vw,60px);line-height:.88;white-space:normal}
+  .s-prices .prices-cost{align-items:flex-start;text-align:left;margin-top:12px}
+  .s-prices .prices-num{font-size:22px}
+  .s-prices .prices-num svg{color:var(--ink);width:12px;height:12px}
+  .s-prices .prices-note{margin-top:6px;font-size:12.5px;max-width:none}
+  .s-prices .prices-slot{display:none}
+  .s-prices .prices-mini{display:block;flex:none;width:70px;height:152px;border-radius:6px;overflow:hidden;position:relative;
+    background:#efede9;box-shadow:0 0 0 1px rgba(12,11,11,.08);transition:transform .5s var(--prices-ease),box-shadow .5s ease-out}
+  .s-prices .prices-mini img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:top;
+    filter:grayscale(1) contrast(.46) brightness(1.36);transition:filter .5s ease-out}
+  .s-prices .prices-row.prices-on .prices-mini{transform:translateY(-6px);box-shadow:0 0 0 1px rgba(12,11,11,.08),0 16px 24px -16px rgba(12,11,11,.55)}
+  .s-prices .prices-row.prices-on .prices-mini img{filter:none}
+  .s-prices .prices-more{margin-top:18px}
+}
+
+@media (prefers-reduced-motion:reduce){
+  .s-prices *,.s-prices *::after{transition:none!important}
+}

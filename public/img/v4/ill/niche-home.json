@@ -1,0 +1,152 @@
+{
+ "sheet": "niche-home",
+ "src": "design-concepts/v4/ill/niche-home/",
+ "canvasH": 984,
+ "sole": 978,
+ "soleRatio": 0.9939,
+ "ax400": 188,
+ "heights": [
+  560,
+  780,
+  984,
+  1400
+ ],
+ "note": "холст как pose-j: подошвы на 978 из 984, ось корпуса ax; shift_vs_400 = ax - 188 (холст шире 400 сдвигать влево на столько px холста, чтобы совпасть с pose-j)",
+ "poses": [
+  {
+   "slug": "n-remont",
+   "canvas": [
+    458,
+    984
+   ],
+   "ax": 226,
+   "sole": 978,
+   "shift_vs_400": 38,
+   "top": 18,
+   "left": 6,
+   "right": 450,
+   "widths": [
+    261,
+    363,
+    458,
+    652
+   ],
+   "files": [
+    {
+     "src": "/img/v4/ill/n-remont-560.webp",
+     "w": 261,
+     "h": 560,
+     "kb": 15.2
+    },
+    {
+     "src": "/img/v4/ill/n-remont-780.webp",
+     "w": 363,
+     "h": 780,
+     "kb": 24.0
+    },
+    {
+     "src": "/img/v4/ill/n-remont-984.webp",
+     "w": 458,
+     "h": 984,
+     "kb": 33.2
+    },
+    {
+     "src": "/img/v4/ill/n-remont-1400.webp",
+     "w": 652,
+     "h": 1400,
+     "kb": 53.7
+    }
+   ]
+  },
+  {
+   "slug": "n-mebel",
+   "canvas": [
+    590,
+    984
+   ],
+   "ax": 378,
+   "sole": 978,
+   "shift_vs_400": 190,
+   "top": 17,
+   "left": 7,
+   "right": 534,
+   "widths": [
+    336,
+    468,
+    590,
+    839
+   ],
+   "files": [
+    {
+     "src": "/img/v4/ill/n-mebel-560.webp",
+     "w": 336,
+     "h": 560,
+     "kb": 22.0
+    },
+    {
+     "src": "/img/v4/ill/n-mebel-780.webp",
+     "w": 468,
+     "h": 780,
+     "kb": 34.4
+    },
+    {
+     "src": "/img/v4/ill/n-mebel-984.webp",
+     "w": 590,
+     "h": 984,
+     "kb": 47.4
+    },
+    {
+     "src": "/img/v4/ill/n-mebel-1400.webp",
+     "w": 839,
+     "h": 1400,
+     "kb": 78.7
+    }
+   ]
+  },
+  {
+   "slug": "n-odezhda",
+   "canvas": [
+    572,
+    984
+   ],
+   "ax": 360,
+   "sole": 978,
+   "shift_vs_400": 172,
+   "top": 13,
+   "left": 6,
+   "right": 521,
+   "widths": [
+    326,
+    453,
+    572,
+    814
+   ],
+   "files": [
+    {
+     "src": "/img/v4/ill/n-odezhda-560.webp",
+     "w": 326,
+     "h": 560,
+     "kb": 17.9
+    },
+    {
+     "src": "/img/v4/ill/n-odezhda-780.webp",
+     "w": 453,
+     "h": 780,
+     "kb": 28.6
+    },
+    {
+     "src": "/img/v4/ill/n-odezhda-984.webp",
+     "w": 572,
+     "h": 984,
+     "kb": 39.7
+    },
+    {
+     "src": "/img/v4/ill/n-odezhda-1400.webp",
+     "w": 814,
+     "h": 1400,
+     "kb": 65.1
+    }
+   ]
+  }
+ ]
+}

@@ -13,6 +13,8 @@ export type IndustryPage = {
   h1: string;
   /** короткое имя ниши для перечислений на главной */
   nav: string;
+  /** то же имя после "сайты для": для подвала */
+  forWhom: string;
   metaTitle: string;
   metaDescription: string;
   /** прямой ответ первой строкой: что делаю и сколько это стоит */
@@ -40,6 +42,7 @@ export const INDUSTRY_PAGES: IndustryPage[] = [
     slug: "proizvodstvo",
     h1: "Сайт для производства",
     nav: "производство",
+    forWhom: "производства",
     metaTitle: "Сайт производственной компании — от 25 000 ₽ | lstmind",
     metaDescription:
       "Сайты для производств: каталог продукции, возможности цеха, документы и сертификаты, заявка с ТЗ. Работы: Almytech, Агроиндустрия, ТехноКварц.",
@@ -100,7 +103,7 @@ export const INDUSTRY_PAGES: IndustryPage[] = [
     types: ["korporativnyy-sayt", "sayt-katalog"],
     cases: ["almytech", "chemrar"],
     price: { label: "Цена", value: "от 25 000 ₽", note: "зависит от глубины каталога и числа разделов" },
-    term: { label: "Срок", value: "от 2 недель", note: "с импортом большого каталога — до полутора месяцев" },
+    term: { label: "Срок", value: "от 2 недель", note: "с импортом большого каталога: до полутора месяцев" },
     review: 2,
     short: "Каталог, возможности производства, документы, заявка с ТЗ",
   },
@@ -108,6 +111,7 @@ export const INDUSTRY_PAGES: IndustryPage[] = [
     slug: "transportnaya-kompaniya",
     h1: "Сайт для транспортной компании",
     nav: "транспортные компании",
+    forWhom: "транспортных компаний",
     metaTitle: "Сайт транспортной компании — от 15 000 ₽ | lstmind",
     metaDescription:
       "Сайты для перевозчиков: направления и тарифы, автопарк, расчёт заявки, документы. Работы: СибСтар, Аренда Такси. От 15 000 ₽, срок от 5 дней.",
@@ -164,8 +168,8 @@ export const INDUSTRY_PAGES: IndustryPage[] = [
     ],
     types: ["sayt-vizitka", "korporativnyy-sayt", "lending"],
     cases: ["well-event"],
-    price: { label: "Цена", value: "от 15 000 ₽", note: "визитка с расчётом заявки — дешевле, многостраничник с направлениями — дороже" },
-    term: { label: "Срок", value: "от 5 дней", note: "сайт с отдельными страницами направлений — 2–4 недели" },
+    price: { label: "Цена", value: "от 15 000 ₽", note: "визитка с расчётом заявки: дешевле, многостраничник с направлениями: дороже" },
+    term: { label: "Срок", value: "от 5 дней", note: "сайт с отдельными страницами направлений: 2–4 недели" },
     review: 1,
     short: "Направления, автопарк, расчёт заявки, документы",
   },
@@ -173,6 +177,7 @@ export const INDUSTRY_PAGES: IndustryPage[] = [
     slug: "kafe-bar-restoran",
     h1: "Сайт для кафе, бара и банкетов",
     nav: "кафе и бары",
+    forWhom: "кафе и баров",
     metaTitle: "Сайт для кафе, бара и ресторана — от 15 000 ₽ | Разработка, Москва",
     metaDescription:
       "Сайты для общепита: меню, атмосферные фото, бронирование стола, банкеты и мероприятия. Работы: HP VDNH, Well Event, Перловские бани. От 15 000 ₽, срок от 5 дней.",
@@ -231,7 +236,7 @@ export const INDUSTRY_PAGES: IndustryPage[] = [
     ],
     types: ["sayt-vizitka", "lending"],
     cases: ["drovyanaya", "hp-vdnh", "well-event"],
-    price: { label: "Цена", value: "от 15 000 ₽", note: "визитка с меню и бронью — дешевле, сайт с банкетами — дороже" },
+    price: { label: "Цена", value: "от 15 000 ₽", note: "визитка с меню и бронью: дешевле, сайт с банкетами: дороже" },
     term: { label: "Срок", value: "от 5 дней", note: "если фотографии уже есть" },
     review: 4,
     short: "Меню, фото, бронь стола, страницы под банкеты",
@@ -240,6 +245,7 @@ export const INDUSTRY_PAGES: IndustryPage[] = [
     slug: "okna-i-osteklenie",
     h1: "Сайт для оконной компании",
     nav: "окна и остекление",
+    forWhom: "окон и остекления",
     metaTitle: "Сайт для оконной компании — от 15 000 ₽ | Окна, остекление, замер",
     metaDescription:
       "Сайты для оконных компаний: продукция, расчёт стоимости, запись на бесплатный замер, акции. Работы: Оконный портал, РязаньОкно, Lavenir. От 15 000 ₽.",
@@ -297,8 +303,8 @@ export const INDUSTRY_PAGES: IndustryPage[] = [
     ],
     types: ["sayt-vizitka", "lending", "korporativnyy-sayt"],
     cases: ["lavenir"],
-    price: { label: "Цена", value: "от 15 000 ₽", note: "лендинг под сезон — дешевле, сайт с типами работ — дороже" },
-    term: { label: "Срок", value: "от 5 дней", note: "с калькулятором — 2–3 недели" },
+    price: { label: "Цена", value: "от 15 000 ₽", note: "лендинг под сезон: дешевле, сайт с типами работ: дороже" },
+    term: { label: "Срок", value: "от 5 дней", note: "с калькулятором: 2–3 недели" },
     review: 1,
     short: "Продукция, расчёт вилки, запись на замер, объекты",
   },
@@ -306,6 +312,7 @@ export const INDUSTRY_PAGES: IndustryPage[] = [
     slug: "salon-krasoty",
     h1: "Сайт для салона красоты",
     nav: "салоны красоты",
+    forWhom: "салонов красоты",
     metaTitle: "Сайт для салона красоты с онлайн-записью — от 15 000 ₽ | lstmind",
     metaDescription:
       "Сайты для салонов, барбершопов и мастеров: услуги и цены, карточки мастеров, онлайн-запись с уведомлением в Telegram. Демо-проект «Нега» можно потрогать вживую.",
@@ -361,8 +368,8 @@ export const INDUSTRY_PAGES: IndustryPage[] = [
     ],
     types: ["sayt-vizitka", "lending"],
     cases: ["nega"],
-    price: { label: "Цена", value: "от 15 000 ₽", note: "сайт с онлайн-записью — от 25 000 ₽" },
-    term: { label: "Срок", value: "от 5 дней", note: "с записью и расписанием — 2–3 недели" },
+    price: { label: "Цена", value: "от 15 000 ₽", note: "сайт с онлайн-записью: от 25 000 ₽" },
+    term: { label: "Срок", value: "от 5 дней", note: "с записью и расписанием: 2–3 недели" },
     review: 0,
     short: "Онлайн-запись, мастера, прайс, сертификаты",
   },
@@ -370,6 +377,7 @@ export const INDUSTRY_PAGES: IndustryPage[] = [
     slug: "dostavka-edy",
     h1: "Сайт доставки еды и пиццерии",
     nav: "доставка еды и пиццерии",
+    forWhom: "доставки еды и пиццерий",
     metaTitle: "Сайт доставки еды и пиццерии — от 35 000 ₽ | lstmind",
     metaDescription:
       "Сайты доставки еды: меню с фото, корзина и оформление заказа, зоны доставки, заказы на кухню и в Telegram, бот. Меню с заявкой от 35 000 ₽, с корзиной и оплатой от 60 000 ₽.",
@@ -433,7 +441,7 @@ export const INDUSTRY_PAGES: IndustryPage[] = [
     ],
     types: ["sayt-katalog", "internet-magazin", "lending"],
     cases: ["drovyanaya", "hp-vdnh", "well-event"],
-    price: { label: "Цена", value: "от 35 000 ₽", note: "меню с заявкой — от 35k, корзина и оплата — от 60k, с ботом и панелью кухни — от 100k" },
+    price: { label: "Цена", value: "от 35 000 ₽", note: "меню с заявкой: от 35k, корзина и оплата: от 60k, с ботом и панелью кухни: от 100k" },
     term: { label: "Срок", value: "от 2 недель", note: "если фотографии блюд уже есть" },
     review: 3,
     short: "Меню, корзина, зоны доставки и заказ, который видит кухня",
@@ -442,6 +450,7 @@ export const INDUSTRY_PAGES: IndustryPage[] = [
     slug: "remont-i-otdelka",
     h1: "Сайт для ремонта и отделки",
     nav: "ремонт и отделка",
+    forWhom: "ремонта и отделки",
     metaTitle: "Сайт ремонтной компании — от 15 000 ₽ | lstmind",
     metaDescription:
       "Сайты для ремонта и отделки: портфолио объектов, каталог материалов, калькулятор расчёта, заявка на замер. От 15 000 ₽, срок от 5 дней.",
@@ -505,8 +514,8 @@ export const INDUSTRY_PAGES: IndustryPage[] = [
     ],
     types: ["lending", "korporativnyy-sayt", "sayt-katalog"],
     cases: ["vedomost", "luxury-design", "nega"],
-    price: { label: "Цена", value: "от 15 000 ₽", note: "лендинг с портфолио — от 15k, каталог материалов с расчётом — от 45k" },
-    term: { label: "Срок", value: "от 5 дней", note: "с каталогом и калькулятором — 2–4 недели" },
+    price: { label: "Цена", value: "от 15 000 ₽", note: "лендинг с портфолио: от 15k, каталог материалов с расчётом: от 45k" },
+    term: { label: "Срок", value: "от 5 дней", note: "с каталогом и калькулятором: 2–4 недели" },
     review: 0,
     short: "Портфолио объектов, цены, расчёт материалов, заявка на замер",
   },
@@ -514,6 +523,7 @@ export const INDUSTRY_PAGES: IndustryPage[] = [
     slug: "mebel-na-zakaz",
     h1: "Сайт мебели на заказ",
     nav: "мебель на заказ",
+    forWhom: "мебели на заказ",
     metaTitle: "Сайт для мебели на заказ — от 15 000 ₽ | Кухни, шкафы, интерьер",
     metaDescription:
       "Сайты производителей мебели на заказ: галерея работ, конфигуратор и расчёт, запись на замер, каталог по коллекциям. От 15 000 ₽, срок от 5 дней.",
@@ -577,8 +587,8 @@ export const INDUSTRY_PAGES: IndustryPage[] = [
     ],
     types: ["lending", "korporativnyy-sayt", "internet-magazin"],
     cases: ["luxury-design", "lavenir", "skaz-po-krayu"],
-    price: { label: "Цена", value: "от 15 000 ₽", note: "лендинг с галереей — от 15k, каталог с коллекциями — от 45k" },
-    term: { label: "Срок", value: "от 5 дней", note: "с каталогом и кабинетом — 3–4 недели" },
+    price: { label: "Цена", value: "от 15 000 ₽", note: "лендинг с галереей: от 15k, каталог с коллекциями: от 45k" },
+    term: { label: "Срок", value: "от 5 дней", note: "с каталогом и кабинетом: 3–4 недели" },
     review: 1,
     short: "Галерея проектов, ориентир по цене, заявка на замер",
   },
@@ -586,6 +596,7 @@ export const INDUSTRY_PAGES: IndustryPage[] = [
     slug: "magazin-odezhdy",
     h1: "Интернет-магазин одежды",
     nav: "магазины одежды",
+    forWhom: "магазинов одежды",
     metaTitle: "Интернет-магазин одежды — от 35 000 ₽ | Разработка под ключ",
     metaDescription:
       "Интернет-магазины одежды: коллекции, размерная сетка, фильтры, корзина, оплата и доставка, обмен и возврат. Каталог с заявкой от 35 000 ₽, магазин с оплатой от 60 000 ₽.",
@@ -649,7 +660,7 @@ export const INDUSTRY_PAGES: IndustryPage[] = [
     ],
     types: ["internet-magazin", "sayt-katalog", "lending"],
     cases: ["qayna", "skaz-po-krayu", "luxury-design"],
-    price: { label: "Цена", value: "от 35 000 ₽", note: "каталог с заявкой — от 35k, корзина и оплата — от 60k, с 1С и интеграциями — от 100k" },
+    price: { label: "Цена", value: "от 35 000 ₽", note: "каталог с заявкой: от 35k, корзина и оплата: от 60k, с 1С и интеграциями: от 100k" },
     term: { label: "Срок", value: "от 2 недель", note: "перенос большого каталога считается отдельно" },
     review: 5,
     short: "Коллекции, размеры, корзина, доставка и возврат",

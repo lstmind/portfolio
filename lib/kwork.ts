@@ -1,7 +1,7 @@
 import { SITE } from "./content";
 
 /** Фолбэк, если Kwork недоступен или сменил разметку */
-export const FALLBACK_REVIEWS = 29;
+export const FALLBACK_REVIEWS = 35;
 
 /**
  * Живое число отзывов с профиля Kwork.

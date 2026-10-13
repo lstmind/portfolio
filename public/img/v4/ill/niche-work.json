@@ -1,0 +1,173 @@
+{
+ "sheet": "niche-work",
+ "src": "design-concepts/v4/ill/niche-work/",
+ "canvasH": 984,
+ "sole": 978,
+ "soleRatio": 0.9939,
+ "ax400": 188,
+ "heights": [
+  560,
+  780,
+  984,
+  1400
+ ],
+ "note": "холст как pose-j: подошвы на 978 из 984, ось корпуса ax; shift_vs_400 = ax - 188 (холст шире 400 сдвигать влево на столько px холста, чтобы совпасть с pose-j); crop = [x0,y0,x1,y1] в px холста 984 для кропа в \"Другие ниши\"",
+ "poses": [
+  {
+   "slug": "n-proizvodstvo",
+   "canvas": [
+    400,
+    984
+   ],
+   "ax": 188,
+   "sole": 978,
+   "shift_vs_400": 0,
+   "top": 15,
+   "left": 23,
+   "right": 350,
+   "widths": [
+    228,
+    317,
+    400,
+    569
+   ],
+   "files": [
+    {
+     "src": "/img/v4/ill/n-proizvodstvo-560.webp",
+     "w": 228,
+     "h": 560,
+     "kb": 14.9
+    },
+    {
+     "src": "/img/v4/ill/n-proizvodstvo-780.webp",
+     "w": 317,
+     "h": 780,
+     "kb": 23.6
+    },
+    {
+     "src": "/img/v4/ill/n-proizvodstvo-984.webp",
+     "w": 400,
+     "h": 984,
+     "kb": 32.4
+    },
+    {
+     "src": "/img/v4/ill/n-proizvodstvo-1400.webp",
+     "w": 569,
+     "h": 1400,
+     "kb": 52.8
+    }
+   ],
+   "crop": [
+    23,
+    0,
+    351,
+    450
+   ],
+   "cropNote": "голова+шестерня, y 0..450"
+  },
+  {
+   "slug": "n-transport",
+   "canvas": [
+    436,
+    984
+   ],
+   "ax": 223,
+   "sole": 978,
+   "shift_vs_400": 35,
+   "top": 16,
+   "left": 6,
+   "right": 382,
+   "widths": [
+    248,
+    346,
+    436,
+    620
+   ],
+   "files": [
+    {
+     "src": "/img/v4/ill/n-transport-560.webp",
+     "w": 248,
+     "h": 560,
+     "kb": 14.9
+    },
+    {
+     "src": "/img/v4/ill/n-transport-780.webp",
+     "w": 346,
+     "h": 780,
+     "kb": 23.6
+    },
+    {
+     "src": "/img/v4/ill/n-transport-984.webp",
+     "w": 436,
+     "h": 984,
+     "kb": 32.8
+    },
+    {
+     "src": "/img/v4/ill/n-transport-1400.webp",
+     "w": 620,
+     "h": 1400,
+     "kb": 53.6
+    }
+   ],
+   "crop": [
+    6,
+    0,
+    383,
+    420
+   ],
+   "cropNote": "голова+фура, y 0..420, слева с left"
+  },
+  {
+   "slug": "n-okna",
+   "canvas": [
+    490,
+    984
+   ],
+   "ax": 278,
+   "sole": 978,
+   "shift_vs_400": 90,
+   "top": 14,
+   "left": 6,
+   "right": 429,
+   "widths": [
+    279,
+    388,
+    490,
+    697
+   ],
+   "files": [
+    {
+     "src": "/img/v4/ill/n-okna-560.webp",
+     "w": 279,
+     "h": 560,
+     "kb": 15.5
+    },
+    {
+     "src": "/img/v4/ill/n-okna-780.webp",
+     "w": 388,
+     "h": 780,
+     "kb": 25.0
+    },
+    {
+     "src": "/img/v4/ill/n-okna-984.webp",
+     "w": 490,
+     "h": 984,
+     "kb": 34.1
+    },
+    {
+     "src": "/img/v4/ill/n-okna-1400.webp",
+     "w": 697,
+     "h": 1400,
+     "kb": 54.6
+    }
+   ],
+   "crop": [
+    6,
+    0,
+    430,
+    560
+   ],
+   "cropNote": "шире, вместе с рамой: x left..right, y 0..560"
+  }
+ ]
+}

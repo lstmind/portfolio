@@ -1,0 +1,152 @@
+{
+ "sheet": "svc-flow",
+ "src": "design-concepts/v4/ill/svc-flow/",
+ "canvasH": 984,
+ "sole": 978,
+ "soleRatio": 0.9939,
+ "ax400": 188,
+ "heights": [
+  560,
+  780,
+  984,
+  1400
+ ],
+ "note": "холст как pose-j: подошвы на 978 из 984, ось корпуса ax; shift_vs_400 = ax - 188 (холст шире 400 сдвигать влево на столько px холста, чтобы совпасть с pose-j)",
+ "poses": [
+  {
+   "slug": "s-pererabotka",
+   "canvas": [
+    412,
+    984
+   ],
+   "ax": 200,
+   "sole": 978,
+   "shift_vs_400": 12,
+   "top": 6,
+   "left": 6,
+   "right": 362,
+   "widths": [
+    234,
+    327,
+    412,
+    586
+   ],
+   "files": [
+    {
+     "src": "/img/v4/ill/s-pererabotka-560.webp",
+     "w": 234,
+     "h": 560,
+     "kb": 17.9
+    },
+    {
+     "src": "/img/v4/ill/s-pererabotka-780.webp",
+     "w": 327,
+     "h": 780,
+     "kb": 28.7
+    },
+    {
+     "src": "/img/v4/ill/s-pererabotka-984.webp",
+     "w": 412,
+     "h": 984,
+     "kb": 39.9
+    },
+    {
+     "src": "/img/v4/ill/s-pererabotka-1400.webp",
+     "w": 586,
+     "h": 1400,
+     "kb": 64.4
+    }
+   ]
+  },
+  {
+   "slug": "s-parsing",
+   "canvas": [
+    426,
+    984
+   ],
+   "ax": 188,
+   "sole": 978,
+   "shift_vs_400": 0,
+   "top": 23,
+   "left": 29,
+   "right": 418,
+   "widths": [
+    242,
+    338,
+    426,
+    606
+   ],
+   "files": [
+    {
+     "src": "/img/v4/ill/s-parsing-560.webp",
+     "w": 242,
+     "h": 560,
+     "kb": 16.1
+    },
+    {
+     "src": "/img/v4/ill/s-parsing-780.webp",
+     "w": 338,
+     "h": 780,
+     "kb": 25.7
+    },
+    {
+     "src": "/img/v4/ill/s-parsing-984.webp",
+     "w": 426,
+     "h": 984,
+     "kb": 35.3
+    },
+    {
+     "src": "/img/v4/ill/s-parsing-1400.webp",
+     "w": 606,
+     "h": 1400,
+     "kb": 56.9
+    }
+   ]
+  },
+  {
+   "slug": "s-integracii",
+   "canvas": [
+    402,
+    984
+   ],
+   "ax": 190,
+   "sole": 978,
+   "shift_vs_400": 2,
+   "top": 21,
+   "left": 6,
+   "right": 362,
+   "widths": [
+    229,
+    319,
+    402,
+    572
+   ],
+   "files": [
+    {
+     "src": "/img/v4/ill/s-integracii-560.webp",
+     "w": 229,
+     "h": 560,
+     "kb": 20.8
+    },
+    {
+     "src": "/img/v4/ill/s-integracii-780.webp",
+     "w": 319,
+     "h": 780,
+     "kb": 33.0
+    },
+    {
+     "src": "/img/v4/ill/s-integracii-984.webp",
+     "w": 402,
+     "h": 984,
+     "kb": 45.7
+    },
+    {
+     "src": "/img/v4/ill/s-integracii-1400.webp",
+     "w": 572,
+     "h": 1400,
+     "kb": 74.5
+    }
+   ]
+  }
+ ]
+}

@@ -1,5 +1,6 @@
 import { SITE, STACK, WORKS, WORKS_INDEX, FAQ, NOT_DOING, REVIEWS, PROJECTS_TOTAL } from "@/lib/content";
 import { SERVICE_PAGES } from "@/lib/services";
+import { PROFI_URL, PROFI_STATS } from "@/lib/reviews";
 import { CASE_PAGES } from "@/lib/cases";
 import { INDUSTRY_PAGES } from "@/lib/industries";
 
@@ -24,7 +25,7 @@ export function GET() {
     return `- [${w.title}](${w.href}) — ${w.kind}${detail}\n  ${w.text}\n  Стек: ${w.stack.join(", ")}`;
   }).join("\n");
 
-  const rest = WORKS_INDEX.filter((w) => w.href.startsWith("http"))
+  const rest = WORKS_INDEX.filter((w) => w.href.startsWith("http") && !w.offline)
     .map((w) => `- [${w.title}](${w.href}) · ${w.engine} · ${w.note}`)
     .join("\n");
 
@@ -56,6 +57,7 @@ export function GET() {
 - [Ниши](${SITE.url}/dlya) — как устроен сайт в конкретной отрасли
 - [Telegram](${SITE.telegram}) — быстрее всего написать сюда, отвечаю в течение часа
 - [Профиль на Kwork](${SITE.kwork}) — отзывы и рейтинг, которые можно проверить
+- [Профиль на Профи](${PROFI_URL}) — ещё отзывы, рейтинг ${PROFI_STATS.rating.replace(".", ",")} из ${PROFI_STATS.count}
 - [GitHub](${SITE.github}) — код части проектов открыт
 
 Почта: ${SITE.email}
@@ -94,7 +96,7 @@ ${faq}
 
 ${quotes}
 
-Все отзывы целиком — в профиле на Kwork: ${SITE.kwork}
+Все отзывы целиком — в профилях на Kwork: ${SITE.kwork} и на Профи: ${PROFI_URL}
 
 ## Как со мной связаться
 

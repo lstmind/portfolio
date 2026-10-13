@@ -1,10 +1,15 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { Crumbs, PageCta, PageFooter, PageHeader } from "@/components/PageChrome";
-import { INDUSTRY_PAGES, industryBySlug, workByHref } from "@/lib/industries";
-import { SERVICE_PAGES } from "@/lib/services";
-import { CASE_PAGES } from "@/lib/cases";
-import { SITE, WORKS, REVIEWS, priceNumber } from "@/lib/content";
+import { INDUSTRY_PAGES, industryBySlug } from "@/lib/industries";
+import { SITE, REVIEWS, priceNumber, plural } from "@/lib/content";
+import { KWORK_URL, PROFI_URL } from "@/lib/reviews";
+import { Block, Crumbs, Faq, Fan, FinalCta, Go, Out, Sign, SiteCards, TgButton, Word } from "@/components/v4/dlya/parts";
+import { casesOf, serviceSite, serviceWord, sitesOf, splitPrice, splitTerm, tgMsg, typesOf, wordOf } from "@/components/v4/dlya/data";
+import { CardsIsland, DemoIsland, FanIsland, OthersIsland, SignsIsland, WordsIsland } from "@/components/v4/dlya/islands";
+import { NicheDemo, demoSpec } from "@/components/v4/dlya/demo";
+import { Scene, SceneCrop } from "@/components/v4/dlya/scene";
+
+const NB = " ";
 
 export function generateStaticParams() {
   return INDUSTRY_PAGES.map((i) => ({ slug: i.slug }));
@@ -17,7 +22,7 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { slug } = await params;
   const i = industryBySlug(slug);
-  if (!i) return {};
+  if (!i) notFound();
   return {
     title: i.metaTitle,
     description: i.metaDescription,
@@ -44,19 +49,17 @@ export default async function IndustryPageView({ params }: { params: Promise<{ s
   const ind = industryBySlug(slug);
   if (!ind) notFound();
 
-  const types = ind.types
-    .map((t) => SERVICE_PAGES.find((s) => s.slug === t))
-    .filter(Boolean) as (typeof SERVICE_PAGES)[number][];
-
-  const cases = ind.cases
-    .map((cs) => {
-      const c = CASE_PAGES.find((x) => x.slug === cs);
-      const w = c && WORKS.find((x) => x.href === c.href);
-      return c && w ? { c, w } : null;
-    })
-    .filter(Boolean) as { c: (typeof CASE_PAGES)[number]; w: (typeof WORKS)[number] }[];
-
+  const sites = sitesOf(ind);
+  // разборы, на которые уже ведёт карточка сайта, второй раз списком не повторяем
+  const cases = casesOf(ind).filter((c) => !sites.some((x) => x.caseSlug === c.slug));
+  const types = typesOf(ind);
   const others = INDUSTRY_PAGES.filter((x) => x.slug !== ind.slug);
+  const review = REVIEWS[ind.review];
+  const reviewUrl = review && /profi/i.test(review.src) ? PROFI_URL : KWORK_URL;
+  const p = splitPrice(ind.price.value);
+  const t = splitTerm(ind.term.value);
+  const demo = demoSpec(ind);
+  const nSites = `${sites.length}${NB}${plural(sites.length, ["живой сайт", "живых сайта", "живых сайтов"])}`;
 
   const ld = {
     "@context": "https://schema.org",
@@ -115,182 +118,229 @@ export default async function IndustryPageView({ params }: { params: Promise<{ s
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(ld) }} />
-      <PageHeader />
 
-      <main className="doc" id="main">
-        <div className="doc-wrap">
+      {/* ── первый экран: "сайты для" и крупное слово ниши, цена и срок вывеской, ответ, кнопка; справа веер живых сайтов ниши ── */}
+      <section className="dl-hero" id="dl-hero" aria-labelledby="dl-h1">
+        <div className="dl-hero-txt">
           <Crumbs
             items={[
               { name: "Главная", href: "/" },
               { name: "Ниши", href: "/dlya" },
-              { name: ind.h1 },
             ]}
           />
+          <h1 className="dl-kicker" id="dl-h1">
+            {ind.h1}
+          </h1>
+          <div className="dl-title" aria-hidden="true">
+            <Word text="Сайты для" className="dl-pre" />
+            <Word text={wordOf(ind.slug)} start={8} />
+          </div>
 
-          <h1>{ind.h1}</h1>
-          <p className="doc-answer">{ind.answer}</p>
-
-          <figure className="doc-cover">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src={`/img/dlya/${ind.slug}.webp`}
-              srcSet={`/img/dlya/${ind.slug}-720.webp 720w, /img/dlya/${ind.slug}.webp 1440w`}
-              sizes="(max-width: 920px) 100vw, 1128px"
-              alt=""
-              width={1440}
-              height={960}
-              loading="eager"
-              fetchPriority="high"
-              decoding="async"
-            />
-          </figure>
-
-          <div className="doc-grid">
-            <div>
-              {ind.lead.map((p) => (
-                <p className="doc-lead" key={p}>
-                  {p}
-                </p>
-              ))}
-
-              <h2>Что важно именно здесь</h2>
-              <div className="doc-spec">
-                {ind.specifics.map((sp) => (
-                  <div key={sp.title}>
-                    <h3>{sp.title}</h3>
-                    <p>{sp.text}</p>
-                  </div>
-                ))}
-              </div>
-
-              <h2>Что входит в работу</h2>
-              <ul className="doc-list">
-                {ind.includes.map((x) => (
-                  <li key={x}>{x}</li>
-                ))}
-              </ul>
-
-              <h2>Работы в этой нише</h2>
-              <ul className="doc-refs">
-                {ind.examples.map((ex) => {
-                  const w = workByHref(ex.href);
-                  const host = ex.href.replace(/^https?:\/\/(www\.)?/, "").replace(/\/+$/, "");
-                  return (
-                    <li key={ex.href}>
-                      <a href={ex.href} target="_blank" rel="noopener noreferrer">
-                        <b>{w?.title ?? host}</b>
-                        <span className="doc-refs-note">{ex.note}</span>
-                        <span className="doc-refs-meta mono">
-                          {w?.engine} · {host} ↗
-                        </span>
-                      </a>
-                    </li>
-                  );
-                })}
-              </ul>
+          <dl className="dl-facts">
+            <div className="dl-fact">
+              <dt>{ind.price.label}</dt>
+              <dd>
+                <span className="dl-num">
+                  {p.pre && <i>{p.pre}</i>}
+                  <span>{p.value}</span>
+                </span>
+                <span className="dl-fnote">{ind.price.note}</span>
+              </dd>
             </div>
+            <div className="dl-fact">
+              <dt>{ind.term.label}</dt>
+              <dd>
+                <span className="dl-num">
+                  {t.pre && <i>{t.pre}</i>}
+                  <span>{t.value}</span>
+                </span>
+                <span className="dl-fnote">{ind.term.note}</span>
+              </dd>
+            </div>
+          </dl>
 
-            <aside className="doc-side">
-              <div>
-                <span className="mono">{ind.price.label}</span>
-                <b>{ind.price.value}</b>
-                <i>{ind.price.note}</i>
-              </div>
-              <div>
-                <span className="mono">{ind.term.label}</span>
-                <b>{ind.term.value}</b>
-                <i>{ind.term.note}</i>
-              </div>
-              <div>
-                <span className="mono">Где работаю</span>
-                <b>Москва и вся Россия</b>
-                <i>удалённо, договор и чек — самозанятый</i>
-              </div>
-              <div className="doc-side-cta">
-                <a href={SITE.telegram} target="_blank" rel="noopener noreferrer">
-                  Обсудить задачу →
-                </a>
-                <small className="mono">отвечаю в течение часа</small>
-              </div>
-              {REVIEWS[ind.review] && (
-                <div className="doc-side-rev">
-                  <blockquote>«{REVIEWS[ind.review].text}»</blockquote>
-                  <cite className="mono">
-                    {REVIEWS[ind.review].name} · {REVIEWS[ind.review].src}
-                  </cite>
-                </div>
-              )}
-            </aside>
-          </div>
-
-          {cases.length > 0 && (
-            <>
-              <h2>Разборы проектов</h2>
-              <div className="doc-cases">
-                {cases.map(({ c, w }) => (
-                  <a className="doc-case doc-case--shot" href={`/works/${c.slug}`} key={c.slug}>
-                    <span className="doc-case-img">
-                      {/* eslint-disable-next-line @next/next/no-img-element */}
-                      <img
-                        src={`/img/prev/${c.slug}.webp`}
-                        srcSet={`/img/prev/${c.slug}-400.webp 400w, /img/prev/${c.slug}.webp 760w`}
-                        sizes="(max-width: 920px) 100vw, 340px"
-                        alt={`${w.title} — первый экран сайта`}
-                        width={760}
-                        height={471}
-                        loading="lazy"
-                        decoding="async"
-                      />
-                    </span>
-                    <span className="mono">{w.tag}</span>
-                    <b>{w.title}</b>
-                    <span className="doc-case-txt">{w.kind}</span>
-                    <span className="doc-case-go mono">Разбор проекта ↗</span>
-                  </a>
-                ))}
-              </div>
-            </>
-          )}
-
-          <h2>Вопросы по нише</h2>
-          <div className="doc-faq">
-            {ind.faq.map((f) => (
-              <div key={f.q}>
-                <h3>{f.q}</h3>
-                <p>{f.a}</p>
-              </div>
-            ))}
-          </div>
-
-          <h2>Какой сайт обычно берут</h2>
-          <div className="doc-others">
-            {types.map((s) => (
-              <a href={`/uslugi/${s.slug}`} key={s.slug}>
-                <b>{s.h1}</b>
-                <span>{s.short}</span>
-                <i className="mono">{s.price.value}</i>
-              </a>
-            ))}
-          </div>
-
-          <h2>Другие ниши</h2>
-          <div className="doc-others">
-            {others.map((o) => (
-              <a href={`/dlya/${o.slug}`} key={o.slug}>
-                <b>{o.h1}</b>
-                <span>{o.short}</span>
-                <i className="mono">{o.price.value}</i>
-              </a>
-            ))}
+          <p className="dl-answer">{ind.answer}</p>
+          <div className="dl-hero-act">
+            <TgButton text={tgMsg(ind.h1)} className="dl-cta" />
+            <span className="dl-hero-side">Москва и вся Россия, удалённо. Договор и{NB}чек</span>
           </div>
         </div>
-      </main>
 
-      <PageCta
-        title="Расскажи про свой случай"
-        text="Отвечу в течение часа: скажу, что в твоей нише реально нужно, что можно не делать, сколько это стоит и сколько займёт."
+        <div className="dl-hero-fan">
+          <Fan sites={sites} label={`Сайты в нише: ${ind.nav}`} />
+          <a className="dl-fan-more" href="#dl-works">
+            {nSites} в{NB}нише
+            <Go />
+          </a>
+        </div>
+        <FanIsland />
+      </section>
+
+      <div className="dl-flow">
+        {/* ── как устроена ниша и что в ней важно: слева липнет мини-механика одного пункта ниши,
+               на телефоне она встаёт полосой между текстом и пунктами ── */}
+        <section className="dl-block dl-block--demo" id="dl-lead" aria-label="Как устроена ниша">
+          <div className="dl-side">
+            <p className="dl-label">Как устроена ниша</p>
+            <div className="dl-demo">
+              <NicheDemo ind={ind} />
+            </div>
+          </div>
+          <div className="dl-body">
+            <div className="dl-lead">
+              {ind.lead.map((x) => (
+                <p key={x}>{x}</p>
+              ))}
+            </div>
+            <div className="dl-spec-w" id="dl-spec">
+              <h2 className="dl-sub" id="dl-spec-t">
+                Что важно именно здесь
+                <span className="dl-sub-n" aria-hidden="true">
+                  листайте
+                  <Go />
+                </span>
+              </h2>
+              <ol className="dl-spec">
+                {ind.specifics.map((sp, k) => (
+                  <li key={sp.title} className={k === demo.i ? "is-demo" : undefined}>
+                    <h3>{sp.title}</h3>
+                    <p>{sp.text}</p>
+                  </li>
+                ))}
+              </ol>
+            </div>
+          </div>
+          <DemoIsland />
+        </section>
+
+        {/* ── живые сайты ниши карточками во всю ширину ── */}
+        <section className={`dl-works${sites.length < 3 ? " dl-works--few" : ""}`} id="dl-works" aria-labelledby="dl-works-t">
+          <header className="dl-head">
+            <h2 id="dl-works-t">Работы в этой нише</h2>
+            <p>{nSites}, каждый открывается</p>
+          </header>
+          <SiteCards sites={sites} />
+          {cases.length > 0 && (
+            <div className="dl-cases">
+              <h3 className="dl-cases-t">{sites.some((x) => x.caseSlug) ? "Ещё разборы" : "Разборы проектов"}</h3>
+              <ul>
+                {cases.map((c) => (
+                  <li key={c.slug}>
+                    <a href={`/works/${c.slug}`}>
+                      <b>{c.title}</b>
+                      <span>{c.kind}</span>
+                      <Go />
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+          <CardsIsland />
+        </section>
+
+        {/* ── отзыв ── */}
+        {review && (
+          <Block id="dl-rev" label="Отзыв" heading={false}>
+            <figure className="dl-rev">
+              <blockquote>
+                <p>{review.text}</p>
+              </blockquote>
+              <figcaption>
+                <b>{review.name}</b>
+                {review.job && <span>{review.job}</span>}
+                <a href={reviewUrl} target="_blank" rel="noopener">
+                  {review.src}
+                  <Out />
+                </a>
+              </figcaption>
+            </figure>
+          </Block>
+        )}
+
+        {/* ── что входит: линейка с номерами, рядом персонаж со сметой ── */}
+        <Block
+          id="dl-inc"
+          label="Что входит в работу"
+          className="dl-block--fig"
+          aside={<Scene slug={ind.slug} className="dl-inc-fig" hd={470} hm={250} />}
+        >
+          <ul className="dl-inc">
+            {ind.includes.map((x) => (
+              <li key={x}>{x}</li>
+            ))}
+          </ul>
+          <dl className="dl-where">
+            <div>
+              <dt>Где работаю</dt>
+              <dd>Москва и вся Россия, удалённо</dd>
+            </div>
+            <div>
+              <dt>Как оформляю</dt>
+              <dd>Договор и чек, самозанятый</dd>
+            </div>
+            <div>
+              <dt>Когда отвечаю</dt>
+              <dd>В течение часа</dd>
+            </div>
+          </dl>
+        </Block>
+      </div>
+
+      {/* ── какой сайт обычно берут: вывеска цен ── */}
+      <div className="dl-wide">
+        <Sign
+          id="dl-types"
+          title="Какой сайт обычно берут"
+          side="Цена и срок на странице услуги"
+          rows={types.map((s) => {
+            const site = serviceSite(s);
+            return {
+              href: `/uslugi/${s.slug}`,
+              word: serviceWord(s.slug),
+              price: s.price.value,
+              title: s.h1,
+              term: `${s.term.label.toLowerCase()} ${s.term.value}`,
+              note: s.short,
+              img: site.img,
+              cap: site.title,
+              host: site.host,
+            };
+          })}
+        />
+        <SignsIsland />
+      </div>
+
+      <div className="dl-flow">
+        <Block id="dl-faq" label="Вопросы по нише">
+          <Faq items={ind.faq} />
+        </Block>
+
+        <Block id="dl-others" label="Другие ниши">
+          <ul className="dl-niches">
+            {others.map((o) => (
+              <li key={o.slug}>
+                <a href={`/dlya/${o.slug}`}>
+                  <SceneCrop slug={o.slug} className="dl-niche-crop" h={112} />
+                  <span className="dl-niche-t">
+                    <b>{o.h1}</b>
+                    <i>{o.price.value}</i>
+                    <span>{o.short}</span>
+                  </span>
+                </a>
+              </li>
+            ))}
+          </ul>
+          <OthersIsland />
+        </Block>
+      </div>
+
+      <FinalCta
+        word="Ваш случай?"
+        text="Отвечу в течение часа: скажу, что в вашей нише реально нужно, что можно не делать, сколько это стоит и сколько займёт."
+        msg={tgMsg(ind.h1)}
       />
-      <PageFooter />
+      <WordsIsland />
     </>
   );
 }

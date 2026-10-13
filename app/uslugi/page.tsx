@@ -1,8 +1,14 @@
 import type { Metadata } from "next";
-import { Crumbs, PageCta, PageFooter, PageHeader } from "@/components/PageChrome";
 import { SERVICE_PAGES } from "@/lib/services";
 import { INDUSTRY_PAGES } from "@/lib/industries";
-import { SITE, NOT_DOING, priceNumber } from "@/lib/content";
+import { SITE, NOT_DOING } from "@/lib/content";
+import { RATE } from "@/lib/home";
+import { Figure } from "@/components/v4/Figure";
+import { Crumbs, FinalCta, Go, TgButton, Word } from "@/components/v4/uslugi/bits";
+import { Niches } from "@/components/v4/uslugi/Service";
+import { Sign } from "@/components/v4/uslugi/Sign";
+import { HUB_GROUPS } from "@/components/v4/uslugi/data";
+import { NichesIsland, SignsIsland, StrikeIsland, WordsIsland } from "@/components/v4/uslugi/islands";
 
 /**
  * Витрина всех услуг. До неё раздел был плоским: страницы услуг висели
@@ -28,6 +34,8 @@ export const metadata: Metadata = {
     description: "Сайты под ключ, магазины, боты, админки, починка и ускорение чужих сайтов.",
   },
 };
+
+const NB = " ";
 
 export default function ServicesIndex() {
   const ld = {
@@ -64,80 +72,106 @@ export default function ServicesIndex() {
     ],
   };
 
-  // дешёвые впереди: человек с бюджетом «посмотреть» не должен упереться в 40 000 ₽ первой строкой
-  const sorted = [...SERVICE_PAGES].sort(
-    (a, b) => (priceNumber(a.price.value) ?? 1e9) - (priceNumber(b.price.value) ?? 1e9)
-  );
-
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(ld) }} />
-      <PageHeader />
 
-      <main className="doc" id="main">
-        <div className="doc-wrap">
-          <Crumbs items={[{ name: "Главная", href: "/" }, { name: "Услуги" }]} />
-
-          <h1>Услуги</h1>
-          <p className="doc-answer">
-            {SERVICE_PAGES.length} направлений: от сайта под ключ за 15 000 ₽ до админки с CRM.
-            У каждой страницы своя цена, свой срок и примеры работ. Если задача на стыке, напишите:
-            разберём и скажу, с чего начинать.
+      <section className="u-hero u-hero--hub" id="u-hero" aria-labelledby="u-h1">
+        <div className="u-hero-txt">
+          <Crumbs items={[{ name: "Главная", href: "/" }]} />
+          <Word as="h1" text="Услуги" id="u-h1" />
+          <p className="u-answer">
+            {SERVICE_PAGES.length} направлений: от сайта под ключ за 15{NB}000{NB}₽ до админки с CRM. У каждой страницы своя
+            цена, свой срок и примеры работ. Если задача на стыке, напишите: разберём и скажу, с чего начинать.
           </p>
-
-          <h2 className="doc-h2-first">Все услуги</h2>
-          <div className="doc-others">
-            {sorted.map((s) => (
-              <a href={`/uslugi/${s.slug}`} key={s.slug}>
-                <b>{s.h1}</b>
-                <span>{s.short}</span>
-                <i className="mono">
-                  {s.price.value} · {s.term.value}
-                </i>
-              </a>
-            ))}
+          <ul className="u-meta">
+            <li>
+              час работы <b>{RATE}</b>
+            </li>
+            <li>
+              по проекту <b>фикс-смета</b>
+            </li>
+            <li>
+              самозанятый: <b>договор, акт и{NB}чек</b>
+            </li>
+          </ul>
+          <div className="u-hero-act">
+            <TgButton text="Здравствуйте! Пишу со страницы услуг на lstmind.ru." className="u-cta" />
+            <a className="u-hero-jump" href="#u-new">
+              Смотреть цены ↓
+            </a>
           </div>
+        </div>
+        <figure className="u-hero-fig">
+          <span className="u-fig-box">
+            <Figure
+              pose="j5"
+              alt="Алексей пишет смету на листе"
+              sizes="(max-width: 699px) 128px, min(30vh, 300px)"
+              loading="eager"
+              fetchPriority="high"
+            />
+          </span>
+        </figure>
+      </section>
 
-          <h2>Под вашу нишу</h2>
-          <p className="doc-lead">
-            В некоторых нишах сайт устроен иначе: там свои обязательные блоки и свой путь до заявки.
-            Вот те, с которыми работал плотнее всего.
-          </p>
-          <div className="doc-others">
-            {INDUSTRY_PAGES.map((i) => (
-              <a href={`/dlya/${i.slug}`} key={i.slug}>
-                <b>{i.h1}</b>
-                <span>{i.short}</span>
-                <i className="mono">{i.price.value}</i>
-              </a>
-            ))}
+      <div className="u-flow">
+        {HUB_GROUPS.map((g, i) => (
+          <div className="u-wide" key={g.title}>
+            <Sign id={["u-new", "u-old", "u-code"][i]} title={g.title} side={g.side} services={g.services} />
           </div>
+        ))}
 
-          <h2>Чего я не делаю</h2>
-          <p className="doc-lead">
-            Честный список: если задача из него, я подскажу, к кому идти, но браться не буду.
-            Так быстрее для обеих сторон.
-          </p>
-          <ul className="doc-list doc-list--plain">
+        <Niches
+          niches={INDUSTRY_PAGES}
+          intro="В некоторых нишах сайт устроен иначе: там свои обязательные блоки и свой путь до заявки. Вот те, с которыми работал плотнее всего."
+        />
+
+        <section className="u-no" id="u-no" aria-labelledby="u-no-t">
+          <div className="u-no-head">
+            <Word as="h2" text="Не делаю" id="u-no-t" />
+            <p className="u-intro">
+              Честный список: если задача из него, я подскажу, к кому идти, но браться не буду. Так быстрее для обеих сторон.
+            </p>
+          </div>
+          <ul className="u-no-list">
             {NOT_DOING.map((n) => (
               <li key={n.what}>
-                <b>{n.what}</b> — {n.why}
+                <b>
+                  <span className="u-no-x">{n.what}</span>
+                </b>
+                <span>{n.why}</span>
               </li>
             ))}
           </ul>
+          <figure className="u-no-fig" aria-hidden="true">
+            <Figure pose="j9" sizes="(max-width: 699px) 120px, 220px" />
+          </figure>
+        </section>
 
-          <p className="doc-note">
-            Готовые проекты — <a href="/works">в разделе работ</a>. Прикинуть цену самому можно{" "}
-            <a href="/#calc">в калькуляторе</a>.
-          </p>
-        </div>
-      </main>
+        <p className="u-note">
+          Готовые проекты{" "}
+          <a href="/works">
+            в разделе работ <Go />
+          </a>
+          . Прикинуть цену самому можно{" "}
+          <a href="/#final">
+            в калькуляторе <Go />
+          </a>
+          .
+        </p>
+      </div>
 
-      <PageCta
-        title="Не нашли свою задачу?"
+      <FinalCta
+        word="Не нашли?"
         text="Напишите в двух словах, что нужно. Отвечу в течение часа и скажу честно: берусь, сколько это стоит и сколько займёт."
+        msg="Здравствуйте! Пишу со страницы услуг на lstmind.ru."
       />
-      <PageFooter />
+
+      <SignsIsland />
+      <NichesIsland />
+      <StrikeIsland />
+      <WordsIsland />
     </>
   );
 }

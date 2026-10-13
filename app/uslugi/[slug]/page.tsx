@@ -1,10 +1,14 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { Crumbs, PageCta, PageFooter, PageHeader } from "@/components/PageChrome";
-import { SERVICE_PAGES, serviceBySlug, type ServicePage } from "@/lib/services";
-import { CASE_PAGES } from "@/lib/cases";
-import { INDUSTRY_PAGES } from "@/lib/industries";
-import { SITE, WORKS, PROCESS, REVIEWS, priceNumber } from "@/lib/content";
+import { SERVICE_PAGES, serviceBySlug } from "@/lib/services";
+import { SITE, priceNumber } from "@/lib/content";
+import { Block, Faq, FinalCta, Go } from "@/components/v4/uslugi/bits";
+import { BigCount, CaseCards, Niches, Quote, Rating, ServiceHero, ShortQuote, ShotFigure, Steps, tgMsg } from "@/components/v4/uslugi/Service";
+import { Sign } from "@/components/v4/uslugi/Sign";
+import { CaseShots, Demo } from "@/components/v4/uslugi/Demos";
+import { caseCards, hubFor, nichesFor, othersFor } from "@/components/v4/uslugi/data";
+import { reviewFor, sceneOf, shortReviewFor } from "@/components/v4/uslugi/scenes";
+import { CardsIsland, DemosIsland, HeroIsland, NichesIsland, SignsIsland, WordsIsland } from "@/components/v4/uslugi/islands";
 
 export function generateStaticParams() {
   return SERVICE_PAGES.map((s) => ({ slug: s.slug }));
@@ -17,7 +21,7 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { slug } = await params;
   const s = serviceBySlug(slug);
-  if (!s) return {};
+  if (!s) notFound();
   return {
     title: s.metaTitle,
     description: s.metaDescription,
@@ -44,30 +48,15 @@ export default async function ServicePageView({ params }: { params: Promise<{ sl
   const s = serviceBySlug(slug);
   if (!s) notFound();
 
-  const cases = s.cases
-    .map((cs) => {
-      const c = CASE_PAGES.find((x) => x.slug === cs);
-      const w = c && WORKS.find((x) => x.href === c.href);
-      return c && w ? { c, w } : null;
-    })
-    .filter(Boolean) as { c: (typeof CASE_PAGES)[number]; w: (typeof WORKS)[number] }[];
-
-  // сначала близкие услуги, дальше добираем остальными: список из шестнадцати ссылок никто не читает
-  const related = (s.related ?? [])
-    .map((x) => SERVICE_PAGES.find((y) => y.slug === x))
-    .filter(Boolean) as ServicePage[];
-  const pos = SERVICE_PAGES.findIndex((x) => x.slug === s.slug);
-  const ring = [...SERVICE_PAGES.slice(pos + 1), ...SERVICE_PAGES.slice(0, pos)];
-  const others = [
-    ...related,
-    // добираем не с начала списка, а по кругу от текущей: иначе одни и те же
-    // шесть услуг собирают ссылки со всех страниц раздела
-    ...ring.filter((x) => x.slug !== s.slug && !related.some((r) => r.slug === x.slug)),
-  ].slice(0, 6);
-  // страница-хаб разводит общий запрос по типам сайтов, чтобы они не конкурировали друг с другом
-  const hub = (s.hub ?? [])
-    .map((x) => SERVICE_PAGES.find((y) => y.slug === x))
-    .filter(Boolean) as ServicePage[];
+  const cards = caseCards(s.cases);
+  const others = othersFor(s);
+  const hub = hubFor(s);
+  const niches = nichesFor(s);
+  const review = reviewFor(s.slug);
+  // сцена на первом экране: тогда поза 6 со скрином работы встаёт рядом с "Когда это нужно"
+  const scene = sceneOf(s.slug);
+  const short = shortReviewFor(s.slug);
+  const leadShots = s.slug === "telegram-bot" ? (["status"] as const) : s.slug === "admin-panel-i-crm" ? (["admin", "kitchen"] as const) : null;
 
   const ld = {
     "@context": "https://schema.org",
@@ -125,201 +114,100 @@ export default async function ServicePageView({ params }: { params: Promise<{ sl
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(ld) }} />
-      <PageHeader />
 
-      <main className="doc" id="main">
-        <div className="doc-wrap">
-          <Crumbs
-            items={[
-              { name: "Главная", href: "/" },
-              { name: "Услуги", href: "/uslugi" },
-              { name: s.h1 },
-            ]}
-          />
+      <ServiceHero s={s} shot={cards[0]} />
 
-          <h1>{s.h1}</h1>
-          <p className="doc-answer">{s.answer}</p>
-
-          <figure className="doc-cover">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src={`/img/svc/${s.slug}.webp`}
-              srcSet={`/img/svc/${s.slug}-720.webp 720w, /img/svc/${s.slug}.webp 1440w`}
-              sizes="(max-width: 920px) 100vw, 1128px"
-              alt=""
-              width={1440}
-              height={960}
-              loading="eager"
-              fetchPriority="high"
-              decoding="async"
-            />
-          </figure>
-
-          <div className="doc-grid">
-            <div>
+      <div className="u-flow">
+        <Block id="u-lead" label="Подробнее" className="u-lead" aside={leadShots ? <CaseShots names={[...leadShots]} /> : short ? <ShortQuote r={short} /> : undefined}>
           {s.lead.map((p) => (
-            <p className="doc-lead" key={p}>
-              {p}
-            </p>
+            <p key={p}>{p}</p>
           ))}
+        </Block>
 
-          {hub.length > 0 && (
-            <>
-              <h2>Какой сайт нужен</h2>
-              <p className="doc-lead">
-                «Под ключ» — это про то, что всё делаю я. А вот что именно делать, зависит от задачи:
-                каждому типу нужна своя структура, свой срок и своя цена.
-              </p>
-              <div className="doc-others">
-                {hub.map((x) => (
-                  <a href={`/uslugi/${x.slug}`} key={x.slug}>
-                    <b>{x.h1}</b>
-                    <span>{x.short}</span>
-                    <i className="mono">{x.price.value}</i>
-                  </a>
-                ))}
-              </div>
-            </>
-          )}
+        {hub.length > 0 && (
+          <div className="u-wide" id="u-types">
+            <p className="u-wide-p">
+              &quot;Под ключ&quot; значит, что всё делаю я. А что именно делать, зависит от задачи: каждому типу сайта нужна своя
+              структура, свой срок и своя цена.
+            </p>
+            <Sign id="u-hub" title="Какой сайт нужен" side="у каждого типа своя страница" services={hub} size="s" />
+          </div>
+        )}
 
-          {hub.length > 0 && (
-            <>
-              <h2>Под вашу нишу</h2>
-              <p className="doc-lead">
-                В некоторых нишах сайт устроен иначе: там свои обязательные блоки и свой путь
-                до заявки. Вот те, с которыми я работал плотнее всего.
-              </p>
-              <div className="doc-others">
-                {INDUSTRY_PAGES.map((x) => (
-                  <a href={`/dlya/${x.slug}`} key={x.slug}>
-                    <b>{x.h1}</b>
-                    <span>{x.short}</span>
-                    <i className="mono">{x.price.value}</i>
-                  </a>
-                ))}
-              </div>
-            </>
-          )}
-
-          <h2>Что входит в работу</h2>
-          <ul className="doc-list">
-            {s.includes.map((i) => (
-              <li key={i}>{i}</li>
-            ))}
-          </ul>
-
-          <h2>Когда это нужно</h2>
-          <ul className="doc-list doc-list--plain">
-            {s.fit.map((i) => (
-              <li key={i}>{i}</li>
-            ))}
-          </ul>
-
-          <h2>Как идёт работа</h2>
-          <ol className="doc-steps doc-steps--short">
-            {PROCESS.map((p) => (
-              <li key={p.n}>
-                <span className="mono">{p.n}</span>
-                <b>{p.title}</b>
-              </li>
+        <Block id="u-inc" label="Что входит в работу" aside={<Demo s={s} cards={cards} />}>
+          <ol className="u-inc">
+            {s.includes.map((x) => (
+              <li key={x}>{x}</li>
             ))}
           </ol>
-          <p className="doc-note">
-            Подробно про каждый шаг —{" "}
-            <a href="/#process">в разделе «Как я работаю»</a> на главной.
+        </Block>
+
+        <Block id="u-fit" label="Когда это нужно" aside={scene ? <ShotFigure shot={cards[0]} /> : <BigCount />}>
+          <ul className="u-fit">
+            {s.fit.map((x) => (
+              <li key={x}>{x}</li>
+            ))}
+          </ul>
+        </Block>
+
+        <Block id="u-works" label="Примеры работ">
+          <CaseCards cards={cards} />
+          <p className="u-more">
+            <a href="/works">
+              Все работы и разборы
+              <Go />
+            </a>
           </p>
-            </div>
+        </Block>
 
-            <aside className="doc-side">
-              <div>
-                <span className="mono">{s.price.label}</span>
-                <b>{s.price.value}</b>
-                <i>{s.price.note}</i>
-              </div>
-              <div>
-                <span className="mono">{s.term.label}</span>
-                <b>{s.term.value}</b>
-                <i>{s.term.note}</i>
-              </div>
-              <div>
-                <span className="mono">Где работаю</span>
-                <b>Москва и вся Россия</b>
-                <i>удалённо, договор и чек — самозанятый</i>
-              </div>
-              <div className="doc-side-cta">
-                <a href={SITE.telegram} target="_blank" rel="noopener noreferrer">
-                  Обсудить задачу →
-                </a>
-                <small className="mono">отвечаю в течение часа</small>
-              </div>
-              {REVIEWS[s.review] && (
-                <div className="doc-side-rev">
-                  <blockquote>«{REVIEWS[s.review].text}»</blockquote>
-                  <cite className="mono">
-                    {REVIEWS[s.review].name} · {REVIEWS[s.review].src}
-                  </cite>
-                </div>
-              )}
-            </aside>
-          </div>
+        {review && (
+          <Block id="u-rev" label="Отзыв" aside={<Rating src={review.src} />}>
+            <Quote r={review} />
+          </Block>
+        )}
 
-          {cases.length > 0 && (
-            <>
-              <h2>Примеры работ</h2>
-              <div className="doc-cases">
-                {cases.map(({ c, w }) => (
-                  <a className="doc-case doc-case--shot" href={`/works/${c.slug}`} key={c.slug}>
-                    <span className="doc-case-img">
-                      {/* eslint-disable-next-line @next/next/no-img-element */}
-                      <img
-                        src={`/img/prev/${c.slug}.webp`}
-                        srcSet={`/img/prev/${c.slug}-400.webp 400w, /img/prev/${c.slug}.webp 760w`}
-                        sizes="(max-width: 920px) 100vw, 340px"
-                        alt={`${w.title} — первый экран сайта`}
-                        width={760}
-                        height={471}
-                        loading="lazy"
-                        decoding="async"
-                      />
-                    </span>
-                    <span className="mono">{w.tag}</span>
-                    <b>{w.title}</b>
-                    <span className="doc-case-txt">{w.kind}</span>
-                    <span className="doc-case-go mono">Разбор проекта ↗</span>
-                  </a>
-                ))}
-              </div>
-            </>
-          )}
+        <Block id="u-steps" label="Как идёт работа">
+          <Steps />
+        </Block>
 
-          <h2>Вопросы по услуге</h2>
-          <div className="doc-faq">
-            {s.faq.map((f) => (
-              <div key={f.q}>
-                <h3>{f.q}</h3>
-                <p>{f.a}</p>
-              </div>
-            ))}
-          </div>
+        <Block id="u-faq" label="Вопросы по услуге">
+          <Faq items={s.faq} />
+        </Block>
 
-          <h2>Другие услуги</h2>
-          <div className="doc-others">
-            {others.map((o) => (
-              <a href={`/uslugi/${o.slug}`} key={o.slug}>
-                <b>{o.h1}</b>
-                <span>{o.short}</span>
-                <i className="mono">{o.price.value}</i>
-              </a>
-            ))}
-          </div>
+        {niches.length > 0 && (
+          <Niches
+            niches={niches}
+            intro={
+              hub.length > 0
+                ? "В некоторых нишах сайт устроен иначе: там свои обязательные блоки и свой путь до заявки. Вот те, с которыми я работал плотнее всего."
+                : undefined
+            }
+          />
+        )}
+
+        <div className="u-wide">
+          <Sign id="u-others" title="Другие услуги" side="все цены на одной странице" services={others} size="s" />
+          <p className="u-more">
+            <a href="/uslugi">
+              Все услуги и чего я не делаю
+              <Go />
+            </a>
+          </p>
         </div>
-      </main>
+      </div>
 
-      <PageCta
-        title="Расскажи задачу"
-        text="Отвечу в течение часа и скажу честно: берусь, сколько это стоит и сколько займёт. Если задачу лучше решить иначе — так и скажу."
+      <FinalCta
+        word="Обсудим?"
+        text="Отвечу в течение часа и скажу честно: берусь, сколько это стоит и сколько займёт. Если задачу лучше решить иначе, так и скажу."
+        msg={tgMsg(s.h1)}
       />
-      <PageFooter />
+
+      <HeroIsland />
+      <DemosIsland />
+      <NichesIsland />
+      <CardsIsland />
+      <SignsIsland />
+      <WordsIsland />
     </>
   );
 }

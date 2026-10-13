@@ -1,0 +1,152 @@
+{
+ "sheet": "hubs-cases",
+ "src": "design-concepts/v4/ill/hubs-cases/",
+ "canvasH": 984,
+ "sole": 978,
+ "soleRatio": 0.9939,
+ "ax400": 188,
+ "heights": [
+  560,
+  780,
+  984,
+  1400
+ ],
+ "note": "холст как pose-j: подошвы на 978 из 984, ось корпуса ax; shift_vs_400 = ax - 188 (холст шире 400 сдвигать влево на столько px холста, чтобы совпасть с pose-j)",
+ "poses": [
+  {
+   "slug": "h-papka",
+   "canvas": [
+    400,
+    984
+   ],
+   "ax": 188,
+   "sole": 978,
+   "shift_vs_400": 0,
+   "top": 9,
+   "left": 20,
+   "right": 342,
+   "widths": [
+    228,
+    317,
+    400,
+    569
+   ],
+   "files": [
+    {
+     "src": "/img/v4/ill/h-papka-560.webp",
+     "w": 228,
+     "h": 560,
+     "kb": 14.5
+    },
+    {
+     "src": "/img/v4/ill/h-papka-780.webp",
+     "w": 317,
+     "h": 780,
+     "kb": 22.9
+    },
+    {
+     "src": "/img/v4/ill/h-papka-984.webp",
+     "w": 400,
+     "h": 984,
+     "kb": 31.4
+    },
+    {
+     "src": "/img/v4/ill/h-papka-1400.webp",
+     "w": 569,
+     "h": 1400,
+     "kb": 52.2
+    }
+   ]
+  },
+  {
+   "slug": "h-shema",
+   "canvas": [
+    508,
+    984
+   ],
+   "ax": 188,
+   "sole": 978,
+   "shift_vs_400": 0,
+   "top": 18,
+   "left": 35,
+   "right": 500,
+   "widths": [
+    289,
+    403,
+    508,
+    723
+   ],
+   "files": [
+    {
+     "src": "/img/v4/ill/h-shema-560.webp",
+     "w": 289,
+     "h": 560,
+     "kb": 15.0
+    },
+    {
+     "src": "/img/v4/ill/h-shema-780.webp",
+     "w": 403,
+     "h": 780,
+     "kb": 23.6
+    },
+    {
+     "src": "/img/v4/ill/h-shema-984.webp",
+     "w": 508,
+     "h": 984,
+     "kb": 32.5
+    },
+    {
+     "src": "/img/v4/ill/h-shema-1400.webp",
+     "w": 723,
+     "h": 1400,
+     "kb": 52.9
+    }
+   ]
+  },
+  {
+   "slug": "h-priglashaet",
+   "canvas": [
+    476,
+    984
+   ],
+   "ax": 188,
+   "sole": 978,
+   "shift_vs_400": 0,
+   "top": 15,
+   "left": 18,
+   "right": 470,
+   "widths": [
+    271,
+    377,
+    476,
+    677
+   ],
+   "files": [
+    {
+     "src": "/img/v4/ill/h-priglashaet-560.webp",
+     "w": 271,
+     "h": 560,
+     "kb": 15.2
+    },
+    {
+     "src": "/img/v4/ill/h-priglashaet-780.webp",
+     "w": 377,
+     "h": 780,
+     "kb": 23.9
+    },
+    {
+     "src": "/img/v4/ill/h-priglashaet-984.webp",
+     "w": 476,
+     "h": 984,
+     "kb": 33.4
+    },
+    {
+     "src": "/img/v4/ill/h-priglashaet-1400.webp",
+     "w": 677,
+     "h": 1400,
+     "kb": 54.5
+    }
+   ]
+  }
+ ]
+}

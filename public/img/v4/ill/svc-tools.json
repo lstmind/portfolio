@@ -1,0 +1,195 @@
+{
+ "sheet": "svc-tools",
+ "src": "design-concepts/v4/ill/svc-tools/",
+ "canvasH": 984,
+ "sole": 978,
+ "soleRatio": 0.9939,
+ "ax400": 188,
+ "heights": [
+  560,
+  780,
+  984,
+  1400
+ ],
+ "note": "холст как pose-j: подошвы на 978 из 984, ось корпуса ax; shift_vs_400 = ax - 188 (холст шире 400 сдвигать влево на столько px холста, чтобы совпасть с pose-j)",
+ "poses": [
+  {
+   "slug": "s-verstka",
+   "canvas": [
+    452,
+    984
+   ],
+   "ax": 239,
+   "sole": 978,
+   "shift_vs_400": 51,
+   "top": 4,
+   "left": 7,
+   "right": 398,
+   "widths": [
+    257,
+    358,
+    452,
+    643
+   ],
+   "files": [
+    {
+     "src": "/img/v4/ill/s-verstka-560.webp",
+     "w": 257,
+     "h": 560,
+     "kb": 14.9
+    },
+    {
+     "src": "/img/v4/ill/s-verstka-780.webp",
+     "w": 358,
+     "h": 780,
+     "kb": 23.7
+    },
+    {
+     "src": "/img/v4/ill/s-verstka-984.webp",
+     "w": 452,
+     "h": 984,
+     "kb": 32.7
+    },
+    {
+     "src": "/img/v4/ill/s-verstka-1400.webp",
+     "w": 643,
+     "h": 1400,
+     "kb": 53.1
+    }
+   ]
+  },
+  {
+   "slug": "s-podderzhka",
+   "canvas": [
+    404,
+    984
+   ],
+   "ax": 188,
+   "sole": 978,
+   "shift_vs_400": 0,
+   "top": 13,
+   "left": 17,
+   "right": 397,
+   "widths": [
+    230,
+    320,
+    404,
+    575
+   ],
+   "files": [
+    {
+     "src": "/img/v4/ill/s-podderzhka-560.webp",
+     "w": 230,
+     "h": 560,
+     "kb": 14.6
+    },
+    {
+     "src": "/img/v4/ill/s-podderzhka-780.webp",
+     "w": 320,
+     "h": 780,
+     "kb": 23.2
+    },
+    {
+     "src": "/img/v4/ill/s-podderzhka-984.webp",
+     "w": 404,
+     "h": 984,
+     "kb": 32.0
+    },
+    {
+     "src": "/img/v4/ill/s-podderzhka-1400.webp",
+     "w": 575,
+     "h": 1400,
+     "kb": 52.8
+    }
+   ]
+  },
+  {
+   "slug": "s-admin",
+   "canvas": [
+    400,
+    984
+   ],
+   "ax": 188,
+   "sole": 978,
+   "shift_vs_400": 0,
+   "top": 4,
+   "left": 25,
+   "right": 352,
+   "widths": [
+    228,
+    317,
+    400,
+    569
+   ],
+   "files": [
+    {
+     "src": "/img/v4/ill/s-admin-560.webp",
+     "w": 228,
+     "h": 560,
+     "kb": 13.9
+    },
+    {
+     "src": "/img/v4/ill/s-admin-780.webp",
+     "w": 317,
+     "h": 780,
+     "kb": 22.2
+    },
+    {
+     "src": "/img/v4/ill/s-admin-984.webp",
+     "w": 400,
+     "h": 984,
+     "kb": 30.2
+    },
+    {
+     "src": "/img/v4/ill/s-admin-1400.webp",
+     "w": 569,
+     "h": 1400,
+     "kb": 50.1
+    }
+   ],
+   "screen": {
+    "quad_tl_tr_br_bl": [
+     [
+      88.0,
+      256.0
+     ],
+     [
+      286.0,
+      256.0
+     ],
+     [
+      286.0,
+      354.1
+     ],
+     [
+      88.0,
+      355.0
+     ]
+    ],
+    "occluded_by_fingers": [
+     {
+      "side": "left",
+      "box": [
+       90,
+       321,
+       97,
+       353
+      ],
+      "px": 167
+     },
+     {
+      "side": "right",
+      "box": [
+       275,
+       320,
+       284,
+       352
+      ],
+      "px": 241
+     }
+    ],
+    "note": "углы ровного серого экрана на холсте 984 (без рамки), порядок tl, tr, br, bl; на других высотах умножать на h/984. пальцы заходят на экран в местах occluded: вклейку резать маской экрана или класть пальцы поверх"
+   }
+  }
+ ]
+}

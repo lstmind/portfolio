@@ -1,0 +1,155 @@
+/* стили статики design-concepts/v4/karusel/sections/process/section.html как есть */
+/* как это будет: один человек, четыре шага, четыре позы.
+   десктоп от 900: сцена закреплена на четыре экрана скролла. фигура по центру в масштабе и на линии ног героя,
+   слева слово шага на той же дуге и тем же барабаном, справа одна строка. фигура стоит на линейке из четырёх засечек.
+   на шаге "ссылка" в экран ноутбука вклеен живой сайт, он листается вместе со скроллом.
+   телефон и узкие экраны: лента из четырёх кадров со scroll-snap, без закрепления.
+   reduced-motion на десктопе: четыре позы статичной сеткой. */
+.s-process{--process-pad:clamp(16px,2.6vw,40px);--process-ease:cubic-bezier(.16,1,.3,1);
+  position:relative;background:var(--paper);color:var(--ink);font-family:var(--sans)}
+.s-process *{box-sizing:border-box}
+.s-process .process-sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.s-process .process-stage{position:relative;padding:88px 0 40px}
+
+/* подписи сверху, как "работаю один / 36 живых сайтов" */
+.s-process .process-head{display:flex;justify-content:space-between;align-items:center;gap:16px;padding:0 var(--process-pad)}
+.s-process .process-label,.s-process .process-count{font:700 13px/1.2 var(--sans);letter-spacing:.04em;text-transform:uppercase;margin:0}
+.s-process .process-count{display:flex;align-items:center;gap:6px;font-variant-numeric:tabular-nums;color:var(--ink-2)}
+.s-process .process-count b{color:var(--ink);font-weight:700}
+.s-process .process-arr{display:inline-grid;place-items:center;width:40px;height:40px;margin:-10px 0;border:0;border-radius:50%;
+  background:none;color:var(--ink);cursor:pointer;-webkit-tap-highlight-color:transparent;transition:opacity .2s ease-out}
+.s-process .process-arr svg{width:16px;height:16px}
+.s-process .process-arr:disabled{opacity:.25;cursor:default}
+.s-process .process-arr:focus-visible,.s-process .process-seg:focus-visible,.s-process a:focus-visible{outline:2px solid var(--red);outline-offset:3px;border-radius:6px}
+
+.s-process .process-steps{list-style:none;margin:0;padding:0}
+.s-process .process-step{position:relative}
+.s-process .process-fig{position:relative;margin:0}
+.s-process .process-fig img{display:block;width:100%;height:100%;-webkit-user-drag:none;user-select:none}
+.s-process .process-word{margin:0;font-family:var(--display);font-weight:900;line-height:.9;letter-spacing:-.012em;color:var(--ink);white-space:nowrap}
+.s-process .process-letters{display:block}
+.s-process .process-ch{display:inline-block}
+.s-process .process-ch i{display:block;font-style:normal}
+.s-process .process-line{margin:0;font-weight:600;color:var(--ink);text-wrap:pretty}
+
+/* живой сайт в экране ноутбука позы 6: углы экрана в долях холста 400x984 */
+.s-process .process-screen{position:absolute;left:23.075%;top:24.644%;width:40.35%;height:10.671%;display:block;overflow:hidden;
+  background:#c0c3c7;clip-path:polygon(0 0,99.81% 0,100% 100%,.43% 100%);container-type:size;-webkit-tap-highlight-color:transparent}
+.s-process .process-screen img{display:block;width:100%;height:auto;will-change:transform}
+.s-process .process-screen img:not([src]){visibility:hidden}
+/* подпись к экрану: та же пилюля, что подпись сайта в герое */
+.s-process .process-cap{display:inline-flex;align-items:center;gap:.5em;padding:10px 14px 10px 16px;border-radius:999px;background:var(--paper);
+  color:var(--ink);white-space:nowrap;box-shadow:0 1px 0 rgba(12,11,11,.06),0 10px 30px -12px rgba(12,11,11,.45);font:600 13px/1 var(--sans);
+  transition:box-shadow .25s ease-out}
+.s-process .process-cap span{color:var(--ink-2)}
+.s-process .process-cap svg{width:13px;height:13px;color:var(--red);transition:transform .3s var(--process-ease)}
+.s-process .process-cap:hover svg{transform:translate(2px,-2px)}
+
+/* линейка: на ней стоит фигура, четыре засечки = четыре шага */
+.s-process .process-floor{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;padding:0 var(--process-pad)}
+.s-process .process-seg{position:relative;display:block;min-height:22px;margin:-10px 0 0;padding:24px 0 0;border:0;background:none;cursor:pointer;text-align:left;
+  font:700 11.5px/1.2 var(--sans);letter-spacing:.05em;text-transform:uppercase;color:var(--ink-2);-webkit-tap-highlight-color:transparent;transition:color .3s ease-out}
+.s-process .process-seg span{display:block;opacity:.85;transition:opacity .3s ease-out}
+.s-process .process-seg[aria-current] {color:var(--ink)}
+.s-process .process-seg[aria-current] span,.s-process .process-seg:hover span{opacity:1}
+.s-process .process-seg::before,.s-process .process-seg::after{content:"";position:absolute;left:0;right:0;top:10px;height:2px;border-radius:1px}
+.s-process .process-seg::before{background:rgba(12,11,11,.16)}
+.s-process .process-seg::after{background:var(--ink);transform-origin:0 50%;transform:scaleX(var(--process-fill,0))}
+.s-process .process-spec{margin:18px 0 0;padding:0 var(--process-pad);font:700 11.5px/1.5 var(--sans);letter-spacing:.05em;text-transform:uppercase;color:var(--ink-2)}
+.s-process:not(.is-pin) .process-spec br{display:none}
+
+/* ---------- лента: телефон и узкие экраны ---------- */
+@media (max-width:899px){
+  .s-process{--process-mh:min(54vh,470px);--process-mw:calc(100% - 92px)}
+  @supports (height:1svh){.s-process{--process-mh:min(54svh,470px)}}
+  .s-process .process-stage{padding:76px 0 32px}
+  .s-process .process-steps{display:flex;overflow-x:auto;overscroll-behavior-x:contain;scroll-snap-type:x mandatory;scrollbar-width:none;
+    padding:22px 0 0 16px;scroll-padding-left:16px}
+  .s-process .process-steps::-webkit-scrollbar{display:none}
+  .s-process .process-steps::after{content:"";flex:0 0 76px}
+  .s-process .process-step{flex:0 0 var(--process-mw);max-width:420px;scroll-snap-align:start;scroll-snap-stop:always;display:flex;flex-direction:column}
+  .s-process .process-txt{transition:opacity .35s ease-out}
+  .s-process .process-fig img{transition:filter .45s ease-out,opacity .45s ease-out}
+  .s-process.is-js .process-step:not(.is-on) .process-txt{opacity:0}
+  .s-process.is-js .process-step:not(.is-on) .process-fig img{filter:grayscale(1) contrast(.5) brightness(1.3);opacity:.55}
+  .s-process .process-seg{padding-top:0;min-height:22px}
+  .s-process .process-seg span{display:none}
+  .s-process .process-word{font-size:clamp(46px,13.5vw,60px);padding-top:.06em}
+  .s-process .process-line{margin-top:12px;font-size:16px;line-height:1.36;max-width:17.5em;padding-right:12px}
+  .s-process .process-more{margin-top:14px}
+  .s-process .process-cap{padding:9px 12px 9px 14px;font-size:12.5px}
+  /* фигура прижата к левому краю кадра: из-за правого края выглядывает следующая */
+  .s-process .process-txt{order:-1}
+  .s-process .process-fig{margin-top:auto;padding-top:18px;height:calc(var(--process-mh) + 18px);width:calc(var(--process-mh) * .4065);
+    margin-left:calc(var(--process-mh) * -.0213);flex:none}
+  .s-process .process-fig img{height:var(--process-mh);width:auto}
+  .s-process .process-screen{top:calc(18px + var(--process-mh) * .24644);height:calc(var(--process-mh) * .10671)}
+  @keyframes process-roll{0%,8%{transform:translateY(0)}92%,100%{transform:translateY(calc(-100% + 100cqh))}}
+  .s-process .process-screen img{animation:process-roll 22s cubic-bezier(.45,0,.55,1) infinite alternate;animation-play-state:paused}
+  .s-process.process-live .process-step.is-on .process-screen img{animation-play-state:running}
+  .s-process .process-floor{margin-top:0}
+  .s-process .process-spec{margin-top:16px}
+}
+@media (min-width:900px){
+  .s-process .process-arr{display:none}
+}
+
+/* ---------- десктоп без закрепления (reduced-motion, без js): сетка из четырёх ---------- */
+@media (min-width:900px){
+  .s-process:not(.is-pin) .process-steps{display:grid;grid-template-columns:repeat(4,1fr);gap:24px;padding:40px var(--process-pad) 0;align-items:stretch}
+  .s-process:not(.is-pin) .process-step{display:flex;flex-direction:column;align-items:center;text-align:center}
+  .s-process:not(.is-pin) .process-fig{height:min(54vh,460px);aspect-ratio:400/984;order:3;margin-top:auto;padding-top:28px;box-sizing:content-box}
+  .s-process:not(.is-pin) .process-txt{display:flex;flex-direction:column;align-items:center}
+  .s-process:not(.is-pin) .process-word{font-size:clamp(52px,4.6vw,76px)}
+  .s-process:not(.is-pin) .process-line{margin-top:12px;font-size:16px;line-height:1.38;max-width:17em;min-height:4.2em}
+  .s-process:not(.is-pin) .process-more{margin-top:12px}
+  .s-process:not(.is-pin) .process-count{visibility:hidden}
+  .s-process:not(.is-pin) .process-floor{padding-top:0}
+  .s-process:not(.is-pin) .process-seg{pointer-events:none}
+  .s-process:not(.is-pin) .process-seg::after{transform:scaleX(1)}
+  .s-process:not(.is-pin) .process-seg span{opacity:1;color:var(--ink)}
+}
+
+/* ---------- десктоп: закреплённая сцена ---------- */
+.s-process.is-pin{height:400vh}
+.s-process.is-pin .process-stage{position:sticky;top:0;height:100vh;padding:0;overflow:hidden}
+.s-process.is-pin .process-head{position:absolute;left:0;right:0;top:var(--process-hy,92px);z-index:3}
+.s-process.is-pin .process-steps{position:absolute;inset:0}
+.s-process.is-pin .process-step{position:absolute;inset:0;pointer-events:none}
+.s-process.is-pin .process-fig{position:absolute;z-index:2;left:calc(var(--process-fx) - var(--process-fh) * .19106);top:var(--process-ft);
+  height:var(--process-fh);width:calc(var(--process-fh) * .4065)}
+/* смена позы: кадр меняется сразу, без перехода */
+.s-process.is-pin .process-step:not(.is-pose) .process-fig{visibility:hidden}
+.s-process.is-pin .process-step.is-on .process-screen,.s-process.is-pin .process-step.is-on a{pointer-events:auto}
+.s-process.is-pin .process-txt{position:absolute;inset:0}
+/* слово на дуге, как в герое: перспектива от оси фигуры */
+.s-process.is-pin .process-word{position:absolute;inset:0;z-index:1;perspective:1100px;perspective-origin:var(--process-fx) var(--process-wy);line-height:1;pointer-events:none}
+.s-process.is-pin .process-letters{position:absolute;inset:0;transform-style:preserve-3d}
+.s-process.is-pin .process-ch{position:absolute;left:var(--process-fx);top:0;transform-style:preserve-3d}
+.s-process.is-pin .process-ch i{transform-origin:50% 55% -.42em;backface-visibility:hidden;
+  transition:transform .75s cubic-bezier(.16,1,.3,1),opacity .45s ease-out;transition-delay:calc(var(--process-k) * 40ms + 300ms)}
+.s-process.is-pin .process-step:not(.is-on) .process-ch i{transform:rotateX(var(--process-rx,78deg));opacity:0;
+  transition:transform .42s cubic-bezier(.5,0,.75,0),opacity .3s ease-in;transition-delay:calc(var(--process-k) * 35ms)}
+.s-process.is-pin .process-step.is-pre .process-ch i{transition:none}
+/* строка справа: нижняя базовая линия совпадает с базовой линией слова */
+.s-process.is-pin .process-line{position:absolute;left:var(--process-lx);width:var(--process-lw);bottom:calc(100% - var(--process-lb) - .29em);
+  font-size:clamp(19px,1.55vw,25px);line-height:1.3;
+  transition:opacity .2s ease-in,transform .2s ease-in}
+.s-process.is-pin .process-step:not(.is-on) .process-line,.s-process.is-pin .process-step:not(.is-on) .process-more{opacity:0;transform:translateY(10px)}
+.s-process.is-pin .process-step.is-on .process-line,.s-process.is-pin .process-step.is-on .process-more{
+  transition:opacity .45s ease-out .32s,transform .6s var(--process-ease) .32s}
+.s-process.is-pin .process-more{position:absolute;left:var(--process-lx);top:calc(var(--process-lb) + 26px);transition:opacity .2s ease-in,transform .2s ease-in}
+.s-process.is-pin .process-floor{position:absolute;left:0;right:0;top:calc(var(--process-sole) - 1px);z-index:1}
+.s-process.is-pin .process-count{display:none}
+/* спецификация: две подписи у колен под наклоном, как "работаю один / 36 живых сайтов" в герое */
+.s-process.is-pin .process-spec{position:absolute;inset:0;margin:0;padding:0;pointer-events:none;color:var(--ink);
+  font:700 clamp(13px,1.15vw,16px)/1.2 var(--sans);letter-spacing:.03em}
+.s-process.is-pin .process-spec i{display:none}
+.s-process.is-pin .process-sp{position:absolute;top:var(--process-sy);white-space:nowrap}
+.s-process.is-pin .process-sp-l{right:calc(100% - var(--process-fx) + var(--process-sx));text-align:right;transform:rotate(-4deg);transform-origin:right center}
+.s-process.is-pin .process-sp-r{left:calc(var(--process-fx) + var(--process-sx));transform:rotate(4deg);transform-origin:left center}
+.s-process.is-pin .process-seg{height:auto}
+
+@media (prefers-reduced-motion:reduce){
+  .s-process *{transition:none!important;animation:none!important}
+}

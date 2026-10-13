@@ -1,0 +1,149 @@
+/* сайты: стили статики design-concepts/v4/karusel/sections/works/section.html как есть */
+/* ---------- сайты: общий вид (поток, телефон, без js) ---------- */
+.s-works{position:relative;background:var(--paper);color:var(--ink);font-family:var(--sans);
+  --works-pad:clamp(16px,2.6vw,40px);--works-fs:clamp(56px,19vw,84px)}
+.s-works .s-works__sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.s-works .s-works__list{list-style:none;padding:72px var(--works-pad) 0;display:grid;gap:96px}
+.s-works .s-works__item{display:grid;justify-items:center;text-align:center}
+.s-works .s-works__text{display:grid;justify-items:center;gap:0;width:100%}
+.s-works .s-works__num{font:700 12px/1 var(--sans);letter-spacing:.08em;color:var(--ink-2)}
+.s-works .s-works__num b{color:var(--ink);font-weight:700}
+.s-works .s-works__name{margin-top:14px;font-family:var(--display);font-weight:900;font-size:var(--works-fs);line-height:.9;
+  text-transform:uppercase;letter-spacing:-.012em;color:var(--ink)}
+.s-works .s-works__name a{display:inline-block}
+.s-works .s-works__w{display:inline-block;white-space:nowrap}
+.s-works .s-works__body{display:grid;justify-items:center;margin-top:14px}
+.s-works .s-works__meta{font:700 12px/1.35 var(--sans);letter-spacing:.06em;text-transform:uppercase;color:var(--ink-2)}
+.s-works .s-works__line{margin-top:8px;font:600 15px/1.4 var(--sans);max-width:30ch;text-wrap:balance}
+.s-works .s-works__links{display:flex;gap:22px;margin-top:12px;font:700 13px/1 var(--sans)}
+.s-works .s-works__links a{display:inline-flex;align-items:center;gap:.4em;padding:6px 0;border-bottom:1.5px solid transparent;transition:border-color .2s ease-out}
+.s-works .s-works__links a:hover{border-color:currentColor}
+.s-works .s-works__links svg{width:13px;height:13px}
+.s-works .s-works__host{display:none!important}
+.s-works .s-works__links .s-works__case{color:var(--ink-2)}
+.s-works .s-works__links .s-works__case:hover{color:var(--ink)}
+
+/* карточка сайта: тот же предмет, что на дуге героя */
+.s-works .s-works__card{position:relative;display:block;width:72%;max-width:330px;aspect-ratio:390/844;margin-top:26px;
+  border-radius:8.5% / 3.93%;background:#efede9;box-shadow:0 0 0 1px rgba(12,11,11,.06);
+  -webkit-tap-highlight-color:transparent;transition:box-shadow .5s ease-out}
+.s-works .s-works__screen{position:absolute;inset:0;overflow:hidden;border-radius:inherit;container-type:size;
+  filter:grayscale(1) contrast(.46) brightness(1.36);transition:filter .5s ease-out}
+.s-works .s-works__screen img{display:block;width:100%;height:auto;will-change:transform;-webkit-user-drag:none;user-select:none}
+/* пока скрин не подгружен, в рамке пустая бумага, а не подпись alt */
+.s-works .s-works__screen img:not([src]){visibility:hidden}
+.s-works .s-works__fog{position:absolute;inset:0;background:var(--paper);opacity:.34;transition:opacity .4s ease-out;pointer-events:none}
+.s-works .s-works__card.is-live .s-works__screen{filter:none}
+.s-works .s-works__card.is-live .s-works__fog{opacity:0}
+.s-works .s-works__card.is-live{box-shadow:0 0 0 1px rgba(12,11,11,.06),0 26px 40px -30px rgba(12,11,11,.4)}
+.s-works .s-works__card:focus-visible{outline:3px solid var(--red);outline-offset:4px}
+/* подпись-пилюля, как подпись сайта в герое */
+.s-works .s-works__pill{position:absolute;left:50%;bottom:14px;display:inline-flex;align-items:center;gap:.5em;
+  padding:10px 14px 10px 16px;border-radius:999px;background:var(--paper);color:var(--ink);white-space:nowrap;
+  box-shadow:0 1px 0 rgba(12,11,11,.06),0 10px 30px -12px rgba(12,11,11,.45);font:600 13px/1 var(--sans);
+  opacity:0;transform:translate(-50%,8px);transition:opacity .22s ease-out,transform .4s cubic-bezier(.16,1,.3,1);pointer-events:none}
+.s-works .s-works__pill svg{width:13px;height:13px;color:var(--red)}
+.s-works .s-works__card.is-live .s-works__pill{opacity:1;transform:translate(-50%,0)}
+
+/* телефон: длинный скрин сам едет вниз, пока карточка в фокусе */
+@keyframes works-roll{0%,7%{transform:translateY(0)}93%,100%{transform:translateY(calc(-100% + 100cqh))}}
+.s-works:not(.is-pin) .s-works__screen img{animation:works-roll var(--works-dur,34s) cubic-bezier(.45,0,.55,1) infinite alternate;animation-play-state:paused}
+.s-works:not(.is-pin) .s-works__card.is-live .s-works__screen img{animation-play-state:running}
+
+/* буквы имени: тот же барабан rotateX, что слово в герое */
+.s-works.is-js .s-works__ch{display:inline-block}
+.s-works.is-js .s-works__ch i{display:inline-block;font-style:normal;transform-origin:50% 55% -.42em;backface-visibility:hidden;
+  transition:transform .75s cubic-bezier(.16,1,.3,1),opacity .45s ease-out;transition-delay:calc(var(--works-k) * 40ms + 140ms)}
+.s-works.is-js .s-works__item:not(.is-on) .s-works__ch i{transform:perspective(700px) rotateX(-78deg);opacity:0;transition:none}
+.s-works.is-js .s-works__item.is-out .s-works__ch i{transform:perspective(700px) rotateX(78deg);opacity:0;
+  transition:transform .42s cubic-bezier(.5,0,.75,0),opacity .3s ease-in;transition-delay:calc(var(--works-k) * 35ms)}
+
+/* остальные сайты */
+.s-works .s-works__more{display:grid;gap:22px;padding:120px var(--works-pad) 120px}
+.s-works .s-works__total{display:flex;align-items:flex-end;gap:14px}
+.s-works .s-works__total b{font-family:var(--display);font-weight:900;font-size:128px;line-height:.78;letter-spacing:-.02em}
+.s-works .s-works__total span{font:700 12px/1.35 var(--sans);letter-spacing:.06em;text-transform:uppercase;padding-bottom:4px}
+/* точка стоит перед каждым адресом, а в начале строки уезжает за край и обрезается */
+.s-works .s-works__cloud{overflow:hidden}
+.s-works .s-works__hosts{list-style:none;display:flex;flex-wrap:wrap;margin-left:-1.2em;font:600 15px/1.75 var(--sans);color:var(--ink-2)}
+.s-works .s-works__hosts li{white-space:nowrap}
+.s-works .s-works__hosts li::before{content:"·";display:inline-block;width:1.2em;text-align:center;color:rgba(12,11,11,.3)}
+.s-works .s-works__hosts a{transition:color .15s ease-out}
+.s-works .s-works__hosts a:hover{color:var(--ink);text-decoration:underline;text-underline-offset:.22em;text-decoration-thickness:1.5px}
+.s-works .s-works__all{justify-self:start;display:inline-flex;align-items:center;gap:.6em;margin-top:6px;padding:15px 22px;border-radius:999px;
+  box-shadow:inset 0 0 0 1.5px var(--ink);font:700 14px/1 var(--sans);transition:background-color .2s ease-out,color .2s ease-out}
+.s-works .s-works__all svg{width:15px;height:15px;transition:transform .3s cubic-bezier(.16,1,.3,1)}
+.s-works .s-works__all:hover{background:var(--ink);color:var(--paper)}
+.s-works .s-works__all:hover svg{transform:translateX(3px)}
+.s-works a:focus-visible{outline:2px solid var(--red);outline-offset:3px;border-radius:4px}
+.s-works .s-works__count{display:none}
+
+/* планшет и узкий десктоп без закрепления: текст слева, карточка справа */
+@media (min-width:700px){
+  .s-works{--works-fs:clamp(72px,10vw,150px)}
+  .s-works .s-works__list{gap:120px;padding-top:120px}
+  .s-works .s-works__item{grid-template-columns:1fr auto;align-items:center;justify-items:start;text-align:left;gap:48px}
+  .s-works .s-works__text,.s-works .s-works__body{justify-items:start}
+  .s-works .s-works__card{width:min(34vw,330px);margin:0}
+  .s-works .s-works__host{display:inline-flex!important}
+  .s-works .s-works__line{font-size:17px;max-width:34ch}
+  .s-works .s-works__more{grid-template-columns:auto 1fr;column-gap:clamp(40px,6vw,110px);align-items:start;padding-top:150px}
+  .s-works .s-works__total{flex-direction:column;align-items:flex-start;gap:16px;grid-row:span 2}
+  .s-works .s-works__total b{font-size:clamp(150px,17vw,260px)}
+  .s-works .s-works__hosts{font-size:clamp(16px,1.45vw,21px);line-height:1.7;max-width:62ch}
+  .s-works .s-works__cloud{grid-column:2}
+  .s-works .s-works__all{grid-column:2}
+}
+
+/* ---------- десктоп: сцена закреплена, сайты идут барабаном ---------- */
+.s-works.is-pin .s-works__track{position:relative;height:var(--works-track,600vh)}
+.s-works.is-pin .s-works__stage{position:sticky;top:0;height:100vh;overflow:hidden;perspective:1700px;perspective-origin:var(--works-cx) 50%}
+.s-works.is-pin .s-works__list{position:absolute;inset:0;padding:0;display:block}
+.s-works.is-pin .s-works__item{position:absolute;inset:0;display:block;text-align:left;pointer-events:none}
+.s-works.is-pin .s-works__text{position:absolute;left:var(--works-pad);width:var(--works-colw);
+  top:calc(50% + var(--works-dy) - var(--works-ch) / 2 - var(--works-fs) * var(--works-capk,.063));display:block}
+.s-works.is-pin .s-works__head{position:relative}
+.s-works.is-pin .s-works__num{display:none}
+.s-works.is-pin .s-works__name{margin:0;line-height:.86;white-space:nowrap}
+.s-works.is-pin .s-works__body{position:relative;margin:26px 0 0;justify-items:start;
+  opacity:0;transform:translateY(10px);transition:opacity .22s ease-in,transform .3s ease-in}
+.s-works.is-pin .s-works__item.is-on .s-works__body{opacity:1;transform:none;transition:opacity .4s ease-out .3s,transform .6s cubic-bezier(.16,1,.3,1) .3s}
+.s-works.is-pin .s-works__item.is-on .s-works__text{pointer-events:auto}
+.s-works.is-pin .s-works__meta{font-size:clamp(12px,.92vw,15px)}
+.s-works.is-pin .s-works__line{font-size:clamp(18px,1.55vw,26px);line-height:1.3;max-width:28ch;margin-top:12px}
+.s-works.is-pin .s-works__links{margin-top:18px;font-size:14px}
+.s-works.is-pin .s-works__card{position:absolute;margin:0;max-width:none;pointer-events:auto;
+  left:calc(var(--works-cx) - var(--works-cw) / 2);top:calc(50% + var(--works-dy) - var(--works-ch) / 2);
+  width:var(--works-cw);height:var(--works-ch);will-change:transform;backface-visibility:hidden}
+.s-works.is-pin .s-works__card .s-works__pill{bottom:18px}
+.s-works.is-pin .s-works__card.is-live .s-works__pill{opacity:0;transform:translate(-50%,8px)}
+.s-works.is-pin .s-works__card.is-live:hover .s-works__pill,.s-works.is-pin .s-works__card.is-live:focus-visible .s-works__pill{opacity:1;transform:translate(-50%,0)}
+.s-works.is-pin .s-works__count{display:block;position:absolute;left:calc(var(--works-cx) + var(--works-cw) / 2 + 34px);
+  top:calc(50% + var(--works-dy) - var(--works-ch) / 2 + 4px);font:700 14px/1 var(--sans);letter-spacing:.08em;color:var(--ink-2);white-space:nowrap}
+.s-works.is-pin .s-works__count b{display:inline-block;color:var(--ink);font-weight:700}
+.s-works.is-pin .s-works__more{padding-top:110px}
+
+/* оглавление внизу колонки, по нижнему краю карточки: где мы и сколько ещё */
+.s-works .s-works__toc{display:none}
+.s-works.is-pin .s-works__toc{display:grid;gap:clamp(9px,.85vw,13px);position:absolute;left:var(--works-pad);list-style:none;margin:0;padding:0;
+  bottom:calc(50% - var(--works-dy) - var(--works-ch) / 2 - 3px);font:600 clamp(14px,1.1vw,17px)/1 var(--sans);transition:opacity .3s ease-out}
+.s-works.is-pin .s-works__toc.is-off{opacity:0;pointer-events:none}
+.s-works .s-works__toc button,.s-works .s-works__toc a{display:inline-flex;align-items:baseline;gap:14px;padding:0;border:0;background:none;
+  font:inherit;color:rgba(12,11,11,.56);cursor:pointer;transition:color .25s ease-out}
+.s-works .s-works__toc i{font-style:normal;font-weight:700;font-size:12px;letter-spacing:.06em;font-variant-numeric:tabular-nums;min-width:2.1em}
+.s-works .s-works__toc span{position:relative}
+.s-works .s-works__toc span::after{content:"";position:absolute;left:0;right:0;bottom:-4px;height:1.5px;background:currentColor;
+  transform:scaleX(0);transform-origin:0 50%;transition:transform .45s cubic-bezier(.16,1,.3,1)}
+.s-works .s-works__toc button:hover,.s-works .s-works__toc a:hover{color:var(--ink-2)}
+.s-works .s-works__toc li.is-cur button{color:var(--ink)}
+.s-works .s-works__toc li.is-cur span::after{transform:none}
+.s-works .s-works__toc .s-works__toc-more{margin-top:7px}
+.s-works .s-works__toc .s-works__toc-more a{color:var(--ink-2)}
+.s-works .s-works__toc .s-works__toc-more a:hover{color:var(--ink)}
+.s-works .s-works__toc svg{width:12px;height:12px;align-self:center}
+
+@media (prefers-reduced-motion:reduce){
+  .s-works .s-works__screen,.s-works .s-works__fog,.s-works .s-works__pill,.s-works .s-works__card{transition:none!important}
+  .s-works .s-works__screen img{animation:none!important}
+  .s-works.is-js .s-works__item .s-works__ch i{transform:none!important;opacity:1!important;transition:none!important}
+}

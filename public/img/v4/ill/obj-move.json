@@ -1,0 +1,156 @@
+{
+ "sheet": "obj-move",
+ "src": "design-concepts/v4/ill/obj-move/",
+ "canvasH": 560,
+ "sole": 557,
+ "soleRatio": 0.9946,
+ "heights": [
+  560,
+  780,
+  984,
+  1400
+ ],
+ "note": "предметы без персонажа, все три на холстах одной высоты 560 в одном масштабе листа: при одинаковой css-высоте они в одном масштабе и стоят основанием на одной линии (sole из canvasH). ширина холста = силуэт + 6 px с краёв, ax = центр холста. top = верх силуэта (у коробки над ней пусто, для значка кадрировать по top..sole). led у o-server-new: центр и радиус зелёного индикатора в px холста 560 (для css-точки поверх: left = cx/W, top = cy/H в процентах). 1400 собрана из 2x-мастера (1120) с увеличением 1.25.",
+ "poses": [
+  {
+   "slug": "o-server-old",
+   "canvas": [
+    330,
+    560
+   ],
+   "ax": 165,
+   "sole": 557,
+   "top": 75,
+   "left": 6,
+   "right": 322,
+   "widths": [
+    330,
+    460,
+    580,
+    825
+   ],
+   "files": [
+    {
+     "src": "/img/v4/ill/o-server-old-560.webp",
+     "w": 330,
+     "h": 560,
+     "kb": 14.9
+    },
+    {
+     "src": "/img/v4/ill/o-server-old-780.webp",
+     "w": 460,
+     "h": 780,
+     "kb": 22.2
+    },
+    {
+     "src": "/img/v4/ill/o-server-old-984.webp",
+     "w": 580,
+     "h": 984,
+     "kb": 30.1
+    },
+    {
+     "src": "/img/v4/ill/o-server-old-1400.webp",
+     "w": 825,
+     "h": 1400,
+     "kb": 51.8
+    }
+   ]
+  },
+  {
+   "slug": "o-server-new",
+   "canvas": [
+    328,
+    560
+   ],
+   "ax": 164,
+   "sole": 557,
+   "top": 13,
+   "left": 6,
+   "right": 321,
+   "widths": [
+    328,
+    457,
+    576,
+    820
+   ],
+   "files": [
+    {
+     "src": "/img/v4/ill/o-server-new-560.webp",
+     "w": 328,
+     "h": 560,
+     "kb": 14.3
+    },
+    {
+     "src": "/img/v4/ill/o-server-new-780.webp",
+     "w": 457,
+     "h": 780,
+     "kb": 21.3
+    },
+    {
+     "src": "/img/v4/ill/o-server-new-984.webp",
+     "w": 576,
+     "h": 984,
+     "kb": 27.9
+    },
+    {
+     "src": "/img/v4/ill/o-server-new-1400.webp",
+     "w": 820,
+     "h": 1400,
+     "kb": 48.4
+    }
+   ],
+   "led": {
+    "cx": 279.4,
+    "cy": 110.7,
+    "r": 3.5,
+    "leftPct": 85.18,
+    "topPct": 19.77,
+    "dPctOfW": 2.13
+   }
+  },
+  {
+   "slug": "o-box",
+   "canvas": [
+    414,
+    560
+   ],
+   "ax": 207,
+   "sole": 557,
+   "top": 187,
+   "left": 6,
+   "right": 406,
+   "widths": [
+    414,
+    577,
+    727,
+    1035
+   ],
+   "files": [
+    {
+     "src": "/img/v4/ill/o-box-560.webp",
+     "w": 414,
+     "h": 560,
+     "kb": 8.3
+    },
+    {
+     "src": "/img/v4/ill/o-box-780.webp",
+     "w": 577,
+     "h": 780,
+     "kb": 13.9
+    },
+    {
+     "src": "/img/v4/ill/o-box-984.webp",
+     "w": 727,
+     "h": 984,
+     "kb": 20.0
+    },
+    {
+     "src": "/img/v4/ill/o-box-1400.webp",
+     "w": 1035,
+     "h": 1400,
+     "kb": 36.4
+    }
+   ]
+  }
+ ]
+}

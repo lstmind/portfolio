@@ -1,0 +1,142 @@
+/* герой "карусель": стили статики design-concepts/v4/karusel/hero.html как есть.
+   в статике были варианты портрета (?v=...), здесь остался утверждённый: футболка, слова по бокам.
+   html:root на месте html[data-v=j] держит тот же вес селектора, что был в статике: от него зависит, кто кого перебивает */
+
+/* сцена */
+.hero{position:relative;height:100vh;height:100svh;min-height:560px;overflow:hidden;touch-action:pan-y;
+  user-select:none;-webkit-user-select:none;cursor:grab}
+.hero.dragging{cursor:grabbing}
+
+/* слово на дуге */
+.word{position:absolute;inset:0;z-index:2;perspective:1100px;perspective-origin:var(--word-x,50%) var(--word-y);pointer-events:none;
+  font-family:var(--display);font-weight:900;color:var(--ink);line-height:1}
+.word-in{position:absolute;inset:0;transform-style:preserve-3d;will-change:transform}
+.ch{position:absolute;left:50%;top:0;transform-style:preserve-3d;will-change:transform;
+  transition:transform .7s cubic-bezier(.65,0,.35,1)}
+.ch i{display:block;font-style:normal;transform-origin:50% 55% -.42em;backface-visibility:hidden;
+  transition:transform .75s cubic-bezier(.16,1,.3,1),opacity .45s ease-out}
+.ch.out i{transform:rotateX(78deg);opacity:0;transition-duration:.42s,.3s;transition-timing-function:cubic-bezier(.5,0,.75,0),ease-in}
+.ch.pre i{transform:rotateX(-78deg);opacity:0;transition:none}
+
+/* карусель */
+.ring{position:absolute;inset:0;z-index:1;perspective:var(--P);perspective-origin:50% var(--cy)}
+.ring .track{position:absolute;inset:0;transform-style:preserve-3d}
+.card{position:absolute;left:50%;top:var(--cy);width:var(--cw);height:var(--ch);margin:calc(var(--ch) / -2) 0 0 calc(var(--cw) / -2);
+  display:block;border-radius:calc(var(--cw) * .085);overflow:hidden;background:#e9e7e2;
+  box-shadow:0 0 0 1px rgba(12,11,11,.07);will-change:transform,opacity;backface-visibility:hidden;-webkit-tap-highlight-color:transparent}
+.card img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:top;display:block;pointer-events:none;-webkit-user-drag:none}
+.card .sharp{filter:grayscale(1) contrast(.66) brightness(1.2);transition:filter .5s ease-out}
+.card .soft{opacity:0;will-change:opacity}
+.card:focus-visible{outline:3px solid var(--red);outline-offset:4px}
+.card .fog{position:absolute;inset:0;background:var(--paper);opacity:.3;will-change:opacity;transition:opacity .4s ease-out}
+.card.on .sharp{filter:none}
+.card.on .fog{opacity:0!important}
+.card.on .soft{opacity:0!important}
+
+/* портрет */
+.me{position:absolute;z-index:3;left:50%;top:var(--me-t);height:var(--me-h);width:auto;transform:translateX(-43.2%);pointer-events:none;
+  image-rendering:auto}
+
+/* подписи по бокам */
+.side{position:absolute;z-index:4;top:var(--side-y);font:700 clamp(13px,1.2vw,17px)/1 var(--sans);letter-spacing:.03em;text-transform:uppercase;white-space:nowrap;pointer-events:none}
+.side-l{right:calc(50% + var(--side-x));transform:rotate(-4deg);transform-origin:right center}
+.side-r{left:calc(50% + var(--side-x));transform:rotate(4deg);transform-origin:left center}
+
+/* подпись сайта: появляется при наведении или тапе */
+.cap{position:absolute;z-index:7;left:50%;bottom:calc(84px + env(safe-area-inset-bottom));display:inline-flex;align-items:center;gap:.55em;
+  padding:11px 16px 11px 18px;border-radius:999px;background:var(--paper);color:var(--ink);box-shadow:0 1px 0 rgba(12,11,11,.06),0 10px 30px -12px rgba(12,11,11,.45);
+  font:600 14px/1 var(--sans);white-space:nowrap;opacity:0;transform:translate(-50%,10px);pointer-events:none;
+  transition:opacity .22s ease-out,transform .4s cubic-bezier(.16,1,.3,1)}
+.cap b{font-weight:700}
+.cap span{color:var(--ink-2)}
+.cap span::before{content:"·";margin-right:.55em;color:var(--ink-2)}
+.cap svg{width:14px;height:14px;color:var(--red)}
+.cap.show{opacity:1;transform:translate(-50%,0);pointer-events:auto}
+
+/* кнопка */
+.cta{position:absolute;z-index:6;left:50%;bottom:0;transform:translateX(-50%);display:inline-flex;align-items:center;gap:12px;
+  height:calc(64px + env(safe-area-inset-bottom));padding:0 30px env(safe-area-inset-bottom);border-radius:22px 22px 0 0;
+  background:var(--red);color:#fff;font:700 15px/1 var(--sans);letter-spacing:.02em;white-space:nowrap;cursor:pointer;
+  transition:background-color .2s ease-out,height .3s cubic-bezier(.16,1,.3,1)}
+.cta svg{width:18px;height:18px;transition:transform .3s cubic-bezier(.16,1,.3,1)}
+.cta:hover{height:calc(72px + env(safe-area-inset-bottom))}
+.cta:hover svg{transform:translate(2px,-2px)}
+.cta:active{background:var(--red-press)}
+
+/* десктоп-геометрия */
+.hero{--cy:47%;--word-y:15.5%;--me-h:min(71.2vh,58vw);--me-t:24%;--side-y:71%;--side-x:max(min(27.5vw,400px),calc(var(--me-h) * .58))}
+
+/* во весь рост: высоту и верх считает скрипт */
+html:root .me{z-index:6;transform:translateX(var(--me-x,-47%));transition:transform .3s cubic-bezier(.16,1,.3,1)}
+/* стоит на кнопке: язычок под ногами подрастает, фигура едет вместе с ним */
+html:root .cta{z-index:5}
+html:root .hero:has(.cta:hover) .me{transform:translateX(var(--me-x,-47%)) translateY(-8px)}
+html:root .hero{--side-y:73.5%;--side-x:min(24vw,330px)}
+html:root .card .sharp{filter:grayscale(1) contrast(.6) brightness(1.24)}
+/* футболка: скрины светлее и тише, как бумага за фигурой */
+html:root .card .sharp{filter:grayscale(1) contrast(.46) brightness(1.36)}
+html:root .card{background:#efede9;box-shadow:0 0 0 1px rgba(12,11,11,.06)}
+
+/* три позы: кадры лежат друг на друге в одном холсте, видим один */
+.figs{position:absolute;inset:0;z-index:6;pointer-events:none;will-change:transform}
+html:root .me.alt{opacity:0}
+/* ось корпуса, кольцо и кнопку ставит скрипт (--fx), ни одна часть фигуры не заходит на буквы */
+html:root .hero{--me-x:-47%}
+html:root .me{left:var(--fx,50%)}
+html:root .ring{perspective-origin:var(--fx,50%) var(--cy)}
+html:root .card{left:var(--fx,50%)}
+html:root .cta{left:var(--fx,50%)}
+@media (min-width:700px){
+  html:root .hero .side-l,html:root .hero .cap.l{right:calc(100% - var(--fx,50%) + var(--side-x))}
+  html:root .hero .side-r,html:root .hero .cap.r{left:calc(var(--fx,50%) + var(--side-x))}
+}
+/* подсказка на телефоне: язычок кнопки чуть подрастает, фигура едет вместе с ним */
+.hero.hint .cta{height:calc(68px + env(safe-area-inset-bottom))}
+.hero.hint .me{transform:translateX(var(--me-x,-47%)) translateY(-8px)}
+/* подпись сайта во весь рост: не на кроссовках, а на месте боковой подписи с той стороны, где карточка */
+html:root .side{transition:opacity .25s ease-out}
+html:root .hero.capon .side{opacity:0}
+html:root .cap{left:auto;right:auto;bottom:auto;top:calc(var(--side-y) - 9px);transform:translateY(8px)}
+html:root .cap.show{transform:none}
+html:root .cap.l{right:calc(50% + var(--side-x))}
+html:root .cap.r{left:calc(50% + var(--side-x))}
+
+/* телефон */
+@media (max-width:699px){
+  .hero{--cy:53%;--word-y:16%;--me-h:min(440px,53svh);--me-t:37%;--side-y:calc(100% - 64px - env(safe-area-inset-bottom) - 72px);--side-x:0px}
+  .hero.capon .side{opacity:0}
+  .side{transition:opacity .25s ease-out}
+  .side{font-size:12px;letter-spacing:.03em}
+  .side-l{left:16px;right:auto;transform:rotate(-5deg);transform-origin:left center}
+  .side-r{right:16px;left:auto;transform:rotate(5deg);transform-origin:right center}
+  .cta{padding:0 26px env(safe-area-inset-bottom);justify-content:center;height:calc(60px + env(safe-area-inset-bottom));border-radius:20px 20px 0 0;font-size:15px}
+  .cta:hover{height:calc(60px + env(safe-area-inset-bottom))}
+  html:root .hero{--side-y:75.5%}
+  html:root .side{white-space:normal;width:6.2em;line-height:1.18}
+  html:root .side-r{text-align:right}
+  /* на телефоне место сбоку узкое: имя сверху, адрес снизу */
+  html:root .cap{display:grid;grid-template-columns:auto auto;justify-content:start;column-gap:8px;row-gap:4px;
+    padding:9px 12px 10px;border-radius:14px;font-size:13px;white-space:normal;max-width:136px;top:calc(var(--side-y) - 6px)}
+  html:root .cap b{line-height:1.12}
+  html:root .cap svg{grid-column:2;grid-row:1;margin-top:1px}
+  html:root .cap span{grid-column:1 / -1;grid-row:2;font-size:12px;overflow-wrap:anywhere}
+  html:root .cap span::before{display:none}
+  html:root .cap.l{left:12px;right:auto}
+  html:root .cap.r{right:12px;left:auto}
+  /* сбоку от штанин места мало, на подписи только имя сайта, ширина по просвету */
+  html:root .cap{font-size:12.5px;padding:9px 11px 9px 12px;column-gap:6px}
+  html:root .cap span{display:none}
+  html:root .cap.l{max-width:var(--capw-l,136px)}
+  html:root .cap.r{max-width:var(--capw-r,136px)}
+}
+/* поза 3: стрелка идёт к кнопке, подпись сайта на это время убираем */
+html:root .hero[data-pose="3"] .cap{opacity:0;pointer-events:none}
+/* жест: тушевая стрелка от пальца позы 3 к кнопке */
+.point{position:absolute;inset:0;width:100%;height:100%;z-index:7;pointer-events:none;overflow:visible;opacity:0;transition:opacity .16s ease-out}
+.point.on{opacity:1;transition:none}
+.point .ink{fill:none;stroke:var(--ink);stroke-linecap:round;stroke-linejoin:round}
+.point .rim{fill:none;stroke:var(--paper);stroke-linecap:round;stroke-linejoin:round}
+.point .m{fill:none;stroke:#fff;stroke-linecap:round;stroke-linejoin:round}
+@media (prefers-reduced-motion:reduce){
+  .ch,.ch i,.cap,.card .sharp,.cta{transition:none!important}
+}
