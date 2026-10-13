@@ -13,7 +13,7 @@ import { ILL, KITCHEN_COLS, KITCHEN_ORDERS, ORDER_PHRASE, ORDER_STATUSES, drovaS
 import { ArtImg } from "./Art";
 import "./demos.css";
 
-const NB = " ";
+const NB = " ";
 type P = { s: ServicePage; cards: CaseCard[] };
 
 /** первый экран работы на десктопе: /img/prev/<slug>-400|.webp, 760x471 */

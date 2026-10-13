@@ -6,7 +6,7 @@ import { Crumbs, FinalCta, Go, Sign, TgButton, Word } from "@/components/v4/dlya
 import { HUB_FALLBACK, leadSite, serviceSite, serviceWord, sitesOf, wordOf } from "@/components/v4/dlya/data";
 import { HubPoseIsland, SignsIsland, WordsIsland } from "@/components/v4/dlya/islands";
 
-const NB = " ";
+const NB = " ";
 
 /**
  * Витрина ниш. Раньше на отраслевые страницы вела только строка внутри

@@ -8,8 +8,9 @@ import { casesOf, serviceSite, serviceWord, sitesOf, splitPrice, splitTerm, tgMs
 import { CardsIsland, DemoIsland, FanIsland, OthersIsland, SignsIsland, WordsIsland } from "@/components/v4/dlya/islands";
 import { NicheDemo, demoSpec } from "@/components/v4/dlya/demo";
 import { Scene, SceneCrop } from "@/components/v4/dlya/scene";
+import { tie } from "@/components/v4/typo";
 
-const NB = " ";
+const NB = " ";
 
 export function generateStaticParams() {
   return INDUSTRY_PAGES.map((i) => ({ slug: i.slug }));
@@ -144,7 +145,7 @@ export default async function IndustryPageView({ params }: { params: Promise<{ s
                   {p.pre && <i>{p.pre}</i>}
                   <span>{p.value}</span>
                 </span>
-                <span className="dl-fnote">{ind.price.note}</span>
+                <span className="dl-fnote">{tie(ind.price.note)}</span>
               </dd>
             </div>
             <div className="dl-fact">
@@ -154,7 +155,7 @@ export default async function IndustryPageView({ params }: { params: Promise<{ s
                   {t.pre && <i>{t.pre}</i>}
                   <span>{t.value}</span>
                 </span>
-                <span className="dl-fnote">{ind.term.note}</span>
+                <span className="dl-fnote">{tie(ind.term.note)}</span>
               </dd>
             </div>
           </dl>

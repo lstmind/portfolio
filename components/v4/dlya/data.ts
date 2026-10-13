@@ -11,7 +11,7 @@ import { CASE_PAGES } from "@/lib/cases";
 import { WORKS, hostOf } from "@/lib/content";
 import { HERO_SITES } from "@/lib/home";
 
-const NB = " ";
+const NB = " ";
 
 /** крупное слово после "сайты для": одно-два слова, капсом */
 const WORDS: Record<string, string> = {

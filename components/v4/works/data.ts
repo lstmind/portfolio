@@ -9,7 +9,7 @@ import { LIVE_SITES, WORKS, WORKS_INDEX, WORK_CATS, hostOf } from "@/lib/content
 import { CASE_PAGES, type CasePage } from "@/lib/cases";
 import { HERO_SITES, WORKS_FEATURED } from "@/lib/home";
 
-const NB = " ";
+const NB = " ";
 
 /** превью первого экрана телефона: /img/v4/<имя>-240|400.webp у сайтов из героя, остальные снял для витрины */
 const PREVIEW_DIR = "/img/v4/works/";

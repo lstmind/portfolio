@@ -3,7 +3,7 @@
 /* Островки общих частей: React рисует разметку на сервере, а здесь после гидрации на неё вешается
    тот же ванильный код, что в статике. Каждый возвращает очистку: обработчики, кадры, наблюдатели. */
 import { useEffect } from "react";
-import { runHeader, runTongue } from "./chrome.run";
+import { runHeader, runMenu, runTongue } from "./chrome.run";
 import { runFooter } from "./footer.run";
 
 /** запускает код на элементе по селектору, один раз на монтирование */
@@ -17,6 +17,7 @@ export function useRun(selector: string, run: (el: HTMLElement) => () => void) {
 
 export function HeaderIsland() {
   useRun("header.top", runHeader);
+  useRun("header.top", runMenu);
   return null;
 }
 

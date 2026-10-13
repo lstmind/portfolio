@@ -9,6 +9,7 @@ import { splitPrice, splitTerm, wordOf, type CaseCard } from "./data";
 import { ADMIN_SCREEN, BOT_HOLE, BOT_SCREEN, ill, nicheCrop, sceneOf, type PickedReview } from "./scenes";
 import { ArtImg } from "./Art";
 import { ChatFeed, Kanban, LANGS } from "./Demos";
+import { tie } from "../typo";
 
 /** высота фигуры первого экрана как у позы 6: ширина в srcset по ширине холста */
 const HERO_SIZES = (w: number) => `(max-width: 699px) ${Math.round((112 * w) / 400)}px, min(${((30 * w) / 400).toFixed(1)}vh, ${Math.round((300 * w) / 400)}px)`;
@@ -66,7 +67,7 @@ export function ShotFigure({ shot, lang = false, eager = false }: { shot: CaseCa
   );
 }
 
-const NB = " ";
+const NB = " ";
 
 /** "Пишу со страницы ..." первым сообщением: сразу видно, с какой услуги пришли */
 export const tgMsg = (h1: string) => `Здравствуйте! Пишу со страницы "${h1}" на lstmind.ru.`;
@@ -104,7 +105,7 @@ export function ServiceHero({ s, shot }: { s: ServicePage; shot: CaseCard }) {
                   {p.unit && <u>{p.unit}</u>}
                 </span>
               </span>
-              <span className="u-fnote">{s.price.note}</span>
+              <span className="u-fnote">{tie(s.price.note)}</span>
             </dd>
           </div>
           <div className="u-fact">
@@ -114,7 +115,7 @@ export function ServiceHero({ s, shot }: { s: ServicePage; shot: CaseCard }) {
                 {t.pre && <i>{t.pre}</i>}
                 <span>{t.value}</span>
               </span>
-              <span className="u-fnote">{s.term.note}</span>
+              <span className="u-fnote">{tie(s.term.note)}</span>
             </dd>
           </div>
         </dl>

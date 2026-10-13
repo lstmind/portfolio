@@ -8,7 +8,7 @@ import { CASE_PAGES } from "@/lib/cases";
 import { WORKS, hostOf } from "@/lib/content";
 import { INDUSTRY_PAGES } from "@/lib/industries";
 
-const NB = " ";
+const NB = " ";
 
 /** крупное слово наверху страницы и в строке прайса: одно-два слова, капсом */
 const WORDS: Record<string, string> = {

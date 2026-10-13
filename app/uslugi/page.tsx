@@ -35,7 +35,7 @@ export const metadata: Metadata = {
   },
 };
 
-const NB = " ";
+const NB = " ";
 
 export default function ServicesIndex() {
   const ld = {
