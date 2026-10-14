@@ -14,7 +14,7 @@ import ADV from "./og/fira900-adv.json";
 import META from "./og/figs.json";
 
 /**
- * Превью ссылок в чатах: бумага, тушь, персонаж по смыслу страницы, крупное слово Fira Sans Condensed 900, лого с курсором.
+ * Превью ссылок в чатах: бумага, тушь, персонаж по смыслу страницы, крупное слово Fira Sans Condensed 900, лого l’stmind.
  * Две подачи (стенд design-concepts/v4/brand, раздел "Превью ссылок"):
  *  v2 "центр держит": главная и хабы. Всё главное в квадрате 630x630 посередине, по краям настоящие сайты,
  *     поэтому квадратная обрезка WhatsApp и VK ничего не теряет.
@@ -122,9 +122,9 @@ function Title({ text, box, maxLines, maxSize, maxH }: { text: string; box: numb
 
 /* ── детали ── */
 
-/** лого: слово и красный курсор, тот же знак, что в шапке и во вкладке */
+/** лого l’stmind вектором (og/logo.svg = final-logo/svg/lstmind-ink-red.svg): тушь и красный апостроф, тот же знак, что в шапке */
 function Logo({ src, h }: { src: string; h: number }) {
-  const w = Math.round((h * 3477) / 850);
+  const w = Math.round((h * 3310) / 847);
   // eslint-disable-next-line @next/next/no-img-element
   return <img src={src} alt="" width={w} height={h} style={{ width: w, height: h }} />;
 }

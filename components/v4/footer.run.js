@@ -1,23 +1,11 @@
 /* Подвал: ванильный код статики (design-concepts/v4/karusel/sections/footer/section.html).
-   Буквы вордмарка переворачиваются на место при въезде, потом персонаж садится на ствол d. "Наверх" плавно.
+   Буквы логотипа переворачиваются на место при въезде, потом персонаж садится на ствол d. "Наверх" плавно.
    Возвращает полную очистку. */
 export function runFooter(root) {
   var dead = false, offs = [], timers = [];
   var on = function (t, type, fn, opt) { t.addEventListener(type, fn, opt); offs.push(function () { t.removeEventListener(type, fn, opt); }); };
   var word = root.querySelector('.footer-word'), fig = root.querySelector('#footer-fig');
-  // буквы по одной, чтобы перевернуть их на въезде (фигура остаётся внутри второй строки)
-  var lines = [].slice.call(root.querySelectorAll('.footer-l1, .footer-l2'));
-  var orig = [];
-  lines.forEach(function (line) {
-    [].slice.call(line.childNodes).forEach(function (n) {
-      if (n.nodeType !== 3) return;
-      var frag = document.createDocumentFragment();
-      var made = [];
-      n.textContent.split('').forEach(function (c) { var s = document.createElement('span'); s.className = 'footer-ch'; s.textContent = c; frag.appendChild(s); made.push(s); });
-      orig.push([n, made]);
-      line.replaceChild(frag, n);
-    });
-  });
+  // буквы уже по одной в разметке (Footer.tsx: у каждой свой отступ по кернингу знака), апостроф среди них; последняя d
   var chars = [].slice.call(root.querySelectorAll('.footer-ch')), dCh = chars[chars.length - 1];
 
   on(root.querySelector('#footer-up'), 'click', function (e) { e.preventDefault(); scrollTo({ top: 0, behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' }); });
@@ -27,7 +15,6 @@ export function runFooter(root) {
     anims.forEach(function (a) { a.cancel(); });
     timers.forEach(clearTimeout);
     root.classList.remove('footer-pre');
-    orig.forEach(function (o) { var first = o[1][0]; if (first && first.parentNode) { first.parentNode.insertBefore(o[0], first); o[1].forEach(function (s) { s.remove(); }); } });
   }
   var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
   if (reduce || !('IntersectionObserver' in window) || !Element.prototype.animate) {

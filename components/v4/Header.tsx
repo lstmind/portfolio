@@ -1,6 +1,7 @@
 import { SITE } from "@/lib/content";
 import { HeaderIsland } from "./islands";
 import { NAV_META, NAV_NICHES, NAV_SERVICES } from "./nav.data";
+import { LOGO_APO, LOGO_LETTERS, LOGO_VB } from "./logo.paths";
 import "./header.css";
 
 const Out = () => (
@@ -34,14 +35,18 @@ const Cross = () => (
 );
 
 /**
- * Логотип: слово и красный блок-курсор высотой со строчные, как в строке, где сейчас печатают.
- * Тот же знак, что во вкладке и на иконках (design-concepts/v4/brand, направление A).
+ * Логотип l’stmind вектором: буквы цветом текста, апостроф-прядь красным (тот же знак, что во вкладке и в превью).
+ * При загрузке апостроф падает на место выпавшей буквы, под указателем чуть качается (header.css).
  */
 function Logo() {
   return (
     <a className="logo" href="/" aria-label={`${SITE.name}, на главную`}>
-      {SITE.name}
-      <i className="logo-cur" aria-hidden="true" />
+      <svg viewBox={LOGO_VB} aria-hidden="true" focusable="false">
+        <path fill="currentColor" d={LOGO_LETTERS} />
+        <g className="logo-sw">
+          <path className="logo-apo" d={LOGO_APO} />
+        </g>
+      </svg>
     </a>
   );
 }

@@ -3,6 +3,7 @@ import { FOOTER_NICHES } from "@/lib/home";
 import { PROFI_URL } from "@/lib/reviews";
 import { Figure } from "./Figure";
 import { FooterIsland } from "./islands";
+import { APO_VB, LOGO_APO } from "./logo.paths";
 import "./footer.css";
 
 const Out = () => (
@@ -11,7 +12,9 @@ const Out = () => (
   </svg>
 );
 
-/** подвал: связь, разделы, ниши; вордмарк lstmind во всю ширину, на ствол буквы d сел персонаж */
+const Ch = ({ c }: { c: string }) => <span className={`footer-ch footer-${c}`}>{c}</span>;
+
+/** подвал: связь, разделы, ниши; логотип l’stmind во всю ширину, на ствол буквы d сел персонаж */
 export function Footer() {
   const year = new Date().getFullYear();
   return (
@@ -86,16 +89,27 @@ export function Footer() {
 
         <div className="footer-mark">
           <p className="footer-word" role="img" aria-label={SITE.name}>
+            {/* буквы по одной: у каждой свой отступ (трекинг и кернинг знака), и на въезде они переворачиваются по очереди */}
             <span className="footer-l1" aria-hidden="true">
-              lst
+              <Ch c="l" />
+              <span className="footer-ch footer-apo">
+                <svg viewBox={APO_VB} focusable="false">
+                  <path d={LOGO_APO} />
+                </svg>
+              </span>
+              <Ch c="s" />
+              <Ch c="t" />
             </span>
             <span className="footer-l2" aria-hidden="true">
-              mind
+              <Ch c="m" />
+              <Ch c="i" />
+              <Ch c="n" />
+              <Ch c="d" />
               <Figure
                 pose="j8"
                 className="footer-fig"
                 id="footer-fig"
-                sizes="(max-width: 699px) calc(27.7vw - 9px), calc(14.7vw - 11px)"
+                sizes="(max-width: 699px) calc(27.6vw - 9px), calc(13.5vw - 11px)"
               />
             </span>
           </p>

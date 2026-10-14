@@ -6,12 +6,33 @@
 .top a,.top button{pointer-events:auto}
 /* сброс кнопок без веса селектора: размер и начертание задают классы ниже */
 :where(.top) button{font:inherit;color:inherit;background:none;border:0;cursor:pointer;-webkit-tap-highlight-color:transparent}
-.logo{font-family:var(--display);font-weight:900;font-size:26px;letter-spacing:-.01em;line-height:1}
-/* курсор после слова: размеры из знака стенда (v-wordA.svg): .27em в ширину, .48em от базовой линии, отступ .09em.
-   пустой inline-block стоит нижним краем на базовой линии. при загрузке мигает три раза и замирает, под указателем мигает */
-.logo-cur{display:inline-block;width:.27em;height:.48em;margin-left:.09em;background:var(--red);animation:logo-blink 1.06s steps(1,end) .4s 3}
-.logo:hover .logo-cur,.logo:focus-visible .logo-cur{animation:logo-blink 1.06s steps(1,end) infinite}
-@keyframes logo-blink{50%{opacity:0}}
+/* логотип l’stmind вектором (logo.paths.ts): вьюбокс 3.31em x .847em от кегля, буквы того же размера, что слово кеглем 26.
+   снизу .137em: базовая линия стоит там же, где у набранного слова в строке line-height 1, шапка не прыгает.
+   поля -8px: зона касания выше, строка от этого не растёт */
+.logo{display:block;font-size:26px;line-height:0;padding:8px 0 calc(8px + .137em);margin:-8px 0;-webkit-tap-highlight-color:transparent}
+.logo svg{display:block;width:3.31em;height:.847em;overflow:visible}
+/* апостроф: прядь чёлки красным. при загрузке падает на место выпавшей буквы (путь), под указателем качается от макушки (группа:
+   своё свойство animation у каждого, иначе уход указателя заново запускал бы падение) */
+.logo-apo{fill:var(--red)}
+.logo-apo,.logo-sw{transform-box:fill-box;transform-origin:50% 0}
+@media (prefers-reduced-motion:no-preference){
+  /* только на первой странице визита: класс lg-seen ставит скрипт в начале body (app/layout.tsx) */
+  html:not(.lg-seen) .top>.logo .logo-apo{animation:logo-drop .62s .2s both}
+  .logo:hover .logo-sw,.logo:focus-visible .logo-sw{animation:logo-sway .9s}
+}
+@keyframes logo-drop{
+  0%{opacity:0;transform:translateY(-95%) rotate(-12deg);animation-timing-function:cubic-bezier(.5,0,.9,.5)}
+  12%{opacity:1}
+  58%{transform:translateY(5%) rotate(3deg);animation-timing-function:cubic-bezier(.3,.7,.4,1)}
+  80%{transform:translateY(-1.5%) rotate(-1.5deg)}
+  100%{transform:none}
+}
+@keyframes logo-sway{
+  0%,100%{transform:none}
+  22%{transform:rotate(-9deg)}
+  50%{transform:rotate(5deg)}
+  76%{transform:rotate(-2deg)}
+}
 .tg{font-weight:600;font-size:13px;letter-spacing:.04em;text-transform:uppercase;display:inline-flex;gap:.45em;align-items:center;padding:8px 0}
 .tg svg{width:15px;height:15px}
 .tg:hover{color:var(--red)}
@@ -138,6 +159,5 @@ html.ns-lock body{overflow:hidden}
 
 @media (prefers-reduced-motion:reduce){
   .top,.top-chev,.top-nav>a::after,.top-tr::after,.np-card img,.ns,.ns.is-open{transition:none}
-  .logo-cur,.logo:hover .logo-cur,.logo:focus-visible .logo-cur{animation:none}
   .np.is-in{animation:none}
 }

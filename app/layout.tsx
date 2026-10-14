@@ -163,6 +163,13 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       suppressHydrationWarning
     >
       <body>
+        {/* апостроф в логотипе падает только на первой странице визита: переходы по сайту полные,
+            иначе он исчезал бы и падал заново на каждой странице (header.css, lg-seen). до шапки, чтобы не мигнул */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `try{sessionStorage.getItem("lg-drop")?document.documentElement.classList.add("lg-seen"):sessionStorage.setItem("lg-drop","1")}catch(e){}`,
+          }}
+        />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
