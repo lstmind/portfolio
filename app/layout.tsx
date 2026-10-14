@@ -27,7 +27,7 @@ const FROM = SITE_FROM;
 const OG_TITLE = "Алексей (lstmind): делаю, чиню и ускоряю сайты";
 const OG_TEXT =
   `Работаю один: с кем переписываетесь, тот и пишет код. ${LIVE}, каждый открывается. ` +
-  `Сайт ${FROM}, договор и чек. Kwork 5.0, Профи ${PROFI_STATS.rating.replace(".", ",")}.`;
+  `Сайт ${FROM}, договор и чек. Kwork 5,0, Профи ${PROFI_STATS.rating.replace(".", ",")}.`;
 
 const sans = Montserrat({
   weight: ["600", "700"],
@@ -133,11 +133,11 @@ const jsonLd = {
       makesOffer: {
         "@type": "Offer",
         priceCurrency: "RUB",
-        price: 15000,
+        price: 30000,
         priceSpecification: {
           "@type": "PriceSpecification",
           priceCurrency: "RUB",
-          minPrice: 15000,
+          minPrice: 30000,
           valueAddedTaxIncluded: false,
         },
         url: `${SITE.url}/uslugi`,

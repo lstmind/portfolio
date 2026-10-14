@@ -77,7 +77,7 @@ const GROUPS: { title: string; side: string; slugs: string[] }[] = [
   for (const x of seen) if (!serviceBySlug(x)) throw new Error(`в группах прайса лишняя услуга ${x}`);
 }
 
-/** порядок внутри группы задан руками: от общего к частному, а не по цене (иначе вёрстка за 1 500 ₽ за экран встаёт первой) */
+/** порядок внутри группы задан руками: от общего к частному, а не по цене (иначе вёрстка за 3 000 ₽ за экран встаёт первой) */
 export const HUB_GROUPS = GROUPS.map((g) => ({
   ...g,
   services: g.slugs.map((x) => serviceBySlug(x)!),

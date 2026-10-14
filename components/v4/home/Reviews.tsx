@@ -8,7 +8,7 @@ const pad = (i: number) => String(i + 1).padStart(2, "0");
 const reviewsWord = (n: number) => plural(n, ["отзыв", "отзыва", "отзывов"]);
 
 const Star = () => (
-  <svg viewBox="0 0 20 20">
+  <svg viewBox="0 0 20 20" aria-hidden="true">
     <path fill="currentColor" d="M10 1.6l2.5 5.4 5.9.6-4.4 4 1.2 5.8L10 14.5l-5.2 2.9L6 11.6l-4.4-4 5.9-.6z" />
   </svg>
 );
@@ -27,8 +27,8 @@ export function Reviews({ kwork }: { kwork: number }) {
   const total = kwork + profi;
   const n = HOME_REVIEWS.length;
   const plats = [
-    { href: KWORK_URL, name: "Kwork", rating: "5.0", ratingSr: "5.0", count: kwork },
-    { href: PROFI_URL, name: "Профи", rating: PROFI_STATS.rating.replace(".", ","), ratingSr: PROFI_STATS.rating.replace(".", ","), count: profi },
+    { href: KWORK_URL, name: "Kwork", rating: "5,0", count: kwork },
+    { href: PROFI_URL, name: "Профи", rating: PROFI_STATS.rating.replace(".", ","), count: profi },
   ];
   return (
     <section className="s-reviews" id="reviews" aria-labelledby="reviews-title">
@@ -55,23 +55,20 @@ export function Reviews({ kwork }: { kwork: number }) {
           <ul className="reviews-plat">
             {plats.map((p) => (
               <li key={p.name}>
-                <a
-                  className="reviews-pf"
-                  href={p.href}
-                  target="_blank"
-                  rel="noopener"
-                  aria-label={`${p.name}: рейтинг ${p.ratingSr} из 5, ${p.count} ${reviewsWord(p.count)}, открыть профиль`}
-                >
-                  <span className="reviews-pf-r" aria-hidden="true">
+                <a className="reviews-pf" href={p.href} target="_blank" rel="noopener">
+                  <span className="reviews-pf-r">
                     <Star />
+                    <span className="sr">Рейтинг </span>
                     {p.rating}
+                    <span className="sr"> из 5, </span>
                   </span>
-                  <span className="reviews-pf-t" aria-hidden="true">
-                    {p.count} {reviewsWord(p.count)}{" "}
+                  <span className="reviews-pf-t">
+                    {/* одной строкой: пробелы отдельными узлами Chrome выкидывает из имени ссылки ("35отзывовна Kwork") */}
+                    {`${p.count} ${reviewsWord(p.count)} `}
                     <span className="reviews-nw">
                       на{NB}
                       {p.name}
-                      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.9">
+                      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.9" aria-hidden="true">
                         <path d="M4.5 11.5l7-7M5.5 4.5h6v6" />
                       </svg>
                     </span>

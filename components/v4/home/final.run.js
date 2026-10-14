@@ -15,7 +15,7 @@ export function runFinal(root) {
 
   var st = { type: CALC.start.type, scale: CALC.start.scale, urg: CALC.start.urg };
   var $ = function (id) { return root.querySelector('#' + id); };
-  var digits = $('final-digits'), numEl = $('final-num'), termEl = $('final-term'), hintEl = $('final-hint'), msgEl = $('final-msg');
+  var digits = $('final-digits'), srEl = $('final-sr'), termEl = $('final-term'), hintEl = $('final-hint'), msgEl = $('final-msg');
   var cta = $('final-cta'), scene = $('final-scene'), figs = $('final-figs'), urgEl = $('final-urg');
   var lastText = digits.textContent;
 
@@ -68,10 +68,12 @@ export function runFinal(root) {
   function summary(r) {
     return typeOf()[2] + ', ' + CALC.scales[r.idx][1].toLowerCase() + (st.urg === 'u' ? ', срочно' : '') + ', ≈ ' + r.low + '–' + r.high + ' тыс ₽';
   }
+  /* строка расчёта над формой: переносится по словам, но "≈ 88–150 тыс ₽" держится целиком */
+  function calcLine(r) { return summary(r).replace(/≈ ([^,]+)$/, function (m, v) { return '≈ ' + v.replace(/ /g, ' '); }); }
   function update(animate) {
     var r = calc();
     setDigits(r.low + '–' + r.high, animate);
-    numEl.setAttribute('aria-label', 'примерно ' + r.low + '–' + r.high + ' тысяч рублей');
+    if (srEl) srEl.textContent = 'примерно ' + r.low + '–' + r.high + ' тысяч рублей';
     termEl.textContent = r.term;
     hintEl.textContent = r.hint;
     var text = draft(r);
@@ -84,7 +86,7 @@ export function runFinal(root) {
       msgEl.animate([{ transform: 'scale(.965)', opacity: .55 }, { transform: 'scale(1)', opacity: 1 }], { duration: 320, easing: 'cubic-bezier(.16,1,.3,1)' });
     }
     if (animate) think();
-    if (!form.hidden) $('final-calcline').textContent = summary(r);
+    if (!form.hidden) $('final-calcline').textContent = calcLine(r);
   }
 
   /* ---------- фигура: стоит в позе 3 и показывает на кнопку; пока пересчитываете, печатает (поза 2) ---------- */
@@ -202,7 +204,7 @@ export function runFinal(root) {
     alt.setAttribute('aria-expanded', String(open));
     alt.textContent = open ? 'Свернуть' : 'Нет Telegram? Оставьте контакт';
     root.querySelector('.final-body').hidden = open;
-    if (open) $('final-calcline').textContent = summary(calc());
+    if (open) $('final-calcline').textContent = calcLine(calc());
     if (open) $('final-name').focus();
   });
   on(form, 'submit', function (e) {

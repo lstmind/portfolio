@@ -1,4 +1,5 @@
 import { SITE } from "@/lib/content";
+import { tie } from "@/components/v4/typo";
 import { splitPrice, wordFit, type SiteCard } from "./data";
 import "@/components/v4/home/prices.css";
 import { SceneCrop, sceneOf, sceneSrc, sceneSrcSet } from "./scene";
@@ -35,7 +36,7 @@ export function Crumbs({ items }: { items: { name: string; href: string }[] }) {
 /**
  * Крупное слово Fira 900 капсом: буквы встают на барабане, как слова героя и прайса.
  * Кегль подбирается под ширину колонки по числу знаков (--n на десктопе, --nm на телефоне).
- * Читалке слово отдаётся целиком, буквы для неё скрыты.
+ * Текст заголовка: само слово по буквам, без дубля (капс даёт CSS), читалке слово целиком в aria-label.
  */
 export function Word({
   text,
@@ -59,11 +60,10 @@ export function Word({
       id={id}
       style={{ "--n": fit.d, "--nm": fit.m } as React.CSSProperties}
       aria-hidden={Tag === "p" ? true : undefined}
+      aria-label={Tag === "p" ? undefined : text}
     >
-      {Tag !== "p" && <span className="sr">{text}</span>}
-      <span className="dl-word-in" aria-hidden="true">
+      <span className="dl-word-in">
         {text
-          .toUpperCase()
           .split(" ")
           .map((w, wi) => (
             <span className="dl-wd" key={wi}>
@@ -110,7 +110,7 @@ export function Fan({ sites, label }: { sites: SiteCard[]; label: string }) {
           key={c.host}
           style={{ "--j": j - mid, "--a": Math.abs(j - mid), "--z": c === s[0] ? 3 : 2 - Math.abs(j - mid) } as React.CSSProperties}
         >
-          <a href={c.href} target="_blank" rel="noopener">
+          <a href={c.href} target="_blank" rel="noopener" aria-label={`${c.title}, ${c.host}`}>
             <span className="dl-fc-img">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
@@ -373,7 +373,7 @@ export function FinalCta({ word, text, msg }: { word: string; text: string; msg?
         <Word as="h2" text={word} id="dl-final-t" />
       </div>
       <div className="dl-final-r">
-        <p className="dl-final-p">{text}</p>
+        <p className="dl-final-p">{tie(text)}</p>
         <div className="dl-final-act">
           <TgButton text={msg} />
           <a className="dl-final-mail" href={`mailto:${SITE.email}`}>

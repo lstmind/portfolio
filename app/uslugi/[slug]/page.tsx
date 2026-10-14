@@ -10,6 +10,9 @@ import { caseCards, hubFor, nichesFor, othersFor } from "@/components/v4/uslugi/
 import { reviewFor, sceneOf, shortReviewFor } from "@/components/v4/uslugi/scenes";
 import { CardsIsland, DemosIsland, HeroIsland, NichesIsland, SignsIsland, WordsIsland } from "@/components/v4/uslugi/islands";
 
+// чужой slug сразу получает готовую 404, без рендера на запрос
+export const dynamicParams = false;
+
 export function generateStaticParams() {
   return SERVICE_PAGES.map((s) => ({ slug: s.slug }));
 }
@@ -27,7 +30,7 @@ export async function generateMetadata({
     description: s.metaDescription,
     alternates: { canonical: `/uslugi/${s.slug}` },
     openGraph: {
-      type: "article",
+      type: "website",
       locale: "ru_RU",
       siteName: SITE.ogName,
       url: `${SITE.url}/uslugi/${s.slug}`,

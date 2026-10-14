@@ -16,6 +16,8 @@
   column-gap:clamp(24px,3vw,48px);border-top:1px solid var(--ink);padding-top:22px}
 .s-footer .footer-h{display:inline-flex;align-items:center;gap:.4em;font:700 12px/1 var(--sans);letter-spacing:.06em;text-transform:uppercase;color:var(--ink-2);margin-bottom:16px}
 .s-footer a.footer-h:hover{color:var(--ink)}
+/* заголовок-ссылка: зона нажатия 24px по высоте, отступы снаружи съедают паддинг, строка стоит где стояла */
+.s-footer a.footer-h{padding:6px 0;margin-top:-6px;margin-bottom:10px}
 .s-footer ul{list-style:none}
 .s-footer li{font:600 14px/1.25 var(--sans);padding-bottom:9px}
 .s-footer .footer-niches{display:grid;grid-template-columns:1fr 1fr;grid-template-rows:repeat(5,auto);grid-auto-flow:column;column-gap:clamp(24px,3vw,48px)}
@@ -62,6 +64,7 @@
   .s-footer .footer-nav{grid-template-columns:1fr 1fr;column-gap:16px;padding-top:18px;row-gap:26px}
   .s-footer .footer-nav>div:nth-child(3){grid-column:1 / -1}
   .s-footer .footer-h{margin-bottom:4px}
+  .s-footer a.footer-h{margin-bottom:-2px}
   .s-footer li{font-size:15px;padding-bottom:0}
   .s-footer .footer-a{padding:9px 0 7px;background-position:0 calc(100% - 6px)}
   .s-footer .footer-niches{column-gap:16px}

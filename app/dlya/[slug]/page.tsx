@@ -12,6 +12,9 @@ import { tie } from "@/components/v4/typo";
 
 const NB = " ";
 
+// чужой slug сразу получает готовую 404, без рендера на запрос
+export const dynamicParams = false;
+
 export function generateStaticParams() {
   return INDUSTRY_PAGES.map((i) => ({ slug: i.slug }));
 }
@@ -29,7 +32,7 @@ export async function generateMetadata({
     description: i.metaDescription,
     alternates: { canonical: `/dlya/${i.slug}` },
     openGraph: {
-      type: "article",
+      type: "website",
       locale: "ru_RU",
       siteName: SITE.ogName,
       url: `${SITE.url}/dlya/${i.slug}`,
@@ -195,7 +198,7 @@ export default async function IndustryPageView({ params }: { params: Promise<{ s
             </div>
             <div className="dl-spec-w" id="dl-spec">
               <h2 className="dl-sub" id="dl-spec-t">
-                Что важно именно здесь
+                Что важно именно здесь{" "}
                 <span className="dl-sub-n" aria-hidden="true">
                   листайте
                   <Go />

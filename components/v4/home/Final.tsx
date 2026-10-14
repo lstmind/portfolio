@@ -53,7 +53,8 @@ export function Final() {
           </h2>
           <div className="final-res" aria-live="polite" aria-atomic="true">
             <p className="final-ans">
-              <span className="final-num" id="final-num" aria-label={`примерно ${r.low}–${r.high} тысяч рублей`}>
+              <span className="final-num" id="final-num">
+                <span className="sr" id="final-sr">{`примерно ${r.low}–${r.high} тысяч рублей`}</span>
                 <span className="final-approx" aria-hidden="true">
                   ≈
                 </span>

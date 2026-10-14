@@ -113,7 +113,8 @@ export function Hub() {
                       sizes="(max-width: 699px) 46vw, (max-width: 1099px) 30vw, 220px"
                       width={240}
                       height={519}
-                      alt=""
+                      // ссылка-картинка скрыта от читалки (дубль подписи), alt для поиска по картинкам
+                      alt={`${s.title}, ${s.host}: мобильная версия сайта`}
                       loading={k < EAGER ? "eager" : "lazy"}
                       fetchPriority={k < URGENT ? "high" : undefined}
                       decoding="async"

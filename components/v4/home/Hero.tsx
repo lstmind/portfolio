@@ -22,7 +22,7 @@ function heroHtml() {
   const title = `${w.slice(0, -1).join(", ")} и ${w[w.length - 1]} сайты`;
   const cards = HERO_SITES.map(
     (s) =>
-      `<a class="card" href="${esc(s.href)}" target="_blank" rel="noopener" aria-label="${esc(`${s.name}, ${s.host}, откроется в новой вкладке`)}" draggable="false" role="listitem" data-name="${esc(s.name)}" data-host="${esc(s.host)}">` +
+      `<a class="card" href="${esc(s.href)}" target="_blank" rel="noopener" aria-label="${esc(`${s.name}, ${s.host}, откроется в новой вкладке`)}" draggable="false" data-name="${esc(s.name)}" data-host="${esc(s.host)}">` +
       `<img class="sharp" alt="" draggable="false" decoding="async" src="${IMG}${s.img}-240.webp" srcset="${IMG}${s.img}-240.webp 240w, ${IMG}${s.img}-400.webp 400w" sizes="(max-width: 699px) 190px, 220px">` +
       `<img class="soft" alt="" draggable="false" decoding="async" src="${IMG}${s.img}-blur.webp">` +
       `<span class="fog"></span></a>`,
@@ -30,7 +30,7 @@ function heroHtml() {
   const boot = `(function(){var run=${heroRun.toString()};window.__v4hero=run;var h=document.getElementById('hero');if(h&&!h.__v4run)h.__v4run=run(h);})();`;
   return (
     `<h1 class="word"><span class="sr">${esc(title)}</span><span class="word-in" id="word"></span></h1>` +
-    `<div class="ring" id="ring" aria-label="Мои сайты, тяните в сторону"><div class="track" id="cards" role="list">${cards}</div></div>` +
+    `<div class="ring" id="ring" role="group" aria-label="Мои сайты, тяните в сторону"><div class="track" id="cards">${cards}</div></div>` +
     `<div class="figs" id="figs">` +
     `<img class="me" id="me" alt="Алексей, веб-разработчик" fetchpriority="high" decoding="async" width="400" height="984" srcset="${poseSrcSet("j1")}" sizes="(max-width: 699px) calc((100svh - 300px) * .41), calc(100vh * .36)" src="${poseSrc("j1")}">` +
     `<img class="me alt" id="me2" alt="" aria-hidden="true" decoding="async">` +

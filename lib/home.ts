@@ -12,8 +12,8 @@ const NB = " ";
 /** 15000 → "15 000" с неразрывным пробелом */
 export const rub = (n: number) => String(n).replace(/\B(?=(\d{3})+(?!\d))/g, NB);
 
-/** нижняя цена сайта строкой: "от 15 000 ₽", из услуги "Сайт под ключ" */
-export const SITE_FROM = `от${NB}${rub(SERVICES.find((s) => s.slug === "sayt-pod-klyuch")?.priceFrom ?? 15000)}${NB}₽`;
+/** нижняя цена сайта строкой: "от 30 000 ₽", из услуги "Сайт под ключ" */
+export const SITE_FROM = `от${NB}${rub(SERVICES.find((s) => s.slug === "sayt-pod-klyuch")?.priceFrom ?? 30000)}${NB}₽`;
 
 /** ставка строкой: "2 000 ₽/час" */
 export const RATE = `${rub(SITE.ratePerHour)}${NB}₽/час`;
@@ -102,10 +102,10 @@ type PriceRow = {
 };
 const PRICE_ROWS: PriceRow[] = [
   { word: "Сайты", slug: "sayt-pod-klyuch", note: "Смета фиксируется после разбора задачи", img: "chemrar", site: "https://chemrar.ru/" },
-  { word: "Магазины", slug: "internet-magazin", note: `С корзиной и оплатой от ${rub(60000)}${NB}₽`, img: "qayna", site: "https://qayna.ru/" },
+  { word: "Магазины", slug: "internet-magazin", note: `С корзиной и оплатой от ${rub(100000)}${NB}₽`, img: "qayna", site: "https://qayna.ru/" },
   { word: "Чиню чужое", slug: "pochinit-sayt", note: "Сначала смотрю код и называю часы", img: "prices-wellevent", site: "https://wellevent.ru/", cap: "MODX был до меня" },
   { word: "Ускоряю", slug: "uskorit-sayt", note: `Работы от ${RATE}, объём после аудита`, img: "nega", site: "https://nega.lstmind.ru/", cap: "Lighthouse 100 на десктопе" },
-  { word: "Боты", slug: "telegram-bot", note: `С каталогом и оплатой от ${rub(40000)}${NB}₽`, img: "drova", site: "https://drova.lstmind.ru/", cap: "бот понимает заказ словами" },
+  { word: "Боты", slug: "telegram-bot", note: `С каталогом и оплатой от ${rub(70000)}${NB}₽`, img: "drova", site: "https://drova.lstmind.ru/", cap: "бот понимает заказ словами" },
 ];
 
 /** "от 2 000 ₽/час" → { pre: "от", value: "2 000 ₽", unit: "/час" }; "аудит бесплатно" → { pre: "аудит", value: "бесплатно" } */

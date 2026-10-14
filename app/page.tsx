@@ -27,7 +27,7 @@ export default async function Home() {
     description:
       "Фриланс веб-разработчик Алексей (lstmind): сайты под ключ, интернет-магазины на WooCommerce, " +
       `доработка и ускорение чужих сайтов. Работаю один, от структуры до релиза. Ставка ${RATE.replace(/ /g, " ")}, по проекту фикс-смета.`,
-    priceRange: "от 1 500 ₽",
+    priceRange: "от 2 000 ₽",
     currenciesAccepted: "RUB",
     areaServed: [
       { "@type": "City", name: "Москва" },
@@ -35,7 +35,6 @@ export default async function Home() {
     ],
     knowsLanguage: "ru",
     founder: { "@id": `${SITE.url}#person` },
-    provider: { "@id": `${SITE.url}#person` },
     address: { "@type": "PostalAddress", addressLocality: "Москва", addressCountry: "RU" },
     contactPoint: {
       "@type": "ContactPoint",

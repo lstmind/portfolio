@@ -1,4 +1,5 @@
 import { SITE } from "@/lib/content";
+import { tie } from "@/components/v4/typo";
 import { wordFit } from "./data";
 
 /** стрелка наружу, как у Telegram в шапке */
@@ -33,7 +34,7 @@ export function Crumbs({ items }: { items: { name: string; href: string }[] }) {
 /**
  * Крупное слово Fira 900 капсом: буквы встают на барабане, как слова героя и прайса.
  * Кегль подбирается под ширину колонки по числу знаков (--n на десктопе, --nm на телефоне).
- * Читалке слово отдаётся целиком, буквы для неё скрыты.
+ * Текст заголовка: само слово по буквам, без дубля (капс даёт CSS), читалке слово целиком в aria-label.
  */
 export function Word({ text, as: Tag = "p", id, className }: { text: string; as?: "p" | "h1" | "h2"; id?: string; className?: string }) {
   const fit = wordFit(text);
@@ -44,11 +45,10 @@ export function Word({ text, as: Tag = "p", id, className }: { text: string; as?
       id={id}
       style={{ "--n": fit.d, "--nm": fit.m } as React.CSSProperties}
       aria-hidden={Tag === "p" ? true : undefined}
+      aria-label={Tag === "p" ? undefined : text}
     >
-      {Tag !== "p" && <span className="sr">{text}</span>}
-      <span className="u-word-in" aria-hidden="true">
+      <span className="u-word-in">
         {text
-          .toUpperCase()
           .split(" ")
           .map((w, wi) => (
             <span className="u-wd" key={wi}>
@@ -86,7 +86,7 @@ export function FinalCta({ word, text, msg }: { word: string; text: string; msg?
         <Word as="h2" text={word} id="u-final-t" />
       </div>
       <div className="u-final-r">
-        <p className="u-final-p">{text}</p>
+        <p className="u-final-p">{tie(text)}</p>
         <div className="u-final-act">
           <TgButton text={msg} />
           <a className="u-final-mail" href={`mailto:${SITE.email}`}>

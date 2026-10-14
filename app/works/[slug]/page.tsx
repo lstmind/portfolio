@@ -5,6 +5,9 @@ import { SITE } from "@/lib/content";
 import { Case } from "@/components/v4/works/Case";
 import { caseView } from "@/components/v4/works/data";
 
+// чужой slug сразу получает готовую 404, без рендера на запрос
+export const dynamicParams = false;
+
 export function generateStaticParams() {
   return CASE_PAGES.map((c) => ({ slug: c.slug }));
 }
@@ -63,7 +66,8 @@ export default async function CasePageView({ params }: { params: Promise<{ slug:
         creator: { "@id": `${SITE.url}#person` },
         keywords: stack.join(", "),
         mainEntityOfPage: `${SITE.url}/works/${c.slug}`,
-        sameAs: c.href,
+        // разбор и сам сайт клиента разные сущности: сайт упомянут, а не "тот же объект" (sameAs)
+        mentions: { "@type": "WebSite", name: site.title, url: c.href },
       },
       {
         "@type": "BreadcrumbList",

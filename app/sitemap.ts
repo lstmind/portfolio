@@ -4,31 +4,33 @@ import { SERVICE_PAGES } from "@/lib/services";
 import { CASE_PAGES } from "@/lib/cases";
 import { INDUSTRY_PAGES } from "@/lib/industries";
 
-/** дата берётся из сборки: каждый деплой обновляет lastmod, руками править нечего */
-const BUILT_AT = new Date();
+/**
+ * lastmod не отдаём: дата сборки у всех страниц была бы ложной (каждый деплой "меняет" всё),
+ * и поисковики перестают ей верить. Настоящих дат правки в данных нет.
+ */
 
 export default function sitemap(): MetadataRoute.Sitemap {
   return [
-    { url: SITE.url, lastModified: BUILT_AT, changeFrequency: "weekly", priority: 1 },
+    { url: SITE.url, changeFrequency: "weekly", priority: 1 },
     // витрины разделов: с них расходится вес на частные страницы
-    { url: `${SITE.url}/uslugi`, lastModified: BUILT_AT, changeFrequency: "weekly", priority: 0.9 },
-    { url: `${SITE.url}/works`, lastModified: BUILT_AT, changeFrequency: "weekly", priority: 0.9 },
-    { url: `${SITE.url}/dlya`, lastModified: BUILT_AT, changeFrequency: "monthly", priority: 0.8 },
+    { url: `${SITE.url}/uslugi`, changeFrequency: "weekly", priority: 0.9 },
+    { url: `${SITE.url}/works`, changeFrequency: "weekly", priority: 0.9 },
+    { url: `${SITE.url}/dlya`, changeFrequency: "monthly", priority: 0.8 },
     ...SERVICE_PAGES.map((s) => ({
       url: `${SITE.url}/uslugi/${s.slug}`,
-      lastModified: BUILT_AT,
+     
       changeFrequency: "monthly" as const,
       priority: 0.9,
     })),
     ...INDUSTRY_PAGES.map((i) => ({
       url: `${SITE.url}/dlya/${i.slug}`,
-      lastModified: BUILT_AT,
+     
       changeFrequency: "monthly" as const,
       priority: 0.8,
     })),
     ...CASE_PAGES.map((c) => ({
       url: `${SITE.url}/works/${c.slug}`,
-      lastModified: BUILT_AT,
+     
       changeFrequency: "monthly" as const,
       priority: 0.7,
     })),
