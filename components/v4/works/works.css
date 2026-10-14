@@ -157,8 +157,12 @@
 .w-card--tall{width:72%;max-width:330px}
 @keyframes w-roll{0%,6%{transform:translateY(0)}94%,100%{transform:translateY(calc(-100% + 100cqh))}}
 .w-card__roll{display:block;position:relative}
+/* верхний кадр ленты поверх её начала: пиксель в пиксель, после подгрузки ленты уходит */
+.w-card__screen .w-card__top{position:absolute;top:0;left:0}
+/* opacity, а не visibility: подпись alt у верхнего кадра остаётся для скринридера */
+.w-card--tall.is-full .w-card__top{opacity:0}
 .w-case:not(.is-pin) .w-card--tall .w-card__roll{animation:w-roll var(--w-dur,36s) cubic-bezier(.45,0,.55,1) infinite alternate;animation-play-state:paused}
-.w-case:not(.is-pin) .w-card--tall.is-live .w-card__roll{animation-play-state:running}
+.w-case:not(.is-pin) .w-card--tall.is-live.is-full .w-card__roll{animation-play-state:running}
 
 .w-case__body{grid-area:body;margin-top:80px}
 .w-read+.w-read{margin-top:72px}

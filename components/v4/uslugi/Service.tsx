@@ -1,7 +1,7 @@
 import type { ServicePage } from "@/lib/services";
 import type { IndustryPage } from "@/lib/industries";
 import { PROCESS_STEPS, liveSitesWord } from "@/lib/home";
-import { PROJECTS_TOTAL, plural } from "@/lib/content";
+import { PAY_TERMS, PROJECTS_TOTAL, plural } from "@/lib/content";
 import { KWORK_STATS, PROFI_STATS } from "@/lib/reviews";
 import { Figure, IMG } from "../Figure";
 import { Block, Crumbs, Go, Out, TgButton, Word } from "./bits";
@@ -90,7 +90,7 @@ export function ServiceHero({ s, shot }: { s: ServicePage; shot: CaseCard }) {
           ]}
         />
         <h1 className="u-kicker" id="u-h1">
-          {s.h1}
+          {s.heading ?? s.h1}
         </h1>
         <Word text={wordOf(s.slug)} />
 
@@ -120,7 +120,7 @@ export function ServiceHero({ s, shot }: { s: ServicePage; shot: CaseCard }) {
           </div>
         </dl>
 
-        <p className="u-answer">{s.answer}</p>
+        <p className="u-answer">{tie(s.answer)}</p>
         <div className="u-hero-act">
           <TgButton text={tgMsg(s.h1)} className="u-cta" />
           <span className="u-hero-side">Самозанятый: договор, акт и{NB}чек</span>
@@ -195,6 +195,10 @@ export function CaseCards({ cards }: { cards: CaseCard[] }) {
 
 const pad = (n: number) => String(n).padStart(2, "0");
 
+/** условия оплаты стоят в шаге "Смета": страх "возьмёт деньги и пропадёт" снимается там, где речь о деньгах */
+const PAY_AT = PROCESS_STEPS.findIndex((st) => st.word === "Смета");
+if (PAY_AT < 0) throw new Error('нет шага "Смета" в PROCESS_STEPS (lib/home.ts): строке про оплату некуда встать');
+
 /** как идёт работа: четыре шага главной компактно, крупным словом и строкой */
 export function Steps() {
   return (
@@ -206,6 +210,7 @@ export function Steps() {
             <span className="u-step-n">{pad(i + 1)}</span>
             <h3 className="u-step-w">{st.word}</h3>
             <p>{st.line}</p>
+            {i === PAY_AT && <p className="u-step-pay">{tie(PAY_TERMS)}</p>}
           </li>
         ))}
       </ol>

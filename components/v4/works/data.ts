@@ -109,6 +109,8 @@ function tallOf(host: string): { base: string; h: number } {
   const t = f ? { base: `/img/v4/${f.shot}`, h: f.shotH } : TALL_OWN[host] ? { base: `${PREVIEW_DIR}${fileKey(host)}-m`, h: TALL_OWN[host] } : null;
   if (!t) throw new Error(`нет длинного скрина для ${host}`);
   [390, 600, 780].forEach((w) => mustExist(`${t.base}-${w}.webp`));
+  // верхний кадр ленты (постер): грузится первым, сама лента после загрузки страницы
+  [390, 600, 780].forEach((w) => mustExist(`${t.base}-top-${w}.webp`));
   return t;
 }
 

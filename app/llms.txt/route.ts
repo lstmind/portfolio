@@ -3,6 +3,7 @@ import { SERVICE_PAGES } from "@/lib/services";
 import { PROFI_URL, PROFI_STATS } from "@/lib/reviews";
 import { CASE_PAGES } from "@/lib/cases";
 import { INDUSTRY_PAGES } from "@/lib/industries";
+import { RATE } from "@/lib/home";
 
 /**
  * /llms.txt — короткая машинная выжимка о том, кто я и что делаю.
@@ -66,7 +67,7 @@ export function GET() {
 
 ${money}
 
-Ставка за час — ${SITE.ratePerHour} ₽, по проекту считаю фикс-смету после разбора задачи. Оценку можно прикинуть самому в калькуляторе на сайте.
+Ставка: ${RATE}, по проекту считаю фикс-смету после разбора задачи. Оценку можно прикинуть самому в калькуляторе на сайте.
 
 ## Ниши, в которых уже работал
 

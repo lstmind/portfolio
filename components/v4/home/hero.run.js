@@ -192,7 +192,10 @@ export function heroRun(hero) {
     hero.style.setProperty('--me-t', f.top + 'px');
     hero.style.setProperty('--me-h', JG.H * f.k + 'px');
     hero.style.setProperty('--cy', (S.cy || f.top + (JG.TOP + (JG.SOLE - JG.TOP) * (mob ? .44 : .4)) * f.k) + 'px');
-    var sz = Math.ceil(JG.W * f.k) + 'px';
+    // телефоны с плотностью от 2,5: файл не больше 569w (pose-*-1400), как в sizes разметки (Hero.tsx)
+    var dpr = window.devicePixelRatio || 1, szPx = Math.ceil(JG.W * f.k);
+    if (mob && dpr >= 2.5) szPx = Math.min(szPx, Math.floor(569 / dpr));
+    var sz = szPx + 'px';
     poseImgs.forEach(function (im) { im.sizes = sz; });
     letters.forEach(function (L) { L.el.remove(); }); letters = [];
     buildWord(FIRST[wi], false);
@@ -527,7 +530,8 @@ export function heroRun(hero) {
   var swapT = 0, swapI = 0;
   if (!reduce) {
     var swap = function () { if (!document.hidden && heroOn) { wi = (wi + 1) % FIRST.length; buildWord(FIRST[wi], true); } };
-    swapT = setTimeout(function () { swap(); swapI = setInterval(swap, 3400); }, 4600);
+    // первая смена скоро, пока человек ещё смотрит на заголовок: видно, что слово меняется
+    swapT = setTimeout(function () { swap(); swapI = setInterval(swap, 3400); }, 1300);
   }
 
   var rz = 0;

@@ -192,6 +192,7 @@
 .u-step-n{font:700 12px/1 var(--sans);color:var(--ink-2)}
 .u-step-w{margin:12px 0 12px;font-family:var(--display);font-weight:900;text-transform:uppercase;font-size:clamp(34px,3.5vw,58px);line-height:.9;letter-spacing:-.01em}
 .u-step p{max-width:26ch;font:600 14.5px/1.5 var(--sans);text-wrap:pretty}
+.u-step .u-step-pay{margin-top:10px;max-width:28ch;font-size:13px;line-height:1.45;color:var(--ink-2)}
 
 /* вопросы: линейки и кружок с плюсом, как в финале главной */
 .u-qs{list-style:none;margin-top:-20px}
@@ -333,6 +334,7 @@
   .u-steps{grid-template-columns:repeat(2,minmax(0,1fr));row-gap:28px}
   .u-step-w{font-size:38px;margin:8px 0 8px}
   .u-step p{font-size:14px}
+  .u-step .u-step-pay{font-size:12.5px}
 
   .u-qs{margin-top:-14px}
   .u-a p{padding-right:0;font-size:15px}

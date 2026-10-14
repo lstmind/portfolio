@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { CASE_PAGES } from "@/lib/cases";
-import { SITE, WORKS, PROJECTS_TOTAL, hostOf } from "@/lib/content";
+import { SITE, WORKS, PROJECTS_TOTAL, TITLE_TAIL, hostOf } from "@/lib/content";
 import { liveSitesWord } from "@/lib/home";
 import { Hub } from "@/components/v4/works/Hub";
 import { SITES } from "@/components/v4/works/data";
@@ -14,9 +14,9 @@ const OG_TITLE = `${PROJECTS_TOTAL} ${liveSitesWord()}, каждый откры�
 const OG_TEXT = `Магазины, сайты компаний, каталоги и свои демо. Каждый можно открыть и потыкать руками, у ${N_CASES} есть разбор: задача, стек и что сделано.`;
 
 export const metadata: Metadata = {
-  title: `Работы: ${PROJECTS_TOTAL} живых сайтов и разборы проектов | lstmind`,
+  title: `Портфолио веб-разработчика: ${PROJECTS_TOTAL} ${liveSitesWord()} и разборы${TITLE_TAIL}`,
   description:
-    `Портфолио веб-разработчика, ${PROJECTS_TOTAL} проектов в проде: магазины на WooCommerce, корпоративные сайты, каталоги, боты и демо-проекты. Разборы кейсов с задачей, стеком и ссылкой на живой сайт.`,
+    `Портфолио веб-разработчика: ${PROJECTS_TOTAL} проектов в проде, магазины на WooCommerce, корпоративные сайты, каталоги, боты. Разборы кейсов со стеком и ссылкой на сайт.`,
   alternates: { canonical: "/works" },
   openGraph: {
     type: "website",

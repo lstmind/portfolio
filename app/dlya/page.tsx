@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { INDUSTRY_PAGES } from "@/lib/industries";
-import { SITE, plural } from "@/lib/content";
+import { SITE, TITLE_TAIL, plural } from "@/lib/content";
 import { Figure } from "@/components/v4/Figure";
 import { Crumbs, FinalCta, Go, Sign, TgButton, Word } from "@/components/v4/dlya/parts";
 import { HUB_FALLBACK, leadSite, serviceSite, serviceWord, sitesOf, wordOf } from "@/components/v4/dlya/data";
@@ -21,9 +21,9 @@ const OG_TEXT =
   `${N_SITES} ${plural(N_SITES, ["живой сайт", "живых сайта", "живых сайтов"])} можно открыть, цены и сроки по каждой нише.`;
 
 export const metadata: Metadata = {
-  title: "Сайты по нишам: общепит, салоны, производство, магазины | lstmind",
+  title: `Сайты для бизнеса по нишам: кафе, салоны, производство${TITLE_TAIL}`,
   description:
-    "Ниши, в которых уже работал: кафе и бары, салоны красоты, производство, окна, мебель, доставка еды, перевозки, магазины одежды, ремонт. У каждой свои обязательные блоки, цена и срок.",
+    "Сайты для кафе и баров, салонов красоты, производства, окон, мебели, доставки еды, перевозок, одежды и ремонта. Свои блоки, цена и срок для каждой ниши.",
   alternates: { canonical: "/dlya" },
   openGraph: {
     type: "website",
@@ -105,7 +105,7 @@ export default function IndustriesIndex() {
             <Word text="Сайты для" />
           </div>
           <p className="dl-answer">
-            Сайт кафе, салона и завода устроены по-разному: разный путь до заявки, разные обязательные блоки, разная цена
+            Сайты кафе, салона и завода устроены по-разному: разный путь до заявки, разные обязательные блоки, разная цена
             ошибки. Вот {n}
             {NB}
             {plural(n, ["ниша", "ниши", "ниш"])}, в которых у меня уже есть готовые проекты, с ценами, сроками и примерами.

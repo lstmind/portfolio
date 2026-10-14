@@ -1,7 +1,8 @@
 import type { Metadata, Viewport } from "next";
 import Script from "next/script";
 import { Fira_Sans_Condensed, Montserrat } from "next/font/google";
-import { SITE, PROJECTS_TOTAL } from "@/lib/content";
+import { SITE, PROJECTS_TOTAL, TITLE_TAIL, priceNumber } from "@/lib/content";
+import { serviceBySlug } from "@/lib/services";
 import { liveSitesWord, SITE_FROM } from "@/lib/home";
 import { PROFI_STATS, PROFI_URL } from "@/lib/reviews";
 import { YM_ID } from "@/lib/metrika";
@@ -40,8 +41,8 @@ const sans = Montserrat({
 export const metadata: Metadata = {
   metadataBase: new URL(SITE.url),
   // запрос впереди, бренд в хвост: в выдаче видно первые ~60 знаков, и имя там ничего не ловит
-  title: "Веб-разработчик в Москве: сайты под ключ, ремонт чужих | lstmind",
-  description: `Веб-разработчик на фрилансе: сайты под ключ ${FROM}, магазины, боты, починка и ускорение чужих сайтов. Работаю один, ${LIVE}, договор и чек.`,
+  title: `Веб-разработчик в Москве: создание и доработка сайтов${TITLE_TAIL}`,
+  description: `Создаю сайты под ключ ${FROM}, интернет-магазины и Telegram-ботов, дорабатываю и ускоряю чужие сайты. Работаю один, ${LIVE}, договор и чек.`,
   keywords: [
     "веб-разработчик",
     "сайт под ключ",
@@ -93,6 +94,9 @@ export const viewport: Viewport = {
  * одного человека, а не три разных описания на трёх страницах. Person здесь
  * канонический, остальные страницы ссылаются на него по `${SITE.url}#person`.
  */
+/** нижняя цена сайта числом, из страницы "Сайт под ключ": разметка не расходится с ценой на сайте */
+const SITE_MIN = priceNumber(serviceBySlug("sayt-pod-klyuch")!.price.value);
+
 const jsonLd = {
   "@context": "https://schema.org",
   "@graph": [
@@ -133,11 +137,11 @@ const jsonLd = {
       makesOffer: {
         "@type": "Offer",
         priceCurrency: "RUB",
-        price: 30000,
+        price: SITE_MIN,
         priceSpecification: {
           "@type": "PriceSpecification",
           priceCurrency: "RUB",
-          minPrice: 30000,
+          minPrice: SITE_MIN,
           valueAddedTaxIncluded: false,
         },
         url: `${SITE.url}/uslugi`,

@@ -5,6 +5,9 @@ import { CaseIsland } from "./islands";
 import "./works.css";
 import "./works-ill.css";
 
+/** высота верхнего кадра ленты при ширине 390: чуть больше экрана карточки (390x844) */
+const TOP_H = 860;
+
 const pad = (n: number) => String(n).padStart(2, "0");
 /** длина самого длинного слова: по ней ужимается кегль, чтобы слово не рвалось посередине */
 const longest = (t: string) => Math.max(...t.split(" ").map((w) => w.length));
@@ -45,6 +48,7 @@ export function Case({ v }: { v: CaseView }) {
   const ptOf = (i: number) => points.findIndex((p) => p.i === i);
   const tallSet = `${tall.base}-390.webp 390w, ${tall.base}-600.webp 600w, ${tall.base}-780.webp 780w`;
   const tallSizes = "(max-width: 699px) 72vw, 380px";
+  const topSet = `${tall.base}-top-390.webp 390w, ${tall.base}-top-600.webp 600w, ${tall.base}-top-780.webp 780w`;
   /* сцена со схемой стоит у "Как устроено", а где этого блока нет, у "Что сделано" */
   const schemeAt = c.detail ? "detail" : "done";
   /* лента кропов: после списка, а у длинного списка (больше 8 пунктов) сразу под словом, чтобы на телефоне
@@ -59,10 +63,12 @@ export function Case({ v }: { v: CaseView }) {
               <span className="w-card__screen">
                 <span className="w-crop__roll">
                   {/* eslint-disable-next-line @next/next/no-img-element */}
+                  {/* тот же файл, что и лента: адрес ставит works.run.ts вместе с лентой, иначе ленивая
+                      загрузка браузера тянет его ещё до отрисовки первого экрана */}
                   <img
-                    src={`${tall.base}-390.webp`}
-                    srcSet={tallSet}
-                    sizes={tallSizes}
+                    data-src={`${tall.base}-390.webp`}
+                    data-srcset={tallSet}
+                    data-sizes={tallSizes}
                     width={390}
                     height={tall.h}
                     alt=""
@@ -125,14 +131,24 @@ export function Case({ v }: { v: CaseView }) {
             }
           >
             <span className="w-card__screen">
-              <span className="w-card__roll">
+              {/* лента высотой в весь скрин: место занято сразу (aspect-ratio), первым грузится лёгкий верхний кадр,
+                  саму ленту works.run.ts подставляет после загрузки страницы (data-src) */}
+              <span
+                className="w-card__roll"
+                data-src={`${tall.base}-390.webp`}
+                data-srcset={tallSet}
+                data-sizes={tallSizes}
+                data-h={tall.h}
+                style={{ aspectRatio: `390 / ${tall.h}` }}
+              >
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
-                  src={`${tall.base}-390.webp`}
-                  srcSet={tallSet}
+                  className="w-card__top"
+                  src={`${tall.base}-top-390.webp`}
+                  srcSet={topSet}
                   sizes={tallSizes}
                   width={390}
-                  height={tall.h}
+                  height={TOP_H}
                   alt={`${alt}: мобильная версия целиком`}
                   decoding="async"
                   fetchPriority="high"

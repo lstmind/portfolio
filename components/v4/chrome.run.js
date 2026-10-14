@@ -49,10 +49,13 @@ export function runHashHold() {
 }
 
 /* after: после какой кнопки язычок появляется (нет на странице: после первого экрана);
-   until: перед каким заголовком уезжает (нет: перед подвалом) */
+   until: перед каким заголовком уезжает (нет: перед подвалом).
+   В тот же момент на десктопе пункт Telegram в шапке становится красной плашкой (класс is-cta у шапки, header.css):
+   кнопка героя ушла из кадра, а до финала со своей кнопкой ещё далеко. На телефоне плашки нет, там язычок */
 export function runTongue(dock, after, until) {
   var heroCta = after ? document.querySelector(after) : null;
   var title = (until && document.querySelector(until)) || document.getElementById('footer');
+  var top = document.querySelector('header.top');
   var on = null, rq = 0;
   function onScroll() {
     rq = 0;
@@ -63,6 +66,7 @@ export function runTongue(dock, after, until) {
     if (v === on) return;
     on = v;
     dock.classList.toggle('is-on', v);
+    if (top) top.classList.toggle('is-cta', v);
     if (v) { dock.removeAttribute('aria-hidden'); dock.removeAttribute('tabindex'); }
     else { dock.setAttribute('aria-hidden', 'true'); dock.setAttribute('tabindex', '-1'); }
   }
@@ -75,6 +79,7 @@ export function runTongue(dock, after, until) {
     removeEventListener('scroll', req);
     removeEventListener('resize', req);
     dock.classList.remove('is-on');
+    if (top) top.classList.remove('is-cta');
     dock.setAttribute('aria-hidden', 'true'); dock.setAttribute('tabindex', '-1');
   };
 }

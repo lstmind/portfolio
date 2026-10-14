@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
-import { SERVICE_PAGES } from "@/lib/services";
+import { SERVICE_PAGES, serviceBySlug } from "@/lib/services";
 import { INDUSTRY_PAGES } from "@/lib/industries";
-import { SITE, NOT_DOING } from "@/lib/content";
+import { SITE, NOT_DOING, TITLE_TAIL } from "@/lib/content";
 import { RATE, SITE_FROM } from "@/lib/home";
 import { Figure } from "@/components/v4/Figure";
 import { Crumbs, FinalCta, Go, TgButton, Word } from "@/components/v4/uslugi/bits";
@@ -15,13 +15,14 @@ import { NichesIsland, SignsIsland, StrikeIsland, WordsIsland } from "@/componen
  * ссылками с главной, а /uslugi отдавал 404 — крошкам было некуда вести,
  * а вес с главной размазывался на шестнадцать адресов сразу.
  */
+/** цена сайта под ключ из его страницы: "от 30 000 ₽" */
+const FROM = serviceBySlug("sayt-pod-klyuch")!.price.value;
 const OG_TITLE = "Что делаю и сколько это стоит";
 const OG_TEXT = `Сайты ${SITE_FROM}, магазины, боты, админки, починка и ускорение чужих сайтов. У каждой услуги своя цена и срок, ставка ${RATE}, договор и чек.`;
 
 export const metadata: Metadata = {
-  title: "Услуги веб-разработчика: цены и сроки | lstmind",
-  description:
-    "Что делаю и сколько это стоит: сайты под ключ от 30 000 ₽, магазины, корпоративные сайты, боты, админки, починка и ускорение чужих сайтов. Цена и срок по каждой услуге, Москва и вся Россия.",
+  title: `Услуги веб-разработчика: цены на создание сайтов и сроки${TITLE_TAIL}`,
+  description: `Создание сайтов под ключ ${FROM}, магазины, боты, админки, доработка и ускорение чужих сайтов. Цена и срок по каждой услуге, Москва и вся Россия.`,
   alternates: { canonical: "/uslugi" },
   openGraph: {
     type: "website",
@@ -84,8 +85,8 @@ export default function ServicesIndex() {
           <Crumbs items={[{ name: "Главная", href: "/" }]} />
           <Word as="h1" text="Услуги" id="u-h1" />
           <p className="u-answer">
-            {SERVICE_PAGES.length} направлений: от сайта под ключ за 30{NB}000{NB}₽ до админки с{NB}CRM. У{NB}каждой страницы своя
-            цена, свой срок и примеры работ. Если задача на стыке, напишите: разберём и скажу, с чего начинать.
+            Делаю сайты под ключ {FROM.replace(/ /g, NB)}, магазины и{NB}ботов, дорабатываю и{NB}ускоряю чужие сайты. У{NB}каждого
+            из{NB}{SERVICE_PAGES.length} направлений своя цена, свой срок и примеры работ. Если задача на стыке, напишите: разберём и скажу, с чего начинать.
           </p>
           <ul className="u-meta">
             <li>

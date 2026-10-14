@@ -263,6 +263,60 @@ export function runCase(root: HTMLElement): Off {
   let lock = -1;
   const active = () => (lock >= 0 ? lock : hover);
 
+  /* длинная лента: сначала стоит лёгкий верхний кадр (постер, он и есть LCP), сама лента (сотни КБ)
+     подставляется после загрузки страницы и показывается, когда уже разжата; до неё скрин не едет */
+  let full = !roll?.dataset.src;
+  let long: HTMLImageElement | null = null;
+  function loadLong() {
+    if (dead) return;
+    if (!full && !long && roll) addLong(roll);
+    // кадры ленты кропов: тот же файл, что у ленты, запрос один
+    crops.forEach((c) => {
+      const im = c.querySelector<HTMLImageElement>("img[data-src]");
+      if (!im || im.getAttribute("src")) return;
+      im.sizes = im.dataset.sizes || "";
+      im.srcset = im.dataset.srcset || "";
+      im.src = im.dataset.src || "";
+    });
+  }
+  function addLong(roll: HTMLElement) {
+    const d = roll.dataset;
+    const im = (long = document.createElement("img"));
+    im.className = "w-card__long";
+    im.alt = "";
+    im.decoding = "async";
+    im.draggable = false;
+    im.width = 390;
+    im.height = Number(d.h) || 0;
+    im.sizes = d.sizes || "";
+    im.srcset = d.srcset || "";
+    im.src = d.src || "";
+    const done = () => {
+      if (dead || full) return;
+      full = true;
+      card?.classList.add("is-full");
+      // сдвиг пишем только там, где скрин ведёт скрипт; на телефоне его ведёт анимация w-roll
+      if (pin || (deskMQ.matches && active() >= 0)) apply();
+    };
+    im.decode().then(done, () => {
+      if (im.complete && im.naturalWidth) done();
+      else on(im, "load", done, { once: true });
+    });
+    roll.prepend(im);
+  }
+  /* не сразу на load: тяжёлая лента не должна попадать в окно LCP (на быстром соединении load наступает
+     раньше отрисовки, и PageSpeed считает её частью загрузки). первые ~2 с скрин всё равно стоит
+     (пауза в начале w-roll), а прокрутка или касание подгружают ленту сразу */
+  let longT = 0;
+  const later = () => {
+    if (!longT) longT = window.setTimeout(loadLong, 1500);
+  };
+  if (document.readyState === "complete") later();
+  else on(window, "load", later, { once: true });
+  on(window, "scroll", loadLong, { passive: true, once: true });
+  on(window, "pointerdown", loadLong, { passive: true, once: true });
+  offs.push(() => clearTimeout(longT));
+
   /** доля прокрутки скрина, при которой рамка пункта k стоит посреди карточки */
   function pointTarget(k: number) {
     if (!roll || !card) return 0;
@@ -281,7 +335,7 @@ export function runCase(root: HTMLElement): Off {
   }
   const target = () => (active() >= 0 ? pointTarget(active()) : scrollTarget());
   function apply() {
-    if (!roll || !card) return;
+    if (!roll || !card || !full) return;
     const shift = roll.offsetHeight - card.clientHeight;
     roll.style.transform = `translate3d(0,${(-cur * Math.max(0, shift)).toFixed(1)}px,0)`;
   }
@@ -432,8 +486,9 @@ export function runCase(root: HTMLElement): Off {
     offs.forEach((f) => f());
     if (flowOff) flowOff();
     root.classList.remove("is-js", "is-pin", "is-show");
-    if (card) card.classList.remove("is-live");
+    if (card) card.classList.remove("is-live", "is-full");
     if (roll) roll.style.transform = "";
+    if (long) long.remove();
     items.forEach((li) => li.classList.remove("is-on"));
     marks.forEach((m) => m.classList.remove("is-on"));
   };

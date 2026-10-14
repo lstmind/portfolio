@@ -12,6 +12,14 @@ const ARROW =
   '<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.9" aria-hidden="true"><path d="M4.5 11.5l7-7M5.5 4.5h6v6"/></svg>';
 
 /**
+ * Ширина портрета для выбора файла. Телефоны с плотностью от 2,5 берут файл не больше 1400 (569w):
+ * 1968 там на глаз не отличить, а он почти вдвое тяжелее. Тот же потолок держит hero.run.js, когда
+ * после раскладки пишет точную ширину в sizes.
+ */
+const ME_SIZES =
+  "(max-width: 699px) and (min-resolution: 2.5dppx) 189px, (max-width: 699px) calc((100svh - 300px) * .41), calc(100vh * .36)";
+
+/**
  * Разметка героя целиком строкой: её сразу, ещё до гидрации, берёт скрипт карусели (как в статике),
  * двигает карточки, пишет буквы и переменные геометрии. React эту часть не сверяет и не перерисовывает:
  * dangerouslySetInnerHTML + suppressHydrationWarning, своё состояние у кода героя.
@@ -23,8 +31,8 @@ function heroHtml() {
   const cards = HERO_SITES.map(
     (s) =>
       `<a class="card" href="${esc(s.href)}" target="_blank" rel="noopener" aria-label="${esc(`${s.name}, ${s.host}, откроется в новой вкладке`)}" draggable="false" data-name="${esc(s.name)}" data-host="${esc(s.host)}">` +
-      `<img class="sharp" alt="" draggable="false" decoding="async" src="${IMG}${s.img}-240.webp" srcset="${IMG}${s.img}-240.webp 240w, ${IMG}${s.img}-400.webp 400w" sizes="(max-width: 699px) 190px, 220px">` +
-      `<img class="soft" alt="" draggable="false" decoding="async" src="${IMG}${s.img}-blur.webp">` +
+      `<img class="sharp" alt="" draggable="false" decoding="async" fetchpriority="low" src="${IMG}${s.img}-240.webp" srcset="${IMG}${s.img}-240.webp 240w, ${IMG}${s.img}-400.webp 400w" sizes="(max-width: 699px) 190px, 220px">` +
+      `<img class="soft" alt="" draggable="false" decoding="async" fetchpriority="low" src="${IMG}${s.img}-blur.webp">` +
       `<span class="fog"></span></a>`,
   ).join("");
   const boot = `(function(){var run=${heroRun.toString()};window.__v4hero=run;var h=document.getElementById('hero');if(h&&!h.__v4run)h.__v4run=run(h);})();`;
@@ -32,7 +40,7 @@ function heroHtml() {
     `<h1 class="word"><span class="sr">${esc(title)}</span><span class="word-in" id="word"></span></h1>` +
     `<div class="ring" id="ring" role="group" aria-label="Мои сайты, тяните в сторону"><div class="track" id="cards">${cards}</div></div>` +
     `<div class="figs" id="figs">` +
-    `<img class="me" id="me" alt="Алексей, веб-разработчик" fetchpriority="high" decoding="async" width="400" height="984" srcset="${poseSrcSet("j1")}" sizes="(max-width: 699px) calc((100svh - 300px) * .41), calc(100vh * .36)" src="${poseSrc("j1")}">` +
+    `<img class="me" id="me" alt="Алексей, веб-разработчик" fetchpriority="high" decoding="async" width="400" height="984" srcset="${poseSrcSet("j1")}" sizes="${ME_SIZES}" src="${poseSrc("j1")}">` +
     `<img class="me alt" id="me2" alt="" aria-hidden="true" decoding="async">` +
     `<img class="me alt" id="me3" alt="" aria-hidden="true" decoding="async">` +
     `</div>` +
