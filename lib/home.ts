@@ -3,7 +3,7 @@
  * Факты (названия, адреса, цены, ставка, тексты вопросов) не дублируются, а берутся из
  * content.ts, services.ts и industries.ts: поменяли там, поменялось и здесь.
  */
-import { SITE, SERVICES, LIVE_SITES, PROJECTS_TOTAL, FAQ, hostOf, plural } from "./content";
+import { SITE, SERVICES, LIVE_SITES, PROJECTS_ALL, PROJECTS_TOTAL, FAQ, hostOf, plural } from "./content";
 import { serviceBySlug } from "./services";
 import { INDUSTRY_PAGES } from "./industries";
 
@@ -31,7 +31,8 @@ export const liveSitesWord = (n = PROJECTS_TOTAL) => plural(n, ["живой са
 
 /** первое слово заголовка по кругу; второе всегда "сайты" */
 export const HERO_WORDS = ["делаю", "чиню", "ускоряю"];
-export const HERO_SIDES = ["работаю один", `${PROJECTS_TOTAL} ${liveSitesWord()}`];
+/** подписи у фигуры построчно: справа общий опыт, а не число живых сайтов (оно в блоке работ и на /works) */
+export const HERO_SIDES = [["работаю один"], [`${PROJECTS_ALL} проектов`, "и доработок"]];
 
 /** карточки на дуге: превью первых экранов в /img/v4/<img>-240|400|blur.webp */
 const HERO_RING: { img: string; href: string }[] = [

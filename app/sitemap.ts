@@ -16,6 +16,9 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${SITE.url}/uslugi`, changeFrequency: "weekly", priority: 0.9 },
     { url: `${SITE.url}/works`, changeFrequency: "weekly", priority: 0.9 },
     { url: `${SITE.url}/dlya`, changeFrequency: "monthly", priority: 0.8 },
+    { url: `${SITE.url}/obo-mne`, changeFrequency: "monthly", priority: 0.7 },
+    { url: `${SITE.url}/politika`, changeFrequency: "yearly", priority: 0.3 },
+    { url: `${SITE.url}/soglasie`, changeFrequency: "yearly", priority: 0.3 },
     ...SERVICE_PAGES.map((s) => ({
       url: `${SITE.url}/uslugi/${s.slug}`,
      

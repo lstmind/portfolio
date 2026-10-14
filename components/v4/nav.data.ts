@@ -93,4 +93,5 @@ export const NAV_META = {
   nicheSites: `${nNicheSites}${NB}${plural(nNicheSites, ["живой сайт", "живых сайта", "живых сайтов"])} в${NB}них`,
   prices: `сайт ${site.price.value.replace(/ /g, NB)}`,
   rate: `час работы ${RATE}`,
+  about: `контакты и${NB}реквизиты`,
 };

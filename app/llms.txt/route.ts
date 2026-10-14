@@ -1,9 +1,10 @@
-import { SITE, STACK, WORKS, WORKS_INDEX, FAQ, NOT_DOING, REVIEWS, PROJECTS_TOTAL } from "@/lib/content";
+import { SITE, STACK, WORKS, WORKS_INDEX, FAQ, NOT_DOING, REVIEWS, PROJECTS_TOTAL, plural, PROJECTS_ALL, PROJECTS_ALL_LABEL, PROJECTS_ALL_NOTE } from "@/lib/content";
 import { SERVICE_PAGES } from "@/lib/services";
 import { PROFI_URL, PROFI_STATS } from "@/lib/reviews";
 import { CASE_PAGES } from "@/lib/cases";
 import { INDUSTRY_PAGES } from "@/lib/industries";
 import { RATE } from "@/lib/home";
+import { EDU, PERSON, SINCE } from "@/components/v4/about/data";
 
 /**
  * /llms.txt — короткая машинная выжимка о том, кто я и что делаю.
@@ -46,9 +47,10 @@ export function GET() {
 
   const body = `# lstmind — Алексей, веб-разработчик на фрилансе
 
-> Делаю сайты с нуля и чиню чужие. Работаю один: от структуры до релиза, без передачи по цепочке подрядчиков. Больше пяти лет в коммерческой разработке, ${PROJECTS_TOTAL} живых проектов в портфолио.
+> Делаю сайты с нуля и чиню чужие. Работаю один: от структуры до релиза, без передачи по цепочке подрядчиков. Делаю сайты с ${SINCE} года, за это время ${PROJECTS_ALL} ${PROJECTS_ALL_LABEL} (${PROJECTS_ALL_NOTE}), из них ${PROJECTS_TOTAL} ${plural(PROJECTS_TOTAL, ["живой сайт", "живых сайта", "живых сайтов"])} можно открыть по ссылке из портфолио.
 
-Язык работы: русский. Где работаю: Москва и вся Россия удалённо. Оформление: самозанятый, договор и чек.
+Полное имя: ${PERSON.name}. Учился в ${EDU.short}: ${EDU.text.charAt(0).toLowerCase()}${EDU.text.slice(1)}
+Язык работы: русский. Где работаю: ${PERSON.where}, заказчики по всей России удалённо. Оформление: самозанятый, договор и чек.
 
 ## Куда смотреть
 
@@ -56,12 +58,15 @@ export function GET() {
 - [Все услуги с ценами](${SITE.url}/uslugi) — ${SERVICE_PAGES.length} направлений, у каждого своя страница
 - [Все работы](${SITE.url}/works) — разборы проектов и полный список живых сайтов
 - [Ниши](${SITE.url}/dlya) — как устроен сайт в конкретной отрасли
+- [Обо мне и контакты](${SITE.url}/obo-mne) — кто делает сайты, стек, учёба, все способы связи и реквизиты для договора
+- [Политика обработки данных](${SITE.url}/politika) — что происходит с заявкой и данными из формы
 - [Telegram](${SITE.telegram}) — быстрее всего написать сюда, отвечаю в течение часа
 - [Профиль на Kwork](${SITE.kwork}) — отзывы и рейтинг, которые можно проверить
 - [Профиль на Профи](${PROFI_URL}) — ещё отзывы, рейтинг ${PROFI_STATS.rating.replace(".", ",")} из ${PROFI_STATS.count}
 - [GitHub](${SITE.github}) — код части проектов открыт
 
 Почта: ${SITE.email}
+Телефон: ${PERSON.phone}
 
 ## Чем занимаюсь
 
@@ -101,7 +106,7 @@ ${quotes}
 
 ## Как со мной связаться
 
-Быстрее всего — Telegram ${SITE.telegramHandle}. Отвечаю в течение часа в рабочее время. Форма заявки есть на сайте, письмо тоже дойдёт: ${SITE.email}.
+Быстрее всего — Telegram ${SITE.telegramHandle}. Отвечаю в течение часа в рабочее время. Форма заявки есть на сайте, письмо тоже дойдёт: ${SITE.email}. Если удобнее голосом: ${PERSON.phone}. Все контакты и реквизиты: ${SITE.url}/obo-mne
 `;
 
   return new Response(body, {

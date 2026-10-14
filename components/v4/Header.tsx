@@ -63,7 +63,7 @@ function Price({ p }: { p: { pre: string; value: string; unit: string } }) {
 }
 
 /**
- * Шапка одна на весь сайт: логотип, разделы, Telegram.
+ * Шапка одна на весь сайт: логотип, разделы, "Обо мне", Telegram.
  * Услуги и Ниши раскрывают панель (наведение с задержкой, клик, Enter), Работы и Цены ведут сразу.
  * На телефоне разделы прячутся в кнопку "Меню": полноэкранный лист с крупными словами и пилюлями.
  * inner: страница не главная (цены тогда ведут на прайс хаба услуг, а не на якорь главной).
@@ -163,6 +163,10 @@ export function Header({ inner = false, current }: { inner?: boolean; current?: 
           </div>
 
           <a href={prices}>Цены</a>
+
+          <a href="/obo-mne" aria-current={cur("/obo-mne")}>
+            Обо мне
+          </a>
         </nav>
 
         <button type="button" className="top-menu" aria-expanded="false" aria-controls="ns" aria-haspopup="dialog">
@@ -209,6 +213,12 @@ export function Header({ inner = false, current }: { inner?: boolean; current?: 
               <a href={prices}>
                 <span className="ns-w">Цены</span>
                 <span className="ns-m">{NAV_META.prices}</span>
+              </a>
+            </li>
+            <li>
+              <a href="/obo-mne" aria-current={cur("/obo-mne")}>
+                <span className="ns-w">Обо мне</span>
+                <span className="ns-m">{NAV_META.about}</span>
               </a>
             </li>
           </ul>

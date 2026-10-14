@@ -1,6 +1,7 @@
 import { SITE, CALC } from "@/lib/content";
 import { FAQ_HOME } from "@/lib/home";
 import { IMG } from "../Figure";
+import { tie } from "../typo";
 import { FinalIsland } from "./islands";
 import "./final.css";
 
@@ -167,7 +168,11 @@ export function Final() {
                 decoding="async"
               />
               <div>
-                <b>{SITE.person}</b>
+                <b>
+                  <a className="final-name" href="/obo-mne">
+                    {SITE.person}
+                  </a>
+                </b>
                 <span>{SITE.telegramHandle} · отвечаю сам</span>
               </div>
             </div>
@@ -186,11 +191,12 @@ export function Final() {
               <input className="final-hp" type="text" name="company" tabIndex={-1} autoComplete="off" aria-hidden="true" />
               <div className="final-f">
                 <label htmlFor="final-name">Как вас зовут</label>
-                <input id="final-name" name="name" type="text" autoComplete="name" placeholder="Имя" required minLength={2} />
+                <input className="ym-disable-keys" id="final-name" name="name" type="text" autoComplete="name" placeholder="Имя" required minLength={2} />
               </div>
               <div className="final-f">
                 <label htmlFor="final-contact">Как связаться</label>
                 <input
+                  className="ym-disable-keys"
                   id="final-contact"
                   name="contact"
                   type="text"
@@ -202,11 +208,17 @@ export function Final() {
               </div>
               <div className="final-f">
                 <label htmlFor="final-task">Что нужно сделать</label>
-                <textarea id="final-task" name="task" rows={3} placeholder="Своими словами. Если сайт уже есть, пришлите ссылку" />
+                <textarea className="ym-disable-keys" id="final-task" name="task" rows={3} placeholder="Своими словами. Если сайт уже есть, пришлите ссылку" />
               </div>
               <button className="final-send" type="submit">
                 Отправить
               </button>
+              <p className="final-consent">
+                {tie('Нажимая "Отправить", вы даёте ')}
+                <a href="/soglasie">{tie("согласие на обработку данных")}</a>
+                {tie(" из заявки. Как я с ними обращаюсь, написано в ")}
+                <a href="/politika">политике</a>.
+              </p>
               <p className="final-status" id="final-status" role="status" />
             </form>
             <div className="final-foot">

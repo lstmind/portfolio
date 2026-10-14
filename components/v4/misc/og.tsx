@@ -349,11 +349,11 @@ const svcBy = (slug: string) => {
 };
 const priceChip = (label: string, s: ServicePage): ChipT => ({ label, big: s.price.value });
 
-/** главная: машет на фоне своих сайтов, "ДЕЛАЮ САЙТЫ", работаю один и число живых сайтов */
+/** главная: машет на фоне своих сайтов, "ДЕЛАЮ САЙТЫ", работаю один и общий опыт, те же строки, что у фигуры в герое */
 export function ogHome() {
   return v2({
     title: "Делаю сайты",
-    facts: { note: HERO_SIDES },
+    facts: { note: HERO_SIDES.flat() },
     fig: "j1",
     sites: pickSites(HERO_SITES.map((s) => `/img/v4/${s.img}`), 4),
   });

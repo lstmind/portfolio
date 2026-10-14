@@ -1,6 +1,7 @@
 import { SITE, PROJECTS_TOTAL, plural } from "@/lib/content";
 import { FOOTER_NICHES } from "@/lib/home";
 import { PROFI_URL } from "@/lib/reviews";
+import { OWNER } from "@/lib/legal";
 import { Figure } from "./Figure";
 import { FooterIsland } from "./islands";
 import { APO_VB, LOGO_APO } from "./logo.paths";
@@ -22,12 +23,20 @@ export function Footer() {
       <div className="footer-in">
         <nav className="footer-nav" aria-label="Подвал">
           <div>
-            <p className="footer-h">Связь</p>
+            <a className="footer-h" href="/obo-mne#svyaz">
+              Связь
+              <Out />
+            </a>
             <ul>
               <li>
                 <a className="footer-a footer-tg" href={SITE.telegram} target="_blank" rel="noopener">
                   Telegram <small>{SITE.telegramHandle}</small>
                   <Out />
+                </a>
+              </li>
+              <li>
+                <a className="footer-a footer-tel" href={OWNER.phoneHref}>
+                  {OWNER.phone}
                 </a>
               </li>
               <li>
@@ -66,6 +75,11 @@ export function Footer() {
               <li>
                 <a className="footer-a" href="/uslugi">
                   Услуги и цены
+                </a>
+              </li>
+              <li>
+                <a className="footer-a" href="/obo-mne">
+                  Обо мне и контакты
                 </a>
               </li>
             </ul>
@@ -123,6 +137,10 @@ export function Footer() {
           <a href={`${SITE.github}/portfolio`} target="_blank" rel="noopener">
             Этот сайт тоже собрал я, код открыт ↗
           </a>
+          <span className="footer-legal">
+            <a href="/politika">Политика</a>
+            <a href="/soglasie">Согласие</a>
+          </span>
           <a href="#" id="footer-up">
             Наверх ↑
           </a>

@@ -11,7 +11,7 @@
 .s-process .process-sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
 .s-process .process-stage{position:relative;padding:88px 0 40px}
 
-/* подписи сверху, как "работаю один / 36 живых сайтов" */
+/* подписи сверху, как "работаю один / 100+ проектов" */
 .s-process .process-head{display:flex;justify-content:space-between;align-items:center;gap:16px;padding:0 var(--process-pad)}
 .s-process .process-label,.s-process .process-count{font:700 13px/1.2 var(--sans);letter-spacing:.04em;text-transform:uppercase;margin:0}
 .s-process .process-count{display:flex;align-items:center;gap:6px;font-variant-numeric:tabular-nums;color:var(--ink-2)}
@@ -141,7 +141,7 @@
 .s-process.is-pin .process-more{position:absolute;left:var(--process-lx);top:calc(var(--process-lb) + 26px);transition:opacity .2s ease-in,transform .2s ease-in}
 .s-process.is-pin .process-floor{position:absolute;left:0;right:0;top:calc(var(--process-sole) - 1px);z-index:1}
 .s-process.is-pin .process-count{display:none}
-/* спецификация: две подписи у колен под наклоном, как "работаю один / 36 живых сайтов" в герое */
+/* спецификация: две подписи у колен под наклоном, как "работаю один / 100+ проектов" в герое */
 .s-process.is-pin .process-spec{position:absolute;inset:0;margin:0;padding:0;pointer-events:none;color:var(--ink);
   font:700 clamp(13px,1.15vw,16px)/1.2 var(--sans);letter-spacing:.03em}
 .s-process.is-pin .process-spec i{display:none}

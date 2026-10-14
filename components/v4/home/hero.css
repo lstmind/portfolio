@@ -38,7 +38,7 @@
   image-rendering:auto}
 
 /* подписи по бокам */
-.side{position:absolute;z-index:4;top:var(--side-y);font:700 clamp(13px,1.2vw,17px)/1 var(--sans);letter-spacing:.03em;text-transform:uppercase;white-space:nowrap;pointer-events:none}
+.side{position:absolute;z-index:4;top:var(--side-y);font:700 clamp(13px,1.2vw,17px)/1.15 var(--sans);letter-spacing:.03em;text-transform:uppercase;white-space:nowrap;pointer-events:none}
 .side-l{right:calc(50% + var(--side-x));transform:rotate(-4deg);transform-origin:right center}
 .side-r{left:calc(50% + var(--side-x));transform:rotate(4deg);transform-origin:left center}
 
@@ -114,6 +114,8 @@ html:root .cap.r{left:calc(50% + var(--side-x))}
   html:root .hero{--side-y:75.5%}
   html:root .side{white-space:normal;width:6.2em;line-height:1.18}
   html:root .side-r{text-align:right}
+  /* справа две строки по разметке ("100+ проектов / и доработок"), без своих переносов */
+  html:root .side-r{width:auto;white-space:nowrap}
   /* на телефоне место сбоку узкое: имя сверху, адрес снизу */
   html:root .cap{display:grid;grid-template-columns:auto auto;justify-content:start;column-gap:8px;row-gap:4px;
     padding:9px 12px 10px;border-radius:14px;font-size:13px;white-space:normal;max-width:136px;top:calc(var(--side-y) - 6px)}

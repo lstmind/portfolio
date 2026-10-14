@@ -16,7 +16,7 @@ const OG_TEXT = `Магазины, сайты компаний, каталоги
 export const metadata: Metadata = {
   title: `Портфолио веб-разработчика: ${PROJECTS_TOTAL} ${liveSitesWord()} и разборы${TITLE_TAIL}`,
   description:
-    `Портфолио веб-разработчика: ${PROJECTS_TOTAL} проектов в проде, магазины на WooCommerce, корпоративные сайты, каталоги, боты. Разборы кейсов со стеком и ссылкой на сайт.`,
+    `Портфолио веб-разработчика: ${PROJECTS_TOTAL} ${liveSitesWord()} можно открыть по ссылке. Магазины на WooCommerce, корпоративные сайты, каталоги, боты. Разборы кейсов со стеком.`,
   alternates: { canonical: "/works" },
   openGraph: {
     type: "website",
@@ -45,7 +45,7 @@ export default function WorksIndexPage() {
         "@type": "CollectionPage",
         "@id": `${SITE.url}/works#page`,
         name: "Работы",
-        description: `${PROJECTS_TOTAL} живых проектов и разборы кейсов`,
+        description: `${PROJECTS_TOTAL} ${liveSitesWord()} и разборы кейсов`,
         url: `${SITE.url}/works`,
         inLanguage: "ru",
         isPartOf: { "@id": `${SITE.url}#website` },

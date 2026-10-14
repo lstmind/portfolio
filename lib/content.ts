@@ -490,12 +490,21 @@ export const LIVE_SITES: { title: string; href: string; host: string }[] = (() =
   return out;
 })();
 
-/** сколько живых сайтов реально показано на странице */
+/** сколько живых сайтов реально показано на странице: только там, где речь про список, который открывается по ссылке */
 export const PROJECTS_TOTAL = LIVE_SITES.length;
+
+/**
+ * Общий опыт: проекты и доработки вместе, с мелкими задачами с Kwork, ботами, работами под NDA и сайтами,
+ * которых уже нет. Пишется "проектов и доработок", не "сайтов". Это про опыт (герой, цифры, превью, описания),
+ * а PROJECTS_TOTAL выше про конкретный список живых сайтов.
+ */
+export const PROJECTS_ALL = "100+";
+export const PROJECTS_ALL_LABEL = "проектов и доработок";
+export const PROJECTS_ALL_NOTE = "часть под NDA";
 
 export const FACTS = [
   { value: "5+", suffix: "", label: "лет в коммерческом коде" },
-  { value: String(PROJECTS_TOTAL), suffix: "", label: "живых проектов в портфолио" },
+  { value: PROJECTS_ALL, suffix: "", label: `${PROJECTS_ALL_LABEL}, ${PROJECTS_ALL_NOTE}` },
   { value: "5.0", suffix: "★", label: "средняя оценка по отзывам" },
   { value: "2000", suffix: "₽", label: "в час · по проекту фикс" },
 ];

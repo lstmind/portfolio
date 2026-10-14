@@ -1,0 +1,73 @@
+/* плашка cookie: бумажный стикер внизу слева (макет design-concepts/v4/about/mock/cookie-a.html, вариант А).
+   текст слева (обычное уведомление со ссылкой на политику), персонаж с печеньем стоит в углу на линии кнопки; внизу одна кнопка "Понятно" тушью.
+   красного нет: красный у Telegram, а плашка не главное действие. fixed: на вёрстку не влияет */
+.ck{position:fixed;z-index:18;left:24px;bottom:24px;width:400px;max-width:calc(100vw - 48px);background:#fff;color:var(--ink);
+  border:1.5px solid var(--ink);border-radius:22px;overflow:hidden;transform:rotate(-1.2deg);transform-origin:0 100%;
+  box-shadow:0 22px 44px -24px rgba(12,11,11,.45);-webkit-tap-highlight-color:transparent}
+.ck[hidden]{display:none}
+/* 400px: правый край плашки (424px) не заходит на колонку текста политики и согласия на 1280–1440 */
+.ck-top{display:grid;grid-template-columns:minmax(0,1fr) 140px;column-gap:6px;border-bottom:1.5px solid var(--ink)}
+.ck-txt{min-width:0;padding:20px 0 18px 22px}
+.ck-h{font:900 30px/.95 var(--display);text-transform:uppercase;letter-spacing:-.005em}
+.ck-p{margin-top:10px;font:600 13px/1.45 var(--sans);text-wrap:pretty}
+.ck-p a{text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:2px}
+@media (hover:hover){.ck-p a:hover{color:var(--red)}}
+.ck .ck-p a:focus-visible{outline:2px solid var(--red);outline-offset:2px;border-radius:2px}
+.ck-fig{align-self:end;justify-self:end;width:140px;margin:0 -1px -1px 0;pointer-events:none}
+.ck-fig img{display:block;width:100%;height:auto;-webkit-user-drag:none}
+.ck-btns{display:grid;grid-template-columns:1fr}
+.ck-ok{display:flex;align-items:center;justify-content:center;gap:10px;height:54px;font:700 15px/1 var(--sans);transition:background-color .15s ease-out}
+.ck-ok{appearance:none;border:0;border-radius:0;background:var(--ink);color:var(--paper);cursor:pointer}
+@media (hover:hover){
+  .ck-ok:hover{background:#2a2826}
+}
+.ck-ok:active{background:#2a2826}
+.ck .ck-ok:focus-visible{outline:2px solid var(--red);outline-offset:-5px;border-radius:6px}
+
+/* лист меню на телефоне открыт: плашка не лезет поверх */
+html.ns-lock .ck{visibility:hidden}
+
+/* телефон: полоса во всю ширину с полями 12px. Когда снизу выезжает язычок Telegram, плашка поднимается над ним
+   (язычок 52px + 12px зазор) и его кнопку не закрывает */
+@media (max-width:699px){
+  .ck{left:12px;right:12px;bottom:calc(12px + env(safe-area-inset-bottom));width:auto;max-width:none;transform:none;border-radius:20px}
+  html:has(#dock.is-on) .ck{translate:0 -52px}
+  .ck-top{grid-template-columns:minmax(0,1fr) 112px}
+  .ck-txt{padding:16px 0 14px 16px}
+  .ck-h{font-size:26px}
+  .ck-p{margin-top:8px}
+  .ck-fig{width:112px}
+  .ck-ok{height:50px}
+}
+@media (max-width:359px){
+  .ck-top{grid-template-columns:minmax(0,1fr) 88px}
+  .ck-fig{width:88px}
+  .ck-txt{padding:14px 0 12px 14px}
+  .ck-h{font-size:23px}
+  .ck-p{font-size:12.5px}
+}
+
+/* в кадре кнопка героя или финал, язычок убран (cookie.run.js): плашка уезжает вниз и их не закрывает */
+.ck.ck-park{visibility:hidden;opacity:0;transform:translateY(calc(100% + 40px)) rotate(-1.2deg)}
+@media (max-width:699px){
+  .ck.ck-park{transform:translateY(calc(100% + 80px))}
+}
+
+/* въезд снизу и уход после "Понятно": стикер клонится и падает вниз. без анимаций при reduced-motion */
+@media (prefers-reduced-motion:no-preference){
+  .ck{transition:transform .55s cubic-bezier(.16,1,.3,1),opacity .3s ease-out,translate .5s cubic-bezier(.16,1,.3,1),visibility 0s}
+  .ck.ck-park{transition:transform .32s cubic-bezier(.5,0,.75,0),opacity .32s ease-in,translate .5s cubic-bezier(.16,1,.3,1),visibility 0s linear .32s}
+  .ck.ck-in{animation:ck-in .55s cubic-bezier(.16,1,.3,1) both}
+  .ck.ck-out{animation:ck-out .3s cubic-bezier(.5,0,.75,0) both}
+  @keyframes ck-in{from{transform:translateY(calc(100% + 40px)) rotate(-1.2deg)}}
+  @keyframes ck-out{to{transform:translateY(40px) rotate(-6deg);opacity:0}}
+}
+@media (prefers-reduced-motion:no-preference) and (max-width:699px){
+  .ck.ck-in{animation-name:ck-in-m}
+  .ck.ck-out{animation-name:ck-out-m}
+  @keyframes ck-in-m{from{transform:translateY(calc(100% + 80px))}}
+  @keyframes ck-out-m{to{transform:translateY(36px) rotate(-2deg);opacity:0}}
+}
+@media (prefers-reduced-motion:reduce){
+  .ck,.ck.ck-park,.ck-ok{transition:none}
+}

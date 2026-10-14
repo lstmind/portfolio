@@ -8,6 +8,10 @@ const nextConfig: NextConfig = {
   output: "standalone",
   // отдельная папка сборки для замеров скорости, пока рядом работает dev-сервер (по умолчанию .next)
   distDir: process.env.NEXT_DIST_DIR || ".next",
+  // контакты живут на "Обо мне": привычные адреса не отдают 404. permanent даёт 308, вес переходит на новый адрес
+  async redirects() {
+    return ["/kontakty", "/about", "/contacts"].map((source) => ({ source, destination: "/obo-mne", permanent: true }));
+  },
 };
 
 export default nextConfig;

@@ -9,7 +9,7 @@
 .s-prices *{box-sizing:border-box}
 .s-prices .prices-sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
 
-/* шапка блока: две подписи, как "работаю один / 36 живых сайтов" в герое */
+/* шапка блока: две подписи, как "работаю один / 100+ проектов" в герое */
 .s-prices .prices-head{display:flex;justify-content:space-between;align-items:baseline;gap:16px;padding-bottom:16px}
 .s-prices .prices-head h2,.s-prices .prices-head p{font:700 13px/1.2 var(--sans);letter-spacing:.04em;text-transform:uppercase;margin:0}
 .s-prices .prices-head p{color:var(--ink-2);text-align:right}

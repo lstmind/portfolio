@@ -144,7 +144,7 @@
 
   .ns-big a{display:flex;justify-content:space-between;align-items:baseline;gap:12px;padding:10px 0 8px;border-bottom:1px solid rgba(12,11,11,.12);
     -webkit-tap-highlight-color:transparent}
-  .ns-w{font-family:var(--display);font-weight:900;text-transform:uppercase;font-size:clamp(46px,14.5vw,64px);line-height:.88;letter-spacing:-.005em}
+  .ns-w{font-family:var(--display);font-weight:900;text-transform:uppercase;font-size:clamp(46px,14.5vw,64px);line-height:.88;letter-spacing:-.005em;white-space:nowrap}
   .ns-m{font-weight:600;font-size:12px;color:var(--ink-2);text-align:right}
   .ns-big a[aria-current] .ns-w{text-decoration:underline;text-decoration-thickness:.06em;text-underline-offset:.08em}
   .ns-big a:active .ns-w{color:var(--ink-2)}

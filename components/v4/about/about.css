@@ -1,0 +1,333 @@
+/* страница "Обо мне": язык главной и услуг. крупное слово Fira 900 капсом, линейки во всю ширину, персонаж на своей линейке
+   рядом с текстом, не поверх. красный только на действии: язычок Telegram и большая кнопка Telegram в "Напишите". */
+.ab-page{--ab-pad:clamp(16px,2.6vw,40px);--ab-rule:rgba(12,11,11,.88);--ab-line:rgba(12,11,11,.14);--ab-ease:cubic-bezier(.16,1,.3,1);display:block}
+.ab-page section{scroll-margin-top:72px}
+.ab-cap{font:700 12px/1.25 var(--sans);letter-spacing:.06em;text-transform:uppercase;color:var(--ink-2)}
+
+/* ── крупное слово: кегль по ширине колонки и самому длинному слову (--n) ── */
+.ab-big{--ab-wmax:200px;--ab-k:.6;display:block;font-family:var(--display);font-weight:900;text-transform:uppercase;line-height:.86;
+  letter-spacing:-.012em;font-size:min(var(--ab-wmax),calc(100cqw / (var(--n) * var(--ab-k))));padding-top:.17em;margin:0}
+.ab-big-in{display:block}
+.ab-wd-in{white-space:nowrap}
+.ab-ch{display:inline-block;transform-origin:50% 55% -.42em}
+@keyframes ab-drum{from{transform:perspective(520px) rotateX(-78deg);opacity:0}}
+@media (prefers-reduced-motion:no-preference){
+  .ab-hero .ab-ch,.ab-big.is-in .ab-ch{animation:ab-drum .75s var(--ab-ease) both;animation-delay:calc(var(--i) * 38ms + 80ms + var(--d,0ms))}
+  .ab-js .ab-big:not(.ab-big--hero):not(.is-in) .ab-ch{opacity:0}
+}
+
+/* ── проявление: строки поднимаются лесенкой, персонаж выходит на линейку ── */
+@media (prefers-reduced-motion:no-preference){
+  .ab-js [data-rv]{opacity:0;transform:translateY(14px);transition:opacity .5s ease-out var(--d,0ms),transform .7s var(--ab-ease) var(--d,0ms)}
+  .ab-js [data-rv="fig"]{transform:translateY(36px)}
+  .ab-js [data-rv].is-in{opacity:1;transform:none}
+}
+
+/* ── 1. первый экран ── */
+.ab-hero{position:relative;display:grid;grid-template-columns:minmax(0,1fr) auto;column-gap:clamp(32px,4.4vw,80px);align-items:end;
+  padding:clamp(92px,11vh,120px) var(--ab-pad) 0}
+.ab-hero::after{content:"";position:absolute;left:var(--ab-pad);right:var(--ab-pad);bottom:0;height:1px;background:var(--ab-rule)}
+.ab-hero-txt{container-type:inline-size;min-width:0;display:flex;flex-direction:column}
+
+.ab-crumbs ol{display:flex;flex-wrap:wrap;gap:.55em;list-style:none;font:700 12px/1.2 var(--sans);letter-spacing:.04em;text-transform:uppercase;color:var(--ink-2)}
+.ab-crumbs li::after{content:"/";margin-left:.55em;color:rgba(12,11,11,.35)}
+.ab-crumbs a{transition:color .15s ease-out}
+.ab-crumbs a:hover{color:var(--ink)}
+.ab-kicker{margin-top:clamp(18px,3vh,32px);font:700 clamp(13px,1.05vw,15px)/1.3 var(--sans);letter-spacing:.04em;text-transform:uppercase;max-width:40em}
+/* "веб-" не отрывается от "разработчик" на узкой колонке планшета */
+.ab-nw{white-space:nowrap}
+.ab-big--hero{--ab-wmax:236px;--ab-k:.56;margin-top:clamp(2px,.6vh,8px)}
+
+.ab-pairs{display:grid;grid-template-columns:repeat(2,minmax(0,300px));gap:22px clamp(32px,4.4vw,64px);margin-top:clamp(18px,3vh,36px)}
+.ab-pair dt{font:700 12px/1.2 var(--sans);letter-spacing:.04em;text-transform:uppercase;color:var(--ink-2)}
+.ab-pair dd{margin:0}
+.ab-pair b{display:block;margin:10px 0 8px;font:700 clamp(24px,2.3vw,34px)/1.1 var(--sans);letter-spacing:-.01em;white-space:nowrap}
+.ab-pair b i{font-style:normal;color:var(--ink-2)}
+.ab-pair span{display:block;font:600 13px/1.4 var(--sans);color:var(--ink-2);text-wrap:pretty}
+.ab-lead{max-width:56ch;margin-top:clamp(18px,3vh,32px);font:600 clamp(16px,1.25vw,19px)/1.55 var(--sans);text-wrap:pretty}
+
+/* язычок Telegram на линейке первого экрана, как у героя главной и услуг */
+.ab-hero-act{display:flex;align-items:flex-end;gap:12px 28px;flex-wrap:wrap;margin-top:clamp(22px,3.4vh,40px)}
+.ab-tg{display:inline-flex;align-items:center;justify-content:center;gap:12px;height:64px;padding:0 30px;border-radius:22px 22px 0 0;
+  background:var(--red);color:#fff;font:700 15px/1 var(--sans);letter-spacing:.02em;white-space:nowrap;-webkit-tap-highlight-color:transparent;
+  transition:background-color .2s ease-out,height .3s var(--ab-ease)}
+.ab-tg svg{width:18px;height:18px;transition:transform .3s var(--ab-ease)}
+.ab-tg:hover{height:72px}
+.ab-tg:hover svg{transform:translate(2px,-2px)}
+.ab-tg:active{background:var(--red-press)}
+.ab-tg:focus-visible{outline-offset:4px;border-radius:22px 22px 0 0}
+.ab-hero-side{padding-bottom:16px;font:700 12px/1.3 var(--sans);letter-spacing:.04em;text-transform:uppercase;color:var(--ink-2)}
+
+/* за столом справа: стул стоит на линейке, подпись наискось над головой, не на ней */
+.ab-hero-fig{position:relative;display:flex;flex-direction:column;align-items:center;margin:0}
+.ab-fig-box{position:relative;display:block;height:clamp(400px,calc(100svh - 190px),720px)}
+.ab-frame{display:block;width:100%;height:auto;transform:translateY(var(--sole,0%))}
+.ab-fig-box .ab-frame{height:100%}
+/* подпись справа от головы, над ноутбуком: там на кадре пусто */
+.ab-tilt{position:absolute;right:0;top:9%;z-index:1;transform:rotate(-4deg);transform-origin:100% 0;text-align:right;
+  font:700 13px/1.25 var(--sans);letter-spacing:.06em;text-transform:uppercase}
+
+/* ── 2. цифры ── */
+.ab-num{display:grid;grid-template-columns:34% minmax(0,1fr);column-gap:clamp(32px,3.4vw,48px);padding:clamp(96px,10vw,150px) var(--ab-pad) 0}
+.ab-num-fig{display:flex;justify-content:center;align-items:flex-end;margin:0;border-bottom:1px solid var(--ab-rule);overflow:hidden}
+.ab-num-fig .ab-frame{width:min(78%,360px)}
+.ab-num-r{display:flex;flex-direction:column;border-bottom:1px solid var(--ab-rule);min-width:0;container-type:inline-size}
+.ab-n{display:flex;align-items:flex-end;gap:clamp(18px,2vw,32px);margin-top:auto;padding-bottom:clamp(28px,3vw,44px)}
+.ab-big--n{--ab-wmax:300px;--ab-k:.95;line-height:.8;margin-left:-.04em;white-space:nowrap}
+.ab-n-side{padding-bottom:.6em}
+.ab-n-side p{font:700 14px/1.3 var(--sans);letter-spacing:.05em;text-transform:uppercase;max-width:18em}
+/* "часть под NDA" отдельной строкой: подпись ломается по смыслу, а не "проектов / и доработок, часть / под NDA" */
+.ab-n-note{display:block}
+.ab-pill{display:inline-flex;align-items:center;gap:8px;margin-top:16px;padding:10px 16px;border:1.5px solid var(--ink);border-radius:999px;
+  font:700 12px/1 var(--sans);letter-spacing:.04em;text-transform:uppercase;white-space:nowrap;transition:background-color .2s ease-out,color .2s ease-out}
+.ab-pill svg{width:13px;height:13px;transition:transform .3s var(--ab-ease)}
+.ab-pill:hover{background:var(--ink);color:var(--paper)}
+.ab-pill:hover svg{transform:translateX(3px)}
+.ab-cells{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));list-style:none;border-top:1px solid var(--ab-rule)}
+.ab-cell{padding:22px 20px 28px 0;min-width:0}
+.ab-cell+.ab-cell{padding-left:20px;border-left:1px solid var(--ab-line)}
+.ab-cell b{display:flex;align-items:baseline;gap:6px;white-space:nowrap;font:900 clamp(48px,5.2vw,80px)/1 var(--display);letter-spacing:-.01em}
+.ab-cell b small{font:700 clamp(18px,1.6vw,22px)/1 var(--sans)}
+.ab-cell p{margin-top:10px;font:600 13px/1.4 var(--sans);color:var(--ink-2);text-wrap:pretty}
+.ab-cell a{color:var(--ink);text-decoration:underline;text-underline-offset:3px;text-decoration-thickness:1px}
+.ab-cell a:hover{text-decoration-thickness:2px}
+
+/* ── 3. что получается лучше всего: строки как прайс главной ── */
+.ab-can{padding:clamp(110px,11vw,170px) var(--ab-pad) 0}
+.ab-sec-h{display:flex;justify-content:space-between;align-items:baseline;gap:16px;padding-bottom:16px;border-bottom:1px solid var(--ab-rule)}
+.ab-sec-h h2,.ab-sec-h a{font:700 13px/1.2 var(--sans);letter-spacing:.04em;text-transform:uppercase}
+.ab-sec-h a{display:inline-flex;align-items:center;gap:.5em;color:var(--ink-2);white-space:nowrap;transition:color .15s ease-out}
+.ab-sec-h a:hover{color:var(--ink)}
+.ab-sec-h svg{width:14px;height:14px}
+.ab-can-list{list-style:none}
+.ab-can-list>li{border-bottom:1px solid var(--ab-rule)}
+.ab-crow{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr) 150px 22px;align-items:center;column-gap:clamp(20px,2.4vw,40px);
+  padding:16px 0;container-type:inline-size;-webkit-tap-highlight-color:transparent}
+.ab-big--row{--ab-wmax:104px;--ab-k:.62;font-size:clamp(52px,6.6vw,104px);line-height:.88;white-space:nowrap}
+.ab-crow-t{font:600 15px/1.45 var(--sans);text-wrap:pretty;max-width:42ch}
+.ab-crow-t em{display:block;margin-top:6px;font-style:normal;font-size:13px;color:var(--ink-2)}
+.ab-card{position:relative;display:block;width:150px;aspect-ratio:150/104;border-radius:12px;overflow:hidden;background:#efede9;
+  box-shadow:0 0 0 1px rgba(12,11,11,.1);transition:transform .5s var(--ab-ease),box-shadow .5s ease-out}
+.ab-card img{position:absolute;inset:0;display:block;width:100%;height:100%;object-fit:cover;object-position:top;
+  filter:grayscale(1) contrast(.46) brightness(1.36);transition:filter .5s ease-out}
+.ab-crow-go{display:flex;justify-content:flex-end;color:var(--ink-2)}
+.ab-crow-go svg{width:20px;height:20px;transition:transform .3s var(--ab-ease),color .2s}
+.ab-crow:hover .ab-card,.ab-crow:focus-visible .ab-card{transform:translateY(-4px);box-shadow:0 0 0 1px rgba(12,11,11,.1),0 18px 26px -18px rgba(12,11,11,.55)}
+.ab-crow:hover .ab-card img,.ab-crow:focus-visible .ab-card img,.is-on>.ab-crow .ab-card img{filter:none}
+.is-on>.ab-crow .ab-card{transform:translateY(-4px);box-shadow:0 0 0 1px rgba(12,11,11,.1),0 18px 26px -18px rgba(12,11,11,.55)}
+.ab-crow:hover .ab-crow-go,.ab-crow:focus-visible .ab-crow-go{color:var(--ink)}
+.ab-crow:hover .ab-crow-go svg,.ab-crow:focus-visible .ab-crow-go svg{transform:translate(2px,-2px)}
+.ab-crow:focus-visible{outline-offset:4px;border-radius:6px}
+
+/* ── 4. как работаю ── */
+.ab-how{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.15fr);column-gap:clamp(32px,3.4vw,48px);padding:clamp(110px,11vw,170px) var(--ab-pad) 0}
+.ab-how-l{container-type:inline-size;min-width:0}
+.ab-big--how{--ab-wmax:132px;--ab-k:.58;white-space:normal}
+.ab-how-l p{margin-top:24px;max-width:340px;font:600 15px/1.5 var(--sans);color:var(--ink-2)}
+.ab-steps{list-style:none;border-top:1px solid var(--ab-rule);align-self:start}
+.ab-steps li{display:grid;grid-template-columns:64px minmax(0,1fr);padding:20px 0;border-bottom:1px solid var(--ab-line);font:700 clamp(18px,1.5vw,22px)/1.35 var(--sans)}
+.ab-steps li>span{font:900 22px/1.3 var(--display);color:var(--ink-2)}
+.ab-steps em{display:block;margin-top:4px;font:600 14px/1.5 var(--sans);font-style:normal;color:var(--ink-2);text-wrap:pretty}
+
+/* ── 5. стек: барабан, пилюли, учёба на листе ── */
+.ab-stk{padding:clamp(150px,13vw,210px) var(--ab-pad) 0}
+.ab-drum{font:900 clamp(60px,9.4vw,144px)/.9 var(--display);text-transform:uppercase;letter-spacing:-.012em}
+.ab-drum-in{display:flex;align-items:flex-start;gap:.22em}
+.ab-drum-a{white-space:nowrap}
+.ab-win{position:relative;display:block;height:.9em;white-space:nowrap}
+.ab-dw{display:block}
+.ab-dw--up,.ab-dw--dn,.ab-dw--in{position:absolute;left:0;color:transparent;-webkit-text-stroke:1.2px rgba(12,11,11,.22)}
+.ab-dw--up{top:-1em}
+.ab-dw--dn{top:1em}
+.ab-dw--in{top:2em;opacity:0}
+/* прокрутка: всё на строку вверх, нижний контур заливается тушью, текущее слово становится контуром, верхний уходит */
+.ab-win .ab-dw{transition:transform .65s var(--ab-ease),color .45s ease-out,-webkit-text-stroke-color .45s ease-out,opacity .45s ease-out}
+.ab-win.is-roll .ab-dw{transform:translateY(-1em)}
+.ab-win.is-roll .ab-dw--up{opacity:0}
+.ab-win.is-roll .ab-dw--on{color:transparent;-webkit-text-stroke-color:rgba(12,11,11,.22)}
+.ab-win.is-roll .ab-dw--dn{color:var(--ink);-webkit-text-stroke-color:transparent}
+.ab-win.is-roll .ab-dw--in{opacity:1}
+.ab-win.is-snap .ab-dw{transition:none}
+.ab-stk-grid{display:grid;grid-template-columns:minmax(0,1.4fr) minmax(0,1fr);column-gap:clamp(32px,3.4vw,48px);margin-top:clamp(120px,10vw,150px);align-items:start}
+.ab-stk-grid .ab-cap{margin-bottom:16px}
+.ab-pills{display:flex;flex-wrap:wrap;gap:10px;list-style:none}
+.ab-pills li{padding:10px 16px;border:1.5px solid var(--ink);border-radius:999px;font:700 14px/1 var(--sans);white-space:nowrap}
+.ab-edu{position:relative;background:#fff;border:1px solid var(--ink);border-radius:18px;padding:24px 26px 26px;
+  box-shadow:0 18px 40px -26px rgba(12,11,11,.35);rotate:-1.2deg}
+.ab-edu b{display:block;margin:12px 0 10px;font:900 44px/1 var(--display);text-transform:uppercase}
+.ab-edu p:not(.ab-cap){font:600 14px/1.5 var(--sans);text-wrap:pretty}
+.ab-edu p+p{margin-top:10px;color:var(--ink-2)}
+
+/* ── 6. связь ── */
+.ab-con{display:grid;grid-template-columns:34% minmax(0,1fr);column-gap:clamp(32px,3.4vw,48px);padding:clamp(120px,12vw,180px) var(--ab-pad) 0}
+.ab-con-fig{display:flex;justify-content:center;align-items:flex-end;margin:0;border-bottom:1px solid var(--ab-rule);overflow:hidden}
+.ab-con-fig .ab-frame{width:min(72%,330px)}
+.ab-con-r{min-width:0;container-type:inline-size}
+.ab-big--con{--ab-wmax:176px;--ab-k:.6}
+.ab-tgbig{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-top:30px;height:84px;padding:0 30px;border-radius:20px;
+  background:var(--red);color:#fff;font:700 22px/1 var(--sans);-webkit-tap-highlight-color:transparent;transition:background-color .2s ease-out}
+.ab-tgbig small{margin-left:10px;font:600 16px/1 var(--sans);opacity:.85}
+.ab-tgbig svg{width:22px;height:22px;flex:none;transition:transform .3s var(--ab-ease)}
+.ab-tgbig:hover{background:var(--red-press)}
+.ab-tgbig:hover svg{transform:translate(3px,-3px)}
+.ab-tgbig:focus-visible{outline-color:var(--ink);outline-offset:4px;border-radius:20px}
+.ab-tg-note{margin-top:12px;font:600 13px/1.4 var(--sans);color:var(--ink-2)}
+.ab-list{list-style:none;margin-top:34px;border-top:1px solid var(--ab-rule)}
+.ab-list>li{border-bottom:1px solid var(--ab-rule)}
+.ab-li{display:grid;grid-template-columns:110px minmax(0,1fr) auto;align-items:center;column-gap:20px;min-height:72px;padding:16px 0;-webkit-tap-highlight-color:transparent}
+.ab-k{font:700 12px/1.25 var(--sans);letter-spacing:.06em;text-transform:uppercase;color:var(--ink-2)}
+.ab-v{min-width:0;font:700 clamp(18px,1.6vw,24px)/1.2 var(--sans);overflow-wrap:anywhere;text-decoration:underline;text-decoration-color:transparent;
+  text-decoration-thickness:2px;text-underline-offset:5px;transition:text-decoration-color .15s ease-out}
+.ab-v small{display:block;margin-top:5px;font:600 13px/1.3 var(--sans);color:var(--ink-2)}
+a.ab-li:hover .ab-v,a.ab-v:hover{text-decoration-color:currentColor}
+.ab-v small{text-decoration:none}
+.ab-act{display:inline-flex;align-items:center;gap:8px;font:700 12px/1 var(--sans);letter-spacing:.06em;text-transform:uppercase;white-space:nowrap}
+.ab-act svg{width:14px;height:14px;flex:none;transition:transform .3s var(--ab-ease)}
+a.ab-li:hover .ab-act svg{transform:translate(2px,-2px)}
+.ab-li:focus-visible{outline-offset:4px;border-radius:6px}
+
+/* кнопка копирования: та же подпись, что у "Позвонить", значок вместо стрелки */
+.ab-copy{display:inline-flex;align-items:center;gap:8px;padding:10px 0 10px 12px;margin:-10px 0;background:none;border:0;color:inherit;cursor:pointer;
+  font:700 12px/1 var(--sans);letter-spacing:.06em;text-transform:uppercase;white-space:nowrap;-webkit-tap-highlight-color:transparent}
+.ab-copy svg{width:15px;height:15px;flex:none}
+.ab-copy:hover .ab-copy-t{text-decoration:underline;text-underline-offset:4px;text-decoration-thickness:1.5px}
+.ab-copy.is-done{color:var(--ink-2)}
+
+/* ── 7. реквизиты: чек с перфорацией ── */
+.ab-req{display:grid;grid-template-columns:34% minmax(0,1fr);column-gap:clamp(32px,3.4vw,48px);align-items:start;padding:clamp(100px,9vw,140px) var(--ab-pad) 0}
+.ab-req-l{container-type:inline-size;min-width:0}
+.ab-big--req{--ab-wmax:92px;--ab-k:.6}
+.ab-req-l p{margin-top:16px;max-width:320px;font:600 14px/1.5 var(--sans);color:var(--ink-2);text-wrap:pretty}
+.ab-check{max-width:560px;background:#fff;padding:30px 32px 34px;rotate:.8deg;
+  -webkit-mask:radial-gradient(circle 7px at 50% 0,#0000 98%,#000) 0 0/22px 51% repeat-x,radial-gradient(circle 7px at 50% 100%,#0000 98%,#000) 0 100%/22px 51% repeat-x;
+  mask:radial-gradient(circle 7px at 50% 0,#0000 98%,#000) 0 0/22px 51% repeat-x,radial-gradient(circle 7px at 50% 100%,#0000 98%,#000) 0 100%/22px 51% repeat-x;
+  filter:drop-shadow(0 14px 22px rgba(12,11,11,.12))}
+.ab-check dl{display:grid;grid-template-columns:150px minmax(0,1fr);gap:12px 18px;margin-top:18px;font:600 14px/1.4 var(--sans)}
+.ab-check dt{color:var(--ink-2)}
+.ab-check dd{margin:0;min-width:0}
+.ab-check dd b{font-weight:700}
+.ab-check dd a{text-decoration:underline;text-underline-offset:3px;text-decoration-thickness:1px}
+.ab-copy--inn{margin-left:6px;font-size:11px}
+.ab-copy--inn svg{width:13px;height:13px}
+.ab-check-links{display:flex;flex-wrap:wrap;gap:10px 22px;margin-top:22px;padding-top:18px;border-top:1.5px dashed var(--ab-line);font:700 13px/1.3 var(--sans)}
+.ab-check-links a{text-decoration:underline;text-underline-offset:3px;text-decoration-thickness:1px}
+.ab-check-links a:hover{text-decoration-thickness:2px}
+.ab-live{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+
+/* ── планшет: колонки поуже ── */
+@media (min-width:700px) and (max-width:1023px){
+  .ab-pairs{grid-template-columns:minmax(0,1fr)}
+  .ab-crow{grid-template-columns:minmax(0,1fr) minmax(0,1fr) 120px;row-gap:8px}
+  .ab-crow .ab-card{width:120px}
+  .ab-crow-go{display:none}
+  /* правая колонка узкая: подпись и пилюля под числом, иначе пилюля вылезает за экран (768 и уже) */
+  .ab-n{flex-direction:column;align-items:flex-start;gap:0}
+  .ab-n-side{padding:10px 0 0}
+  .ab-cells{grid-template-columns:1fr 1fr}
+  .ab-cell:nth-child(3){grid-column:1/-1;border-left:0;padding-left:0;border-top:1px solid var(--ab-line)}
+  /* контакты: подпись строки над значением, чтобы почта не рвалась посреди адреса */
+  .ab-li{grid-template-columns:minmax(0,1fr) auto;row-gap:6px;column-gap:16px;min-height:0}
+  .ab-li .ab-k{grid-column:1/-1}
+  .ab-how{grid-template-columns:1fr;row-gap:32px}
+  .ab-stk-grid{grid-template-columns:1fr;row-gap:40px}
+  .ab-edu{max-width:460px}
+  .ab-req{grid-template-columns:1fr;row-gap:28px}
+}
+
+/* ── телефон ── */
+@media (max-width:699px){
+  .ab-hero{grid-template-columns:minmax(0,1fr) 42%;column-gap:12px;align-items:start;container-type:inline-size;padding-top:84px;
+    grid-template-areas:"c c" "h h" "b b" "p f" "l l" "z z"}
+  .ab-hero-txt{display:contents}
+  .ab-crumbs{grid-area:c}
+  .ab-kicker{grid-area:h;margin-top:16px;font-size:13px}
+  .ab-big--hero{grid-area:b;--ab-wmax:120px;--ab-k:.53;margin-top:4px}
+  .ab-pairs{grid-area:p;grid-template-columns:minmax(0,1fr);gap:18px;margin-top:20px;align-self:start}
+  .ab-pair b{margin:6px 0 6px;font-size:22px;white-space:normal}
+  .ab-pair b i{display:block;height:0;overflow:hidden}
+  .ab-hero-fig{grid-area:f;margin-top:20px;align-self:start}
+  .ab-fig-box{height:auto;width:100%}
+  .ab-tilt{display:none}
+  .ab-lead{grid-area:l;margin-top:24px;font-size:16px}
+  .ab-hero-act{grid-area:z;flex-direction:column;align-items:flex-start;gap:16px;margin-top:24px}
+  .ab-hero-side{order:-1;padding:0}
+  .ab-tg{height:60px;padding:0 26px}
+  .ab-tg:hover{height:60px}
+
+  .ab-num{grid-template-columns:minmax(0,1fr) 38%;column-gap:12px;grid-template-areas:"n f" "x x";padding-top:96px}
+  .ab-num-r{display:contents}
+  .ab-n{grid-area:n;flex-direction:column;align-items:flex-start;gap:0;align-self:end;padding-bottom:20px;container-type:inline-size;min-width:0}
+  .ab-big--n{--ab-wmax:132px;--ab-k:.62}
+  .ab-n-side{padding:8px 0 0}
+  .ab-n-side p{font-size:13px}
+  .ab-num-fig{grid-area:f;border:0;overflow:visible}
+  .ab-num-fig .ab-frame{width:100%}
+  .ab-cells{grid-area:x;grid-template-columns:1fr 1fr;border-bottom:1px solid var(--ab-rule)}
+  .ab-cell{padding:18px 12px 20px 0}
+  .ab-cell+.ab-cell{padding-left:12px}
+  .ab-cell:nth-child(3){grid-column:1/-1;border-left:0;padding-left:0;border-top:1px solid var(--ab-line)}
+  .ab-cell b{font-size:52px}
+
+  .ab-can{padding-top:96px}
+  .ab-sec-h{flex-direction:column;align-items:flex-start;gap:8px;padding-bottom:12px}
+  .ab-crow{grid-template-columns:minmax(0,1fr) 92px;grid-template-areas:"w c" "t c";row-gap:8px;column-gap:14px;padding:14px 0}
+  .ab-big--row{grid-area:w;font-size:clamp(40px,12.6vw,54px)}
+  .ab-crow-t{grid-area:t;font-size:14px}
+  .ab-card{grid-area:c;width:92px;aspect-ratio:92/120;align-self:center;border-radius:8px}
+  .ab-crow-go{display:none}
+
+  .ab-how{grid-template-columns:1fr;row-gap:24px;padding-top:110px}
+  .ab-big--how{--ab-wmax:84px}
+  .ab-how-l p{margin-top:16px}
+  .ab-steps li{grid-template-columns:44px minmax(0,1fr);padding:16px 0;font-size:17px}
+  .ab-steps li>span{font-size:20px}
+
+  .ab-stk{padding-top:110px;container-type:inline-size}
+  .ab-drum{font-size:min(72px,calc(100cqw / 5.1))}
+  .ab-drum-in{flex-direction:column;gap:.1em}
+  .ab-dw--up{display:none}
+  .ab-stk-grid{grid-template-columns:1fr;row-gap:36px;margin-top:84px}
+  .ab-pills{gap:8px}
+  .ab-pills li{padding:9px 13px;font-size:13px}
+  .ab-edu{rotate:-.8deg}
+
+  .ab-con{grid-template-columns:1fr;padding-top:110px}
+  .ab-con-r{display:contents}
+  .ab-big--con{order:1;--ab-wmax:96px;--ab-k:.6}
+  .ab-con{container-type:inline-size}
+  .ab-con-fig{order:2;border:0;margin-top:14px;overflow:visible}
+  .ab-con-fig .ab-frame{width:34%}
+  .ab-tgbig{order:3;margin-top:0;height:68px;padding:0 22px;border-radius:20px 20px 0 0;font-size:18px}
+  .ab-tgbig small{font-size:14px}
+  .ab-tgbig:focus-visible{border-radius:20px 20px 0 0}
+  .ab-tg-note{order:4;margin-top:0;padding-top:12px;border-top:1px solid var(--ab-rule)}
+  .ab-list{order:5;margin-top:26px}
+  .ab-li{grid-template-columns:minmax(0,1fr) auto;row-gap:6px;column-gap:12px;min-height:0;padding:14px 0}
+  .ab-li .ab-k{grid-column:1/-1}
+  .ab-li .ab-v{font-size:19px}
+  .ab-act>span{display:none}
+  .ab-act svg{width:16px;height:16px}
+  .ab-li--mail .ab-copy-t{display:inline}
+  .ab-li--mail .ab-act{font-size:11px}
+
+  .ab-req{grid-template-columns:1fr;row-gap:24px;padding-top:96px}
+  .ab-big--req{--ab-wmax:64px}
+  .ab-check{padding:26px 20px 30px;rotate:.5deg}
+  .ab-check dl{grid-template-columns:1fr;gap:2px}
+  .ab-check dd{margin-bottom:12px}
+  .ab-check-links{flex-direction:column;gap:10px}
+}
+
+/* узкий телефон: адрес почты не помещается рядом со "Скопировать" и рвался посреди слова; кнопка уходит под адрес */
+@media (max-width:374px){
+  .ab-li--mail{grid-template-columns:minmax(0,1fr)}
+  .ab-li--mail .ab-v{overflow-wrap:normal}
+  .ab-li--mail .ab-act{justify-self:start;padding-left:0}
+}
+
+@media (prefers-reduced-motion:reduce){
+  .ab-page *,.ab-page *::before,.ab-page *::after{transition:none!important;animation:none!important}
+}
+
+/* скорость: секции ниже первого экрана не раскладываются, пока до них далеко */
+.ab-can,.ab-how,.ab-stk,.ab-req{content-visibility:auto;contain-intrinsic-size:auto 900px;overflow-clip-margin:40px}
