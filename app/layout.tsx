@@ -1,12 +1,11 @@
 import type { Metadata, Viewport } from "next";
 import Script from "next/script";
 import { Fira_Sans_Condensed, Montserrat } from "next/font/google";
-import { SITE, PROJECTS_ALL, PROJECTS_ALL_LABEL, PROJECTS_TOTAL, TITLE_TAIL, priceNumber } from "@/lib/content";
-import { serviceBySlug } from "@/lib/services";
+import { SITE, PROJECTS_ALL, PROJECTS_ALL_LABEL, PROJECTS_TOTAL, TITLE_TAIL } from "@/lib/content";
+import { PERSON_LD } from "@/lib/person-ld";
 import { liveSitesWord, SITE_FROM } from "@/lib/home";
-import { PROFI_STATS, PROFI_URL } from "@/lib/reviews";
+import { PROFI_STATS } from "@/lib/reviews";
 import { YM_ID } from "@/lib/metrika";
-import { OWNER } from "@/lib/legal";
 import { Goals } from "@/components/v4/goals";
 import { Cookie } from "@/components/v4/legal/Cookie";
 import "./globals.css";
@@ -95,65 +94,12 @@ export const viewport: Viewport = {
 /**
  * Один граф на весь сайт: сущности связаны через @id, чтобы поисковик видел
  * одного человека, а не три разных описания на трёх страницах. Person здесь
- * канонический, остальные страницы ссылаются на него по `${SITE.url}#person`.
+ * канонический (lib/person-ld.ts), остальные страницы ссылаются на него по `${SITE.url}#person`.
  */
-/** нижняя цена сайта числом, из страницы "Сайт под ключ": разметка не расходится с ценой на сайте */
-const SITE_MIN = priceNumber(serviceBySlug("sayt-pod-klyuch")!.price.value);
-
 const jsonLd = {
   "@context": "https://schema.org",
   "@graph": [
-    {
-      "@type": "Person",
-      "@id": `${SITE.url}#person`,
-      name: "Алексей",
-      alternateName: "lstmind",
-      jobTitle: "Веб-разработчик",
-      description:
-        "Фриланс веб-разработчик: сайты под ключ, интернет-магазины, телеграм-боты, админки и CRM, починка и ускорение чужих сайтов.",
-      // страница о человеке: кто он, контакты, реквизиты. Сайт целиком описывает WebSite ниже
-      url: `${SITE.url}/obo-mne`,
-      mainEntityOfPage: `${SITE.url}/obo-mne`,
-      email: SITE.email,
-      telephone: OWNER.phoneLd,
-      image: `${SITE.url}/img/alex-portrait.png`,
-      sameAs: [SITE.telegram, SITE.kwork, PROFI_URL, SITE.github],
-      knowsAbout: [
-        "WordPress",
-        "WooCommerce",
-        "1С-Битрикс",
-        "Tilda",
-        "MODX",
-        "Next.js",
-        "React",
-        "TypeScript",
-        "Astro",
-        "Svelte",
-        "JavaScript",
-        "PHP",
-        "Node.js",
-        "Telegram Bot API",
-        "Figma",
-        "Вёрстка",
-        "Техническое SEO",
-        "Парсинг данных",
-      ],
-      address: { "@type": "PostalAddress", addressLocality: "Москва", addressCountry: "RU" },
-      workLocation: { "@type": "Place", name: "Москва и вся Россия — удалённо" },
-      makesOffer: {
-        "@type": "Offer",
-        priceCurrency: "RUB",
-        price: SITE_MIN,
-        priceSpecification: {
-          "@type": "PriceSpecification",
-          priceCurrency: "RUB",
-          minPrice: SITE_MIN,
-          valueAddedTaxIncluded: false,
-        },
-        url: `${SITE.url}/uslugi`,
-        itemOffered: { "@type": "Service", name: "Разработка сайтов под ключ" },
-      },
-    },
+    PERSON_LD,
     {
       "@type": "WebSite",
       "@id": `${SITE.url}#website`,

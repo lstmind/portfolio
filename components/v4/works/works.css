@@ -17,7 +17,9 @@
 /* крошки */
 .w-crumbs ol{list-style:none;display:flex;flex-wrap:wrap;gap:4px 0;font:700 11px/1.3 var(--sans);letter-spacing:.07em;text-transform:uppercase;color:var(--ink-2)}
 .w-crumbs li+li::before{content:"/";margin:0 .7em;color:rgba(12,11,11,.3)}
-.w-crumbs a{transition:color .15s ease-out}
+.w-crumbs a{position:relative;transition:color .15s ease-out}
+/* зона нажатия крошки 44px по высоте невидимой рамкой, строка не двигается */
+.w-crumbs a::before{content:"";position:absolute;inset:-14.5px -4px}
 .w-crumbs a:hover{color:var(--ink)}
 .w-crumbs [aria-current]{color:var(--ink)}
 
@@ -151,6 +153,8 @@
   font:700 14px/1 var(--sans);transition:background-color .2s ease-out,color .2s ease-out}
 .w-case__live svg{width:14px;height:14px}
 .w-case__live:hover{background:var(--ink);color:var(--paper)}
+.w-case__code{display:inline-flex;align-items:center;min-height:44px;font:600 14px/1.3 var(--sans);color:var(--ink);text-decoration:underline;text-decoration-thickness:1.5px;text-underline-offset:.25em}
+.w-case__code:hover{color:var(--red)}
 .w-case__stack{font:700 11px/1.5 var(--sans);letter-spacing:.06em;text-transform:uppercase;color:var(--ink-2)}
 
 .w-case__aside{grid-area:aside;display:flex;justify-content:center;margin-top:32px}

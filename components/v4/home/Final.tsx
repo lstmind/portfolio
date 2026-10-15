@@ -203,7 +203,7 @@ export function Final() {
                   id="final-contact"
                   name="contact"
                   type="text"
-                  autoComplete="off"
+                  autoComplete="tel"
                   placeholder="Телефон, почта или @ник"
                   required
                   aria-describedby="final-status"
@@ -222,7 +222,7 @@ export function Final() {
                 {tie(" из заявки. Как я с ними обращаюсь, написано в ")}
                 <a href="/politika">политике</a>.
               </p>
-              <p className="final-status" id="final-status" role="status" />
+              <p className="final-status" id="final-status" role="status" tabIndex={-1} />
             </form>
             <div className="final-foot">
               <button className="final-alt" type="button" id="final-alt" aria-expanded="false" aria-controls="final-form">

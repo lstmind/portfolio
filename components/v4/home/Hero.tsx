@@ -28,9 +28,10 @@ function heroHtml() {
   // заголовок для чтения и поиска: "Делаю, чиню и ускоряю сайты". на экране те же слова буквами на дуге
   const w = HERO_WORDS.map((x, i) => (i ? x : x[0].toUpperCase() + x.slice(1)));
   const title = `${w.slice(0, -1).join(", ")} и ${w[w.length - 1]} сайты`;
+  // карточки вне порядка Tab (tabindex=-1): те же сайты ссылками в работах ниже, а кнопка Telegram идёт сразу после шапки
   const cards = HERO_SITES.map(
     (s) =>
-      `<a class="card" href="${esc(s.href)}" target="_blank" rel="noopener" aria-label="${esc(`${s.name}, ${s.host}, откроется в новой вкладке`)}" draggable="false" data-name="${esc(s.name)}" data-host="${esc(s.host)}">` +
+      `<a class="card" href="${esc(s.href)}" target="_blank" rel="noopener" tabindex="-1" aria-label="${esc(`${s.name}, ${s.host}, откроется в новой вкладке`)}" draggable="false" data-name="${esc(s.name)}" data-host="${esc(s.host)}">` +
       `<img class="sharp" alt="" draggable="false" decoding="async" fetchpriority="low" src="${IMG}${s.img}-240.webp" srcset="${IMG}${s.img}-240.webp 240w, ${IMG}${s.img}-400.webp 400w" sizes="(max-width: 699px) 190px, 220px">` +
       `<img class="soft" alt="" draggable="false" decoding="async" fetchpriority="low" src="${IMG}${s.img}-blur.webp">` +
       `<span class="fog"></span></a>`,

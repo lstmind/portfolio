@@ -4,7 +4,8 @@
  * отзывы, FAQ, процесс и калькулятор. Бот не может разойтись с сайтом —
  * правится один файл. Чистые функции без сети: их гоняет scripts/bot-check.mjs.
  */
-import { CALC, FACTS, FAQ, HOURS, MORE_SERVICES, NOT_DOING, PROCESS, REPLY, REVIEWS, SERVICES, SITE, STACK, STATUS, WORKS } from "./content";
+import { CALC, FACTS, FAQ, HOURS, MORE_SERVICES, NOT_DOING, PROCESS, RATE, REPLY, REVIEWS, SERVICES, SITE, STACK, STATUS, WORKS } from "./content";
+import { PROFI_URL } from "./reviews";
 import { CASE_PAGES } from "./cases";
 import { AUDIT, auditFor, tgHref, type Audit } from "./cta";
 import { INDUSTRY_PAGES } from "./industries";
@@ -240,7 +241,7 @@ export function screenPrices(): Screen {
     text: clamp(
       "💰 <b>Цены на всё сразу</b>\n\n" +
         `${main}\n${extra}\n\n` +
-        `Час работы — <b>${SITE.ratePerHour} ₽</b>, по проекту считаю фикс-смету после разбора задачи. Точную цифру назову бесплатно.`,
+        `Час работы: <b>${RATE}</b>, по проекту считаю фикс-смету после разбора задачи. Точную цифру назову бесплатно.`,
     ),
     rows: [
       [{ text: "🧮 Прикинуть по своей задаче", callback_data: "calc" }],
@@ -294,7 +295,7 @@ export function screenWorks(): Screen {
     rows: [
       ...DEMOS.slice(0, 3).map((w) => [{ text: `${w.title} ↗`, url: w.href }]),
       [{ text: "🔬 Разборы проектов", callback_data: "cases" }],
-      [{ text: "Все работы на сайте ↗", url: `${SITE.url}/#works` }],
+      [{ text: "Все работы на сайте ↗", url: `${SITE.url}/works` }],
       [HOME],
     ],
   };
@@ -310,7 +311,7 @@ export function screenCases(): Screen {
         const w = WORKS.find((x) => x.href === c.href);
         return [{ text: `${w?.title ?? c.slug} — ${w?.kind ?? ""}`.slice(0, 60), callback_data: `case:${c.slug}` }];
       }),
-      [{ text: "Все работы на сайте ↗", url: `${SITE.url}/#works` }],
+      [{ text: "Все работы на сайте ↗", url: `${SITE.url}/works` }],
       [HOME],
     ],
   };
@@ -353,7 +354,10 @@ export function screenReview(i: number, count: number): Screen {
         { text: `${idx + 1}/${REVIEWS.length}`, callback_data: `rev:${idx}` },
         { text: "▶️", callback_data: `rev:${idx + 1}` },
       ],
-      [{ text: "Все отзывы на Kwork ↗", url: SITE.kwork }],
+      [
+        { text: "Все отзывы на Kwork ↗", url: SITE.kwork },
+        { text: "На Профи ↗", url: PROFI_URL },
+      ],
       [HOME],
     ],
   };

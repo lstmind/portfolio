@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { CASE_PAGES, caseBySlug } from "@/lib/cases";
-import { SITE } from "@/lib/content";
+import { SITE, TITLE_TAIL } from "@/lib/content";
 import { Case } from "@/components/v4/works/Case";
 import { caseView } from "@/components/v4/works/data";
 import { tgText } from "@/lib/cta";
@@ -57,7 +57,8 @@ export default async function CasePageView({ params }: { params: Promise<{ slug:
       {
         "@type": "CreativeWork",
         name: site.title,
-        headline: c.metaTitle,
+        // заголовок разбора без хвоста бренда: хвост нужен вкладке и выдаче, а не самому материалу
+        headline: c.metaTitle.replace(TITLE_TAIL, ""),
         description: c.answer,
         url: `${SITE.url}/works/${c.slug}`,
         // превью 760x471, а не лента во всю страницу: поисковику нужна картинка,
@@ -70,6 +71,8 @@ export default async function CasePageView({ params }: { params: Promise<{ slug:
         mainEntityOfPage: `${SITE.url}/works/${c.slug}`,
         // разбор и сам сайт клиента разные сущности: сайт упомянут, а не "тот же объект" (sameAs)
         mentions: { "@type": "WebSite", name: site.title, url: c.href },
+        // у демо с открытым кодом: репозиторий, о котором говорит фраза "код открыт на GitHub"
+        ...(c.repo ? { isBasedOn: { "@type": "SoftwareSourceCode", name: site.title, codeRepository: c.repo } } : {}),
       },
       {
         "@type": "BreadcrumbList",

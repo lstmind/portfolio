@@ -8,6 +8,8 @@ import "./lead.css";
  * Короткая форма для тех, у кого нет Telegram. Свёрнута за ссылкой, раскрывается по нажатию.
  *   mode="audit"   сайт и куда ответить: запасной путь у кнопки "прислать сайт на аудит"
  *   mode="contact" как обращаться, куда ответить, задача одной фразой: финалы услуг и ниш
+ * Поле "куда ответить" с autocomplete="tel": браузер подскажет телефон, почту или @ник можно вписать руками.
+ * После отправки фокус переходит на строку ответа, иначе он теряется на отключённой кнопке.
  * Строка согласия как у формы главной, поле-ловушка для ботов, поля скрыты от Вебвизора (ym-disable-keys).
  * Заявка уходит на /api/contact с типом формы, страницей и блоком (place): их видно в Telegram и в файле заявок.
  *
@@ -85,7 +87,7 @@ export function LeadForm({
             {diag && field("issue", <input className="ym-disable-keys" id={`${fid}-issue`} name="task" type="text" autoComplete="off" placeholder={F.issue.ph} maxLength={500} />)}
             {field(
               "contact",
-              <input className="ym-disable-keys" id={`${fid}-contact`} name="contact" type="text" autoComplete="off" placeholder={F.contact.ph} required aria-describedby={`${fid}-status`} />,
+              <input className="ym-disable-keys" id={`${fid}-contact`} name="contact" type="text" autoComplete="tel" enterKeyHint="send" placeholder={F.contact.ph} required aria-describedby={`${fid}-status`} />,
             )}
           </>
         ) : (
@@ -96,9 +98,9 @@ export function LeadForm({
             )}
             {field(
               "contact",
-              <input className="ym-disable-keys" id={`${fid}-contact`} name="contact" type="text" autoComplete="off" placeholder={F.contact.ph} required aria-describedby={`${fid}-status`} />,
+              <input className="ym-disable-keys" id={`${fid}-contact`} name="contact" type="text" autoComplete="tel" placeholder={F.contact.ph} required aria-describedby={`${fid}-status`} />,
             )}
-            {field("task", <input className="ym-disable-keys" id={`${fid}-task`} name="task" type="text" autoComplete="off" placeholder={F.task.ph} maxLength={500} />)}
+            {field("task", <input className="ym-disable-keys" id={`${fid}-task`} name="task" type="text" autoComplete="off" enterKeyHint="send" placeholder={F.task.ph} maxLength={500} />)}
           </>
         )}
         <button className="lead-send" type="submit">
@@ -110,7 +112,7 @@ export function LeadForm({
           {tie(" из заявки. Как я с ними обращаюсь, написано в ")}
           <a href="/politika">политике</a>.
         </p>
-        <p className="lead-status" id={`${fid}-status`} role="status" />
+        <p className="lead-status" id={`${fid}-status`} role="status" tabIndex={-1} />
       </form>
       <LeadIsland id={fid} />
     </div>

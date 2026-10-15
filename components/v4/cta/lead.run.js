@@ -77,6 +77,8 @@ export function runLead(root) {
       status.textContent = audit ? d.okAudit : okText(d);
       send.textContent = d.sent;
       root.classList.add('lead-done');
+      // кнопка отключена, фокус с неё пропал бы на body: переводим на ответ, его же прочитает скринридер
+      status.focus({ preventScroll: true });
     }).catch(function () {
       busy = false;
       send.disabled = false; send.textContent = d.send;

@@ -19,6 +19,9 @@
 .s-process .process-arr{display:inline-grid;place-items:center;width:40px;height:40px;margin:-10px 0;border:0;border-radius:50%;
   background:none;color:var(--ink);cursor:pointer;-webkit-tap-highlight-color:transparent;transition:opacity .2s ease-out}
 .s-process .process-arr svg{width:16px;height:16px}
+/* зона нажатия 44px, кружок и ряд не двигаются */
+.s-process .process-arr{position:relative}
+.s-process .process-arr::before{content:"";position:absolute;inset:-2px}
 .s-process .process-arr:disabled{opacity:.25;cursor:default}
 .s-process .process-arr:focus-visible,.s-process .process-seg:focus-visible,.s-process a:focus-visible{outline:2px solid var(--red);outline-offset:3px;border-radius:6px}
 

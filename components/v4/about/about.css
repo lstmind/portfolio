@@ -31,7 +31,9 @@
 
 .ab-crumbs ol{display:flex;flex-wrap:wrap;gap:.55em;list-style:none;font:700 12px/1.2 var(--sans);letter-spacing:.04em;text-transform:uppercase;color:var(--ink-2)}
 .ab-crumbs li::after{content:"/";margin-left:.55em;color:rgba(12,11,11,.35)}
-.ab-crumbs a{transition:color .15s ease-out}
+.ab-crumbs a{position:relative;transition:color .15s ease-out}
+/* зона нажатия крошки 44px по высоте невидимой рамкой, строка не двигается */
+.ab-crumbs a::before{content:"";position:absolute;inset:-14.5px -4px}
 .ab-crumbs a:hover{color:var(--ink)}
 .ab-kicker{margin-top:clamp(18px,3vh,32px);font:700 clamp(13px,1.05vw,15px)/1.3 var(--sans);letter-spacing:.04em;text-transform:uppercase;max-width:40em}
 /* "веб-" не отрывается от "разработчик" на узкой колонке планшета */
@@ -169,7 +171,7 @@
 .ab-big--con{--ab-wmax:176px;--ab-k:.6}
 .ab-tgbig{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-top:30px;height:84px;padding:0 30px;border-radius:20px;
   background:var(--red);color:#fff;font:700 22px/1 var(--sans);-webkit-tap-highlight-color:transparent;transition:background-color .2s ease-out}
-.ab-tgbig small{margin-left:10px;font:600 16px/1 var(--sans);opacity:.85}
+.ab-tgbig small{margin-left:10px;font:600 16px/1 var(--sans)}
 .ab-tgbig svg{width:22px;height:22px;flex:none;transition:transform .3s var(--ab-ease)}
 .ab-tgbig:hover{background:var(--red-press)}
 .ab-tgbig:hover svg{transform:translate(3px,-3px)}

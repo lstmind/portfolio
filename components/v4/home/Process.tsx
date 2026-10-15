@@ -77,7 +77,7 @@ export function Process() {
             <button
               className="process-seg"
               type="button"
-              aria-label={`Шаг ${i + 1}, ${s.word.toLowerCase()}`}
+              aria-label={`${pad(i + 1)} ${s.word.toLowerCase()}, шаг ${i + 1} из ${PROCESS_STEPS.length}`}
               style={i === 0 ? ({ "--process-fill": 1 } as React.CSSProperties) : undefined}
               aria-current={i === 0 ? "step" : undefined}
               key={s.word}

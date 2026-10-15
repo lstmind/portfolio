@@ -36,6 +36,7 @@
 
 .lead .lead-status{font:600 13px/1.45 var(--sans);margin:0}
 .lead .lead-status:empty{display:none}
+.lead .lead-status:focus{outline:0}
 .lead .lead-status a{color:inherit;text-decoration:underline;text-underline-offset:3px}
 /* после отправки ответ крупнее и тушью: это главное, что человек должен прочитать */
 .lead.lead-done .lead-status{font-size:14px;color:var(--ink)}
@@ -44,6 +45,7 @@
 @media (max-width:699px){
   .lead{max-width:none}
   .lead .lead-f input{font-size:16px}
-  .lead .lead-alt{padding:10px 0}
+  /* зона нажатия 44px, строка стоит где стояла: лишние 3px сверху и снизу забирает отрицательный отступ */
+  .lead .lead-alt{padding:13px 0;margin:-3px 0}
 }
 @media (prefers-reduced-motion:reduce){.lead .lead-send,.lead .lead-f input{transition:none}}

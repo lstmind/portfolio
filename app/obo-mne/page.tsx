@@ -1,12 +1,12 @@
 import type { Metadata } from "next";
 import { SITE, TITLE_TAIL } from "@/lib/content";
 import { getKworkReviewsCount } from "@/lib/kwork";
-import { PROFI_URL } from "@/lib/reviews";
+import { PERSON_EXTRA_LD } from "@/lib/person-ld";
 import { Header } from "@/components/v4/Header";
 import { Footer } from "@/components/v4/Footer";
 import { Tongue } from "@/components/v4/Tongue";
 import { About } from "@/components/v4/about/About";
-import { EDU, PERSON, SINCE, STACK_ALL } from "@/components/v4/about/data";
+import { PERSON, SINCE } from "@/components/v4/about/data";
 import { tgText } from "@/lib/cta";
 
 /** первое сообщение в Telegram со страницы "Обо мне": то же, что у кнопок на самой странице */
@@ -46,7 +46,6 @@ export const metadata: Metadata = {
 export default async function AboutPage() {
   const kwork = await getKworkReviewsCount();
 
-  // Person с тем же @id, что в app/layout.tsx: поисковик склеивает его с общим графом сайта, здесь он полнее
   const ld = {
     "@context": "https://schema.org",
     "@graph": [
@@ -59,34 +58,8 @@ export default async function AboutPage() {
         isPartOf: { "@id": `${SITE.url}#website` },
         mainEntity: { "@id": `${SITE.url}#person` },
       },
-      {
-        "@type": "Person",
-        "@id": `${SITE.url}#person`,
-        name: PERSON.name,
-        givenName: PERSON.given,
-        familyName: PERSON.family,
-        alternateName: SITE.name,
-        jobTitle: "Веб-разработчик",
-        description: `Веб-разработчик на фрилансе с ${SINCE} года: сайты, интернет-магазины, боты для Telegram, MAX и ВК, доработка чужих сайтов, техническое SEO.`,
-        url: URL,
-        image: `${SITE.url}/img/alex-portrait.png`,
-        telephone: PERSON.phoneLd,
-        email: SITE.email,
-        address: { "@type": "PostalAddress", addressLocality: PERSON.city, addressCountry: "RU" },
-        alumniOf: {
-          "@type": "CollegeOrUniversity",
-          name: EDU.name,
-          alternateName: EDU.short,
-          url: EDU.url,
-        },
-        knowsAbout: [
-          "Разработка сайтов",
-          "Интернет-магазины",
-          ...STACK_ALL.filter((s) => !/вёрстка|MAX/.test(s)),
-          "Техническое SEO",
-        ],
-        sameAs: [SITE.telegram, SITE.kwork, PROFI_URL, SITE.github],
-      },
+      // фамилия и учёба дополняют общий Person из layout (lib/person-ld.ts), имя и описание там
+      PERSON_EXTRA_LD,
       {
         "@type": "BreadcrumbList",
         itemListElement: [

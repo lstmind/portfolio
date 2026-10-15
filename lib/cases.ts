@@ -20,6 +20,8 @@ export type CasePage = {
   detail?: string[];
   /** услуги, к которым относится кейс */
   services: string[];
+  /** открытый репозиторий, если в тексте сказано "код открыт на GitHub" */
+  repo?: string;
   /** кадры экранов: то, что за паролем или не видно с первого взгляда */
   shots?: { src: string; alt: string; caption: string; w: number; h: number }[];
 };
@@ -123,6 +125,7 @@ export const CASE_PAGES: CasePage[] = [
       "Весь код лежит открыто на GitHub, его можно посмотреть, а не поверить на слово.",
     ],
     services: ["sayt-pod-klyuch", "uskorit-sayt", "sayt-vizitka"],
+    repo: "https://github.com/lstmind/nega-salon",
   },
   {
     slug: "vedomost",
@@ -148,6 +151,7 @@ export const CASE_PAGES: CasePage[] = [
       "Astro отвечает за статику, Svelte — за интерактивные куски. Код открыт на GitHub.",
     ],
     services: ["sayt-katalog", "verstka-po-figma", "uskorit-sayt"],
+    repo: "https://github.com/lstmind/stroy",
   },
   {
     slug: "almytech",

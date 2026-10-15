@@ -129,7 +129,7 @@
   bottom:calc(50% - var(--works-dy) - var(--works-ch) / 2 - 3px);font:600 clamp(14px,1.1vw,17px)/1 var(--sans);transition:opacity .3s ease-out}
 .s-works.is-pin .s-works__toc.is-off{opacity:0;pointer-events:none}
 .s-works .s-works__toc button,.s-works .s-works__toc a{display:inline-flex;align-items:baseline;gap:14px;padding:0;border:0;background:none;
-  font:inherit;color:rgba(12,11,11,.56);cursor:pointer;transition:color .25s ease-out}
+  font:inherit;color:rgba(12,11,11,.6);cursor:pointer;transition:color .25s ease-out}
 .s-works .s-works__toc i{font-style:normal;font-weight:700;font-size:12px;letter-spacing:.06em;font-variant-numeric:tabular-nums;min-width:2.1em}
 .s-works .s-works__toc span{position:relative}
 .s-works .s-works__toc span::after{content:"";position:absolute;left:0;right:0;bottom:-4px;height:1.5px;background:currentColor;

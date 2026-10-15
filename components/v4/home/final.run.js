@@ -230,6 +230,7 @@ export function runFinal(root) {
       form.reset();
       status.textContent = okText(lt);
       send.textContent = 'Отправлено';
+      status.focus({ preventScroll: true });
       if (!reduce) { clearTimeout(poseT); showPose(2); }
     }).catch(function () {
       send.disabled = false; send.textContent = 'Отправить';

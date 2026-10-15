@@ -62,7 +62,7 @@ export default async function IndustryPageView({ params }: { params: Promise<{ s
   const types = typesOf(ind);
   const others = INDUSTRY_PAGES.filter((x) => x.slug !== ind.slug);
   const review = REVIEWS[ind.review];
-  const reviewUrl = review && /profi/i.test(review.src) ? PROFI_URL : KWORK_URL;
+  const reviewUrl = review?.src === "Профи" ? PROFI_URL : KWORK_URL;
   const p = splitPrice(ind.price.value);
   const t = splitTerm(ind.term.value);
   const demo = demoSpec(ind);
@@ -207,7 +207,6 @@ export default async function IndustryPageView({ params }: { params: Promise<{ s
               <h2 className="dl-sub" id="dl-spec-t">
                 Что важно именно здесь{" "}
                 <span className="dl-sub-n" aria-hidden="true">
-                  листайте
                   <Go />
                 </span>
               </h2>

@@ -124,6 +124,7 @@
 .s-final .final-status{font:600 13px/1.45 var(--sans);margin:0;min-height:0}
 .s-final .final-status a{text-decoration:underline;text-underline-offset:3px}
 .s-final .final-status:empty{display:none}
+.s-final .final-status:focus{outline:0}
 /* согласие у кнопки: мелко, серым, ссылки подчёркнуты (без галочки: строки со ссылкой на отдельный текст достаточно) */
 .s-final .final-consent{margin:0;font:600 12px/1.45 var(--sans);color:var(--ink-2);text-wrap:pretty}
 .s-final .final-consent a{color:inherit;text-decoration:underline;text-decoration-color:rgba(85,82,78,.45);text-underline-offset:2px;text-decoration-thickness:1px}
@@ -178,6 +179,9 @@
   .s-final .final-term{font-size:15px}
   .s-final .final-pick{margin-top:26px;gap:18px}
   .s-final .final-chip{font-size:14px;padding:11px 14px 12px}
+  /* зона нажатия чипа 44px невидимой рамкой в зазор между рядами (8px, на узких 7px): чип на вид тот же */
+  .s-final .final-chip::before{content:"";position:absolute;inset:-3.5px 0}
+  .s-final .final-alt{padding:14px 0;margin:-10px 0}
   .s-final .final-side{order:2;padding:32px 0 0}
   .s-final .final-chat{border-radius:22px}
   .s-final .final-scene{order:3;align-self:stretch;margin:40px calc(var(--final-pad) * -1) 0}

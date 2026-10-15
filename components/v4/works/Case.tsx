@@ -114,6 +114,11 @@ export function Case({ v }: { v: CaseView }) {
               {site.host}
               <Out />
             </a>
+            {c.repo && (
+              <a className="w-case__code" href={c.repo} target="_blank" rel="noopener">
+                Код открыт на GitHub
+              </a>
+            )}
             <span className="w-case__stack">{stack.join(" · ")}</span>
           </p>
         </div>
