@@ -1,7 +1,9 @@
 import type { Metadata } from "next";
 import { INDUSTRY_PAGES } from "@/lib/industries";
-import { SITE, TITLE_TAIL, plural } from "@/lib/content";
+import { REPLY, SITE, TITLE_TAIL, plural } from "@/lib/content";
 import { Figure } from "@/components/v4/Figure";
+import { tgText } from "@/lib/cta";
+import { Shell } from "@/components/v4/Shell";
 import { Crumbs, FinalCta, Go, Sign, TgButton, Word } from "@/components/v4/dlya/parts";
 import { HUB_FALLBACK, leadSite, serviceSite, serviceWord, sitesOf, wordOf } from "@/components/v4/dlya/data";
 import { HubPoseIsland, SignsIsland, WordsIsland } from "@/components/v4/dlya/islands";
@@ -50,7 +52,8 @@ const HP_SET = [
   .map(([h, w]) => `/img/v4/ill/h-priglashaet-${h}.webp ${w}w`)
   .join(", ");
 
-const HUB_MSG = `Здравствуйте! Пишу со страницы "Сайты по нишам" на lstmind.ru.`;
+/** первое сообщение в Telegram со страницы ниш: у шапки, язычка, подвала, первого экрана и финала одно */
+const HUB_MSG = tgText({ kind: "page", name: "Сайты по нишам" });
 
 export default function IndustriesIndex() {
   const n = INDUSTRY_PAGES.length;
@@ -91,7 +94,7 @@ export default function IndustriesIndex() {
   };
 
   return (
-    <>
+    <Shell current="/dlya" main="dl-page" tg={HUB_MSG} after=".dl-hero .dl-tg" until="#dl-final-t">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(ld) }} />
 
       {/* ── первый экран: "сайты для", ответ, персонаж показывает вниз, на список ── */}
@@ -220,10 +223,10 @@ export default function IndustriesIndex() {
 
       <FinalCta
         word="Ваша ниша?"
-        text="Напишу, какие блоки в ней обязательны, а что можно отложить на второй этап. Отвечаю в течение часа, первый разбор задачи бесплатный."
+        text={`Напишу, какие блоки в ней обязательны, а что можно отложить на второй этап. Первый разбор задачи бесплатный. ${REPLY.line}`}
         msg={HUB_MSG}
       />
       <WordsIsland />
-    </>
+    </Shell>
   );
 }

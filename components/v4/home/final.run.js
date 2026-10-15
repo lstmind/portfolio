@@ -5,6 +5,7 @@
    Цели Метрики те же, что у старых калькулятора и формы: calc_use (первое изменение расчёта за визит), lead_form (заявка дошла).
    calc_cta (кнопка Telegram калькулятора) ловит общий обработчик кликов, components/v4/goals.tsx. */
 import { ymGoal, ymGoalOnce } from '../../../lib/metrika';
+import { okText, postLead, showFail, validContact } from '../cta/lead';
 
 export function runFinal(root) {
   var dead = false, offs = [];
@@ -215,28 +216,24 @@ export function runFinal(root) {
     var cEl = $('final-contact'), nEl = $('final-name');
     nEl.setAttribute('aria-invalid', String(name.length < 2));
     if (name.length < 2) { status.textContent = 'Напишите, как к вам обращаться.'; nEl.focus(); return; }
-    if (!/@|\+?[\d\s().-]{7,}/.test(contact)) {
+    if (!validContact(contact)) {
       cEl.setAttribute('aria-invalid', 'true');
-      status.textContent = 'Похоже на опечатку: оставьте телефон, почту или @ник.'; cEl.focus(); return;
+      status.textContent = contact ? 'Похоже на опечатку: оставьте телефон, почту или @ник.' : 'Оставьте телефон, почту или @ник, иначе не смогу ответить.'; cEl.focus(); return;
     }
     cEl.setAttribute('aria-invalid', 'false');
     var r = calc();
     send.disabled = true; send.textContent = 'Отправляю…'; status.textContent = '';
-    fetch('/api/contact', {
-      method: 'POST', headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ name: name, contact: contact, task: String(fd.get('task') || ''),
-        budget: 'калькулятор: ' + summary(r),
-        page: location.pathname + location.search, from: document.referrer || '' })
-    }).then(function (res) {
-      if (!res.ok) throw new Error('bad');
+    var lt = CALC.lead;
+    postLead({ kind: 'contact', place: 'calc', name: name, contact: contact, task: String(fd.get('task') || ''),
+      budget: 'калькулятор: ' + summary(r) }).then(function () {
       ymGoal('lead_form');
       form.reset();
-      status.textContent = 'Дошло. Уже читаю, отвечаю сам.';
+      status.textContent = okText(lt);
       send.textContent = 'Отправлено';
       if (!reduce) { clearTimeout(poseT); showPose(2); }
     }).catch(function () {
       send.disabled = false; send.textContent = 'Отправить';
-      status.innerHTML = 'Не отправилось, текст в полях остался. Напишите на <a href="mailto:' + CALC.email + '">' + CALC.email + '</a>.';
+      showFail(status, lt, draft(r));
     });
   });
 

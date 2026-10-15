@@ -1,4 +1,6 @@
 import { SITE } from "@/lib/content";
+import { tgHref } from "@/lib/cta";
+import { tie } from "../typo";
 import { Figure } from "../Figure";
 import { illPose } from "./data";
 
@@ -50,17 +52,17 @@ export function Crumbs({ items }: { items: { name: string; href?: string }[] }) 
   );
 }
 
-/** связь в конце страницы: крупное слово, строка, красная кнопка; персонаж на связи стоит рядом, текст не перекрывает */
-export function Cta({ title, text }: { title: string; text: string }) {
+/** связь в конце страницы: крупное слово, строка, красная кнопка; персонаж на связи стоит рядом, текст не перекрывает. tg: первое сообщение */
+export function Cta({ title, text, tg }: { title: string; text: string; tg: string }) {
   return (
     <section className="w-cta" aria-labelledby="w-cta-title">
       <div className="w-cta__text">
         <h2 className="w-cta__h" id="w-cta-title">
           {title}
         </h2>
-        <p className="w-cta__p">{text}</p>
+        <p className="w-cta__p">{tie(text)}</p>
         <p className="w-cta__row">
-          <a className="w-cta__btn" href={SITE.telegram} target="_blank" rel="noopener">
+          <a className="w-cta__btn" href={tgHref(tg)} target="_blank" rel="noopener">
             Написать в Telegram
             <Out />
           </a>

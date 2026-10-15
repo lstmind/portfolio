@@ -1,5 +1,5 @@
 /* стили статики design-concepts/v4/karusel/sections/process/section.html как есть */
-/* как это будет: один человек, четыре шага, четыре позы.
+/* как это будет: без менеджеров, четыре шага, четыре позы.
    десктоп от 900: сцена закреплена на четыре экрана скролла. фигура по центру в масштабе и на линии ног героя,
    слева слово шага на той же дуге и тем же барабаном, справа одна строка. фигура стоит на линейке из четырёх засечек.
    на шаге "ссылка" в экран ноутбука вклеен живой сайт, он листается вместе со скроллом.
@@ -11,7 +11,7 @@
 .s-process .process-sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
 .s-process .process-stage{position:relative;padding:88px 0 40px}
 
-/* подписи сверху, как "работаю один / 100+ проектов" */
+/* подписи сверху, как "без менеджеров / 100+ проектов" */
 .s-process .process-head{display:flex;justify-content:space-between;align-items:center;gap:16px;padding:0 var(--process-pad)}
 .s-process .process-label,.s-process .process-count{font:700 13px/1.2 var(--sans);letter-spacing:.04em;text-transform:uppercase;margin:0}
 .s-process .process-count{display:flex;align-items:center;gap:6px;font-variant-numeric:tabular-nums;color:var(--ink-2)}
@@ -31,6 +31,9 @@
 .s-process .process-ch{display:inline-block}
 .s-process .process-ch i{display:block;font-style:normal}
 .s-process .process-line{margin:0;font-weight:600;color:var(--ink);text-wrap:pretty}
+
+/* строка под основной на шаге разбора: "хватит одной фразы и ссылки", тише основной */
+.s-process .process-note{margin-bottom:0;max-width:var(--process-lw,22em);font:600 15px/1.45 var(--sans);color:var(--ink-2);text-wrap:pretty}
 
 /* живой сайт в экране ноутбука позы 6: углы экрана в долях холста 400x984 */
 .s-process .process-screen{position:absolute;left:23.075%;top:24.644%;width:40.35%;height:10.671%;display:block;overflow:hidden;
@@ -141,7 +144,7 @@
 .s-process.is-pin .process-more{position:absolute;left:var(--process-lx);top:calc(var(--process-lb) + 26px);transition:opacity .2s ease-in,transform .2s ease-in}
 .s-process.is-pin .process-floor{position:absolute;left:0;right:0;top:calc(var(--process-sole) - 1px);z-index:1}
 .s-process.is-pin .process-count{display:none}
-/* спецификация: две подписи у колен под наклоном, как "работаю один / 100+ проектов" в герое */
+/* спецификация: две подписи у колен под наклоном, как "без менеджеров / 100+ проектов" в герое */
 .s-process.is-pin .process-spec{position:absolute;inset:0;margin:0;padding:0;pointer-events:none;color:var(--ink);
   font:700 clamp(13px,1.15vw,16px)/1.2 var(--sans);letter-spacing:.03em}
 .s-process.is-pin .process-spec i{display:none}

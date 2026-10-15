@@ -2,6 +2,8 @@ import type { ServicePage } from "@/lib/services";
 import type { IndustryPage } from "@/lib/industries";
 import { PROCESS_STEPS, liveSitesWord } from "@/lib/home";
 import { PAY_TERMS, PROJECTS_TOTAL, plural } from "@/lib/content";
+import { tgText, type Audit } from "@/lib/cta";
+import { AuditButton, AuditSub } from "../cta/Strip";
 import { KWORK_STATS, PROFI_STATS } from "@/lib/reviews";
 import { Figure, IMG } from "../Figure";
 import { Block, Crumbs, Go, Out, TgButton, Word } from "./bits";
@@ -70,88 +72,94 @@ export function ShotFigure({ shot, lang = false, eager = false }: { shot: CaseCa
 const NB = " ";
 
 /** "Пишу со страницы ..." первым сообщением: сразу видно, с какой услуги пришли */
-export const tgMsg = (h1: string) => `Здравствуйте! Пишу со страницы "${h1}" на lstmind.ru.`;
+export const tgMsg = (h1: string) => tgText({ kind: "service", name: h1 });
 
 /**
  * Первый экран услуги: крупное слово, название услуги (h1), цена и срок вывеской, одна строка ответа, кнопка.
  * Справа персонаж показывает ноутбук, на экране едет живой сайт из работ этой услуги.
+ * audit: на услугах с бесплатным аудитом вторая кнопка "Прислать сайт на аудит" (контуром, красной остаётся Telegram),
+ * под линейкой первого экрана условия одной строкой и запасная форма.
  */
-export function ServiceHero({ s, shot }: { s: ServicePage; shot: CaseCard }) {
+export function ServiceHero({ s, shot, audit }: { s: ServicePage; shot: CaseCard; audit?: Audit | null }) {
   const scene = sceneOf(s.slug);
   const p = splitPrice(s.price.value);
   const t = splitTerm(s.term.value);
   return (
-    <section className="u-hero" id="u-hero" aria-labelledby="u-h1">
-      <div className="u-hero-txt">
-        <Crumbs
-          items={[
-            { name: "Главная", href: "/" },
-            { name: "Услуги", href: "/uslugi" },
-          ]}
-        />
-        <h1 className="u-kicker" id="u-h1">
-          {s.heading ?? s.h1}
-        </h1>
-        <Word text={wordOf(s.slug)} />
+    <>
+      <section className={`u-hero${audit ? " u-hero--audit" : ""}`} id="u-hero" aria-labelledby="u-h1">
+        <div className="u-hero-txt">
+          <Crumbs
+            items={[
+              { name: "Главная", href: "/" },
+              { name: "Услуги", href: "/uslugi" },
+            ]}
+          />
+          <h1 className="u-kicker" id="u-h1">
+            {s.heading ?? s.h1}
+          </h1>
+          <Word text={wordOf(s.slug)} />
 
-        <dl className="u-facts">
-          <div className="u-fact">
-            <dt>{s.price.label}</dt>
-            <dd>
-              <span className="u-num">
-                {p.pre && <i>{p.pre}</i>}
-                <span>
-                  {p.value}
-                  {p.unit && <u>{p.unit}</u>}
+          <dl className="u-facts">
+            <div className="u-fact">
+              <dt>{s.price.label}</dt>
+              <dd>
+                <span className="u-num">
+                  {p.pre && <i>{p.pre}</i>}
+                  <span>
+                    {p.value}
+                    {p.unit && <u>{p.unit}</u>}
+                  </span>
                 </span>
-              </span>
-              <span className="u-fnote">{tie(s.price.note)}</span>
-            </dd>
-          </div>
-          <div className="u-fact">
-            <dt>{s.term.label}</dt>
-            <dd>
-              <span className="u-num">
-                {t.pre && <i>{t.pre}</i>}
-                <span>{t.value}</span>
-              </span>
-              <span className="u-fnote">{tie(s.term.note)}</span>
-            </dd>
-          </div>
-        </dl>
+                <span className="u-fnote">{tie(s.price.note)}</span>
+              </dd>
+            </div>
+            <div className="u-fact">
+              <dt>{s.term.label}</dt>
+              <dd>
+                <span className="u-num">
+                  {t.pre && <i>{t.pre}</i>}
+                  <span>{t.value}</span>
+                </span>
+                <span className="u-fnote">{tie(s.term.note)}</span>
+              </dd>
+            </div>
+          </dl>
 
-        <p className="u-answer">{tie(s.answer)}</p>
-        <div className="u-hero-act">
-          <TgButton text={tgMsg(s.h1)} className="u-cta" />
-          <span className="u-hero-side">Самозанятый: договор, акт и{NB}чек</span>
+          <p className="u-answer">{tie(s.answer)}</p>
+          <div className="u-hero-act">
+            <TgButton text={tgMsg(s.h1)} className="u-cta" />
+            {audit && <AuditButton audit={audit} className="ct-btn--hero" />}
+            <span className="u-hero-side">Самозанятый: договор, акт и{NB}чек</span>
+          </div>
         </div>
-      </div>
 
-      {scene ? (
-        <figure className="u-hero-fig">
-          <span className="u-fig-box" style={{ aspectRatio: `${scene.w} / ${scene.h}` }}>
-            {s.slug === "telegram-bot" ? (
-              <>
-                {/* экран телефона прозрачный: переписка лежит под картинкой, пальцы и рамка остаются сверху */}
-                <span className="u-hole" style={screenBox(BOT_SCREEN)} aria-hidden="true">
-                  <ChatFeed mini />
+        {scene ? (
+          <figure className="u-hero-fig">
+            <span className="u-fig-box" style={{ aspectRatio: `${scene.w} / ${scene.h}` }}>
+              {s.slug === "telegram-bot" ? (
+                <>
+                  {/* экран телефона прозрачный: переписка лежит под картинкой, пальцы и рамка остаются сверху */}
+                  <span className="u-hole" style={screenBox(BOT_SCREEN)} aria-hidden="true">
+                    <ChatFeed mini />
+                  </span>
+                  <ArtImg art={BOT_HOLE} alt={scene.alt} sizes={HERO_SIZES(400)} loading="eager" fetchPriority="high" className="u-fig-top" />
+                </>
+              ) : (
+                <ArtImg art={scene} alt={scene.alt} sizes={HERO_SIZES(scene.w)} loading="eager" fetchPriority="high" />
+              )}
+              {s.slug === "admin-panel-i-crm" && (
+                <span className="u-tab" style={screenBox(ADMIN_SCREEN)} aria-hidden="true">
+                  <Kanban mini />
                 </span>
-                <ArtImg art={BOT_HOLE} alt={scene.alt} sizes={HERO_SIZES(400)} loading="eager" fetchPriority="high" className="u-fig-top" />
-              </>
-            ) : (
-              <ArtImg art={scene} alt={scene.alt} sizes={HERO_SIZES(scene.w)} loading="eager" fetchPriority="high" />
-            )}
-            {s.slug === "admin-panel-i-crm" && (
-              <span className="u-tab" style={screenBox(ADMIN_SCREEN)} aria-hidden="true">
-                <Kanban mini />
-              </span>
-            )}
-          </span>
-        </figure>
-      ) : (
-        <ShotFigure shot={shot} lang={s.slug === "mnogoyazychnyy-sayt"} eager />
-      )}
-    </section>
+              )}
+            </span>
+          </figure>
+        ) : (
+          <ShotFigure shot={shot} lang={s.slug === "mnogoyazychnyy-sayt"} eager />
+        )}
+      </section>
+      {audit && <AuditSub audit={audit} />}
+    </>
   );
 }
 

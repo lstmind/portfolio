@@ -12,7 +12,7 @@ export default function manifest(): MetadataRoute.Manifest {
   return {
     name: `${SITE.name}: Алексей, веб-разработчик`,
     short_name: SITE.name,
-    description: "Сайты, магазины, телеграм-боты и починка чужих сайтов. Работаю один, договор и чек.",
+    description: "Сайты, магазины, телеграм-боты и починка чужих сайтов. Без менеджеров, договор и чек.",
     lang: "ru",
     start_url: "/",
     scope: "/",

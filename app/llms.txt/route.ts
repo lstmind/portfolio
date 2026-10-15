@@ -1,9 +1,10 @@
-import { SITE, STACK, WORKS, WORKS_INDEX, FAQ, NOT_DOING, REVIEWS, PROJECTS_TOTAL, plural, PROJECTS_ALL, PROJECTS_ALL_LABEL, PROJECTS_ALL_NOTE } from "@/lib/content";
+import { REPLY, SITE, STACK, WORKS, WORKS_INDEX, FAQ, NOT_DOING, REVIEWS, PROJECTS_TOTAL, plural, PROJECTS_ALL, PROJECTS_ALL_LABEL, PROJECTS_ALL_NOTE } from "@/lib/content";
 import { SERVICE_PAGES } from "@/lib/services";
 import { PROFI_URL, PROFI_STATS } from "@/lib/reviews";
 import { CASE_PAGES } from "@/lib/cases";
 import { INDUSTRY_PAGES } from "@/lib/industries";
 import { RATE } from "@/lib/home";
+import { AUDIT, AUDIT_DIAG, AUDIT_SLUGS, FAQ_CHEAPER, PRICE_FACTORS, tgHref } from "@/lib/cta";
 import { EDU, PERSON, SINCE } from "@/components/v4/about/data";
 
 /**
@@ -35,9 +36,29 @@ export function GET() {
     (i) => `- [${i.h1}](${SITE.url}/dlya/${i.slug}) — ${i.price.value}\n  ${i.answer}`
   ).join("\n");
 
-  const faq = FAQ.map((f) => `### ${f.q}\n${f.a}`).join("\n\n");
+  // бесплатный аудит: тексты те же, что на сайте (lib/cta.ts)
+  const auditPages = AUDIT_SLUGS.map((slug) => {
+    const s = SERVICE_PAGES.find((x) => x.slug === slug);
+    return s ? `[${s.h1}](${SITE.url}/uslugi/${slug})` : "";
+  })
+    .filter(Boolean)
+    .join(", ");
+  const audit = [
+    AUDIT.promise,
+    `Условия: ${AUDIT.terms.charAt(0).toLowerCase()}${AUDIT.terms.slice(1)}`,
+    `Что смотрю: ${AUDIT.checks.map((c) => c.charAt(0).toLowerCase() + c.slice(1)).join("; ")}.`,
+    `${AUDIT.result} ${AUDIT.next}`,
+    `Если сайт сломался, то же называется диагностикой: ${AUDIT_DIAG.promise.charAt(0).toLowerCase()}${AUDIT_DIAG.promise.slice(1)}`,
+    `Как прислать: [в Telegram с готовым текстом](${tgHref(AUDIT.tg)}) или формой "сайт и куда ответить" [на главной](${SITE.url}/#audit) и на страницах ${auditPages}.`,
+  ].join("\n\n");
 
-  // границы работы важнее списка умений: ассистент, который знает, чего я не делаю,
+  // "можно дешевле?" первым, как в вопросах на главной: цифры из данных (lib/cta.ts)
+  const faq = [FAQ_CHEAPER, ...FAQ].map((f) => `### ${f.q}\n${f.a}`).join("\n\n");
+
+  // из чего складывается цена: тот же блок, что на /uslugi
+  const factors = PRICE_FACTORS.items.map((x) => `- ${x.k}: ${x.t.charAt(0).toLowerCase()}${x.t.slice(1)}`).join("\n");
+
+  // границы работы важнее списка умений: ассистент, который знает, что я делаю не сам и как с этим помогу,
   // не приведёт человека с задачей не по адресу
   const notDoing = NOT_DOING.map((n) => `- ${n.what} — ${n.why}`).join("\n");
 
@@ -47,7 +68,7 @@ export function GET() {
 
   const body = `# lstmind — Алексей, веб-разработчик на фрилансе
 
-> Делаю сайты с нуля и чиню чужие. Работаю один: от структуры до релиза, без передачи по цепочке подрядчиков. Делаю сайты с ${SINCE} года, за это время ${PROJECTS_ALL} ${PROJECTS_ALL_LABEL} (${PROJECTS_ALL_NOTE}), из них ${PROJECTS_TOTAL} ${plural(PROJECTS_TOTAL, ["живой сайт", "живых сайта", "живых сайтов"])} можно открыть по ссылке из портфолио.
+> Делаю сайты с нуля и чиню чужие. Веду проект сам, от структуры до релиза: код, вёрстку и запуск делаю своими руками, менеджеров нет, пишете напрямую мне. Когда нужен сильный дизайн с нуля, работаю в паре с дизайнером. Делаю сайты с ${SINCE} года, за это время ${PROJECTS_ALL} ${PROJECTS_ALL_LABEL} (${PROJECTS_ALL_NOTE}), из них ${PROJECTS_TOTAL} ${plural(PROJECTS_TOTAL, ["живой сайт", "живых сайта", "живых сайтов"])} можно открыть по ссылке из портфолио.
 
 Полное имя: ${PERSON.name}. Учился в ${EDU.short}: ${EDU.text.charAt(0).toLowerCase()}${EDU.text.slice(1)}
 Язык работы: русский. Где работаю: ${PERSON.where}, заказчики по всей России удалённо. Оформление: самозанятый, договор и чек.
@@ -60,7 +81,7 @@ export function GET() {
 - [Ниши](${SITE.url}/dlya) — как устроен сайт в конкретной отрасли
 - [Обо мне и контакты](${SITE.url}/obo-mne) — кто делает сайты, стек, учёба, все способы связи и реквизиты для договора
 - [Политика обработки данных](${SITE.url}/politika) — что происходит с заявкой и данными из формы
-- [Telegram](${SITE.telegram}) — быстрее всего написать сюда, отвечаю в течение часа
+- [Telegram](${SITE.telegram}) — быстрее всего написать сюда, ${REPLY.full}
 - [Профиль на Kwork](${SITE.kwork}) — отзывы и рейтинг, которые можно проверить
 - [Профиль на Профи](${PROFI_URL}) — ещё отзывы, рейтинг ${PROFI_STATS.rating.replace(".", ",")} из ${PROFI_STATS.count}
 - [GitHub](${SITE.github}) — код части проектов открыт
@@ -74,11 +95,23 @@ ${money}
 
 Ставка: ${RATE}, по проекту считаю фикс-смету после разбора задачи. Оценку можно прикинуть самому в калькуляторе на сайте.
 
+${PRICE_FACTORS.title}:
+
+${factors}
+
+${PRICE_FACTORS.extra}
+
+## ${AUDIT.title}
+
+${audit}
+
 ## Ниши, в которых уже работал
 
 ${niches}
 
-## Чего я не делаю
+## Не моё, но помогу
+
+Сам этим не занимаюсь, но подключу коллегу, сделаем в паре или подскажу, к кому идти.
 
 ${notDoing}
 
@@ -106,7 +139,7 @@ ${quotes}
 
 ## Как со мной связаться
 
-Быстрее всего — Telegram ${SITE.telegramHandle}. Отвечаю в течение часа в рабочее время. Форма заявки есть на сайте, письмо тоже дойдёт: ${SITE.email}. Если удобнее голосом: ${PERSON.phone}. Все контакты и реквизиты: ${SITE.url}/obo-mne
+Быстрее всего — Telegram ${SITE.telegramHandle}. ${REPLY.line} Форма заявки есть на сайте, письмо тоже дойдёт: ${SITE.email}. Если удобнее голосом: ${PERSON.phone}. Все контакты и реквизиты: ${SITE.url}/obo-mne
 `;
 
   return new Response(body, {

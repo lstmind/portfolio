@@ -56,13 +56,17 @@ export function runTongue(dock, after, until) {
   var heroCta = after ? document.querySelector(after) : null;
   var title = (until && document.querySelector(until)) || document.getElementById('footer');
   var top = document.querySelector('header.top');
+  // полосы посередине страницы со своей кнопкой (cta/Strip.tsx) и строка аудита под героем с формой:
+  // пока они в кадре, язычок не дублирует их кнопку, а плашка cookie (едет вместе с язычком) не ложится на кнопку и форму
+  var zones = [].slice.call(document.querySelectorAll('.ct-strip .ct-act, .ct-strip .ct-sub, .ct-hsub'));
   var on = null, rq = 0;
+  function inView(el) { var r = el.getBoundingClientRect(); return r.height > 0 && r.top < innerHeight && r.bottom > 0; }
   function onScroll() {
     rq = 0;
     var passed = heroCta ? heroCta.getBoundingClientRect().bottom < 0 : scrollY > innerHeight * .6;
     // кнопка героя целиком выше экрана, а вопрос "СКОЛЬКО?" финала ещё не показался (дальше только подвал):
     // язычок не ложится на цифры калькулятора и не дублирует кнопку финала
-    var v = passed && !(title && title.getBoundingClientRect().top < innerHeight);
+    var v = passed && !(title && title.getBoundingClientRect().top < innerHeight) && !zones.some(inView);
     if (v === on) return;
     on = v;
     dock.classList.toggle('is-on', v);

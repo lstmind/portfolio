@@ -7,6 +7,10 @@ import { Footer } from "@/components/v4/Footer";
 import { Tongue } from "@/components/v4/Tongue";
 import { About } from "@/components/v4/about/About";
 import { EDU, PERSON, SINCE, STACK_ALL } from "@/components/v4/about/data";
+import { tgText } from "@/lib/cta";
+
+/** первое сообщение в Telegram со страницы "Обо мне": то же, что у кнопок на самой странице */
+const TG = tgText({ kind: "page", name: "Обо мне" });
 
 /**
  * Обо мне и контакты: кто делает сайты, как с ним связаться и реквизиты для договора.
@@ -96,12 +100,12 @@ export default async function AboutPage() {
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(ld) }} />
-      <Header inner current="/obo-mne" />
+      <Header inner current="/obo-mne" tg={TG} />
       <main id="main" className="ab-page">
         <About kwork={kwork} />
       </main>
-      <Footer />
-      <Tongue after=".ab-hero .ab-tg" until="#ab-con-t" />
+      <Footer tg={TG} />
+      <Tongue after=".ab-hero .ab-tg" until="#ab-con-t" tg={TG} />
     </>
   );
 }

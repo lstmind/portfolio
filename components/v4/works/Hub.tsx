@@ -1,4 +1,5 @@
-import { PROJECTS_TOTAL } from "@/lib/content";
+import { PROJECTS_TOTAL, REPLY } from "@/lib/content";
+import { tgText } from "@/lib/cta";
 import { liveSitesWord } from "@/lib/home";
 import { SITES, CATS, PLATFORMS, CAT_SHORT } from "./data";
 import { Crumbs, Cta, Drum, Ill, Out, Next } from "./parts";
@@ -234,7 +235,11 @@ export function Hub() {
         </div>
       </section>
 
-      <Cta title="Хочу такой же" text="Скажите, какой из проектов ближе к вашей задаче: прикину смету и срок по аналогии. Отвечаю в течение часа." />
+      <Cta
+        title="Хочу такой же"
+        text={`Скажите, какой из проектов ближе к вашей задаче: прикину смету и срок по аналогии. ${REPLY.line}`}
+        tg={tgText({ kind: "works" })}
+      />
       <HubIsland />
     </main>
   );

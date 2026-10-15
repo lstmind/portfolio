@@ -1,9 +1,14 @@
+import { Fragment } from "react";
 import type { Metadata } from "next";
 import { SERVICE_PAGES, serviceBySlug } from "@/lib/services";
 import { INDUSTRY_PAGES } from "@/lib/industries";
-import { SITE, NOT_DOING, TITLE_TAIL } from "@/lib/content";
+import { REPLY, SITE, NOT_DOING, TITLE_TAIL } from "@/lib/content";
 import { RATE, SITE_FROM } from "@/lib/home";
+import { tgText } from "@/lib/cta";
+import { Shell } from "@/components/v4/Shell";
+import { PriceFactors } from "@/components/v4/uslugi/Factors";
 import { Figure } from "@/components/v4/Figure";
+import { tie } from "@/components/v4/typo";
 import { Crumbs, FinalCta, Go, TgButton, Word } from "@/components/v4/uslugi/bits";
 import { Niches } from "@/components/v4/uslugi/Service";
 import { Sign } from "@/components/v4/uslugi/Sign";
@@ -40,6 +45,8 @@ export const metadata: Metadata = {
 };
 
 const NB = " ";
+/** первое сообщение в Telegram со страницы услуг: у шапки, язычка, подвала, первого экрана и финала одно */
+const MSG = tgText({ kind: "page", name: "Услуги и цены" });
 
 export default function ServicesIndex() {
   const ld = {
@@ -77,7 +84,7 @@ export default function ServicesIndex() {
   };
 
   return (
-    <>
+    <Shell current="/uslugi" main="u-page" tg={MSG} after=".u-hero .u-tg" until="#u-final-t">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(ld) }} />
 
       <section className="u-hero u-hero--hub" id="u-hero" aria-labelledby="u-h1">
@@ -100,7 +107,7 @@ export default function ServicesIndex() {
             </li>
           </ul>
           <div className="u-hero-act">
-            <TgButton text="Здравствуйте! Пишу со страницы услуг на lstmind.ru." className="u-cta" />
+            <TgButton text={MSG} className="u-cta" />
             <a className="u-hero-jump" href="#u-new">
               Смотреть цены ↓
             </a>
@@ -121,9 +128,13 @@ export default function ServicesIndex() {
 
       <div className="u-flow">
         {HUB_GROUPS.map((g, i) => (
-          <div className="u-wide" key={g.title}>
-            <Sign id={["u-new", "u-old", "u-code"][i]} title={g.title} side={g.side} services={g.services} />
-          </div>
+          <Fragment key={g.title}>
+            <div className="u-wide">
+              <Sign id={["u-new", "u-old", "u-code"][i]} title={g.title} side={g.side} services={g.services} />
+            </div>
+            {/* из чего складывается цена: сразу под ценами новых сайтов, к ним он и относится */}
+            {i === 0 && <PriceFactors />}
+          </Fragment>
         ))}
 
         <Niches
@@ -133,9 +144,10 @@ export default function ServicesIndex() {
 
         <section className="u-no" id="u-no" aria-labelledby="u-no-t">
           <div className="u-no-head">
-            <Word as="h2" text="Не делаю" id="u-no-t" />
+            {/* tie склеивает "не моё," и "но помогу": на телефоне ровно две строки */}
+            <Word as="h2" text={tie("Не моё, но помогу")} id="u-no-t" />
             <p className="u-intro">
-              Честный список: если задача из него, я подскажу, к кому идти, но браться не буду. Так быстрее для обеих сторон.
+              {tie("Сам этим не занимаюсь, но и не отправлю ни с чем: подключу коллегу, сделаем в паре или подскажу, к кому идти.")}
             </p>
           </div>
           <ul className="u-no-list">
@@ -144,7 +156,7 @@ export default function ServicesIndex() {
                 <b>
                   <span className="u-no-x">{n.what}</span>
                 </b>
-                <span>{n.why}</span>
+                <span>{tie(n.why)}</span>
               </li>
             ))}
           </ul>
@@ -168,14 +180,14 @@ export default function ServicesIndex() {
 
       <FinalCta
         word="Не нашли?"
-        text="Напишите в двух словах, что нужно. Отвечу в течение часа и скажу честно: берусь, сколько это стоит и сколько займёт."
-        msg="Здравствуйте! Пишу со страницы услуг на lstmind.ru."
+        text={`Напишите в двух словах, что нужно. Скажу честно: берусь или нет, сколько это стоит и сколько займёт. ${REPLY.line}`}
+        msg={MSG}
       />
 
       <SignsIsland />
       <NichesIsland />
       <StrikeIsland />
       <WordsIsland />
-    </>
+    </Shell>
   );
 }

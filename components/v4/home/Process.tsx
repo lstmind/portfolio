@@ -1,6 +1,7 @@
 import { PROCESS_STEPS, PROCESS_SPEC } from "@/lib/home";
 import { Figure, IMG } from "../Figure";
 import { ProcessIsland } from "./islands";
+import { tie } from "../typo";
 import "./process.css";
 
 const pad = (n: number) => String(n).padStart(2, "0");
@@ -48,6 +49,7 @@ export function Process() {
               <div className="process-txt">
                 <h3 className="process-word">{s.word}</h3>
                 <p className="process-line">{s.line}</p>
+                {s.note && <p className="process-more process-note">{tie(s.note)}</p>}
                 {s.screen && (
                   <p className="process-more">
                     <a

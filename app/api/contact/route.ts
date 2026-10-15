@@ -22,6 +22,10 @@ export async function POST(req: Request) {
     budget?: string;
     page?: string;
     from?: string;
+    /** "audit" или "contact"; без поля: контакт (так шлёт калькулятор главной) */
+    kind?: string;
+    site?: string;
+    place?: string;
   };
   try {
     body = await req.json();
@@ -37,16 +41,24 @@ export async function POST(req: Request) {
   const contact = (body.contact || "").toString().slice(0, 200).trim();
   const task = (body.task || "").toString().slice(0, 2000).trim();
 
-  if (!name || !contact) {
-    return NextResponse.json({ ok: false, error: "name and contact required" }, { status: 422 });
+  // аудит: сайт и куда ответить, имя не спрашиваем. Контакт: имя и куда ответить, задача по желанию
+  const audit = body.kind === "audit";
+  const kind = audit ? "аудит" : "контакт";
+  const site = (body.site || "").toString().slice(0, 300).trim();
+  const place = (body.place || "").toString().slice(0, 40).trim();
+
+  if (audit ? !site || !contact : !name || !contact) {
+    return NextResponse.json({ ok: false, error: audit ? "site and contact required" : "name and contact required" }, { status: 422 });
   }
 
   // страница и источник: без них не понять, какие страницы реально приносят заявки
-  const budget = (body.budget || "").toString().slice(0, 60).trim();
+  const budget = (body.budget || "").toString().slice(0, 120).trim();
   const page = (body.page || "").toString().slice(0, 200).trim();
   const from = (body.from || "").toString().slice(0, 200).trim();
 
-  const lead: Lead = { t: new Date().toISOString(), name, contact, task, budget, page, from };
+  const lead: Lead = { t: new Date().toISOString(), name, contact, task, budget, page, from, kind, ...(site ? { site } : {}), ...(place ? { place } : {}) };
+  // откуда заявка одной строкой: "аудит · /uslugi/uskorit-sayt · блок strip"
+  const source = [kind, page, place && `блок ${place}`].filter(Boolean).join(" · ");
   let saved = true;
   try {
     await saveLead(lead);
@@ -66,25 +78,28 @@ export async function POST(req: Request) {
   }
 
   const text =
-    `🔥 Новая заявка с сайта\n\n` +
-    `👤 Имя: ${name}\n` +
+    (audit ? `🔎 Заявка на экспресс-аудит\n\n` : `🔥 Новая заявка с сайта\n\n`) +
+    `🏷 Форма: ${source}\n` +
+    (site ? `🌐 Сайт: ${site}\n` : "") +
+    (name ? `👤 Имя: ${name}\n` : "") +
     `📨 Контакт: ${contact}\n` +
-    (task ? `📝 Задача: ${task}\n` : "") +
+    (task ? `📝 ${audit ? "Что не так" : "Задача"}: ${task}\n` : "") +
     (budget ? `💰 Бюджет: ${budget}\n` : "") +
-    (page ? `📄 Страница: ${page}\n` : "") +
-    (from ? `↩️ Источник: ${from}\n` : "");
+    (from ? `↩️ Пришёл с: ${from}\n` : "");
 
   // письмо уходит параллельно с Telegram; ждём его, только если Telegram не доставил
   const mailing = mail
     ? sendMail({
-        subject: `Заявка с сайта: ${name}`.slice(0, 120),
+        subject: (audit ? `Аудит с сайта: ${site}` : `Заявка с сайта: ${name}`).slice(0, 120),
         text:
-          `Новая заявка с сайта lstmind.ru\n\n` +
-          `Имя: ${name}\nКонтакт: ${contact}\n` +
-          (task ? `Задача: ${task}\n` : "") +
+          `${audit ? "Заявка на экспресс-аудит" : "Новая заявка"} с сайта lstmind.ru\n\n` +
+          `Форма: ${source}\n` +
+          (site ? `Сайт: ${site}\n` : "") +
+          (name ? `Имя: ${name}\n` : "") +
+          `Контакт: ${contact}\n` +
+          (task ? `${audit ? "Что не так" : "Задача"}: ${task}\n` : "") +
           (budget ? `Бюджет: ${budget}\n` : "") +
-          (page ? `Страница: ${page}\n` : "") +
-          (from ? `Источник: ${from}\n` : "") +
+          (from ? `Пришёл с: ${from}\n` : "") +
           `\nВремя: ${lead.t}\n`,
         replyTo: EMAIL.test(contact) ? contact : undefined,
       }).then(

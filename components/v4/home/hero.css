@@ -114,6 +114,8 @@ html:root .cap.r{left:calc(50% + var(--side-x))}
   html:root .hero{--side-y:75.5%}
   html:root .side{white-space:normal;width:6.2em;line-height:1.18}
   html:root .side-r{text-align:right}
+  /* слева слова переносятся по одному, и рамка по самому длинному ("менеджеров" шире 6.2em) */
+  html:root .side-l{width:min-content}
   /* справа две строки по разметке ("100+ проектов / и доработок"), без своих переносов */
   html:root .side-r{width:auto;white-space:nowrap}
   /* на телефоне место сбоку узкое: имя сверху, адрес снизу */

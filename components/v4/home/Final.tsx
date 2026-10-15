@@ -1,5 +1,6 @@
-import { SITE, CALC } from "@/lib/content";
+import { SITE, CALC, HOURS } from "@/lib/content";
 import { FAQ_HOME } from "@/lib/home";
+import { LEAD, tgHref } from "@/lib/cta";
 import { IMG } from "../Figure";
 import { tie } from "../typo";
 import { FinalIsland } from "./islands";
@@ -39,6 +40,8 @@ export function Final() {
     telegram: SITE.telegram,
     email: SITE.email,
     img: IMG,
+    // ответы формы: общие с короткими формами (cta/lead.js), часы из HOURS
+    lead: { tg: SITE.telegram, email: SITE.email, fail: LEAD.err.fail, okNow: LEAD.okNow, okLater: LEAD.okLater, from: HOURS.from, to: HOURS.to },
   };
   const faqLd = {
     "@context": "https://schema.org",
@@ -143,7 +146,7 @@ export function Final() {
           <a
             className="final-cta"
             id="final-cta"
-            href={`${SITE.telegram}?text=${encodeURIComponent(r.msg.join(""))}`}
+            href={tgHref(r.msg.join(""))}
             target="_blank"
             rel="noopener"
           >

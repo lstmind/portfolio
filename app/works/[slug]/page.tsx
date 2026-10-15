@@ -4,6 +4,8 @@ import { CASE_PAGES, caseBySlug } from "@/lib/cases";
 import { SITE } from "@/lib/content";
 import { Case } from "@/components/v4/works/Case";
 import { caseView } from "@/components/v4/works/data";
+import { tgText } from "@/lib/cta";
+import { Shell } from "@/components/v4/Shell";
 
 // чужой slug сразу получает готовую 404, без рендера на запрос
 export const dynamicParams = false;
@@ -81,9 +83,9 @@ export default async function CasePageView({ params }: { params: Promise<{ slug:
   };
 
   return (
-    <>
+    <Shell current="/works" tg={tgText({ kind: "case", name: site.title })} after="" until="#w-cta-title">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(ld) }} />
       <Case v={v} />
-    </>
+    </Shell>
   );
 }

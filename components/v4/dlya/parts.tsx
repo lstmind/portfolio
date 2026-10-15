@@ -1,4 +1,7 @@
 import { SITE } from "@/lib/content";
+import { tgHref } from "@/lib/cta";
+import { LeadForm } from "@/components/v4/cta/LeadForm";
+import { OnePhrase } from "@/components/v4/cta/Strip";
 import { tie } from "@/components/v4/typo";
 import { splitPrice, wordFit, type SiteCard } from "./data";
 import "@/components/v4/home/prices.css";
@@ -84,7 +87,7 @@ export function Word({
 
 /** красная кнопка Telegram язычком, как у героя главной; text: первое сообщение */
 export function TgButton({ text, className = "" }: { text?: string; className?: string }) {
-  const href = text ? `${SITE.telegram}?text=${encodeURIComponent(text)}` : SITE.telegram;
+  const href = tgHref(text);
   return (
     <a className={`dl-tg ${className}`} href={href} target="_blank" rel="noopener">
       Написать в Telegram
@@ -365,7 +368,10 @@ export function Block({
   );
 }
 
-/** финал страницы: крупный вопрос, одна строка, кнопка и почта для тех, у кого нет Telegram */
+/**
+ * финал страницы: крупный вопрос, одна строка, кнопка и почта; под линейкой "хватит одной фразы..."
+ * и свёрнутая форма для тех, у кого нет Telegram
+ */
 export function FinalCta({ word, text, msg }: { word: string; text: string; msg?: string }) {
   return (
     <section className="dl-final" id="dl-final" aria-labelledby="dl-final-t">
@@ -380,6 +386,10 @@ export function FinalCta({ word, text, msg }: { word: string; text: string; msg?
             или на почту {SITE.email}
           </a>
         </div>
+      </div>
+      <div className="dl-final-sub">
+        <OnePhrase />
+        <LeadForm mode="contact" place="final" />
       </div>
     </section>
   );

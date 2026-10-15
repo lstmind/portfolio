@@ -1,8 +1,10 @@
-import { SITE, PROJECTS_TOTAL, plural } from "@/lib/content";
+import { REPLY, SITE, PROJECTS_TOTAL, plural } from "@/lib/content";
 import { FOOTER_NICHES } from "@/lib/home";
 import { PROFI_URL } from "@/lib/reviews";
 import { OWNER } from "@/lib/legal";
+import { tgHref, tgText } from "@/lib/cta";
 import { Figure } from "./Figure";
+import { tie } from "./typo";
 import { FooterIsland } from "./islands";
 import { APO_VB, LOGO_APO } from "./logo.paths";
 import "./footer.css";
@@ -15,8 +17,8 @@ const Out = () => (
 
 const Ch = ({ c }: { c: string }) => <span className={`footer-ch footer-${c}`}>{c}</span>;
 
-/** подвал: связь, разделы, ниши; логотип l’stmind во всю ширину, на ствол буквы d сел персонаж */
-export function Footer() {
+/** подвал: связь, разделы, ниши; логотип l’stmind во всю ширину, на ствол буквы d сел персонаж. tg: первое сообщение, как у шапки */
+export function Footer({ tg }: { tg?: string }) {
   const year = new Date().getFullYear();
   return (
     <footer className="s-footer" id="footer">
@@ -29,11 +31,12 @@ export function Footer() {
             </a>
             <ul>
               <li>
-                <a className="footer-a footer-tg" href={SITE.telegram} target="_blank" rel="noopener">
+                <a className="footer-a footer-tg" href={tgHref(tg ?? tgText({ kind: "site" }))} target="_blank" rel="noopener">
                   Telegram <small>{SITE.telegramHandle}</small>
                   <Out />
                 </a>
               </li>
+              <li className="footer-hours">{tie(REPLY.short)}</li>
               <li>
                 <a className="footer-a footer-tel" href={OWNER.phoneHref}>
                   {OWNER.phone}

@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { HOURS, REPLY } from "@/lib/content";
 import {
   leadPrompt,
   leadSubject,
@@ -182,7 +183,7 @@ export async function POST(req: Request) {
         parse_mode: "HTML",
         ...ownerReply(from),
       });
-      await tg("sendMessage", { chat_id: from.id, text: "Спасибо! Передал контакт — Алексей свяжется в течение часа ⏱", reply_markup: { remove_keyboard: true } });
+      await tg("sendMessage", { chat_id: from.id, text: `Спасибо! Передал контакт, Алексей свяжется ${REPLY.within}, ${HOURS.full} ⏱`, reply_markup: { remove_keyboard: true } });
       return NextResponse.json({ ok: true });
     }
 
@@ -198,7 +199,7 @@ export async function POST(req: Request) {
       });
       await tg("sendMessage", {
         chat_id: from.id,
-        text: "Передал Алексею ✅ Он ответит в течение часа.\nЕсли срочно — @lstmind",
+        text: `Передал Алексею ✅ Он ответит ${REPLY.within}, ${HOURS.full}.\nЕсли срочно, пишите @lstmind`,
         reply_markup: kb([[{ text: "🏠 В меню", callback_data: "menu" }]]),
       });
     } else {

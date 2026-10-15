@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { INDUSTRY_PAGES, industryBySlug } from "@/lib/industries";
-import { SITE, REVIEWS, priceNumber, plural } from "@/lib/content";
+import { REPLY, SITE, REVIEWS, priceNumber, plural } from "@/lib/content";
 import { KWORK_URL, PROFI_URL } from "@/lib/reviews";
 import { Block, Crumbs, Faq, Fan, FinalCta, Go, Out, Sign, SiteCards, TgButton, Word } from "@/components/v4/dlya/parts";
 import { casesOf, serviceSite, serviceWord, sitesOf, splitPrice, splitTerm, tgMsg, typesOf, wordOf } from "@/components/v4/dlya/data";
@@ -9,6 +9,9 @@ import { CardsIsland, DemoIsland, FanIsland, OthersIsland, SignsIsland, WordsIsl
 import { NicheDemo, demoSpec } from "@/components/v4/dlya/demo";
 import { Scene, SceneCrop } from "@/components/v4/dlya/scene";
 import { tie } from "@/components/v4/typo";
+import { AUDIT_NICHE } from "@/lib/cta";
+import { Shell } from "@/components/v4/Shell";
+import { AuditLine } from "@/components/v4/cta/Strip";
 
 const NB = " ";
 
@@ -63,6 +66,8 @@ export default async function IndustryPageView({ params }: { params: Promise<{ s
   const p = splitPrice(ind.price.value);
   const t = splitTerm(ind.term.value);
   const demo = demoSpec(ind);
+  // первое сообщение в Telegram: у шапки, язычка, подвала, первого экрана и финала одно
+  const msg = tgMsg(ind.h1);
   const nSites = `${sites.length}${NB}${plural(sites.length, ["живой сайт", "живых сайта", "живых сайтов"])}`;
 
   const ld = {
@@ -120,7 +125,7 @@ export default async function IndustryPageView({ params }: { params: Promise<{ s
   };
 
   return (
-    <>
+    <Shell current="/dlya" main="dl-page" tg={msg} after=".dl-hero .dl-tg" until="#dl-final-t">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(ld) }} />
 
       {/* ── первый экран: "сайты для" и крупное слово ниши, цена и срок вывеской, ответ, кнопка; справа веер живых сайтов ниши ── */}
@@ -165,7 +170,7 @@ export default async function IndustryPageView({ params }: { params: Promise<{ s
 
           <p className="dl-answer">{ind.answer}</p>
           <div className="dl-hero-act">
-            <TgButton text={tgMsg(ind.h1)} className="dl-cta" />
+            <TgButton text={msg} className="dl-cta" />
             <span className="dl-hero-side">Москва и вся Россия, удалённо. Договор и{NB}чек</span>
           </div>
         </div>
@@ -179,6 +184,8 @@ export default async function IndustryPageView({ params }: { params: Promise<{ s
         </div>
         <FanIsland />
       </section>
+      {/* у кого сайт уже есть: бесплатный аудит одной строкой под первым экраном */}
+      <AuditLine text={AUDIT_NICHE} place="niche-audit" />
 
       <div className="dl-flow">
         {/* ── как устроена ниша и что в ней важно: слева липнет мини-механика одного пункта ниши,
@@ -285,7 +292,7 @@ export default async function IndustryPageView({ params }: { params: Promise<{ s
             </div>
             <div>
               <dt>Когда отвечаю</dt>
-              <dd>В течение часа</dd>
+              <dd>{REPLY.when}</dd>
             </div>
           </dl>
         </Block>
@@ -341,10 +348,10 @@ export default async function IndustryPageView({ params }: { params: Promise<{ s
 
       <FinalCta
         word="Ваш случай?"
-        text="Отвечу в течение часа: скажу, что в вашей нише реально нужно, что можно не делать, сколько это стоит и сколько займёт."
-        msg={tgMsg(ind.h1)}
+        text={`Скажу, что в вашей нише реально нужно, что можно не делать, сколько это стоит и сколько займёт. ${REPLY.line}`}
+        msg={msg}
       />
       <WordsIsland />
-    </>
+    </Shell>
   );
 }

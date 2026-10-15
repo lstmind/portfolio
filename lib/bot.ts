@@ -4,8 +4,9 @@
  * отзывы, FAQ, процесс и калькулятор. Бот не может разойтись с сайтом —
  * правится один файл. Чистые функции без сети: их гоняет scripts/bot-check.mjs.
  */
-import { CALC, FACTS, FAQ, MORE_SERVICES, NOT_DOING, PROCESS, REVIEWS, SERVICES, SITE, STACK, STATUS, WORKS } from "./content";
+import { CALC, FACTS, FAQ, HOURS, MORE_SERVICES, NOT_DOING, PROCESS, REPLY, REVIEWS, SERVICES, SITE, STACK, STATUS, WORKS } from "./content";
 import { CASE_PAGES } from "./cases";
+import { AUDIT, auditFor, tgHref, type Audit } from "./cta";
 import { INDUSTRY_PAGES } from "./industries";
 import { SERVICE_PAGES } from "./services";
 
@@ -13,11 +14,26 @@ export type Btn = { text: string; callback_data?: string; url?: string };
 export type Screen = { text: string; rows: Btn[][] };
 
 export const HOME: Btn = { text: "🏠 В меню", callback_data: "menu" };
+/** кнопка бесплатного аудита: личка с готовым текстом "Хочу бесплатный экспресс-аудит. Сайт: " (lib/cta.ts) */
+const auditBtn = (a: Audit = AUDIT): Btn => ({ text: `🔎 ${a.button}`, url: tgHref(a.tg) });
 const DIRECT = SITE.telegram;
 
 /** подпись под фото в телеграме — максимум 1024 символа, держим запас */
 const LIMIT = 1000;
-const clamp = (s: string) => (s.length <= LIMIT ? s : `${s.slice(0, LIMIT - 1).trimEnd()}…`);
+/**
+ * Обрезка до LIMIT без битой разметки: недописанный тег или сущность в хвосте отрезаем, открытые теги закрываем.
+ * Иначе Telegram отвечает "can't parse entities" и экран не приходит вовсе.
+ */
+const clamp = (s: string) => {
+  if (s.length <= LIMIT) return s;
+  const cut = s.slice(0, LIMIT - 20).replace(/<[^>]*$/, "").replace(/&[a-z#0-9]*$/i, "").trimEnd() + "…";
+  const open: string[] = [];
+  for (const m of cut.matchAll(/<(\/?)([a-z]+)\b[^>]*>/gi)) {
+    if (m[1]) open.pop();
+    else open.push(m[2]);
+  }
+  return cut + open.reverse().map((t) => `</${t}>`).join("");
+};
 /** экранируем то, что уедет в parse_mode=HTML, и убираем разметку из данных сайта */
 const clean = (s: string) =>
   s
@@ -145,6 +161,8 @@ export function screenNeed(): Screen {
 
 export function screenNeedPick(key: string): Screen {
   const n = NEEDS.find((x) => x.key === key) ?? NEEDS[0];
+  // сайт уже есть: первым шагом бесплатный экспресс-аудит
+  const hasSite = n.key === "fix" || n.key === "seo";
   const list = n.slugs
     .map((slug) => {
       const s = SERVICE_PAGES.find((x) => x.slug === slug);
@@ -153,8 +171,9 @@ export function screenNeedPick(key: string): Screen {
     .filter(Boolean)
     .join("\n\n");
   return {
-    text: clamp(`🧭 <b>${clean(n.title)}</b>\n\n${clean(n.text)}\n\n${list}`),
+    text: clamp(`🧭 <b>${clean(n.title)}</b>\n\n${clean(n.text)}\n\n${list}` + (hasSite ? `\n\n🔎 <b>${clean(AUDIT.title)}</b>\n${clean(AUDIT.promise)}` : "")),
     rows: [
+      ...(hasSite ? [[auditBtn()]] : []),
       ...n.slugs.map((slug) => svcBtn(slug)),
       [{ text: "⬅️ Другая задача", callback_data: "need" }, HOME],
     ],
@@ -183,6 +202,7 @@ export function screenServicesExtra(): Screen {
 
 export function screenService(slug: string): Screen {
   const s = SERVICE_PAGES.find((x) => x.slug === slug) ?? SERVICE_PAGES[0];
+  const audit = auditFor(s.slug);
   const list = s.includes.slice(0, 5).map((i) => `• ${clean(i)}`).join("\n");
   const cases = s.cases
     .map((c) => CASE_PAGES.find((x) => x.slug === c))
@@ -200,6 +220,7 @@ export function screenService(slug: string): Screen {
     ),
     rows: [
       [{ text: "📝 Оставить заявку на это", callback_data: `lead:${s.slug}` }],
+      ...(audit ? [[auditBtn(audit)]] : []),
       ...(cases.length ? [cases.map((c) => ({ text: `🔬 ${WORKS.find((w) => w.href === c.href)?.title ?? c.slug}`, callback_data: `case:${c.slug}` }))] : []),
       [{ text: "📄 Подробно на сайте ↗", url: `${SITE.url}/uslugi/${s.slug}` }],
       [{ text: "⬅️ К услугам", callback_data: MAIN_SLUGS.includes(s.slug) ? "services" : "services2" }, HOME],
@@ -396,7 +417,7 @@ export function screenProcess(): Screen {
     text: clamp(`⚙️ <b>Как я работаю</b>\n\n${steps}`),
     rows: [
       [{ text: "📝 Оставить заявку", callback_data: "lead:other" }],
-      [{ text: "🚫 Чего не делаю", callback_data: "nope" }],
+      [{ text: "🤝 Что не моё", callback_data: "nope" }],
       [HOME],
     ],
   };
@@ -407,14 +428,14 @@ export function screenAbout(): Screen {
   return {
     text: clamp(
       "👤 <b>Алексей, веб-разработчик</b>\n\n" +
-        "Работаю один: от структуры и дизайна до релиза, без агентства и передачи по цепочке подрядчиков. Москва, вся Россия удалённо. Самозанятый — договор и чек.\n\n" +
+        "Веду проект сам, от структуры до релиза: пишете напрямую мне, без менеджеров и агентства. Сильный дизайн с нуля делаю в паре с дизайнером. Москва, вся Россия удалённо. Самозанятый: договор и чек.\n\n" +
         `${facts}\n\n` +
         `🧰 <b>Стек:</b> ${clean(STACK.join(", "))}`,
     ),
     rows: [
       [
         { text: "⚙️ Как работаю", callback_data: "process" },
-        { text: "🚫 Чего не делаю", callback_data: "nope" },
+        { text: "🤝 Что не моё", callback_data: "nope" },
       ],
       [
         { text: "Kwork ↗", url: SITE.kwork },
@@ -430,8 +451,8 @@ export function screenNotDoing(): Screen {
   const list = NOT_DOING.map((n) => `• <b>${clean(n.what)}</b> — ${clean(n.why)}`).join("\n");
   return {
     text: clamp(
-      "🚫 <b>Чего я не делаю</b>\n\nЧестный список, чтобы не тратить ваше время:\n\n" +
-        `${list}\n\nЕсли задача из этого списка — подскажу, к кому идти.`,
+      "🤝 <b>Не моё, но помогу</b>\n\nСам этим не занимаюсь, но подключу коллегу, сделаем в паре или подскажу, к кому идти.\n\n" +
+        list,
     ),
     rows: [
       [{ text: "💼 Что делаю", callback_data: "services" }],
@@ -522,7 +543,7 @@ export function screenLead(key: string): Screen {
       "📝 <b>Заявка</b>\n\n" +
         (svc !== "не выбрана" ? `Тема: <b>${clean(svc)}</b>\n\n` : "") +
         "Напишите одним сообщением, что нужно — можно с бюджетом и сроком. Если есть ТЗ или макет, пришлите файлом.\n\n" +
-        "Алексей ответит в течение часа ⏱",
+        `Алексей ответит ${REPLY.within}, ${HOURS.full} ⏱`,
     ),
     rows: [
       [{ text: "✍️ Написать напрямую", url: DIRECT }],

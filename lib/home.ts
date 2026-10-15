@@ -3,20 +3,15 @@
  * Факты (названия, адреса, цены, ставка, тексты вопросов) не дублируются, а берутся из
  * content.ts, services.ts и industries.ts: поменяли там, поменялось и здесь.
  */
-import { SITE, SERVICES, LIVE_SITES, PROJECTS_ALL, PROJECTS_TOTAL, FAQ, hostOf, plural } from "./content";
+import { LIVE_SITES, PROJECTS_ALL, PROJECTS_TOTAL, FAQ, RATE, SITE_FROM, hostOf, plural, rub } from "./content";
 import { serviceBySlug } from "./services";
 import { INDUSTRY_PAGES } from "./industries";
+import { FAQ_CHEAPER, ONE_PHRASE } from "./cta";
 
 const NB = " ";
 
-/** 15000 → "15 000" с неразрывным пробелом */
-export const rub = (n: number) => String(n).replace(/\B(?=(\d{3})+(?!\d))/g, NB);
-
-/** нижняя цена сайта строкой: "от 30 000 ₽", из услуги "Сайт под ключ" */
-export const SITE_FROM = `от${NB}${rub(SERVICES.find((s) => s.slug === "sayt-pod-klyuch")?.priceFrom ?? 30000)}${NB}₽`;
-
-/** ставка строкой: "2 000 ₽/час" */
-export const RATE = `${rub(SITE.ratePerHour)}${NB}₽/час`;
+/** rub, SITE_FROM и RATE живут в content.ts (их берут и формы, и lib/cta.ts без кругового импорта); здесь те же имена для старых импортов */
+export { rub, SITE_FROM, RATE };
 
 const siteByHref = (href: string) => {
   const host = hostOf(href);
@@ -31,8 +26,9 @@ export const liveSitesWord = (n = PROJECTS_TOTAL) => plural(n, ["живой са
 
 /** первое слово заголовка по кругу; второе всегда "сайты" */
 export const HERO_WORDS = ["делаю", "чиню", "ускоряю"];
-/** подписи у фигуры построчно: справа общий опыт, а не число живых сайтов (оно в блоке работ и на /works) */
-export const HERO_SIDES = [["работаю один"], [`${PROJECTS_ALL} проектов`, "и доработок"]];
+/** подписи у фигуры построчно: слева главное в работе со мной (пишете тому, кто делает, менеджеров нет),
+ * справа общий опыт, а не число живых сайтов (оно в блоке работ и на /works) */
+export const HERO_SIDES = [["без менеджеров"], [`${PROJECTS_ALL} проектов`, "и доработок"]];
 
 /** карточки на дуге: превью первых экранов в /img/v4/<img>-240|400|blur.webp */
 const HERO_RING: { img: string; href: string }[] = [
@@ -131,8 +127,16 @@ export const PROCESS_STEPS: {
   pose: string;
   alt: string;
   screen?: { href: string; img: string; w: number; h: number };
+  /** строка под основной: на шаге разбора "хватит одной фразы и ссылки", снимает страх "а что писать" */
+  note?: string;
 }[] = [
-  { word: "Разбор", pose: "j4", alt: "Алексей говорит по телефону", line: `Не${NB}моя задача или не${NB}сходится бюджет, скажу в${NB}первом${NB}же ответе.` },
+  {
+    word: "Разбор",
+    pose: "j4",
+    alt: "Алексей говорит по телефону",
+    line: `Не${NB}моя задача или не${NB}сходится бюджет, скажу в${NB}первом${NB}же ответе.`,
+    note: ONE_PHRASE,
+  },
   { word: "Смета", pose: "j5", alt: "Алексей пишет смету на листе", line: `Фикс-цена и${NB}срок до${NB}старта, в${NB}договоре всё, что считается сделанным.` },
   {
     word: "Ссылка",
@@ -143,7 +147,8 @@ export const PROCESS_STEPS: {
   },
   { word: "Ключи", pose: "j7", alt: "Алексей протягивает ключи", line: `Домен, хостинг и${NB}код на${NB}вас. Доступы отдаю сразу, а${NB}не${NB}в${NB}день сдачи.` },
 ];
-export const PROCESS_SPEC = { left: ["1 человек", "договор, акт, чек"], right: [RATE, `Москва и${NB}вся Россия удалённо`] };
+/** "₽/час" не рвётся после косой черты (word joiner) */
+export const PROCESS_SPEC = { left: ["напрямую", "договор, акт, чек"], right: [RATE.replace("/", "/⁠"), `Москва и${NB}вся Россия удалённо`] };
 
 /* ── вопросы финала: пять, которые снимают главные страхи ── */
 
@@ -154,11 +159,15 @@ const FAQ_KEYS = [
   "Работаете по договору?",
   "Что если сайт сломается после сдачи?",
 ];
-export const FAQ_HOME = FAQ_KEYS.map((q) => {
-  const f = FAQ.find((x) => x.q === q);
-  if (!f) throw new Error(`нет вопроса "${q}" в lib/content.ts`);
-  return f;
-});
+// "Можно дешевле?" первым: вопросы стоят сразу под калькулятором, и про цену спрашивают раньше всего. Ответ с цифрами из lib/cta.ts
+export const FAQ_HOME = [
+  FAQ_CHEAPER,
+  ...FAQ_KEYS.map((q) => {
+    const f = FAQ.find((x) => x.q === q);
+    if (!f) throw new Error(`нет вопроса "${q}" в lib/content.ts`);
+    return f;
+  }),
+];
 
 /* ── подвал ── */
 

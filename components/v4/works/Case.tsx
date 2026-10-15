@@ -1,3 +1,5 @@
+import { REPLY } from "@/lib/content";
+import { tgText } from "@/lib/cta";
 import { serviceBySlug } from "@/lib/services";
 import { metaLine, nextCases, shotPoints, type CaseView, type ShotPoint } from "./data";
 import { Crumbs, Cta, Drum, Ill, Out, Next } from "./parts";
@@ -340,7 +342,8 @@ export function Case({ v }: { v: CaseView }) {
 
       <Cta
         title="Нужен такой же?"
-        text="Расскажите задачу: отвечу в течение часа, назову срок и вилку цены. Если задачу лучше решить иначе, скажу об этом сразу."
+        text={`Расскажите задачу: назову срок и вилку цены. Если её лучше решить иначе, скажу об этом сразу. ${REPLY.line}`}
+        tg={tgText({ kind: "case", name: v.site.title })}
       />
       <CaseIsland />
     </main>

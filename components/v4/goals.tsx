@@ -2,10 +2,12 @@
 
 /* Цели Метрики по кликам: один обработчик на document вместо onClick в каждой кнопке.
    Telegram (tg_click и место), живые сайты (site_open), разборы (case_open), кнопка "Меню" (menu_open),
-   раскрытие запасной формы в финале главной (form_open).
+   раскрытие запасной формы в финале главной и коротких форм cta/LeadForm (form_open, у коротких с параметрами form и place),
+   кнопки "прислать сайт на аудит" (audit_click: ссылка в Telegram с атрибутом data-audit, см. auditLink в lib/cta.ts).
    Старые имена из прошлого дизайна, чтобы цели в кабинете продолжили считаться:
    calc_cta (кнопка Telegram калькулятора), mobile_cta_tg (нижний язычок на телефоне).
-   calc_use и lead_form шлёт сам калькулятор (home/final.run.js), nav_services и nav_niches шапка (chrome.run.js). */
+   calc_use и lead_form шлёт сам калькулятор (home/final.run.js), lead_form и audit_submit короткие формы (cta/lead.run.js),
+   nav_services и nav_niches шапка (chrome.run.js). */
 import { useEffect } from "react";
 import { ymFlushPending, ymGoal } from "@/lib/metrika";
 
@@ -45,6 +47,13 @@ function onClick(e: MouseEvent) {
     if (alt.getAttribute("aria-expanded") !== "true") ymGoal("form_open");
     return;
   }
+  // то же у коротких форм: "Нет Telegram? Оставьте контакт / ссылку здесь"
+  const leadAlt = t.closest(".lead-alt");
+  if (leadAlt) {
+    const lead = leadAlt.closest<HTMLElement>(".lead");
+    if (leadAlt.getAttribute("aria-expanded") !== "true") ymGoal("form_open", { form: lead?.dataset.leadMode || "contact", place: placeOf(leadAlt) });
+    return;
+  }
 
   const a = t.closest<HTMLAnchorElement>("a[href]");
   if (!a) return;
@@ -64,6 +73,7 @@ function onClick(e: MouseEvent) {
     ymGoal("tg_click", { place });
     if (a.id === "final-cta") ymGoal("calc_cta");
     if (a.id === "dock") ymGoal("mobile_cta_tg");
+    if (a.dataset.audit) ymGoal("audit_click", { place, kind: a.dataset.audit });
     return;
   }
 

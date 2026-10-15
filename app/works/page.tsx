@@ -4,6 +4,8 @@ import { SITE, WORKS, PROJECTS_TOTAL, TITLE_TAIL, hostOf } from "@/lib/content";
 import { liveSitesWord } from "@/lib/home";
 import { Hub } from "@/components/v4/works/Hub";
 import { SITES } from "@/components/v4/works/data";
+import { tgText } from "@/lib/cta";
+import { Shell } from "@/components/v4/Shell";
 
 /**
  * Витрина работ: все живые сайты карточками с фильтром и разборы проектов.
@@ -84,9 +86,9 @@ export default function WorksIndexPage() {
   };
 
   return (
-    <>
+    <Shell current="/works" tg={tgText({ kind: "works" })} after="" until="#w-cta-title">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(ld) }} />
       <Hub />
-    </>
+    </Shell>
   );
 }

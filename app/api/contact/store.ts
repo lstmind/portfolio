@@ -10,6 +10,12 @@ export type Lead = {
   budget: string;
   page: string;
   from: string;
+  /** какая форма: "аудит" (сайт и куда ответить) или "контакт" (имя, куда ответить, задача); у старых строк поля нет */
+  kind?: string;
+  /** сайт на аудит */
+  site?: string;
+  /** блок страницы, где стоит форма: final, strip, hero, calc */
+  place?: string;
 };
 
 /**

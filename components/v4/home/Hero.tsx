@@ -1,4 +1,4 @@
-import { SITE } from "@/lib/content";
+import { tgLink } from "@/lib/cta";
 import { HERO_SITES, HERO_SIDES, HERO_WORDS } from "@/lib/home";
 import { IMG, poseSrc, poseSrcSet } from "../Figure";
 import { heroRun } from "./hero.run";
@@ -47,7 +47,7 @@ function heroHtml() {
     `<p class="side side-l">${HERO_SIDES[0].map(esc).join("<br>")}</p>` +
     `<p class="side side-r">${HERO_SIDES[1].map(esc).join("<br>")}</p>` +
     `<a class="cap" id="cap" href="#" target="_blank" rel="noopener" tabindex="-1" aria-hidden="true"><b></b><span></span>${ARROW}</a>` +
-    `<a class="cta" href="${SITE.telegram}" target="_blank" rel="noopener">Написать в Telegram ${ARROW}</a>` +
+    `<a class="cta" href="${esc(tgLink({ kind: "home" }))}" target="_blank" rel="noopener">Написать в Telegram ${ARROW}</a>` +
     `<svg class="point" id="point" aria-hidden="true" focusable="false"><defs>` +
     `<filter id="ink" x="-20%" y="-5%" width="140%" height="110%"><feTurbulence type="fractalNoise" baseFrequency=".028" numOctaves="2" seed="7"/><feDisplacementMap in="SourceGraphic" scale="2.4"/></filter>` +
     `<mask id="pm" maskUnits="userSpaceOnUse"><path class="m" id="pmL" pathLength="1" stroke-dasharray="1 1" stroke-dashoffset="1"/><path class="m" id="pmH" pathLength="1" stroke-dasharray="1 1" stroke-dashoffset="1"/></mask>` +

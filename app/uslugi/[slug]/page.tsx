@@ -1,7 +1,10 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { SERVICE_PAGES, serviceBySlug } from "@/lib/services";
-import { SITE, priceNumber } from "@/lib/content";
+import { REPLY, SITE, priceNumber } from "@/lib/content";
+import { auditFor, priceLine } from "@/lib/cta";
+import { Shell } from "@/components/v4/Shell";
+import { AuditStrip, PriceStrip } from "@/components/v4/cta/Strip";
 import { Block, Faq, FinalCta, Go } from "@/components/v4/uslugi/bits";
 import { BigCount, CaseCards, Niches, Quote, Rating, ServiceHero, ShortQuote, ShotFigure, Steps, tgMsg } from "@/components/v4/uslugi/Service";
 import { Sign } from "@/components/v4/uslugi/Sign";
@@ -59,6 +62,10 @@ export default async function ServicePageView({ params }: { params: Promise<{ sl
   // сцена на первом экране: тогда поза 6 со скрином работы встаёт рядом с "Когда это нужно"
   const scene = sceneOf(s.slug);
   const short = shortReviewFor(s.slug);
+  // первое сообщение в Telegram: у шапки, язычка, подвала, первого экрана, полосы и финала одно
+  const msg = tgMsg(s.h1);
+  // аудит на этой услуге: тогда посередине полоса аудита вместо полосы цены
+  const audit = auditFor(s.slug);
   const leadShots = s.slug === "telegram-bot" ? (["status"] as const) : s.slug === "admin-panel-i-crm" ? (["admin", "kitchen"] as const) : null;
 
   const ld = {
@@ -115,10 +122,10 @@ export default async function ServicePageView({ params }: { params: Promise<{ sl
   };
 
   return (
-    <>
+    <Shell current="/uslugi" main="u-page" tg={msg} after=".u-hero .u-tg" until="#u-final-t">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(ld) }} />
 
-      <ServiceHero s={s} shot={cards[0]} />
+      <ServiceHero s={s} shot={cards[0]} audit={audit} />
 
       <div className="u-flow">
         <Block id="u-lead" label="Подробнее" className="u-lead" aside={leadShots ? <CaseShots names={[...leadShots]} /> : short ? <ShortQuote r={short} /> : undefined}>
@@ -144,6 +151,14 @@ export default async function ServicePageView({ params }: { params: Promise<{ sl
             ))}
           </ol>
         </Block>
+
+        {audit ? (
+          // персонаж у полосы только там, где сразу под ней в той же колонке нет второго (сцена со скрином работы в "Когда это нужно"):
+          // два рисунка подряд через полэкрана читаются как повтор шаблона
+          <AuditStrip audit={audit} place="strip" id="ct-audit" art={scene ? null : s.slug === "tehnicheskoe-seo" ? "phone" : "loupe"} />
+        ) : (
+          <PriceStrip line={priceLine(s)} tg={msg} />
+        )}
 
         <Block id="u-fit" label="Когда это нужно" aside={scene ? <ShotFigure shot={cards[0]} /> : <BigCount />}>
           <ul className="u-fit">
@@ -192,7 +207,7 @@ export default async function ServicePageView({ params }: { params: Promise<{ sl
           <Sign id="u-others" title="Другие услуги" side="все цены на одной странице" services={others} size="s" />
           <p className="u-more">
             <a href="/uslugi">
-              Все услуги и чего я не делаю
+              Все услуги и что не моё
               <Go />
             </a>
           </p>
@@ -201,8 +216,8 @@ export default async function ServicePageView({ params }: { params: Promise<{ sl
 
       <FinalCta
         word="Обсудим?"
-        text="Отвечу в течение часа и скажу честно: берусь, сколько это стоит и сколько займёт. Если задачу лучше решить иначе, так и скажу."
-        msg={tgMsg(s.h1)}
+        text={`Скажу честно: берусь или нет, сколько это стоит и сколько займёт. Если задачу лучше решить иначе, так и скажу. ${REPLY.line}`}
+        msg={msg}
       />
 
       <HeroIsland />
@@ -211,6 +226,6 @@ export default async function ServicePageView({ params }: { params: Promise<{ sl
       <CardsIsland />
       <SignsIsland />
       <WordsIsland />
-    </>
+    </Shell>
   );
 }

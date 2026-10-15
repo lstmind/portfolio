@@ -1,4 +1,7 @@
 import { SITE } from "@/lib/content";
+import { tgHref } from "@/lib/cta";
+import { LeadForm } from "@/components/v4/cta/LeadForm";
+import { OnePhrase } from "@/components/v4/cta/Strip";
 import { tie } from "@/components/v4/typo";
 import { wordFit } from "./data";
 
@@ -69,7 +72,7 @@ export function Word({ text, as: Tag = "p", id, className }: { text: string; as?
 
 /** красная кнопка Telegram, как у героя главной; text: первое сообщение */
 export function TgButton({ text, className = "" }: { text?: string; className?: string }) {
-  const href = text ? `${SITE.telegram}?text=${encodeURIComponent(text)}` : SITE.telegram;
+  const href = tgHref(text);
   return (
     <a className={`u-tg ${className}`} href={href} target="_blank" rel="noopener">
       Написать в Telegram
@@ -78,7 +81,10 @@ export function TgButton({ text, className = "" }: { text?: string; className?: 
   );
 }
 
-/** финал страницы: крупный вопрос, одна строка, кнопка и почта для тех, у кого нет Telegram */
+/**
+ * финал страницы: крупный вопрос, одна строка, кнопка и почта; под линейкой "хватит одной фразы..."
+ * и свёрнутая форма для тех, у кого нет Telegram
+ */
 export function FinalCta({ word, text, msg }: { word: string; text: string; msg?: string }) {
   return (
     <section className="u-final" id="u-final" aria-labelledby="u-final-t">
@@ -93,6 +99,10 @@ export function FinalCta({ word, text, msg }: { word: string; text: string; msg?
             или на почту {SITE.email}
           </a>
         </div>
+      </div>
+      <div className="u-final-sub">
+        <OnePhrase />
+        <LeadForm mode="contact" place="final" />
       </div>
     </section>
   );

@@ -92,11 +92,16 @@ export function splitPrice(v: string) {
   return { pre: m[1], value: m[2].replace(/ /g, NB), unit: (m[3] || "").replace(/ /g, NB) };
 }
 
-/** "от 2 недель" → { pre: "от", value: "2 недель" }; "3–10 дней" как есть */
+/**
+ * "от 2 недель" → { pre: "от", value: "2 недель" }; "3–10 дней" как есть.
+ * Число склеено со словом, предлог со следующим словом, а между словами перенос разрешён: на телефоне колонка
+ * рядом с персонажем узкая, и "нескольких часов" одной строкой уходило под рисунок. На десктопе строка и так не переносится (.u-num)
+ */
+const glue = (s: string) => s.replace(/(\d) /g, `$1${NB}`).replace(/(^|\s)(в|во|с|до|на|по) /gi, `$1$2${NB}`);
 export function splitTerm(v: string) {
   const m = v.match(/^(от)\s+(.+)$/i);
-  if (!m) return { pre: "", value: v.replace(/ /g, NB) };
-  return { pre: m[1], value: m[2].replace(/ /g, NB) };
+  if (!m) return { pre: "", value: glue(v) };
+  return { pre: m[1], value: glue(m[2]) };
 }
 
 /* ── работы: карточки и экран ноутбука ── */

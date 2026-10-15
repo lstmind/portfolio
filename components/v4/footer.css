@@ -27,6 +27,8 @@
 .s-footer .footer-a small{font:inherit;color:var(--ink-2)}
 .s-footer svg{width:11px;height:11px;flex:none;align-self:center}
 .s-footer .footer-tg svg{color:var(--red)}
+/* когда отвечаю: под Telegram мелко и серым, из REPLY в lib/content.ts */
+.s-footer .footer-hours{font:600 12px/1.35 var(--sans);color:var(--ink-2);max-width:24ch;margin-top:-4px;text-wrap:pretty}
 /* широкий экран: колонки встают по буквам логотипа под ними: l, t, m, i (от левого края чернил l: t .904, m 1.315, i 2.053) */
 @media (min-width:1100px){
   .s-footer .footer-nav{column-gap:0;grid-template-columns:calc(var(--footer-fs) * .904) calc(var(--footer-fs) * .411) calc(var(--footer-fs) * 1.6) 1fr}

@@ -1,6 +1,7 @@
-import { SITE, PROJECTS_ALL, PROJECTS_ALL_LABEL, PROJECTS_ALL_NOTE, PROJECTS_TOTAL, PAY_TERMS, plural } from "@/lib/content";
+import { HOURS, REPLY, SITE, PROJECTS_ALL, PROJECTS_ALL_LABEL, PROJECTS_ALL_NOTE, PROJECTS_TOTAL, PAY_TERMS, plural } from "@/lib/content";
 import { RATE, rub } from "@/lib/home";
 import { KWORK_STATS, PROFI_STATS, PROFI_URL } from "@/lib/reviews";
+import { ONE_PHRASE, tgLink } from "@/lib/cta";
 import { tie } from "../typo";
 import { IMG } from "../Figure";
 import { CAN, EDU, FRAMES, INSURED, PERSON, SINCE, STACK_ALL, STACK_DRUM, frameSrc, frameSrcSet, yearsNow, yearsWord } from "./data";
@@ -31,8 +32,7 @@ const CopyIco = () => (
 );
 
 /** первое сообщение в Telegram: сразу видно, откуда пришли */
-const TG_MSG = 'Здравствуйте! Пишу со страницы "Обо мне" на lstmind.ru.';
-const tgHref = `${SITE.telegram}?text=${encodeURIComponent(TG_MSG)}`;
+const tgHref = tgLink({ kind: "page", name: "Обо мне" });
 
 /**
  * Крупное слово Fira 900 капсом, буквы встают на барабане (как слова героя и прайса).
@@ -154,7 +154,7 @@ export function About({ kwork }: { kwork: number }) {
           </dl>
           <p className="ab-lead">
             {tie(
-              "Работаю один: вы говорите с тем, кто пишет код, а не с менеджером. Сначала разбираюсь в задаче, потом называю цену, и она не растёт.",
+              "Менеджеров нет: вы говорите с тем, кто пишет код, и за результат отвечаю я. Сначала разбираюсь в задаче, потом называю цену, и она не растёт.",
             )}
           </p>
           <div className="ab-hero-act">
@@ -169,7 +169,10 @@ export function About({ kwork }: { kwork: number }) {
           <span className="ab-fig-box" style={{ aspectRatio: `${FRAMES.desk.w} / ${FRAMES.desk.h}` }}>
             <span className="ab-tilt" aria-hidden="true">
               отвечаю сам
-              <br />в течение часа
+              <br />
+              {REPLY.within}
+              <br />
+              {HOURS.short}
             </span>
             <Frame
               id="desk"
@@ -360,7 +363,7 @@ export function About({ kwork }: { kwork: number }) {
             <p className="ab-cap">Учился</p>
             <b>{EDU.short}</b>
             <p>{tie(EDU.text)}</p>
-            <p>{tie("Поэтому и макет, и код делаю сам, без посредников.")}</p>
+            <p>{tie("Поэтому в дизайне разбираюсь: простой рисую сам, а сильный с нуля делаем в паре с дизайнером. Вёрстка, код и запуск на мне.")}</p>
           </div>
         </div>
       </section>
@@ -378,7 +381,9 @@ export function About({ kwork }: { kwork: number }) {
             </span>
             <Out />
           </a>
-          <p className="ab-tg-note">{tie("Быстрее всего здесь. Отвечаю в течение часа в рабочее время.")}</p>
+          <p className="ab-tg-note">
+            {tie(`Быстрее всего здесь. ${ONE_PHRASE}`)} <span className="ab-tg-hours">{tie(REPLY.line)}</span>
+          </p>
           <ul className="ab-list">
             <li>
               <a className="ab-li" href={`tel:${PERSON.tel}`}>

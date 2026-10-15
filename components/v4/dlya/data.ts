@@ -9,6 +9,7 @@ import { INDUSTRY_PAGES, workByHref, type IndustryPage } from "@/lib/industries"
 import { SERVICE_PAGES, serviceBySlug, type ServicePage } from "@/lib/services";
 import { CASE_PAGES } from "@/lib/cases";
 import { WORKS, hostOf } from "@/lib/content";
+import { tgText } from "@/lib/cta";
 import { HERO_SITES } from "@/lib/home";
 
 const NB = " ";
@@ -157,4 +158,4 @@ export const HUB_FALLBACK = SERVICE_PAGES.filter(
 ).slice(0, 4);
 
 /** первое сообщение в Telegram: сразу видно, с какой страницы пришли */
-export const tgMsg = (h1: string) => `Здравствуйте! Пишу со страницы "${h1}" на lstmind.ru.`;
+export const tgMsg = (h1: string) => tgText({ kind: "niche", name: h1 });

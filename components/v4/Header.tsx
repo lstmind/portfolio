@@ -1,4 +1,5 @@
 import { SITE } from "@/lib/content";
+import { tgHref, tgText } from "@/lib/cta";
 import { HeaderIsland } from "./islands";
 import { NAV_META, NAV_NICHES, NAV_SERVICES } from "./nav.data";
 import { LOGO_APO, LOGO_LETTERS, LOGO_VB } from "./logo.paths";
@@ -68,9 +69,11 @@ function Price({ p }: { p: { pre: string; value: string; unit: string } }) {
  * На телефоне разделы прячутся в кнопку "Меню": полноэкранный лист с крупными словами и пилюлями.
  * inner: страница не главная (цены тогда ведут на прайс хаба услуг, а не на якорь главной).
  * current: адрес раздела, в котором сейчас человек, пункт получает aria-current.
+ * tg: первое сообщение в Telegram для этой страницы (lib/cta.ts, tgText); без него общее "Пишу с сайта lstmind.ru".
  */
-export function Header({ inner = false, current }: { inner?: boolean; current?: string }) {
+export function Header({ inner = false, current, tg }: { inner?: boolean; current?: string; tg?: string }) {
   const prices = inner ? "/uslugi#u-new" : "#prices";
+  const tgUrl = tgHref(tg ?? tgText({ kind: "site" }));
   // раздел, внутри которого человек: "true", а не "page" (на /uslugi/lending ссылка на хаб не ведёт на эту же страницу).
   // точное совпадение с адресом chrome.run.js поднимает до "page"
   const cur = (href: string) => (current === href ? ("true" as const) : undefined);
@@ -174,7 +177,7 @@ export function Header({ inner = false, current }: { inner?: boolean; current?: 
           <Burger />
         </button>
 
-        <a className="tg" href={SITE.telegram} target="_blank" rel="noopener">
+        <a className="tg" href={tgUrl} target="_blank" rel="noopener">
           Telegram
           <Out />
         </a>
@@ -256,7 +259,7 @@ export function Header({ inner = false, current }: { inner?: boolean; current?: 
           </section>
         </div>
         <div className="ns-foot">
-          <a className="ns-tg" href={SITE.telegram} target="_blank" rel="noopener">
+          <a className="ns-tg" href={tgUrl} target="_blank" rel="noopener">
             Написать в Telegram
             <Out />
           </a>

@@ -12,6 +12,11 @@ import { Reviews } from "@/components/v4/home/Reviews";
 import { Process } from "@/components/v4/home/Process";
 import { Final } from "@/components/v4/home/Final";
 import "@/components/v4/home/home.css";
+import { tgText } from "@/lib/cta";
+import { AuditStrip } from "@/components/v4/cta/Strip";
+
+/** первое сообщение в Telegram с главной: шапка, язычок, подвал и кнопка героя */
+const TG_HOME = tgText({ kind: "home" });
 
 export default async function Home() {
   const kwork = await getKworkReviewsCount();
@@ -26,7 +31,7 @@ export default async function Home() {
     image: `${SITE.url}/img/alex-portrait.png`,
     description:
       "Фриланс веб-разработчик Алексей (lstmind): сайты под ключ, интернет-магазины на WooCommerce, " +
-      `доработка и ускорение чужих сайтов. Работаю один, от структуры до релиза. Ставка ${RATE.replace(/ /g, " ")}, по проекту фикс-смета.`,
+      `доработка и ускорение чужих сайтов. Веду проект сам, от структуры до релиза, без менеджеров. Ставка ${RATE.replace(/ /g, " ")}, по проекту фикс-смета.`,
     priceRange: "от 2 000 ₽",
     currenciesAccepted: "RUB",
     areaServed: [
@@ -71,17 +76,19 @@ export default async function Home() {
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceLd) }} />
-      <Header />
+      <Header tg={TG_HOME} />
       <main id="main">
         <Hero />
         <Works />
         <Prices />
         <Reviews kwork={kwork} />
+        {/* бесплатный аудит одной полосой между отзывами и вопросами: для тех, у кого сайт уже есть */}
+        <AuditStrip place="home-strip" id="audit" page />
         <Process />
         <Final />
       </main>
-      <Footer />
-      <Tongue />
+      <Footer tg={TG_HOME} />
+      <Tongue tg={TG_HOME} />
     </>
   );
 }

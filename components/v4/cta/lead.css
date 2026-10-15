@@ -1,0 +1,49 @@
+/* Короткая форма (LeadForm.tsx): поля, кнопка, согласие и статус те же, что у формы калькулятора на главной (home/final.css),
+   только без карточки чата вокруг: форма встаёт под кнопку Telegram в любой блок. Префикс lead-. */
+.lead{--lead-ease:cubic-bezier(.16,1,.3,1);font-family:var(--sans);color:var(--ink);max-width:440px}
+.lead :focus-visible{outline:2px solid var(--red);outline-offset:3px;border-radius:6px}
+
+/* строка с раскрывашкой: перед ней может стоять "или почта · " */
+.lead .lead-bar{margin:0;font:600 13px/1.35 var(--sans);color:var(--ink-2)}
+.lead .lead-bar>a{color:var(--ink-2);text-decoration:underline;text-decoration-color:rgba(12,11,11,.3);text-underline-offset:3px}
+.lead .lead-bar>a:hover{color:var(--ink);text-decoration-color:currentColor}
+
+/* ссылка-раскрывашка: мелко, серым, подчёркнута, как "Нет Telegram? Оставьте контакт" у калькулятора */
+.lead .lead-alt{font:600 13px/1.35 var(--sans);color:var(--ink-2);text-align:left;padding:6px 0;background:none;border:0;cursor:pointer;
+  text-decoration:underline;text-decoration-color:rgba(12,11,11,.3);text-underline-offset:3px;-webkit-tap-highlight-color:transparent}
+.lead .lead-alt:hover{color:var(--ink);text-decoration-color:currentColor}
+
+.lead .lead-form{display:grid;grid-template-columns:minmax(0,1fr);gap:10px;margin-top:8px}
+.lead .lead-form[hidden]{display:none}
+.lead .lead-f{display:grid;gap:5px}
+.lead .lead-f label{font:700 12px/1 var(--sans);letter-spacing:.04em;text-transform:uppercase;color:var(--ink-2)}
+.lead .lead-f input{width:100%;font:600 15px/1.35 var(--sans);color:var(--ink);background:var(--paper);border:0;border-radius:12px;
+  box-shadow:inset 0 0 0 1.5px rgba(12,11,11,.22);padding:11px 12px;transition:box-shadow .15s ease-out;-webkit-appearance:none;appearance:none}
+.lead .lead-f input:focus{outline:0;box-shadow:inset 0 0 0 2px var(--ink)}
+.lead .lead-f input[aria-invalid="true"]{box-shadow:inset 0 0 0 2px var(--red)}
+.lead .lead-f ::placeholder{color:rgba(85,82,78,.7)}
+.lead .lead-hp{position:absolute;left:-9999px;width:1px;height:1px;opacity:0}
+
+/* кнопка отправки тушью: красный остаётся у главного действия (Telegram) */
+.lead .lead-send{margin-top:2px;height:48px;border:0;border-radius:14px;background:var(--ink);color:var(--paper);font:700 15px/1 var(--sans);cursor:pointer;
+  transition:opacity .2s ease-out,transform .25s var(--lead-ease)}
+.lead .lead-send:active{transform:scale(.98)}
+.lead .lead-send[disabled]{opacity:.55;cursor:default}
+
+.lead .lead-consent{margin:0;font:600 12px/1.45 var(--sans);color:var(--ink-2);text-wrap:pretty}
+.lead .lead-consent a{color:inherit;text-decoration:underline;text-decoration-color:rgba(85,82,78,.45);text-underline-offset:2px;text-decoration-thickness:1px}
+.lead .lead-consent a:hover{color:var(--ink);text-decoration-color:currentColor}
+
+.lead .lead-status{font:600 13px/1.45 var(--sans);margin:0}
+.lead .lead-status:empty{display:none}
+.lead .lead-status a{color:inherit;text-decoration:underline;text-underline-offset:3px}
+/* после отправки ответ крупнее и тушью: это главное, что человек должен прочитать */
+.lead.lead-done .lead-status{font-size:14px;color:var(--ink)}
+
+/* на телефоне поле 16px: iOS не приближает страницу при фокусе */
+@media (max-width:699px){
+  .lead{max-width:none}
+  .lead .lead-f input{font-size:16px}
+  .lead .lead-alt{padding:10px 0}
+}
+@media (prefers-reduced-motion:reduce){.lead .lead-send,.lead .lead-f input{transition:none}}

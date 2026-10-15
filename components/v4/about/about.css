@@ -130,7 +130,10 @@
 .ab-steps em{display:block;margin-top:4px;font:600 14px/1.5 var(--sans);font-style:normal;color:var(--ink-2);text-wrap:pretty}
 
 /* ── 5. стек: барабан, пилюли, учёба на листе ── */
-.ab-stk{padding:clamp(150px,13vw,210px) var(--ab-pad) 0}
+/* лист учёбы повёрнут и с тенью, его низ выходит за секцию на 3–10 px, тень ещё на ~32 px. секция с content-visibility
+   режет всё за своим краем; overflow-clip-margin спасает не везде (Safari его не знает), и там срезался угол рамки.
+   поэтому секция сама растёт вниз на 48 px, а отрицательный отступ возвращает следующую секцию на место */
+.ab-stk{padding:clamp(150px,13vw,210px) var(--ab-pad) 48px;margin-bottom:-48px}
 .ab-drum{font:900 clamp(60px,9.4vw,144px)/.9 var(--display);text-transform:uppercase;letter-spacing:-.012em}
 .ab-drum-in{display:flex;align-items:flex-start;gap:.22em}
 .ab-drum-a{white-space:nowrap}
@@ -172,6 +175,8 @@
 .ab-tgbig:hover svg{transform:translate(3px,-3px)}
 .ab-tgbig:focus-visible{outline-color:var(--ink);outline-offset:4px;border-radius:20px}
 .ab-tg-note{margin-top:12px;font:600 13px/1.4 var(--sans);color:var(--ink-2)}
+/* часы ответа своей строкой: не рвутся на "ежедневно / с 10 до 22" на широком экране */
+.ab-tg-hours{display:block}
 .ab-list{list-style:none;margin-top:34px;border-top:1px solid var(--ab-rule)}
 .ab-list>li{border-bottom:1px solid var(--ab-rule)}
 .ab-li{display:grid;grid-template-columns:110px minmax(0,1fr) auto;align-items:center;column-gap:20px;min-height:72px;padding:16px 0;-webkit-tap-highlight-color:transparent}
