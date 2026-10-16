@@ -203,7 +203,7 @@ export const CASE_PAGES: CasePage[] = [
     detail: [
       "Сайт большой и живёт годами: контент постоянно добавляют сотрудники компании, поэтому важнее была не разовая красота, а понятная админка и предсказуемая структура.",
     ],
-    services: ["korporativnyy-sayt", "pererabotka-sayta", "podderzhka-sayta"],
+    services: ["korporativnyy-sayt", "sayt-na-wordpress", "pererabotka-sayta", "podderzhka-sayta"],
   },
   {
     slug: "lavenir",
@@ -251,7 +251,7 @@ export const CASE_PAGES: CasePage[] = [
       "Покупка в один клик через Telegram и MAX — для тех, кому проще написать, чем заполнять форму",
       "Раздел частых вопросов о доставке и оплате",
     ],
-    services: ["internet-magazin", "integracii"],
+    services: ["internet-magazin", "sayt-na-wordpress", "integracii"],
   },
   {
     slug: "qayna",
@@ -273,7 +273,7 @@ export const CASE_PAGES: CasePage[] = [
       "Избранное и личный кабинет покупателя",
       "Журнал бренда для контента и поисковых запросов",
     ],
-    services: ["internet-magazin", "verstka-po-figma", "tehnicheskoe-seo"],
+    services: ["internet-magazin", "sayt-na-wordpress", "verstka-po-figma", "tehnicheskoe-seo"],
   },
   {
     slug: "hp-vdnh",
@@ -322,9 +322,9 @@ export const CASE_PAGES: CasePage[] = [
       "Адаптив под телефон: заявку часто оставляют на ходу",
     ],
     detail: [
-      "Сайт на MODX — платформа была выбрана до меня, задача была работать с тем, что есть, а не переписывать.",
+      "Сайт сделал с нуля на MODX, а после запуска делал по нему же доработки.",
     ],
-    services: ["sayt-pod-klyuch", "pochinit-sayt", "lending"],
+    services: ["sayt-pod-klyuch", "korporativnyy-sayt", "podderzhka-sayta"],
   },
   {
     slug: "luxury-design",
@@ -345,7 +345,7 @@ export const CASE_PAGES: CasePage[] = [
       "Регистрация с личным кабинетом: зарегистрированным открываются специальные условия и скидки",
       "Раздел статей о брендах и интерьере",
     ],
-    services: ["internet-magazin", "pererabotka-sayta", "pochinit-sayt"],
+    services: ["internet-magazin", "sayt-na-wordpress", "pererabotka-sayta", "pochinit-sayt"],
   },
 ];
 

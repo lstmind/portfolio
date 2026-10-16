@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { INDUSTRY_PAGES } from "@/lib/industries";
-import { REPLY, SITE, TITLE_TAIL, plural } from "@/lib/content";
+import { REPLY, SITE, TITLE_TAIL, WORKS, plural } from "@/lib/content";
 import { Figure } from "@/components/v4/Figure";
 import { tgText } from "@/lib/cta";
 import { Shell } from "@/components/v4/Shell";
@@ -17,9 +17,15 @@ const NB = " ";
  */
 const N_NICHES = INDUSTRY_PAGES.length;
 const N_SITES = new Set(INDUSTRY_PAGES.flatMap((i) => sitesOf(i).map((s) => s.host))).size;
+/** ниши, где в работах только мой демо-проект (у салонов это Нега): "делал сайты" про них не пишем */
+const DEMO_ONLY = INDUSTRY_PAGES.filter((i) => i.examples.every((e) => WORKS.find((w) => w.href === e.href)?.tag.startsWith("DEMO")));
+const N_CLIENT = N_NICHES - DEMO_ONLY.length;
 const OG_TITLE = "Сайты для кафе, салонов, производства и не только";
 const OG_TEXT =
-  `${N_NICHES} ${plural(N_NICHES, ["ниша", "ниши", "ниш"])}, где я уже делал сайты: кафе, салоны, производство, окна, мебель, доставка, перевозки, одежда, ремонт. ` +
+  `${N_NICHES}${NB}${plural(N_NICHES, ["ниша", "ниши", "ниш"])}: кафе, салоны, производство, окна, мебель, доставка, перевозки, одежда, ремонт. ` +
+  (DEMO_ONLY.length
+    ? `В${NB}${N_CLIENT} из них сайты заказчиков, для ${DEMO_ONLY.map((x) => x.forWhom).join(" и ")} мой демо-проект. `
+    : "Во всех сайты заказчиков. ") +
   `${N_SITES} ${plural(N_SITES, ["живой сайт", "живых сайта", "живых сайтов"])} можно открыть, цены и сроки по каждой нише.`;
 
 export const metadata: Metadata = {

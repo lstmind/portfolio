@@ -1,13 +1,13 @@
 import type { ServicePage } from "@/lib/services";
 import type { IndustryPage } from "@/lib/industries";
 import { PROCESS_STEPS, liveSitesWord } from "@/lib/home";
-import { PAY_TERMS, PROJECTS_TOTAL, plural } from "@/lib/content";
-import { tgText, type Audit } from "@/lib/cta";
+import { PROJECTS_TOTAL, plural } from "@/lib/content";
+import { AUDIT_DIAG, auditLink, tgText, type Audit } from "@/lib/cta";
 import { AuditButton, AuditSub } from "../cta/Strip";
 import { KWORK_STATS, PROFI_STATS } from "@/lib/reviews";
 import { Figure, IMG } from "../Figure";
 import { Block, Crumbs, Go, Out, TgButton, Word } from "./bits";
-import { splitPrice, splitTerm, wordOf, type CaseCard } from "./data";
+import { splitPrice, splitTerm, wordOf, type CaseCard, type WorkCard } from "./data";
 import { ADMIN_SCREEN, BOT_HOLE, BOT_SCREEN, ill, nicheCrop, sceneOf, type PickedReview } from "./scenes";
 import { ArtImg } from "./Art";
 import { ChatFeed, Kanban, LANGS } from "./Demos";
@@ -163,52 +163,58 @@ export function ServiceHero({ s, shot, audit }: { s: ServicePage; shot: CaseCard
   );
 }
 
-/** работы услуги карточками, как в карусели героя: серые в покое, цвет при наведении, в фокусе и у середины экрана на телефоне */
-export function CaseCards({ cards }: { cards: CaseCard[] }) {
+/**
+ * работы услуги карточками, как в карусели героя: серые в покое, цвет при наведении, в фокусе и у середины экрана на телефоне.
+ * У разбора картинка и имя ведут на /works/<slug>, у живого сайта без разбора на сам сайт
+ */
+export function CaseCards({ cards }: { cards: WorkCard[] }) {
   return (
     <ul className="u-cards">
-      {cards.map((c) => (
-        <li className="u-card" key={c.slug}>
-          <a className="u-card-img" href={`/works/${c.slug}`} tabIndex={-1} aria-hidden="true">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              alt=""
-              loading="lazy"
-              decoding="async"
-              src={`${IMG}${c.card}-240.webp`}
-              srcSet={`${IMG}${c.card}-240.webp 240w, ${IMG}${c.card}-400.webp 400w`}
-              sizes="(max-width: 699px) 62vw, 240px"
-              width={240}
-              height={519}
-            />
-          </a>
-          <p className="u-card-name">
-            <a href={`/works/${c.slug}`}>
-              {c.title}
-              <span className="sr">, разбор проекта</span>
+      {cards.map((c) => {
+        const own = c.slug ? { href: `/works/${c.slug}` } : { href: c.href, target: "_blank", rel: "noopener" };
+        return (
+          <li className="u-card" key={c.slug ?? c.host}>
+            <a className="u-card-img" {...own} tabIndex={-1} aria-hidden="true">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                alt=""
+                loading="lazy"
+                decoding="async"
+                src={`${IMG}${c.card}-240.webp`}
+                srcSet={`${IMG}${c.card}-240.webp 240w, ${IMG}${c.card}-400.webp 400w`}
+                sizes="(max-width: 699px) 62vw, 240px"
+                width={240}
+                height={519}
+              />
             </a>
-          </p>
-          <p className="u-card-kind">{c.kind}</p>
-          <p className="u-card-links">
-            <a href={c.href} target="_blank" rel="noopener">
-              {c.host}
-              <Out />
-            </a>
-          </p>
-        </li>
-      ))}
+            <p className="u-card-name">
+              <a {...own}>
+                {c.title}
+                <span className="sr">{c.slug ? ", разбор проекта" : `, сайт ${c.host}`}</span>
+              </a>
+            </p>
+            <p className="u-card-kind">{c.kind}</p>
+            <p className="u-card-links">
+              {/* у сайта без разбора имя уже ведёт на сайт: адрес второй раз в порядок Tab не ставим */}
+              <a href={c.href} target="_blank" rel="noopener" {...(c.slug ? {} : { tabIndex: -1, "aria-hidden": true })}>
+                {c.host}
+                <Out />
+              </a>
+            </p>
+          </li>
+        );
+      })}
     </ul>
   );
 }
 
 const pad = (n: number) => String(n).padStart(2, "0");
 
-/** условия оплаты стоят в шаге "Смета": страх "возьмёт деньги и пропадёт" снимается там, где речь о деньгах */
-const PAY_AT = PROCESS_STEPS.findIndex((st) => st.word === "Смета");
-if (PAY_AT < 0) throw new Error('нет шага "Смета" в PROCESS_STEPS (lib/home.ts): строке про оплату некуда встать');
-
-/** как идёт работа: четыре шага главной компактно, крупным словом и строкой */
-export function Steps() {
+/**
+ * как идёт работа: четыре шага главной компактно, крупным словом и строкой.
+ * children: оплата и гарантия (Pay) сразу под шагами: страх "возьмёт деньги и пропадёт" снимается там, где речь о смете
+ */
+export function Steps({ children }: { children?: React.ReactNode }) {
   return (
     <>
       <ol className="u-steps">
@@ -218,10 +224,10 @@ export function Steps() {
             <span className="u-step-n">{pad(i + 1)}</span>
             <h3 className="u-step-w">{st.word}</h3>
             <p>{st.line}</p>
-            {i === PAY_AT && <p className="u-step-pay">{tie(PAY_TERMS)}</p>}
           </li>
         ))}
       </ol>
+      {children}
       <p className="u-more">
         <a href="/#process">
           Каждый шаг подробно
@@ -337,5 +343,71 @@ export function Rating({ src }: { src: PickedReview["src"] }) {
           : `рейтинг на${NB}Профи, ${n}${NB}${plural(n, ["отзыв", "отзыва", "отзывов"])}`}
       </span>
     </p>
+  );
+}
+
+/**
+ * Частый случай внутри услуги своим блоком (на починке: "сайт заражён или взломан").
+ * Справа строка крупно, признаки пилюлями и шаги работы той же линейкой с номерами, что "Что входит".
+ * Слева вместо рисунка цена и срок: рядом с "Когда это нужно" уже стоит персонаж, второй подряд читался бы повтором.
+ */
+export function Focus({ f }: { f: NonNullable<ServicePage["focus"]> }) {
+  const p = splitPrice(f.price.value);
+  const t = splitTerm(f.term.value);
+  return (
+    <Block
+      id={f.id}
+      label={f.label}
+      className="u-focus"
+      aside={
+        <div className="u-fc-side">
+          <dl className="u-fc-facts">
+            <div className="u-fact">
+              <dt>Цена</dt>
+              <dd>
+                <span className="u-num">
+                  {p.pre && <i>{p.pre}</i>}
+                  <span>
+                    {p.value}
+                    {p.unit && <u>{p.unit}</u>}
+                  </span>
+                </span>
+                <span className="u-fnote">{tie(f.price.note)}</span>
+              </dd>
+            </div>
+            <div className="u-fact">
+              <dt>Срок</dt>
+              <dd>
+                <span className="u-num">
+                  {t.pre && <i>{t.pre}</i>}
+                  <span>{t.value}</span>
+                </span>
+                <span className="u-fnote">{tie(f.term.note)}</span>
+              </dd>
+            </div>
+          </dl>
+          <p className="u-more" data-goal-place="focus">
+            <a {...auditLink(AUDIT_DIAG)}>
+              {AUDIT_DIAG.button}
+              <Out />
+            </a>
+          </p>
+        </div>
+      }
+    >
+      <p className="u-fc-lead">{tie(f.lead)}</p>
+      <h3 className="u-fc-h">Признаки</h3>
+      <ul className="u-fc-signs">
+        {f.signs.map((x) => (
+          <li key={x}>{tie(x)}</li>
+        ))}
+      </ul>
+      <h3 className="u-fc-h">Что делаю</h3>
+      <ol className="u-inc">
+        {f.does.map((x) => (
+          <li key={x}>{tie(x)}</li>
+        ))}
+      </ol>
+    </Block>
   );
 }

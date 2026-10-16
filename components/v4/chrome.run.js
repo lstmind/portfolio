@@ -51,7 +51,10 @@ export function runHashHold() {
 /* after: после какой кнопки язычок появляется (нет на странице: после первого экрана);
    until: перед каким заголовком уезжает (нет: перед подвалом).
    В тот же момент на десктопе пункт Telegram в шапке становится красной плашкой (класс is-cta у шапки, header.css):
-   кнопка героя ушла из кадра, а до финала со своей кнопкой ещё далеко. На телефоне плашки нет, там язычок */
+   кнопка героя ушла из кадра, а до финала со своей кнопкой ещё далеко. На телефоне в это время язычок.
+   На телефоне плашка нужна раньше: у услуг и ниш кнопка героя часто ниже первого экрана, и главного действия в кадре нет.
+   Пока она ниже экрана (или её нет, а язычок ещё не выехал), Telegram в шапке красный (is-pre); кнопка героя показалась,
+   выехал язычок или в кадре своя кнопка полосы или финала, плашка гаснет. Две красные кнопки на экране не стоят */
 export function runTongue(dock, after, until) {
   var heroCta = after ? document.querySelector(after) : null;
   var title = (until && document.querySelector(until)) || document.getElementById('footer');
@@ -59,14 +62,20 @@ export function runTongue(dock, after, until) {
   // полосы посередине страницы со своей кнопкой (cta/Strip.tsx) и строка аудита под героем с формой:
   // пока они в кадре, язычок не дублирует их кнопку, а плашка cookie (едет вместе с язычком) не ложится на кнопку и форму
   var zones = [].slice.call(document.querySelectorAll('.ct-strip .ct-act, .ct-strip .ct-sub, .ct-hsub'));
-  var on = null, rq = 0;
+  var on = null, pre = null, rq = 0;
   function inView(el) { var r = el.getBoundingClientRect(); return r.height > 0 && r.top < innerHeight && r.bottom > 0; }
   function onScroll() {
     rq = 0;
-    var passed = heroCta ? heroCta.getBoundingClientRect().bottom < 0 : scrollY > innerHeight * .6;
+    var r = heroCta ? heroCta.getBoundingClientRect() : null;
+    var passed = r ? r.bottom < 0 : scrollY > innerHeight * .6;
     // кнопка героя целиком выше экрана, а вопрос "СКОЛЬКО?" финала ещё не показался (дальше только подвал):
     // язычок не ложится на цифры калькулятора и не дублирует кнопку финала
-    var v = passed && !(title && title.getBoundingClientRect().top < innerHeight) && !zones.some(inView);
+    var free = !(title && title.getBoundingClientRect().top < innerHeight) && !zones.some(inView);
+    var v = passed && free;
+    // кнопка героя ниже экрана или выглядывает краешком, меньше половины (у страниц без неё: язычок ещё не выехал),
+    // и своих красных кнопок в кадре нет
+    var p = (r ? r.height > 0 && r.top + r.height / 2 >= innerHeight : !passed) && free;
+    if (top && p !== pre) { pre = p; top.classList.toggle('is-pre', p); }
     if (v === on) return;
     on = v;
     dock.classList.toggle('is-on', v);
@@ -83,7 +92,7 @@ export function runTongue(dock, after, until) {
     removeEventListener('scroll', req);
     removeEventListener('resize', req);
     dock.classList.remove('is-on');
-    if (top) top.classList.remove('is-cta');
+    if (top) top.classList.remove('is-cta', 'is-pre');
     dock.setAttribute('aria-hidden', 'true'); dock.setAttribute('tabindex', '-1');
   };
 }

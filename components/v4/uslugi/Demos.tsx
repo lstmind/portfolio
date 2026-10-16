@@ -5,7 +5,7 @@
  */
 import type { ServicePage } from "@/lib/services";
 import { PRICES } from "@/lib/home";
-import { hostOf } from "@/lib/content";
+import { PROJECTS_TOTAL, WP_SITES, hostOf, plural } from "@/lib/content";
 import { Out } from "./bits";
 import type { CaseCard } from "./data";
 import { IMG } from "../Figure";
@@ -886,6 +886,55 @@ function Lang() {
   );
 }
 
+/* ── WordPress: живые сайты на нём из работ, переключатель "сайты / магазины", каждый открывается ── */
+const Bag = () => (
+  <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.7" aria-hidden="true">
+    <path d="M3 5.5h10l-.8 8H3.8zM5.8 5.5V4.3a2.2 2.2 0 0 1 4.4 0v1.2" />
+  </svg>
+);
+function Wp() {
+  const n = WP_SITES.length;
+  const woo = WP_SITES.filter((x) => x.woo).length;
+  const tabs = [
+    { k: "all", label: "все", n },
+    { k: "wp", label: "сайты", n: n - woo },
+    { k: "woo", label: "магазины WooCommerce", n: woo },
+  ];
+  const of = `${PROJECTS_TOTAL}${NB}${plural(PROJECTS_TOTAL, ["живого сайта", "живых сайтов", "живых сайтов"])}`;
+  return (
+    <Frame
+      kind="wp"
+      title={`Живые сайты на WordPress и WooCommerce из работ: ${n}`}
+      cap={
+        <>
+          {n} из {of} в{NB}работах на WordPress. Нажмите на адрес, сайт откроется
+        </>
+      }
+    >
+      <div className="u-wp">
+        <p className="u-wp-f" role="group" aria-label="Какие сайты показать">
+          {tabs.map((t, i) => (
+            <button type="button" key={t.k} data-f={t.k} aria-pressed={i === 0}>
+              {t.label}
+              <b>{t.n}</b>
+            </button>
+          ))}
+        </p>
+        <ul className="u-wp-l">
+          {WP_SITES.map((x) => (
+            <li key={x.host} data-k={x.woo ? "woo" : "wp"}>
+              <a href={x.href} target="_blank" rel="noopener" title={`${x.title}, ${x.engine.replace(/ · /g, ", ")}`}>
+                {x.woo && <Bag />}
+                {x.host}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </Frame>
+  );
+}
+
 const DEMOS: Record<string, (p: P) => React.ReactElement> = {
   "pochinit-sayt": Fix,
   "uskorit-sayt": Speed,
@@ -893,6 +942,7 @@ const DEMOS: Record<string, (p: P) => React.ReactElement> = {
   "telegram-bot": Chat,
   "admin-panel-i-crm": Board,
   "internet-magazin": Shop,
+  "sayt-na-wordpress": Wp,
   "verstka-po-figma": Layers,
   "perenos-sayta": Move,
   integracii: Flow,

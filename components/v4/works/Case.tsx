@@ -1,11 +1,14 @@
 import { REPLY } from "@/lib/content";
 import { tgText } from "@/lib/cta";
 import { serviceBySlug } from "@/lib/services";
+import { INDUSTRY_PAGES, nichesOfCase } from "@/lib/industries";
 import { metaLine, nextCases, shotPoints, type CaseView, type ShotPoint } from "./data";
 import { Crumbs, Cta, Drum, Ill, Out, Next } from "./parts";
 import { CaseIsland } from "./islands";
 import "./works.css";
 import "./works-ill.css";
+
+const NB = " ";
 
 /** высота верхнего кадра ленты при ширине 390: чуть больше экрана карточки (390x844) */
 const TOP_H = 860;
@@ -44,6 +47,7 @@ const Aim = () => (
 export function Case({ v }: { v: CaseView }) {
   const { c, site, kind, stack, alt, tall } = v;
   const services = c.services.map((s) => serviceBySlug(s)).filter(Boolean) as NonNullable<ReturnType<typeof serviceBySlug>>[];
+  const niches = nichesOfCase(c);
   const [next, ...more] = nextCases(c.slug);
   const dur = Math.round(tall.h / 140);
   const points = shotPoints(c);
@@ -299,6 +303,40 @@ export function Case({ v }: { v: CaseView }) {
           </ul>
         </section>
       )}
+
+      {/* ниша проекта; у кого своей ниши на сайте нет (керамика), ссылка на все ниши, чтобы ветка не обрывалась */}
+      <section className="w-svc w-svc--niche" aria-labelledby="w-niche-h">
+        <h2 className="w-svc__h" id="w-niche-h">
+          {niches.length > 0 ? "Сайты для этой ниши" : "Сайты по нишам"}
+        </h2>
+        <ul className="w-svc__list">
+          {niches.length > 0 ? (
+            niches.map((i) => (
+              <li key={i.slug}>
+                <a href={`/dlya/${i.slug}`}>
+                  <b>{i.h1}</b>
+                  <span className="w-svc__short">{i.short}</span>
+                  <span className="w-svc__price">
+                    {i.price.value}
+                    <Next />
+                  </span>
+                </a>
+              </li>
+            ))
+          ) : (
+            <li>
+              <a href="/dlya">
+                <b>Сайты для бизнеса по нишам</b>
+                <span className="w-svc__short">Своей страницы у этой ниши нет. Есть {INDUSTRY_PAGES.length}{NB}других: что в них важно, цены и сроки</span>
+                <span className="w-svc__price">
+                  все ниши
+                  <Next />
+                </span>
+              </a>
+            </li>
+          )}
+        </ul>
+      </section>
 
       {next && (
         <section className="w-next" aria-labelledby="w-next-h">

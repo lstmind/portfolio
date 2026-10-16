@@ -43,6 +43,7 @@ const SERVICE_WORDS: Record<string, string> = {
   "korporativnyy-sayt": "Корпоративный",
   "sayt-katalog": "Каталог",
   "internet-magazin": "Магазин",
+  "sayt-na-wordpress": "WordPress",
   "sayt-pod-klyuch": "Под ключ",
 };
 export function serviceWord(slug: string) {

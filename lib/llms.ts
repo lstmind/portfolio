@@ -7,18 +7,19 @@ import {
   NOT_DOING,
   REVIEWS,
   PROJECTS_TOTAL,
-  PAY_TERMS,
+  PAY,
   plural,
   rub,
   PROJECTS_ALL,
   PROJECTS_ALL_LABEL,
   PROJECTS_ALL_NOTE,
   TITLE_TAIL,
+  WP_SITES,
 } from "@/lib/content";
-import { SERVICE_PAGES, serviceBySlug } from "@/lib/services";
+import { SERVICE_PAGES, serviceBySlug, type ServicePage } from "@/lib/services";
 import { KWORK_STATS, PROFI_URL, PROFI_STATS, REVIEWS_SNAPSHOT } from "@/lib/reviews";
 import { CASE_PAGES, type CasePage } from "@/lib/cases";
-import { INDUSTRY_PAGES } from "@/lib/industries";
+import { INDUSTRY_PAGES, nichesOfCase } from "@/lib/industries";
 import { RATE } from "@/lib/home";
 import { AUDIT, AUDIT_DIAG, AUDIT_SLUGS, FAQ_CHEAPER, PRICE_FACTORS, tgHref } from "@/lib/cta";
 import { CAN, EDU, INSURED, PERSON, SINCE, STACK_ALL } from "@/components/v4/about/data";
@@ -32,7 +33,8 @@ import { CAN, EDU, INSURED, PERSON, SINCE, STACK_ALL } from "@/components/v4/abo
 
 const lc = (s: string) => s.charAt(0).toLowerCase() + s.slice(1);
 const list = (xs: readonly string[]) => xs.map((x) => `- ${x}`).join("\n");
-const qa = (items: readonly { q: string; a: string }[], level = "###") => items.map((f) => `${level} ${f.q}\n${f.a}`).join("\n\n");
+const qa = (items: readonly { q: string; a: string; more?: { href: string; label: string } }[], level = "###") =>
+  items.map((f) => `${level} ${f.q}\n${f.a}${f.more ? `\n[${f.more.label}](${SITE.url}${f.more.href})` : ""}`).join("\n\n");
 const reviewsWord = (n: number) => `${n} ${plural(n, ["отзыв", "отзыва", "отзывов"])}`;
 
 /** рейтинги площадок словами: "5,0 из 5, 35 отзывов" */
@@ -66,6 +68,7 @@ function facts(): string {
   const landing = svc("lending");
   const shop = svc("internet-magazin");
   const bot = svc("telegram-bot");
+  const wp = svc("sayt-na-wordpress");
   const bots = CAN.find((c) => c.href === "/uslugi/telegram-bot");
   return `## Коротко в цифрах
 
@@ -73,14 +76,15 @@ function facts(): string {
 - ${landing.h1}: ${landing.price.value}, ${landing.term.value}
 - ${shop.h1}: ${shop.price.value}, ${shop.term.value} (${shop.price.note})
 - ${bot.h1}: ${bot.price.value}, ${bot.term.value}${bots ? `. ${bots.text}` : ""}
+- ${wp.h1}: ${wp.price.value}, ${wp.term.value}, доработка готового сайта на WordPress от ${RATE}; на WordPress и WooCommerce ${WP_SITES.length} из ${PROJECTS_TOTAL} ${plural(PROJECTS_TOTAL, ["живого сайта", "живых сайтов", "живых сайтов"])} в работах
 - Час работы: ${RATE}, по проекту фикс-смета после разбора задачи
 - Опыт: с ${SINCE} года, ${PROJECTS_ALL} ${PROJECTS_ALL_LABEL} (${PROJECTS_ALL_NOTE}), ${PROJECTS_TOTAL} ${plural(PROJECTS_TOTAL, ["живой сайт", "живых сайта", "живых сайтов"])} открываются по ссылке
 - Отзывы: Kwork ${kworkLine}; Профи ${profiLine}; всего ${reviewsWord(KWORK_COUNT + PROFI_STATS.count)} на двух площадках (на ${snapshot})
 - Профи: паспорт проверен, работа застрахована через Профи до ${rub(INSURED)} ₽
 - Ответ: ${lc(REPLY.when)}
-- Гарантия: две недели после сдачи правлю мелочи и баги
-- Оплата: ${lc(PAY_TERMS.replace(/^Оплата /, ""))}
-- Оформление: самозанятый, договор и чек`;
+- Гарантия: ${PAY.guarantee.v} после сдачи, ${PAY.guarantee.note.replace(/^после сдачи /, "")}
+- Оплата: ${lc(PAY.schemeLine)} ${PAY.waysLine}
+- Оформление: самозанятый, договор и чек; [${lc(PAY.doc.label)}](${SITE.url}${PAY.doc.href}), ${PAY.doc.note}`;
 }
 
 function links(full: boolean): string {
@@ -236,6 +240,16 @@ ${contact()}
 `;
 }
 
+/** примеры работ услуги, как на странице: живые сайты под неё (sites), потом разборы */
+function serviceWorks(s: ServicePage) {
+  const sites = (s.sites ?? []).map((x) => `[${x.href.replace(/^https?:\/\/|\/$/g, "")}](${x.href}): ${x.note}`);
+  const cases = s.cases
+    .map((slug) => CASE_PAGES.find((c) => c.slug === slug))
+    .filter((c): c is CasePage => !!c)
+    .map((c) => `[${WORKS.find((w) => w.href === c.href)?.title ?? c.slug}](${SITE.url}/works/${c.slug}), разбор`);
+  return [...sites, ...cases];
+}
+
 /** /llms-full.txt: всё то же плюс полное содержание каждой услуги, ниши и разбора */
 export function llmsFull(): string {
   const services = SERVICE_PAGES.map((s) => {
@@ -247,6 +261,15 @@ export function llmsFull(): string {
       ...s.lead,
       `Что входит:\n${list(s.includes)}`,
       `Кому подходит:\n${list(s.fit)}`,
+      s.focus
+        ? [
+            `${s.focus.label}. ${s.focus.lead}`,
+            `Признаки: ${s.focus.signs.join("; ")}.`,
+            `Что делаю:\n${list(s.focus.does)}`,
+            `Цена: ${s.focus.price.value} (${s.focus.price.note}). Срок: ${s.focus.term.value} (${s.focus.term.note}).`,
+          ].join("\n\n")
+        : "",
+      serviceWorks(s).length ? `Примеры работ:\n${list(serviceWorks(s))}` : "",
       s.faq.length ? `Вопросы:\n\n${qa(s.faq, "####")}` : "",
     ];
     return parts.filter(Boolean).join("\n\n");
@@ -277,6 +300,7 @@ export function llmsFull(): string {
       `Задача:\n${list(c.task)}`,
       `Что сделано:\n${list(c.done)}`,
       c.detail?.length ? `Как устроено:\n${list(c.detail)}` : "",
+      nichesOfCase(c).length ? `Ниша: ${nichesOfCase(c).map((i) => `[${i.h1}](${SITE.url}/dlya/${i.slug})`).join(", ")}` : "",
     ];
     return parts.filter(Boolean).join("\n\n");
   }).join("\n\n");

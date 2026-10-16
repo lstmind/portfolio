@@ -50,6 +50,7 @@ export const ALL_SERVICE_SLUGS = [...MAIN_SLUGS, ...EXTRA_SLUGS];
 const EMOJI: Record<string, string> = {
   "sayt-pod-klyuch": "🚀",
   "internet-magazin": "🛒",
+  "sayt-na-wordpress": "🧩",
   "pochinit-sayt": "🛠",
   "uskorit-sayt": "⚡",
   "verstka-po-figma": "▦",
@@ -406,7 +407,7 @@ export function screenFaqList(key: string): Screen {
 export function screenFaq(i: number): Screen {
   const f = FAQ[i] ?? FAQ[0];
   return {
-    text: clamp(`❓ <b>${clean(f.q)}</b>\n\n${clean(f.a)}`),
+    text: clamp(`❓ <b>${clean(f.q)}</b>\n\n${clean(f.a)}${f.more ? `\n\n${clean(f.more.label)}: ${SITE.url}${f.more.href}` : ""}`),
     rows: [
       [{ text: "📝 Оставить заявку", callback_data: "lead:other" }],
       [{ text: "⬅️ Вопросы", callback_data: "faq" }, HOME],

@@ -144,6 +144,15 @@
   font:700 clamp(20px,1.9vw,28px)/1.3 var(--sans);letter-spacing:-.01em;text-wrap:balance}
 .u-fit li:last-child{margin-bottom:0;border-bottom:0}
 
+/* частый случай своим блоком (вирусы на починке): строка крупно, признаки пилюлями, шаги линейкой; слева цена и срок */
+.u-fc-lead{max-width:40ch;font:700 clamp(18px,1.45vw,21px)/1.5 var(--sans);text-wrap:pretty}
+.u-fc-h{margin-top:30px;font:700 12px/1 var(--sans);letter-spacing:.04em;text-transform:uppercase;color:var(--ink-2)}
+.u-fc-signs{list-style:none;display:flex;flex-wrap:wrap;gap:8px;margin:14px 0 6px}
+.u-fc-signs li{display:inline-flex;align-items:center;min-height:36px;padding:0 15px;border-radius:999px;box-shadow:inset 0 0 0 1.5px var(--ink);font:600 14px/1.25 var(--sans)}
+.u-focus .u-inc{margin-top:18px}
+.u-fc-facts{display:flex;flex-direction:column;gap:26px;margin:0}
+.u-fc-side .u-more{margin-top:22px}
+
 /* карточки работ, как в карусели героя */
 .u-cards{--cw:clamp(176px,14.6vw,232px);list-style:none;display:flex;flex-wrap:wrap;gap:clamp(18px,2.2vw,32px)}
 .u-card{position:relative;flex:none;width:var(--cw)}
@@ -194,7 +203,19 @@
 .u-step-n{font:700 12px/1 var(--sans);color:var(--ink-2)}
 .u-step-w{margin:12px 0 12px;font-family:var(--display);font-weight:900;text-transform:uppercase;font-size:clamp(34px,3.5vw,58px);line-height:.9;letter-spacing:-.01em}
 .u-step p{max-width:26ch;font:600 14.5px/1.5 var(--sans);text-wrap:pretty}
-.u-step .u-step-pay{margin-top:10px;max-width:28ch;font-size:13px;line-height:1.45;color:var(--ink-2)}
+/* оплата и гарантия под шагами: факты цифрой, как цена и срок первого экрана; образец договора файлом */
+.u-pay{margin-top:clamp(36px,3.4vw,52px);padding-top:22px;border-top:1px solid var(--u-line)}
+.u-pay .u-fc-h{margin-top:0}
+.u-pay-facts{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));column-gap:clamp(16px,2vw,32px);margin:18px 0 0}
+.u-pay .u-fact{max-width:none}
+.u-pay .u-num{font-size:clamp(24px,2.1vw,34px);white-space:normal}
+.u-pay .u-fnote{max-width:30ch}
+.u-pay-doc{display:flex;flex-wrap:wrap;align-items:center;gap:8px 18px;margin-top:26px}
+.u-pay-doc a{display:inline-flex;align-items:center;gap:.6em;min-height:44px;padding:0 20px 0 16px;border-radius:999px;box-shadow:inset 0 0 0 1.5px var(--ink);
+  font:700 13px/1 var(--sans);letter-spacing:.04em;text-transform:uppercase;transition:background-color .2s ease-out,color .2s ease-out}
+.u-pay-doc a:hover{background:var(--ink);color:var(--paper,#f7f6f3)}
+.u-pay-doc svg{width:17px;height:17px;flex:none}
+.u-pay-doc span{font:600 13px/1.4 var(--sans);color:var(--ink-2)}
 
 /* вопросы: линейки и кружок с плюсом, как в финале главной */
 .u-qs{list-style:none;margin-top:-20px}
@@ -342,6 +363,10 @@
   .u-lead p:first-child{font-size:18px}
   .u-inc li{grid-template-columns:36px minmax(0,1fr);font-size:16px}
   .u-fit li{font-size:20px}
+  .u-fc-facts{flex-direction:row;flex-wrap:wrap;gap:18px 28px}
+  .u-fc-facts .u-fact{flex:1 1 140px}
+  .u-fc-signs li{min-height:34px;padding:0 13px;font-size:13.5px}
+  .u-fc-lead{font-size:18px}
 
   .u-cards{--cw:min(58vw,240px);flex-wrap:nowrap;overflow-x:auto;overscroll-behavior-x:contain;scroll-snap-type:x mandatory;scrollbar-width:none;
     margin:0 -16px;padding:8px 16px 4px;scroll-padding-left:16px}
@@ -351,7 +376,10 @@
   .u-steps{grid-template-columns:repeat(2,minmax(0,1fr));row-gap:28px}
   .u-step-w{font-size:38px;margin:8px 0 8px}
   .u-step p{font-size:14px}
-  .u-step .u-step-pay{font-size:12.5px}
+  .u-pay-facts{grid-template-columns:repeat(2,minmax(0,1fr));gap:22px 18px;margin-top:16px}
+  .u-pay .u-fact:last-child{grid-column:1 / -1}
+  .u-pay .u-num{font-size:24px}
+  .u-pay-doc{gap:8px 14px;margin-top:22px}
 
   .u-qs{margin-top:-14px}
   .u-a p{padding-right:0;font-size:15px}

@@ -2,7 +2,7 @@
  * Факты страницы "Обо мне": реквизиты, учёба, стек, что получается лучше всего.
  * Всё, что уже есть в lib (контакты, рейтинги, живые сайты, ставка), берётся оттуда, здесь только своё.
  */
-import { LIVE_SITES, hostOf, plural } from "@/lib/content";
+import { FIX_SITE, LIVE_SITES, hostOf, plural } from "@/lib/content";
 import { OWNER } from "@/lib/legal";
 
 const NB = " ";
@@ -69,7 +69,7 @@ const site = (href: string) => {
 
 /**
  * Что получается лучше всего: слово, строка, пример с карточкой живого сайта (те же превью, что в прайсе главной).
- * "Чужое" это Well Event (решение владельца): MODX был до меня, как в прайсе главной.
+ * "Чужое" это Motocomfort (решение владельца, FACTS.md): магазин на Shop-Script после другого разработчика, как в прайсе главной.
  */
 export const CAN = [
   {
@@ -92,9 +92,9 @@ export const CAN = [
     word: "Чужое",
     href: "/uslugi/pochinit-sayt",
     text: "Разбираюсь в коде после других разработчиков: чиню, ускоряю, чищу от вирусов.",
-    site: site("https://wellevent.ru/"),
-    img: "prices-wellevent",
-    eg: "MODX был до меня",
+    site: FIX_SITE,
+    img: FIX_SITE.img,
+    eg: FIX_SITE.cap,
   },
   {
     word: "Тех. SEO",
@@ -112,7 +112,7 @@ export const CAN = [
  */
 type Frame = { w: number; h: number; sole: number; files: [number, number][] };
 export const FRAMES: Record<"desk" | "stack" | "phone", Frame> = {
-  desk: { w: 541, h: 837, sole: 831, files: [[476, 308], [663, 429], [837, 541], [1191, 770], [1674, 1082]] },
+  desk: { w: 590, h: 868, sole: 862, files: [[494, 336], [688, 468], [868, 590], [1235, 839], [1736, 1180]] },
   stack: { w: 424, h: 984, sole: 978, files: [[560, 241], [780, 336], [984, 424], [1400, 603], [1968, 848]] },
   phone: { w: 400, h: 984, sole: 978, files: [[560, 228], [780, 317], [984, 400], [1400, 569], [1968, 800]] },
 };

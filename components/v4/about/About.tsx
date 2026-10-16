@@ -1,4 +1,4 @@
-import { HOURS, REPLY, SITE, PROJECTS_ALL, PROJECTS_ALL_LABEL, PROJECTS_ALL_NOTE, PROJECTS_TOTAL, PAY_TERMS, plural } from "@/lib/content";
+import { HOURS, REPLY, SITE, PROJECTS_ALL, PROJECTS_ALL_LABEL, PROJECTS_ALL_NOTE, PROJECTS_TOTAL, PAY, PAY_HOURLY, plural } from "@/lib/content";
 import { RATE, rub } from "@/lib/home";
 import { KWORK_STATS, PROFI_STATS, PROFI_URL } from "@/lib/reviews";
 import { ONE_PHRASE, tgLink } from "@/lib/cta";
@@ -33,6 +33,9 @@ const CopyIco = () => (
 
 /** первое сообщение в Telegram: сразу видно, откуда пришли */
 const tgHref = tgLink({ kind: "page", name: "Обо мне" });
+
+/** строка из данных оплаты с заглавной и точкой: "Без сюрпризов" берёт ту же формулировку, что услуги и FAQ */
+const sentence = (s: string) => (s.charAt(0).toUpperCase() + s.slice(1)).replace(/; (.)/g, (_, c: string) => `. ${c.toUpperCase()}`) + ".";
 
 /**
  * Крупное слово Fira 900 капсом, буквы встают на барабане (как слова героя и прайса).
@@ -314,22 +317,22 @@ export function About({ kwork }: { kwork: number }) {
           <li data-rv="">
             <span>03</span>
             <div>
-              Оплата 50/50
-              <em>{tie(PAY_TERMS.replace(/^Оплата обычно 50\/50, к/, "К"))}</em>
+              Оплата {PAY.scheme.v}
+              <em>{tie(`${sentence(PAY.scheme.note)} Часовые задачи ${PAY_HOURLY.v}: ${PAY_HOURLY.note.replace(/; /g, ", ")}.`)}</em>
             </div>
           </li>
           <li data-rv="">
             <span>04</span>
             <div>
               Самозанятый: договор и{NB}чек
-              <em>{tie('Чек из "Мой налог" после каждой оплаты.')}</em>
+              <em>{tie(PAY.waysLine)}</em>
             </div>
           </li>
           <li data-rv="">
             <span>05</span>
             <div>
-              Две недели после сдачи
-              <em>{tie("Правлю мелочи бесплатно, по гарантии.")}</em>
+              Две недели гарантии
+              <em>{tie(sentence(PAY.guarantee.note))}</em>
             </div>
           </li>
         </ol>
@@ -459,6 +462,7 @@ export function About({ kwork }: { kwork: number }) {
         <div className="ab-req-l">
           <Big as="h2" text="Реквизиты" id="ab-req-t" className="ab-big--req" />
           <p>{tie('Для договора и чека. Чек приходит из приложения "Мой налог" сразу после оплаты.')}</p>
+          <p>{tie(`Образец договора лежит здесь же, ${PAY.doc.note}.`)}</p>
         </div>
         <div className="ab-check" data-rv="">
           <p className="ab-cap">Исполнитель</p>
@@ -482,6 +486,9 @@ export function About({ kwork }: { kwork: number }) {
             </dd>
           </dl>
           <div className="ab-check-links">
+            <a href={PAY.doc.href} target="_blank" rel="noopener" type="application/pdf">
+              {PAY.doc.label}
+            </a>
             <a href="/politika">Политика обработки данных</a>
             <a href="/soglasie">Согласие на обработку данных</a>
           </div>

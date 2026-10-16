@@ -20,6 +20,7 @@ const LABELS: Record<string, string> = {
   "korporativnyy-sayt": "Корпоративный сайт",
   "sayt-katalog": "Сайт-каталог",
   "internet-magazin": "Интернет-магазин",
+  "sayt-na-wordpress": "Сайт на WordPress",
   "mnogoyazychnyy-sayt": "Многоязычный сайт",
   "verstka-po-figma": "Вёрстка по Figma",
   "pochinit-sayt": "Починить сайт",

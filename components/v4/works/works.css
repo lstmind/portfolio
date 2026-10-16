@@ -194,6 +194,8 @@
 
 /* услуги: строки как в прайсе главной */
 .w-svc{padding:140px var(--pad) 0}
+/* ниша сразу под услугами: тот же список, отступ меньше, чтобы читались одним блоком "куда дальше" */
+.w-svc--niche{padding-top:72px}
 .w-svc__h{font:700 11px/1 var(--sans);letter-spacing:.07em;text-transform:uppercase;color:var(--ink);padding-bottom:16px;border-bottom:1px solid var(--ink)}
 .w-svc__list{list-style:none}
 .w-svc__list a{display:grid;grid-template-columns:minmax(0,1fr);gap:8px;padding:22px 0 24px;border-bottom:1px solid var(--line)}

@@ -5,8 +5,9 @@
  */
 import { SERVICE_PAGES, serviceBySlug, type ServicePage } from "@/lib/services";
 import { CASE_PAGES } from "@/lib/cases";
-import { WORKS, hostOf } from "@/lib/content";
+import { FIX_SITE, LIVE_SITES, WORKS, hostOf } from "@/lib/content";
 import { INDUSTRY_PAGES } from "@/lib/industries";
+import { previewOf } from "@/components/v4/dlya/data";
 
 const NB = " ";
 
@@ -14,6 +15,7 @@ const NB = " ";
 const WORDS: Record<string, string> = {
   "sayt-pod-klyuch": "Под ключ",
   "internet-magazin": "Магазин",
+  "sayt-na-wordpress": "WordPress",
   "pochinit-sayt": "Чиню чужое",
   "pererabotka-sayta": "Переделка",
   "uskorit-sayt": "Ускоряю",
@@ -54,7 +56,7 @@ const GROUPS: { title: string; side: string; slugs: string[] }[] = [
   {
     title: "Новый сайт",
     side: "с нуля, на вашем домене",
-    slugs: ["sayt-pod-klyuch", "sayt-vizitka", "lending", "korporativnyy-sayt", "sayt-katalog", "internet-magazin", "mnogoyazychnyy-sayt", "verstka-po-figma"],
+    slugs: ["sayt-pod-klyuch", "sayt-vizitka", "lending", "korporativnyy-sayt", "sayt-katalog", "internet-magazin", "sayt-na-wordpress", "mnogoyazychnyy-sayt", "verstka-po-figma"],
   },
   {
     title: "Готовый сайт",
@@ -124,6 +126,17 @@ const SHOTS: Record<string, { card: string; tall: string; tallH: number }> = {
   "wellevent.ru": { card: "prices-wellevent", tall: "wellevent", tallH: 2128 },
 };
 
+/** карточка в "Примерах работ": разбор (slug есть, ведёт на /works/<slug>) или живой сайт без разбора (ведёт на сам сайт) */
+export type WorkCard = {
+  slug?: string;
+  title: string;
+  kind: string;
+  href: string;
+  host: string;
+  /** превью первого экрана относительно /img/v4/: <card>-240|400.webp */
+  card: string;
+};
+
 export type CaseCard = {
   slug: string;
   title: string;
@@ -149,6 +162,23 @@ export function caseCards(slugs: string[]): CaseCard[] {
   });
 }
 
+/**
+ * Живые сайты без разбора из поля sites услуги: адрес из списка работ (картинка витрины /img/v4/works/...)
+ * или пример "чиню чужое" (FIX_SITE, своя карточка). Подпись своя под услугу. Чужой адрес сборку валит.
+ */
+export function siteCards(sites: { href: string; note: string }[]): WorkCard[] {
+  return sites.map(({ href, note }) => {
+    const host = hostOf(href);
+    if (host === FIX_SITE.host) return { title: FIX_SITE.title, kind: note, href, host, card: FIX_SITE.img };
+    const live = LIVE_SITES.find((x) => x.host === host);
+    if (!live) throw new Error(`нет живого сайта ${href} в lib/content.ts (sites услуги)`);
+    return { title: live.title, kind: note, href, host, card: previewOf(host).replace(/^\/img\/v4\//, "") };
+  });
+}
+
+/** "Примеры работ" услуги: сначала живые сайты под неё, потом разборы */
+export const worksFor = (s: ServicePage): WorkCard[] => [...siteCards(s.sites ?? []), ...caseCards(s.cases)];
+
 /* ── связи страницы услуги ── */
 
 /** сначала близкие услуги, дальше по кругу от текущей: иначе одни и те же шесть собирают ссылки со всех страниц */
@@ -167,4 +197,8 @@ export const nichesFor = (s: ServicePage) =>
   s.hub?.length ? INDUSTRY_PAGES : INDUSTRY_PAGES.filter((i) => i.types.includes(s.slug));
 
 /** первая работа услуги: её карточка стоит в строке прайса */
-export const firstCase = (s: ServicePage) => caseCards(s.cases.slice(0, 1))[0];
+export const firstCase = (s: ServicePage): WorkCard => {
+  const w = worksFor(s)[0];
+  if (!w) throw new Error(`у услуги ${s.slug} нет ни разбора, ни живого сайта`);
+  return w;
+};

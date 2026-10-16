@@ -254,6 +254,14 @@ export function Final() {
               <div className="final-a" id={`final-a${i}`} role="region" aria-labelledby={`final-qb${i}`}>
                 <div>
                   <p>{f.a}</p>
+                  {f.more && (
+                    <p className="final-more">
+                      <a href={f.more.href} target="_blank" rel="noopener">
+                        {f.more.label}
+                        <Out />
+                      </a>
+                    </p>
+                  )}
                 </div>
               </div>
             </li>

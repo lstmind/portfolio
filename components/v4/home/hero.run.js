@@ -10,6 +10,7 @@ export function heroRun(hero) {
 
   var ul = hero.querySelector('#cards');
   var wordEl = hero.querySelector('#word');
+  var whoEl = hero.querySelector('#who');
   var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
   var coarse = matchMedia('(hover: none)').matches;
   // шрифт заголовка: next/font даёт семейству своё имя, берём его из той же переменной, что и стили
@@ -29,8 +30,10 @@ export function heroRun(hero) {
   function layout(force) {
     if (dead) return;
     var W = hero.clientWidth, H = hero.clientHeight, mob = W < 700;
-    if (force === 'font' && !byCanvas && laidOut === W + 'x' + H) return;
-    laidOut = W + 'x' + H;
+    // строка "кто, где, сколько" могла переложиться другим числом строк, когда догрузился Montserrat: тогда тоже пересчёт
+    var key = W + 'x' + H + 'x' + (whoEl ? whoEl.offsetHeight : 0);
+    if (force === 'font' && !byCanvas && laidOut === key) return;
+    laidOut = key;
     var ch = mob ? Math.min(H * 0.4, 350) : Math.min(H * 0.43, W * 0.3);
     var cw = ch * 390 / 844;
     var R = mob ? cw * 2.35 : cw * 3.7;
@@ -136,6 +139,7 @@ export function heroRun(hero) {
   function layoutJ() {
     var W = G.W, H = G.H, mob = G.mob;
     hero.style.removeProperty('--word-x');
+    hero.style.removeProperty('--who-y');
     var soleY = H - (mob ? 60 : 64) + (mob ? 13 : 15);   // подошвы чуть заходят на красный язычок
     var w100 = widthAt(LONG, 100), t100 = widthAt(TAIL, 100);
     var fx = W / 2, f, S, i;
@@ -148,10 +152,13 @@ export function heroRun(hero) {
         fs *= (avail / 2) / half;
       }
       fs = Math.min(fs, H * .118);
-      f = figAt(fx, yT + lh * fs + fs + Math.max(26, H * .03), soleY);   // запас на подскок (3) и подсказку (8)
+      // строка "кто, где, сколько" сразу под словами; фигура и карточки опускаются на её высоту
+      var wb = yT + lh * fs + fs * .92, whoH = whoEl ? whoEl.offsetHeight : 0, add = whoH ? whoH + 8 : 0;
+      if (whoEl) hero.style.setProperty('--who-y', (wb + 10) + 'px');
+      f = figAt(fx, yT + lh * fs + fs + Math.max(26, H * .03) + add, soleY);   // запас на подскок (3) и подсказку (8)
       S = { mode: 'center', arc: true, Rw: Rw, y: yT, lh: lh * fs };
       // карточки за корпусом, от заголовка вниз; подписи ниже карточек на чистой бумаге у штанин, не поверх скринов
-      var capH = 36, top = yT + lh * fs + fs * .92 + 16, ctaTop = H - 60;
+      var capH = 36, top = wb + 16 + add, ctaTop = H - 60;
       var span = Math.max(180, (ctaTop - 24 - capH - top) * .8);
       var ch = G.ch;
       for (i = 0; i < 3; i++) ch *= span / (ch * cardScale(ch, W));

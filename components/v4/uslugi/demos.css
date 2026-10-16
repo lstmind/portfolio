@@ -382,6 +382,22 @@
 .u-ct-g button:hover{background:var(--ink);color:var(--paper)}
 .u-ct-g li.sent button{background:var(--ink);color:var(--paper)}
 
+/* ── WordPress: живые сайты из работ, переключатель гасит лишние, а не прячет: строки не прыгают ── */
+.u-wp{padding:6% 6% 5%;background:#fff}
+.u-wp-f{display:flex;flex-wrap:wrap;gap:6px}
+.u-wp-f button{display:inline-flex;align-items:center;gap:6px;min-height:32px;padding:0 12px;border:0;border-radius:999px;background:none;color:var(--ink-2);
+  box-shadow:inset 0 0 0 1.5px rgba(12,11,11,.16);font:700 11.5px/1 var(--sans);cursor:pointer;-webkit-tap-highlight-color:transparent;transition:background-color .2s,color .2s}
+.u-wp-f button b{font-weight:800;color:var(--ink)}
+.u-wp-f button[aria-pressed="true"]{background:var(--ink);color:var(--paper);box-shadow:none}
+.u-wp-f button[aria-pressed="true"] b{color:var(--paper)}
+.u-wp-l{list-style:none;display:flex;flex-wrap:wrap;gap:6px;margin-top:14px}
+.u-wp-l li{transition:opacity .3s,transform .35s var(--u-e)}
+.u-wp-l li.off{opacity:.22;transform:scale(.94)}
+.u-wp-l a{display:inline-flex;align-items:center;gap:5px;min-height:30px;padding:0 10px;border-radius:999px;background:var(--u-soft);box-shadow:inset 0 0 0 1px var(--u-ln);
+  font:600 11.5px/1 var(--sans);color:var(--ink);transition:background-color .2s,color .2s}
+.u-wp-l a:hover,.u-wp-l a:focus-visible{background:var(--ink);color:var(--paper)}
+.u-wp-l svg{width:11px;height:11px;flex:none}
+
 /* ── языки ── */
 .u-lg{display:flex;flex-direction:column;align-items:center;padding:7% 8% 6%;background:var(--u-bg)}
 .u-lg-bar{width:min(230px,66%);padding:8px 12px;border-radius:999px;background:#fff;font:600 12px/1 var(--sans);color:var(--ink-2);text-align:center;white-space:nowrap}

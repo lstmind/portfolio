@@ -278,6 +278,25 @@ var KINDS = {
     K.seen(function () { K.at(700, function () { filt(1); }); K.at(1700, function () { send(tiles[sets[1][1]]); }); });
   },
 
+  /** WordPress: переключатель "все / сайты / магазины" гасит лишние адреса; сам листает, пока не нажали */
+  wp: function (el, K) {
+    var bs = $$('.u-wp-f button', el), li = $$('.u-wp-l li', el), cur = 'all', user = false, timer = 0;
+    function set(k) {
+      cur = k;
+      bs.forEach(function (b) { b.setAttribute('aria-pressed', String(b.getAttribute('data-f') === k)); });
+      li.forEach(function (x) { x.classList.toggle('off', k !== 'all' && x.getAttribute('data-k') !== k); });
+    }
+    K.add(function () { clearInterval(timer); set('all'); });
+    bs.forEach(function (b) { K.on(b, 'click', function () { user = true; clearInterval(timer); set(b.getAttribute('data-f')); }); });
+    if (K.reduce) return;
+    K.seen(function () {
+      timer = setInterval(function () {
+        if (user || document.hidden) return;
+        var ks = bs.map(function (b) { return b.getAttribute('data-f'); });
+        set(ks[(ks.indexOf(cur) + 1) % ks.length]);
+      }, 2400);
+    });
+  },
   lang: function (el, K) {
     var sw = $$('.u-lg-sw button', el), imgs = $$('.u-lg-scr img', el), url = $('.u-lg-url b', el), code = $('.u-lg-code b', el), scr = $('.u-lg-scr', el);
     var hero = $$('.u-screen--lang img', document);

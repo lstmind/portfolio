@@ -42,6 +42,18 @@
 .side-l{right:calc(50% + var(--side-x));transform:rotate(-4deg);transform-origin:right center}
 .side-r{left:calc(50% + var(--side-x));transform:rotate(4deg);transform-origin:left center}
 
+/* строка "кто, где, сколько" (Hero.tsx, whoHtml): мелкий текст по нижним углам, как подпись плаката, по бокам от язычка.
+   шрифт и капс как у разделов шапки: сверху строка шапки, снизу эта, фигура и слова между ними.
+   ширина половины до язычка (он шириной около 264px по оси фигуры) с просветом 24px: на узком десктопе переносится */
+.who{position:absolute;z-index:4;left:0;right:0;bottom:0;display:flex;justify-content:space-between;align-items:center;gap:24px;
+  height:calc(64px + env(safe-area-inset-bottom));padding:0 clamp(16px,2.6vw,40px) env(safe-area-inset-bottom);
+  font:600 12px/1.45 var(--sans);letter-spacing:.05em;text-transform:uppercase;color:var(--ink-2);pointer-events:none}
+.who b{font-weight:700;color:var(--ink)}
+.who>span{max-width:calc(50% - 156px)}
+/* "веб-разработчик" не рвётся по дефису на узком десктопе */
+.who .nw{white-space:nowrap}
+.who-r{text-align:right}
+
 /* подпись сайта: появляется при наведении или тапе */
 .cap{position:absolute;z-index:7;left:50%;bottom:calc(84px + env(safe-area-inset-bottom));display:inline-flex;align-items:center;gap:.55em;
   padding:11px 16px 11px 18px;border-radius:999px;background:var(--paper);color:var(--ink);box-shadow:0 1px 0 rgba(12,11,11,.06),0 10px 30px -12px rgba(12,11,11,.45);
@@ -118,6 +130,10 @@ html:root .cap.r{left:calc(50% + var(--side-x))}
   html:root .side-l{width:min-content}
   /* справа две строки по разметке ("100+ проектов / и доработок"), без своих переносов */
   html:root .side-r{width:auto;white-space:nowrap}
+  /* строка "кто, где, сколько": две строки по центру сразу под словами, место под неё оставляет hero.run.js (--who-y) */
+  .who{top:var(--who-y,31%);bottom:auto;display:block;height:auto;padding:0 12px;text-align:center;font-size:11.5px;letter-spacing:.03em}
+  .who>span{display:block;max-width:none}
+  .who-r{text-align:center}
   /* на телефоне место сбоку узкое: имя сверху, адрес снизу */
   html:root .cap{display:grid;grid-template-columns:auto auto;justify-content:start;column-gap:8px;row-gap:4px;
     padding:9px 12px 10px;border-radius:14px;font-size:13px;white-space:normal;max-width:136px;top:calc(var(--side-y) - 6px)}

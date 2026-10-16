@@ -1,5 +1,8 @@
+import { SITE } from "@/lib/content";
 import { tgLink } from "@/lib/cta";
-import { HERO_SITES, HERO_SIDES, HERO_WORDS } from "@/lib/home";
+import { HERO_SITES, HERO_SIDES, HERO_WORDS, SITE_FROM } from "@/lib/home";
+import { serviceBySlug } from "@/lib/services";
+import { tie } from "../typo";
 import { IMG, poseSrc, poseSrcSet } from "../Figure";
 import { heroRun } from "./hero.run";
 import { HeroIsland } from "./islands";
@@ -18,6 +21,23 @@ const ARROW =
  */
 const ME_SIZES =
   "(max-width: 699px) and (min-resolution: 2.5dppx) 189px, (max-width: 699px) calc((100svh - 300px) * .41), calc(100vh * .36)";
+
+/**
+ * Строка "кто, где, сколько" под заголовком: первый абзац главной, по нему люди, Яндекс и нейросети понимают,
+ * кто это и почём. Видимая, в разметке с сервера. Цена и срок из страницы "Сайт под ключ" (SITE_FROM оттуда же).
+ * Две половины: на десктопе по нижним углам героя у язычка, на телефоне двумя строками под словами.
+ */
+function whoHtml() {
+  const term = serviceBySlug("sayt-pod-klyuch")?.term.value;
+  if (!term) throw new Error("нет срока у услуги sayt-pod-klyuch в lib/services.ts");
+  const role = SITE.role.toLowerCase();
+  return (
+    `<p class="who" id="who">` +
+    `<span class="who-l"><b>${esc(SITE.person)}</b>, <span class="nw">${esc(role)}</span> ${esc(tie("в Москве."))}</span> ` +
+    `<span class="who-r">Сайты <b>${esc(tie(SITE_FROM))}</b> ${esc(tie(`за ${term}.`))}</span>` +
+    `</p>`
+  );
+}
 
 /**
  * Разметка героя целиком строкой: её сразу, ещё до гидрации, берёт скрипт карусели (как в статике),
@@ -39,6 +59,7 @@ function heroHtml() {
   const boot = `(function(){var run=${heroRun.toString()};window.__v4hero=run;var h=document.getElementById('hero');if(h&&!h.__v4run)h.__v4run=run(h);})();`;
   return (
     `<h1 class="word"><span class="sr">${esc(title)}</span><span class="word-in" id="word"></span></h1>` +
+    whoHtml() +
     `<div class="ring" id="ring" role="group" aria-label="Мои сайты, тяните в сторону"><div class="track" id="cards">${cards}</div></div>` +
     `<div class="figs" id="figs">` +
     `<img class="me" id="me" alt="Алексей, веб-разработчик" fetchpriority="high" decoding="async" width="400" height="984" srcset="${poseSrcSet("j1")}" sizes="${ME_SIZES}" src="${poseSrc("j1")}">` +

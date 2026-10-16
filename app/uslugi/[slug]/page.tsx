@@ -6,10 +6,11 @@ import { auditFor, priceLine } from "@/lib/cta";
 import { Shell } from "@/components/v4/Shell";
 import { AuditStrip, PriceStrip } from "@/components/v4/cta/Strip";
 import { Block, Faq, FinalCta, Go } from "@/components/v4/uslugi/bits";
-import { BigCount, CaseCards, Niches, Quote, Rating, ServiceHero, ShortQuote, ShotFigure, Steps, tgMsg } from "@/components/v4/uslugi/Service";
+import { BigCount, CaseCards, Focus, Niches, Quote, Rating, ServiceHero, ShortQuote, ShotFigure, Steps, tgMsg } from "@/components/v4/uslugi/Service";
 import { Sign } from "@/components/v4/uslugi/Sign";
+import { Pay } from "@/components/v4/uslugi/Pay";
 import { CaseShots, Demo } from "@/components/v4/uslugi/Demos";
-import { caseCards, hubFor, nichesFor, othersFor } from "@/components/v4/uslugi/data";
+import { caseCards, hubFor, nichesFor, othersFor, worksFor } from "@/components/v4/uslugi/data";
 import { reviewFor, sceneOf, shortReviewFor } from "@/components/v4/uslugi/scenes";
 import { CardsIsland, DemosIsland, HeroIsland, NichesIsland, SignsIsland, WordsIsland } from "@/components/v4/uslugi/islands";
 
@@ -55,6 +56,8 @@ export default async function ServicePageView({ params }: { params: Promise<{ sl
   if (!s) notFound();
 
   const cards = caseCards(s.cases);
+  // "Примеры работ": живые сайты под услугу (без разбора) и разборы; cards выше только разборы, у них есть длинные скрины для ноутбука
+  const works = worksFor(s);
   const others = othersFor(s);
   const hub = hubFor(s);
   const niches = nichesFor(s);
@@ -160,7 +163,7 @@ export default async function ServicePageView({ params }: { params: Promise<{ sl
           <PriceStrip line={priceLine(s)} tg={msg} />
         )}
 
-        <Block id="u-fit" label="Когда это нужно" aside={scene ? <ShotFigure shot={cards[0]} /> : <BigCount />}>
+        <Block id="u-fit" label="Когда это нужно" aside={scene && cards[0] ? <ShotFigure shot={cards[0]} /> : <BigCount />}>
           <ul className="u-fit">
             {s.fit.map((x) => (
               <li key={x}>{x}</li>
@@ -168,8 +171,10 @@ export default async function ServicePageView({ params }: { params: Promise<{ sl
           </ul>
         </Block>
 
+        {s.focus && <Focus f={s.focus} />}
+
         <Block id="u-works" label="Примеры работ">
-          <CaseCards cards={cards} />
+          <CaseCards cards={works} />
           <p className="u-more">
             <a href="/works">
               Все работы и разборы
@@ -185,7 +190,9 @@ export default async function ServicePageView({ params }: { params: Promise<{ sl
         )}
 
         <Block id="u-steps" label="Как идёт работа">
-          <Steps />
+          <Steps>
+            <Pay slug={s.slug} />
+          </Steps>
         </Block>
 
         <Block id="u-faq" label="Вопросы по услуге">

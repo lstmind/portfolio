@@ -3,7 +3,7 @@
  * Факты (названия, адреса, цены, ставка, тексты вопросов) не дублируются, а берутся из
  * content.ts, services.ts и industries.ts: поменяли там, поменялось и здесь.
  */
-import { LIVE_SITES, PROJECTS_ALL, PROJECTS_TOTAL, FAQ, RATE, SITE_FROM, hostOf, plural, rub } from "./content";
+import { FIX_SITE, LIVE_SITES, PROJECTS_ALL, PROJECTS_TOTAL, FAQ, type FaqItem, RATE, SITE_FROM, hostOf, plural, rub } from "./content";
 import { serviceBySlug } from "./services";
 import { INDUSTRY_PAGES } from "./industries";
 import { FAQ_CHEAPER, ONE_PHRASE } from "./cta";
@@ -100,7 +100,7 @@ type PriceRow = {
 const PRICE_ROWS: PriceRow[] = [
   { word: "Сайты", slug: "sayt-pod-klyuch", note: "Смета фиксируется после разбора задачи", img: "chemrar", site: "https://chemrar.ru/" },
   { word: "Магазины", slug: "internet-magazin", note: `С корзиной и оплатой от ${rub(100000)}${NB}₽`, img: "qayna", site: "https://qayna.ru/" },
-  { word: "Чиню чужое", slug: "pochinit-sayt", note: "Сначала смотрю код и называю часы", img: "prices-wellevent", site: "https://wellevent.ru/", cap: "MODX был до меня" },
+  { word: "Чиню чужое", slug: "pochinit-sayt", note: "Сначала смотрю код и называю часы", img: FIX_SITE.img, site: FIX_SITE.href, cap: FIX_SITE.cap },
   { word: "Ускоряю", slug: "uskorit-sayt", note: `Работы от ${RATE}, объём после аудита`, img: "nega", site: "https://nega.lstmind.ru/", cap: "Lighthouse 100 на десктопе" },
   { word: "Боты", slug: "telegram-bot", note: `С каталогом и оплатой от ${rub(70000)}${NB}₽`, img: "drova", site: "https://drova.lstmind.ru/", cap: "бот понимает заказ словами" },
 ];
@@ -115,7 +115,8 @@ function splitPrice(v: string) {
 export const PRICES = PRICE_ROWS.map((r) => {
   const svc = serviceBySlug(r.slug);
   if (!svc) throw new Error(`нет услуги ${r.slug} в lib/services.ts`);
-  const s = siteByHref(r.site);
+  // пример "чиню чужое" не из списка живых сайтов: чужой магазин, который я дорабатываю (FIX_SITE в content.ts)
+  const s = r.site === FIX_SITE.href ? FIX_SITE : siteByHref(r.site);
   return { ...r, href: `/uslugi/${r.slug}`, price: splitPrice(svc.price.value), name: s.title, cap: r.cap ?? s.host };
 });
 
@@ -160,7 +161,7 @@ const FAQ_KEYS = [
   "Что если сайт сломается после сдачи?",
 ];
 // "Можно дешевле?" первым: вопросы стоят сразу под калькулятором, и про цену спрашивают раньше всего. Ответ с цифрами из lib/cta.ts
-export const FAQ_HOME = [
+export const FAQ_HOME: FaqItem[] = [
   FAQ_CHEAPER,
   ...FAQ_KEYS.map((q) => {
     const f = FAQ.find((x) => x.q === q);

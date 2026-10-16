@@ -154,6 +154,11 @@
 .s-final .final-a>div{overflow:hidden}
 .s-final .final-a p{margin:0;padding:0 54px 24px 0;font:600 16px/1.6 var(--sans);color:var(--ink-2);max-width:64ch;text-wrap:pretty}
 .s-final .final-q.final-open .final-a{grid-template-rows:1fr}
+/* ссылка под ответом (образец договора): строкой ниже текста, зона нажатия 44px */
+.s-final .final-a .final-more{margin-top:-14px;padding-bottom:22px}
+.s-final .final-more a{display:inline-flex;align-items:center;gap:.45em;min-height:44px;font:700 13px/1 var(--sans);letter-spacing:.04em;text-transform:uppercase;color:var(--ink)}
+.s-final .final-more svg{width:13px;height:13px;transition:transform .3s var(--final-ease)}
+.s-final .final-more a:hover svg{transform:translate(2px,-2px)}
 
 /* средняя ширина: чат уходит под калькулятор */
 @media (min-width:700px) and (max-width:1099px){

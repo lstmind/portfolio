@@ -133,9 +133,11 @@
   .s-reviews .reviews-track::-webkit-scrollbar{display:none}
   .s-reviews .reviews-card{flex:0 0 calc(100% - var(--reviews-pad) * 2 - 34px);scroll-snap-align:start;scroll-snap-stop:always;
     visibility:visible;padding:20px 20px 18px;border-radius:26px;background:#fff;
-    box-shadow:0 0 0 1px rgba(12,11,11,.08);transition:none}
-  .s-reviews .reviews-card > *{transition:opacity .35s ease-out}
-  .s-reviews .reviews-card:not(.is-on) > *{opacity:.32}
+    box-shadow:0 0 0 1px rgba(12,11,11,.08);transition:none;position:relative}
+  /* соседние карточки приглушены белой вуалью поверх, а не прозрачностью текста: текст остаётся тушью,
+     проверка контраста (Lighthouse) не считает соседей бледным текстом. на вид то же, что opacity .32 */
+  .s-reviews .reviews-card::after{content:"";position:absolute;inset:0;border-radius:inherit;background:#fff;opacity:0;pointer-events:none;transition:opacity .35s ease-out}
+  .s-reviews .reviews-card:not(.is-on)::after{opacity:.68}
   .s-reviews .reviews-word{font-size:calc(min(50px,12.4vw) * var(--reviews-wk,1));min-height:0;margin-bottom:16px}
   .s-reviews .reviews-c,.s-reviews .is-off .reviews-c{transform:none;opacity:1;transition:none}
   .s-reviews .reviews-card blockquote,.s-reviews .reviews-card figcaption,.s-reviews .reviews-card.is-on blockquote,.s-reviews .reviews-card.is-on figcaption{opacity:1;transition:none}

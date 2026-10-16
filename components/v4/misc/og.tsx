@@ -9,6 +9,7 @@ import { CASE_PAGES, type CasePage } from "@/lib/cases";
 import { previewOf, sitesOf, wordOf } from "../dlya/data";
 import { SCENES as NICHE_SCENES } from "../dlya/scene";
 import { sceneOf } from "../uslugi/scenes";
+import { siteCards } from "../uslugi/data";
 import { NAV_META, serviceLabel } from "../nav.data";
 import ADV from "./og/fira900-adv.json";
 import META from "./og/figs.json";
@@ -415,7 +416,8 @@ export function ogService(s: ServicePage) {
     facts: { chips: [{ big: s.price.value }, { big: s.term.value }] },
     fig: fig ?? "j6",
     shot,
-    sites: pickSites(cases.map(caseSite), shot ? 1 : 3),
+    // живые сайты под услугу (поле sites) первыми: у переноса и языков разборов нет вовсе
+    sites: pickSites([...siteCards(s.sites ?? []).map((w) => `/img/v4/${w.card}`), ...cases.map(caseSite)], shot ? 1 : 3),
   });
 }
 
