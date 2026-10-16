@@ -144,7 +144,7 @@ function notDoing(): string {
 
 Сам этим не занимаюсь, но подключу коллегу, сделаем в паре или подскажу, к кому идти.
 
-${NOT_DOING.map((n) => `- ${n.what} — ${n.why}`).join("\n")}`;
+${NOT_DOING.map((n) => `- ${n.what} — ${n.why}${n.more ? `. Моя часть: [${lc(n.more.label)}](${SITE.url}${n.more.href})` : ""}`).join("\n")}`;
 }
 
 function stack(): string {
@@ -269,7 +269,7 @@ export function llmsFull(): string {
             `Цена: ${s.focus.price.value} (${s.focus.price.note}). Срок: ${s.focus.term.value} (${s.focus.term.note}).`,
           ].join("\n\n")
         : "",
-      serviceWorks(s).length ? `Примеры работ:\n${list(serviceWorks(s))}` : "",
+      serviceWorks(s).length ? `Примеры работ:\n${list(serviceWorks(s))}` : s.nda ? `Примеры работ: ${s.nda}` : "",
       s.faq.length ? `Вопросы:\n\n${qa(s.faq, "####")}` : "",
     ];
     return parts.filter(Boolean).join("\n\n");

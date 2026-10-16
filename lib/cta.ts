@@ -159,7 +159,7 @@ export const AUDIT_DIAG: Audit = {
 };
 
 /** услуги, где стоит аудит (вторая кнопка в герое и полоса посередине). На /uslugi/sayt-pod-klyuch аудита нет */
-export const AUDIT_SLUGS = ["uskorit-sayt", "tehnicheskoe-seo", "pochinit-sayt", "pererabotka-sayta"] as const;
+export const AUDIT_SLUGS = ["uskorit-sayt", "tehnicheskoe-seo", "pochinit-sayt", "pererabotka-sayta", "podgotovka-k-reklame"] as const;
 
 /** аудит для услуги: диагностика у починки, обычный у остальных; null, если на этой услуге аудита нет */
 export function auditFor(slug: string): Audit | null {
@@ -199,7 +199,7 @@ export const STRIP = {
  * Если у услуги вместо срока другое ("Реакция: в течение часа"), подпись идёт словом: "..., реакция в течение часа".
  */
 export function priceLine(s: { h1: string; price: { value: string }; term: { label: string; value: string } }): string {
-  // "Интеграции: оплата, доставка, CRM, 1С" без хвоста после двоеточия, иначе цена читается как цена 1С
+  // "Интеграции: оплата, доставка, CRM" без хвоста после двоеточия, иначе цена читается как цена доставки
   const name = s.h1.split(":")[0];
   const term = s.term.label === "Срок" ? s.term.value : `${s.term.label.toLowerCase()} ${s.term.value}`;
   return `${name} ${s.price.value}, ${term}`;

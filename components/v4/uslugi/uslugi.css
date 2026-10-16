@@ -232,6 +232,11 @@
 .u-q[open] .u-x::before,.u-q[open] .u-x::after{background:var(--paper)}
 @media (hover:hover){.u-q summary:hover .u-x{background:rgba(12,11,11,.08)}.u-q[open] summary:hover .u-x{background:var(--ink)}}
 .u-a p{padding:0 54px 24px 0;max-width:64ch;font:600 16px/1.6 var(--sans);color:var(--ink-2);text-wrap:pretty}
+.u-a p:has(+.u-a-more){padding-bottom:12px}
+.u-a .u-a-more{padding-top:0}
+.u-a-more a{display:inline-flex;align-items:center;gap:.5em;min-height:44px;color:var(--ink);font:700 13px/1 var(--sans);letter-spacing:.04em;text-transform:uppercase}
+.u-a-more svg{width:14px;height:14px;transition:transform .3s var(--u-ease)}
+.u-a-more a:hover svg{transform:translate(2px,-2px)}
 @supports (interpolate-size:allow-keywords){
   .u-q{interpolate-size:allow-keywords}
   .u-q::details-content{height:0;overflow:clip;transition:height .45s var(--u-ease),content-visibility .45s allow-discrete}
@@ -291,6 +296,9 @@
   .u-js-strike .u-no-list li:not(.is-in) .u-no-x{background-size:0 2px}
 }
 .u-no-list li>span{font:600 15px/1.5 var(--sans);color:var(--ink-2);text-wrap:pretty}
+.u-no-more{display:flex;align-items:center;gap:.5em;width:max-content;max-width:100%;min-height:44px;margin-top:2px;color:var(--ink);font:700 13px/1.2 var(--sans);letter-spacing:.04em;text-transform:uppercase}
+.u-no-more svg{width:14px;height:14px;flex:none;transition:transform .3s var(--u-ease)}
+.u-no-more:hover svg{transform:translate(2px,-2px)}
 .u-no-fig{grid-area:fig;align-self:end;justify-self:center;margin:0}
 .u-no-fig img{display:block;height:min(52vh,460px);width:auto}
 
@@ -325,8 +333,8 @@
   .u-hero-fig{grid-row:4;grid-column:2;margin-top:12px;align-self:start}
   .u-fig-box,.u-hero--hub .u-fig-box{height:auto;width:112px}
   .u-hero-fig figcaption{display:none}
-  .u-num{display:block;font-size:26px;line-height:1.08;white-space:normal}
-  .u-num i{margin-right:.32em}
+  /* узкая колонка рядом с персонажем: "аудит" и "от" переносятся строкой выше, а не заезжают на рисунок */
+  .u-num{display:flex;flex-wrap:wrap;align-items:baseline;column-gap:.32em;font-size:26px;line-height:1.08;white-space:normal}
   .u-fnote{margin-top:6px;font-size:12.5px}
   .u-answer{grid-row:5;margin-top:22px;font-size:15.5px}
   .u-hero-act{grid-row:6;margin-top:22px;gap:10px 18px}
@@ -427,3 +435,19 @@
    тени и подписи у края блока не обрезаются */
 .u-flow>.u-block,.u-flow>.u-wide,.u-final{content-visibility:auto;contain-intrinsic-size:auto 640px;overflow-clip-margin:40px}
 @media (min-width:700px){.u-flow>.u-block,.u-flow>.u-wide,.u-final{contain-intrinsic-size:auto 560px}}
+
+/* ── работы под NDA: крупное слово вместо карточек; в прайс-вывеске такая же серая карточка ── */
+.u-nda{display:flex;align-items:center;gap:clamp(18px,3vw,36px);padding:clamp(20px,3vw,32px) 0;border-top:1px solid rgba(12,11,11,.14);border-bottom:1px solid rgba(12,11,11,.14)}
+.u-nda-w{flex:none;font:900 clamp(64px,9vw,128px)/.8 var(--display);letter-spacing:-.02em;color:var(--ink)}
+.u-nda p{max-width:44ch;font:600 16px/1.6 var(--sans);color:var(--ink-2);text-wrap:pretty}
+@media (max-width:699px){.u-nda{flex-direction:column;align-items:flex-start;gap:14px}.u-nda p{font-size:15px}}
+.u-lead-more{margin-top:20px}
+.s-prices .prices-card.u-nda-card{display:grid;place-items:center;background:#e4e1dc}
+.s-prices .u-nda-card>b{font:900 clamp(26px,2.6vw,40px)/1 var(--display);letter-spacing:-.01em;color:rgba(12,11,11,.42);transform:translateY(-30%)}
+.s-prices .prices-row.prices-on .u-nda-card>b{color:var(--ink)}
+@media (max-width:699px){
+  .s-prices .prices-mini.u-nda-card{display:grid;place-items:center;background:#e4e1dc}
+  .s-prices .prices-mini.u-nda-card>b{font-size:19px;transform:none}
+}
+/* телефон 320: "3 000 ₽ за экран" и "нескольких часов" целиком помещаются слева от персонажа */
+@media (max-width:359px){.u-hero .u-num{font-size:24px}}

@@ -109,7 +109,7 @@ export function FinalCta({ word, text, msg }: { word: string; text: string; msg?
 }
 
 /** вопросы аккордеоном: details работает без скрипта, текст ответа в разметке и для поиска */
-export function Faq({ items }: { items: { q: string; a: string }[] }) {
+export function Faq({ items }: { items: { q: string; a: string; more?: { href: string; label: string } }[] }) {
   return (
     <ul className="u-qs">
       {items.map((f) => (
@@ -120,7 +120,16 @@ export function Faq({ items }: { items: { q: string; a: string }[] }) {
               <i className="u-x" aria-hidden="true" />
             </summary>
             <div className="u-a">
-              <p>{f.a}</p>
+              <p>{tie(f.a)}</p>
+              {/* ссылка под ответом: соседняя услуга, к которой ведёт ответ */}
+              {f.more && (
+                <p className="u-a-more">
+                  <a href={f.more.href}>
+                    {f.more.label}
+                    <Go />
+                  </a>
+                </p>
+              )}
             </div>
           </details>
         </li>

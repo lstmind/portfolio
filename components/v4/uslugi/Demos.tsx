@@ -486,10 +486,10 @@ function Move() {
 }
 
 /* ── интеграции: заказ бежит по связке узлов ── */
-const NODES = ["Сайт", "Оплата", "CRM и 1С", "Доставка"];
+const NODES = ["Сайт", "Оплата", "CRM", "Доставка"];
 function Flow() {
   return (
-    <Frame kind="flow" title="Заказ проходит путь: сайт, оплата, CRM и 1С, доставка" re="Оформить заказ">
+    <Frame kind="flow" title="Заказ проходит путь: сайт, оплата, CRM, доставка" re="Оформить заказ">
       <div className="u-fl">
         <svg className="u-fl-lines" viewBox="0 0 300 180" preserveAspectRatio="none" aria-hidden="true">
           <path d="M60 40H240V140H60" pathLength="100" />
@@ -504,6 +504,42 @@ function Flow() {
         <p className="u-fl-st" aria-live="polite">
           тестовый заказ прошёл весь путь
         </p>
+      </div>
+    </Frame>
+  );
+}
+
+/* ── обмен с 1С: из 1С на сайт товары, цены, остатки и картинки, обратно заказы ──
+   подписи под краями честно делят работу: сторону 1С делает 1С-программист заказчика, сторону сайта я */
+const SYNC: { k: string; back?: boolean }[] = [{ k: "товары" }, { k: "цены" }, { k: "остатки" }, { k: "картинки" }, { k: "заказы", back: true }];
+function Sync() {
+  return (
+    <Frame
+      kind="sync"
+      title="Схема обмена: товары, цены, остатки и картинки из 1С на сайт, заказы с сайта в 1С. Сторону 1С делает ваш 1С-программист, сторону сайта я"
+      cap="Схема: главной остаётся 1С, сайт получает из неё всё сам"
+      re="Запустить обмен ещё раз"
+    >
+      <div className="u-sy">
+        <p className="u-sy-end u-sy-a">
+          <b>1С</b>
+          <span>ваш 1С-программист</span>
+        </p>
+        <ul className="u-sy-l">
+          {SYNC.map((x) => (
+            <li key={x.k} className={x.back ? "back" : undefined}>
+              <span className="u-sy-p">
+                <Check />
+                {x.k}
+              </span>
+            </li>
+          ))}
+        </ul>
+        <p className="u-sy-end u-sy-b">
+          <b>Сайт</b>
+          <span>делаю я</span>
+        </p>
+        <p className="u-sy-st">по расписанию, ошибки в{NB}журнал</p>
       </div>
     </Frame>
   );
@@ -749,6 +785,62 @@ function Path({ s }: P) {
   );
 }
 
+/* ── под рекламу: клик по объявлению доходит до заявки с меткой ──
+   схема без выдуманных цифр: utm_source=yandex и utm_medium=cpc это обычные метки Директа, остальное полосками */
+const AD_GOALS = ["заявка", "звонок", "мессенджер"];
+function Ads() {
+  return (
+    <Frame kind="ads" title="Схема: объявление, посадочная страница, цели в Метрике и заявка с меткой рекламы" cap="Схема: клик по объявлению доходит до заявки вместе с меткой" re="Ещё раз">
+      <div className="u-ad">
+        <div className="u-ad-s u-ad-ad" data-s="0">
+          <span className="u-ad-k">Объявление</span>
+          <i className="h" />
+          <i className="u" />
+          <i />
+        </div>
+        <div className="u-ad-s u-ad-pg" data-s="1">
+          <span className="u-ad-k">Посадочная</span>
+          <i className="h" />
+          <i className="s" />
+          <b className="btn">Оставить заявку</b>
+        </div>
+        <div className="u-ad-s u-ad-gl" data-s="2">
+          <span className="u-ad-k">Цели в Метрике</span>
+          <ul>
+            {AD_GOALS.map((g) => (
+              <li key={g}>
+                <Check />
+                {g}
+              </li>
+            ))}
+          </ul>
+        </div>
+        <div className="u-ad-s u-ad-msg" data-s="3">
+          <span className="u-ad-k">Заявка в Telegram</span>
+          <dl>
+            <div>
+              <dt>источник</dt>
+              <dd>yandex{NB}/{NB}cpc</dd>
+            </div>
+            <div>
+              <dt>кампания</dt>
+              <dd>
+                <i />
+              </dd>
+            </div>
+            <div>
+              <dt>страница</dt>
+              <dd>
+                <i className="s" />
+              </dd>
+            </div>
+          </dl>
+        </div>
+      </div>
+    </Frame>
+  );
+}
+
 /* ── корпоративный: дерево разделов прорастает от главной ── */
 /** разделы из пунктов "Что входит": каждый должен там упоминаться, иначе сборка остановится */
 const CORP = ["Услуги", "Объекты", "Документы", "Новости", "Вакансии", "Контакты"];
@@ -938,6 +1030,7 @@ function Wp() {
 const DEMOS: Record<string, (p: P) => React.ReactElement> = {
   "pochinit-sayt": Fix,
   "uskorit-sayt": Speed,
+  "podgotovka-k-reklame": Ads,
   "tehnicheskoe-seo": Serp,
   "telegram-bot": Chat,
   "admin-panel-i-crm": Board,
@@ -946,6 +1039,7 @@ const DEMOS: Record<string, (p: P) => React.ReactElement> = {
   "verstka-po-figma": Layers,
   "perenos-sayta": Move,
   integracii: Flow,
+  "integraciya-s-1s": Sync,
   "parsing-i-avtomatizaciya": Parse,
   "pererabotka-sayta": Tree,
   "podderzhka-sayta": Month,

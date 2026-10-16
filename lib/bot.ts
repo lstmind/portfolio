@@ -53,6 +53,8 @@ const EMOJI: Record<string, string> = {
   "sayt-na-wordpress": "🧩",
   "pochinit-sayt": "🛠",
   "uskorit-sayt": "⚡",
+  "pererabotka-sayta": "🎨",
+  "podgotovka-k-reklame": "📣",
   "verstka-po-figma": "▦",
   "perenos-sayta": "⇄",
   "telegram-bot": "🤖",
@@ -60,6 +62,7 @@ const EMOJI: Record<string, string> = {
   "tehnicheskoe-seo": "🔎",
   "parsing-i-avtomatizaciya": "🧲",
   integracii: "🔌",
+  "integraciya-s-1s": "🔄",
   "podderzhka-sayta": "🧰",
   "mnogoyazychnyy-sayt": "🌍",
   "sayt-vizitka": "📇",
@@ -128,10 +131,16 @@ const NEEDS: { key: string; title: string; text: string; slugs: string[] }[] = [
     slugs: ["pochinit-sayt", "uskorit-sayt", "podderzhka-sayta", "perenos-sayta"],
   },
   {
+    key: "ads",
+    title: "Реклама не окупается",
+    text: "Клики в Директе идут, а заявок мало, или непонятно, с какой рекламы они приходят. Кампании ведёт директолог, сайт под рекламу готовлю я.",
+    slugs: ["podgotovka-k-reklame", "lending", "uskorit-sayt", "integracii"],
+  },
+  {
     key: "auto",
     title: "Автоматизировать работу",
     text: "Заявки теряются, данные переносят руками, заказы живут в тетради.",
-    slugs: ["telegram-bot", "admin-panel-i-crm", "parsing-i-avtomatizaciya", "integracii"],
+    slugs: ["telegram-bot", "admin-panel-i-crm", "parsing-i-avtomatizaciya", "integracii", "integraciya-s-1s"],
   },
   {
     key: "seo",
@@ -164,7 +173,7 @@ export function screenNeed(): Screen {
 export function screenNeedPick(key: string): Screen {
   const n = NEEDS.find((x) => x.key === key) ?? NEEDS[0];
   // сайт уже есть: первым шагом бесплатный экспресс-аудит
-  const hasSite = n.key === "fix" || n.key === "seo";
+  const hasSite = n.key === "fix" || n.key === "seo" || n.key === "ads";
   const list = n.slugs
     .map((slug) => {
       const s = SERVICE_PAGES.find((x) => x.slug === slug);
@@ -234,15 +243,16 @@ export function screenService(slug: string): Screen {
 export function screenPrices(): Screen {
   const line = (slug: string) => {
     const s = SERVICE_PAGES.find((x) => x.slug === slug);
-    return s ? `${emoji(slug)} ${clean(s.h1)} — <b>${clean(s.price.value)}</b>` : "";
+    // 20 строк в подпись до 1000 знаков: без тегов у цены и без хвоста "Интеграции: оплата, доставка, CRM"
+    return s ? `${emoji(slug)} ${clean(s.h1.split(":")[0])} — ${clean(s.price.value)}` : "";
   };
   const main = MAIN_SLUGS.map(line).filter(Boolean).join("\n");
   const extra = EXTRA_SLUGS.map(line).filter(Boolean).join("\n");
   return {
     text: clamp(
-      "💰 <b>Цены на всё сразу</b>\n\n" +
-        `${main}\n${extra}\n\n` +
-        `Час работы: <b>${RATE}</b>, по проекту считаю фикс-смету после разбора задачи. Точную цифру назову бесплатно.`,
+      // ставка в первой строке: внизу её отрезал лимит подписи, когда услуг стало 20
+      `💰 <b>Цены на всё сразу</b>\nСтавка <b>${RATE}</b>, проект считаю фикс-сметой\n\n` +
+        `${main}\n${extra}`,
     ),
     rows: [
       [{ text: "🧮 Прикинуть по своей задаче", callback_data: "calc" }],
@@ -453,13 +463,13 @@ export function screenAbout(): Screen {
 }
 
 export function screenNotDoing(): Screen {
-  const list = NOT_DOING.map((n) => `• <b>${clean(n.what)}</b> — ${clean(n.why)}`).join("\n");
+  // короткие имена и без вводной: семь пунктов целиком влезают в подпись до 1000 знаков, последний не обрезается
+  const list = NOT_DOING.map((n) => `• <b>${clean(n.short[0].toUpperCase() + n.short.slice(1))}</b> — ${clean(n.why)}`).join("\n");
   return {
-    text: clamp(
-      "🤝 <b>Не моё, но помогу</b>\n\nСам этим не занимаюсь, но подключу коллегу, сделаем в паре или подскажу, к кому идти.\n\n" +
-        list,
-    ),
+    text: clamp("🤝 <b>Не моё, но помогу</b>\n\n" + list),
     rows: [
+      // моя часть такой работы отдельной услугой: "сайт под рекламу подготовлю сам"
+      ...NOT_DOING.filter((n) => n.more?.href.startsWith("/uslugi/")).map((n) => svcBtn(n.more!.href.replace("/uslugi/", ""))),
       [{ text: "💼 Что делаю", callback_data: "services" }],
       [{ text: "📝 Оставить заявку", callback_data: "lead:other" }],
       [HOME],

@@ -158,6 +158,30 @@ var KINDS = {
     }, { ms: 650 });
   },
 
+  ads: function (el, K) {
+    var ss = $$('.u-ad-s', el);
+    stepper(el, K, ss.length, function (k) {
+      ss.forEach(function (s, i) {
+        var was = s.classList.contains('on');
+        s.classList.toggle('on', i < k);
+        s.classList.toggle('cur', i === k - 1);
+        if (!was && i < k) hop(s);
+      });
+    }, { ms: 700 });
+  },
+
+  sync: function (el, K) {
+    var ls = $$('.u-sy-l li', el), st = $('.u-sy-st', el);
+    stepper(el, K, ls.length + 1, function (k) {
+      ls.forEach(function (l, i) {
+        var was = l.classList.contains('on');
+        l.classList.toggle('on', i < k);
+        if (!was && i < k) hop(l.firstElementChild);
+      });
+      st.classList.toggle('on', k > ls.length);
+    }, { ms: 600 });
+  },
+
   flow: function (el, K) {
     var map = $('.u-fl', el), dot = $('.u-fl-dot', el), nodes = $$('.u-fl-n', el), st = $('.u-fl-st', el), run = $('.u-fl-run', el);
     var P = [[20, 22.2], [80, 22.2], [80, 77.8], [20, 77.8]], anim = null, an2 = null;

@@ -67,6 +67,10 @@ const SCENES: Record<string, Scene> = {
   "parsing-i-avtomatizaciya": { ...ill("s-parsing", 426), alt: "Из ноутбука в руках Алексея выходит лента с данными" },
   integracii: { ...ill("s-integracii", 402), alt: "Алексей соединяет два кабеля" },
   "sayt-pod-klyuch": { ...pose("j7"), alt: "Алексей протягивает ключи от готового сайта" },
+  // готовая поза: печатает на ноутбуке, ставит цели и метки
+  "podgotovka-k-reklame": { ...pose("j2"), alt: "Алексей печатает на ноутбуке в руке" },
+  // готовая поза: на телефоне, сторону 1С согласует с 1С-программистом заказчика
+  "integraciya-s-1s": { ...pose("j4"), alt: "Алексей говорит по телефону, под мышкой ноутбук" },
 };
 
 export const sceneOf = (slug: string): Scene | undefined => SCENES[slug];
@@ -126,6 +130,7 @@ const PICK: Record<string, { src: "kwork" | "profi"; author: string; where: RegE
   "podderzhka-sayta": { src: "kwork", author: "managermoon", where: /доработка сайта на wordpress/i, has: "второй раз" },
   "pererabotka-sayta": { src: "kwork", author: "Miriade", where: /правка, доработка/i, has: "полезных моментов" },
   "uskorit-sayt": { src: "kwork", author: "ivan250215", where: /доработка сайта на wordpress/i, has: "даже лучше" },
+  "podgotovka-k-reklame": { src: "kwork", author: "mahan-mm", where: /правка, доработка/i, has: "защиты от спама" },
   "tehnicheskoe-seo": { src: "profi", author: "Алена", where: /^SEO$/, has: "вник в суть" },
   "internet-magazin": { src: "profi", author: "Екатерина Суркова", where: /интернет-магазин/i, has: "погружается" },
   "sayt-na-wordpress": { src: "profi", author: "Оксана", where: /вёрстка/i, has: "Вордпрессе" },
@@ -140,6 +145,7 @@ const PICK: Record<string, { src: "kwork" | "profi"; author: string; where: RegE
   "admin-panel-i-crm": { src: "kwork", author: "managermoon", where: /доработка сайта на wordpress/i, has: "Код аккуратный" },
   "parsing-i-avtomatizaciya": { src: "kwork", author: "bolseo", where: /правка, доработка/i, has: "фид" },
   integracii: { src: "kwork", author: "mahan-mm", where: /правка, доработка/i, has: "тех задание" },
+  "integraciya-s-1s": { src: "kwork", author: "managermoon", where: /доработка сайта на wordpress/i, has: "грамотные решения" },
   "mnogoyazychnyy-sayt": { src: "kwork", author: "13Mieva", where: /любая правка/i, has: "в третий раз" },
 };
 
@@ -150,6 +156,7 @@ const PICK: Record<string, { src: "kwork" | "profi"; author: string; where: RegE
 const SHORT: Record<string, { src: "kwork" | "profi"; author: string; where: RegExp; has: string }> = {
   "pochinit-sayt": { src: "kwork", author: "Andnov1985", where: /elementor/i, has: "Выручил" },
   "uskorit-sayt": { src: "kwork", author: "info733", where: /opencart/i, has: "Быстро" },
+  "podgotovka-k-reklame": { src: "profi", author: "Анна Морозова", where: /программисты/i, has: "полноценно" },
   "perenos-sayta": { src: "kwork", author: "Andrew1423", where: /wordpress/i, has: "справился" },
   "internet-magazin": { src: "profi", author: "Александра", where: /интернет-магазин/i, has: "Прекрасный" },
   "sayt-na-wordpress": { src: "kwork", author: "aleks152", where: /wordpress/i, has: "компетентность" },
@@ -159,6 +166,7 @@ const SHORT: Record<string, { src: "kwork" | "profi"; author: string; where: Reg
   "pererabotka-sayta": { src: "kwork", author: "Kabelgroup", where: /правка, доработка/i, has: "качественно" },
   "parsing-i-avtomatizaciya": { src: "kwork", author: "Andrew1423", where: /wordpress/i, has: "справился" },
   integracii: { src: "kwork", author: "info733", where: /opencart/i, has: "Быстро" },
+  "integraciya-s-1s": { src: "kwork", author: "info733", where: /opencart/i, has: "Быстро" },
   "sayt-pod-klyuch": { src: "profi", author: "Сумая", where: /сайт-приглашение/i, has: "качественно" },
   "sayt-vizitka": { src: "profi", author: "Александра", where: /доработка сайта/i, has: "Прекрасный" },
   lending: { src: "kwork", author: "gamesdrom", where: /правка, доработка/i, has: "без доработок" },

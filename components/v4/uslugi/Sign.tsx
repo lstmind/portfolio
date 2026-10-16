@@ -74,29 +74,46 @@ export function Sign({
                     </span>
                   </span>
                 </span>
-                <span className="prices-mini" aria-hidden="true">
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img alt="" loading="lazy" decoding="async" src={`${IMG}${c.card}-240.webp`} width={240} height={519} />
-                </span>
+                {c ? (
+                  <span className="prices-mini" aria-hidden="true">
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img alt="" loading="lazy" decoding="async" src={`${IMG}${c.card}-240.webp`} width={240} height={519} />
+                  </span>
+                ) : (
+                  <span className="prices-mini u-nda-card" aria-hidden="true">
+                    <b>NDA</b>
+                  </span>
+                )}
               </a>
               <span className="prices-slot" aria-hidden="true">
-                <span className="prices-card">
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img
-                    alt=""
-                    loading="lazy"
-                    decoding="async"
-                    src={`${IMG}${c.card}-240.webp`}
-                    srcSet={`${IMG}${c.card}-240.webp 240w, ${IMG}${c.card}-400.webp 400w`}
-                    sizes="150px"
-                    width={240}
-                    height={519}
-                  />
-                  <span className="prices-cap">
-                    {c.title}
-                    <span>{c.host}</span>
+                {c ? (
+                  <span className="prices-card">
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img
+                      alt=""
+                      loading="lazy"
+                      decoding="async"
+                      src={`${IMG}${c.card}-240.webp`}
+                      srcSet={`${IMG}${c.card}-240.webp 240w, ${IMG}${c.card}-400.webp 400w`}
+                      sizes="150px"
+                      width={240}
+                      height={519}
+                    />
+                    <span className="prices-cap">
+                      {c.title}
+                      <span>{c.host}</span>
+                    </span>
                   </span>
-                </span>
+                ) : (
+                  // работы под NDA: вместо сайта серая карточка с крупным словом, в той же рамке и с тем же поведением
+                  <span className="prices-card u-nda-card">
+                    <b>NDA</b>
+                    <span className="prices-cap">
+                      Примеры под NDA
+                      <span>проекты не называю</span>
+                    </span>
+                  </span>
+                )}
               </span>
             </li>
           );

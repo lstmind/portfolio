@@ -23,7 +23,7 @@ const add = (name, screen) => screens.push([name, screen]);
 
 add("menu", bot.screenMain());
 add("need", bot.screenNeed());
-for (const k of ["new", "fix", "auto", "seo", "design"]) add(`need:${k}`, bot.screenNeedPick(k));
+for (const k of ["new", "fix", "ads", "auto", "seo", "design"]) add(`need:${k}`, bot.screenNeedPick(k));
 add("services", bot.screenServices());
 add("services2", bot.screenServicesExtra());
 add("prices", bot.screenPrices());

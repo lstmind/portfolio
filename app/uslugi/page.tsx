@@ -97,7 +97,7 @@ export default function ServicesIndex() {
           </p>
           <ul className="u-meta">
             <li>
-              час работы <b>{RATE}</b>
+              ставка <b>{RATE}</b>
             </li>
             <li>
               по проекту <b>фикс-смета</b>
@@ -156,7 +156,16 @@ export default function ServicesIndex() {
                 <b>
                   <span className="u-no-x">{n.what}</span>
                 </b>
-                <span>{tie(n.why)}</span>
+                <span>
+                  {tie(n.why)}
+                  {/* моя часть этой работы своей услугой: "сайт под рекламу подготовлю сам" */}
+                  {n.more && (
+                    <a className="u-no-more" href={n.more.href}>
+                      {n.more.label}
+                      <Go />
+                    </a>
+                  )}
+                </span>
               </li>
             ))}
           </ul>

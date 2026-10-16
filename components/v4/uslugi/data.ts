@@ -19,6 +19,7 @@ const WORDS: Record<string, string> = {
   "pochinit-sayt": "Чиню чужое",
   "pererabotka-sayta": "Переделка",
   "uskorit-sayt": "Ускоряю",
+  "podgotovka-k-reklame": "Под рекламу",
   "verstka-po-figma": "Вёрстка",
   "perenos-sayta": "Переезд",
   "sayt-vizitka": "Визитка",
@@ -31,6 +32,7 @@ const WORDS: Record<string, string> = {
   "tehnicheskoe-seo": "SEO",
   "podderzhka-sayta": "Поддержка",
   integracii: "Интеграции",
+  "integraciya-s-1s": "Обмен с 1С",
   "mnogoyazychnyy-sayt": "Языки",
 };
 
@@ -61,12 +63,12 @@ const GROUPS: { title: string; side: string; slugs: string[] }[] = [
   {
     title: "Готовый сайт",
     side: "чужой код не пугает",
-    slugs: ["pochinit-sayt", "uskorit-sayt", "tehnicheskoe-seo", "perenos-sayta", "podderzhka-sayta", "pererabotka-sayta"],
+    slugs: ["pochinit-sayt", "uskorit-sayt", "podgotovka-k-reklame", "tehnicheskoe-seo", "perenos-sayta", "podderzhka-sayta", "pererabotka-sayta"],
   },
   {
     title: "Код под задачу",
     side: "боты, админки, обмен данными",
-    slugs: ["telegram-bot", "admin-panel-i-crm", "parsing-i-avtomatizaciya", "integracii"],
+    slugs: ["telegram-bot", "admin-panel-i-crm", "parsing-i-avtomatizaciya", "integracii", "integraciya-s-1s"],
   },
 ];
 
@@ -196,9 +198,9 @@ export const hubFor = (s: ServicePage) => (s.hub ?? []).map((x) => serviceBySlug
 export const nichesFor = (s: ServicePage) =>
   s.hub?.length ? INDUSTRY_PAGES : INDUSTRY_PAGES.filter((i) => i.types.includes(s.slug));
 
-/** первая работа услуги: её карточка стоит в строке прайса */
-export const firstCase = (s: ServicePage): WorkCard => {
+/** первая работа услуги: её карточка стоит в строке прайса. null у работ под NDA (поле nda): там карточка NDA */
+export const firstCase = (s: ServicePage): WorkCard | null => {
   const w = worksFor(s)[0];
-  if (!w) throw new Error(`у услуги ${s.slug} нет ни разбора, ни живого сайта`);
-  return w;
+  if (!w && !s.nda) throw new Error(`у услуги ${s.slug} нет ни разбора, ни живого сайта`);
+  return w ?? null;
 };

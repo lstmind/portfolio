@@ -70,6 +70,11 @@ export default async function ServicePageView({ params }: { params: Promise<{ sl
   // аудит на этой услуге: тогда посередине полоса аудита вместо полосы цены
   const audit = auditFor(s.slug);
   const leadShots = s.slug === "telegram-bot" ? (["status"] as const) : s.slug === "admin-panel-i-crm" ? (["admin", "kitchen"] as const) : null;
+  // "аудит бесплатно": в разметке не 0 ₽ за всю услугу, а цена часа из примечания, как в каталоге на главной.
+  // Если работы не по часам (техническое SEO), цены числом нет вовсе
+  const free = /бесплатн/i.test(s.price.value);
+  const byHour = free && /\/час/.test(s.price.note);
+  const offerPrice = free ? (byHour ? priceNumber(s.price.note) : null) : priceNumber(s.price.value);
 
   const ld = {
     "@context": "https://schema.org",
@@ -89,13 +94,14 @@ export default async function ServicePageView({ params }: { params: Promise<{ sl
           "@type": "Offer",
           priceCurrency: "RUB",
           // цена числом, иначе поисковик Offer не читает и в выдаче её не показывает
-          ...(priceNumber(s.price.value) !== null
+          ...(offerPrice !== null
             ? {
-                price: priceNumber(s.price.value),
+                price: offerPrice,
                 priceSpecification: {
-                  "@type": "PriceSpecification",
+                  "@type": byHour ? "UnitPriceSpecification" : "PriceSpecification",
                   priceCurrency: "RUB",
-                  minPrice: priceNumber(s.price.value),
+                  minPrice: offerPrice,
+                  ...(byHour ? { unitCode: "HUR", unitText: "час" } : {}),
                   valueAddedTaxIncluded: false,
                 },
               }
@@ -135,6 +141,15 @@ export default async function ServicePageView({ params }: { params: Promise<{ sl
           {s.lead.map((p) => (
             <p key={p}>{p}</p>
           ))}
+          {/* часть услуги на своей странице: "обмен с 1С вынес на отдельную страницу" */}
+          {s.leadMore && (
+            <p className="u-more u-lead-more">
+              <a href={s.leadMore.href}>
+                {s.leadMore.label}
+                <Go />
+              </a>
+            </p>
+          )}
         </Block>
 
         {hub.length > 0 && (
@@ -174,7 +189,19 @@ export default async function ServicePageView({ params }: { params: Promise<{ sl
         {s.focus && <Focus f={s.focus} />}
 
         <Block id="u-works" label="Примеры работ">
-          <CaseCards cards={works} />
+          {works.length > 0 ? (
+            <CaseCards cards={works} />
+          ) : (
+            s.nda && (
+              // работы под NDA: крупное слово языком сайта и честная строка вместо карточек
+              <div className="u-nda">
+                <b className="u-nda-w" aria-hidden="true">
+                  NDA
+                </b>
+                <p>{s.nda}</p>
+              </div>
+            )
+          )}
           <p className="u-more">
             <a href="/works">
               Все работы и разборы

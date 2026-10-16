@@ -25,6 +25,7 @@ const LABELS: Record<string, string> = {
   "verstka-po-figma": "Вёрстка по Figma",
   "pochinit-sayt": "Починить сайт",
   "uskorit-sayt": "Ускорить сайт",
+  "podgotovka-k-reklame": "Сайт под рекламу",
   "tehnicheskoe-seo": "Техническое SEO",
   "perenos-sayta": "Перенос и хостинг",
   "podderzhka-sayta": "Поддержка",
@@ -33,6 +34,7 @@ const LABELS: Record<string, string> = {
   "admin-panel-i-crm": "Админка и CRM",
   "parsing-i-avtomatizaciya": "Парсеры",
   integracii: "Интеграции",
+  "integraciya-s-1s": "Интеграция с 1С",
 };
 
 /** короткое имя услуги: в меню и крупным словом в превью ссылки */
@@ -93,6 +95,6 @@ export const NAV_META = {
   niches: `${nNiches}${NB}${plural(nNiches, ["ниша", "ниши", "ниш"])}`,
   nicheSites: `${nNicheSites}${NB}${plural(nNicheSites, ["живой сайт", "живых сайта", "живых сайтов"])} в${NB}них`,
   prices: `сайт ${site.price.value.replace(/ /g, NB)}`,
-  rate: `час работы ${RATE}`,
+  rate: `ставка ${RATE}`,
   about: `контакты и${NB}реквизиты`,
 };

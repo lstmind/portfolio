@@ -274,8 +274,9 @@ async function v1(s: Spec) {
           <Card src={a.cards[0]} x={1100} y={120} h={360} />
         ) : (
           [
-            <Card key={0} src={a.cards[0]} x={760} y={150} h={330} rot={-5} fog={0.18} />,
-            <Card key={1} src={a.cards[1]} x={1095} y={116} h={360} rot={5} fog={0.08} />,
+            // без карточек, если сайтов нет: у работ под NDA чужие сайты за спиной читались бы как примеры
+            a.cards[0] ? <Card key={0} src={a.cards[0]} x={760} y={150} h={330} rot={-5} fog={0.18} /> : null,
+            a.cards[1] ? <Card key={1} src={a.cards[1]} x={1095} y={116} h={360} rot={5} fog={0.08} /> : null,
             a.cards[2] ? <Card key={2} src={a.cards[2]} x={1160} y={340} h={250} rot={9} fog={0.24} /> : null,
           ]
         )}
@@ -416,8 +417,8 @@ export function ogService(s: ServicePage) {
     facts: { chips: [{ big: s.price.value }, { big: s.term.value }] },
     fig: fig ?? "j6",
     shot,
-    // живые сайты под услугу (поле sites) первыми: у переноса и языков разборов нет вовсе
-    sites: pickSites([...siteCards(s.sites ?? []).map((w) => `/img/v4/${w.card}`), ...cases.map(caseSite)], shot ? 1 : 3),
+    // живые сайты под услугу (поле sites) первыми: у переноса и языков разборов нет вовсе; у работ под NDA сайтов за спиной нет
+    sites: s.nda ? [] : pickSites([...siteCards(s.sites ?? []).map((w) => `/img/v4/${w.card}`), ...cases.map(caseSite)], shot ? 1 : 3),
   });
 }
 
