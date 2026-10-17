@@ -101,7 +101,7 @@ export async function POST(req: Request) {
         if (String(cq.from.id) !== String(OWNER)) {
           await tg("sendMessage", {
             chat_id: OWNER,
-            text: `🔔 <b>Интерес через бота</b>\nТема: ${leadSubject(key)}\nКлиент: ${who(cq.from)}\n— ждёт описания задачи`,
+            text: `🔔 <b>Интерес через бота</b>\nТема: ${leadSubject(key)}\nКлиент: ${who(cq.from)}\nЖдёт описания задачи`,
             parse_mode: "HTML",
             ...ownerReply(cq.from),
           });
@@ -117,7 +117,7 @@ export async function POST(req: Request) {
         });
         await tg("sendMessage", {
           chat_id: cq.from.id,
-          text: "Или поделитесь телефоном одной кнопкой — Алексей позвонит сам:",
+          text: "Или поделитесь телефоном одной кнопкой, Алексей позвонит сам:",
           reply_markup: {
             keyboard: [[{ text: "📱 Поделиться телефоном", request_contact: true }]],
             resize_keyboard: true,

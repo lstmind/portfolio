@@ -20,7 +20,7 @@ const KNOWS = [
   "Разработка сайтов",
   "Интернет-магазины",
   ...new Set([
-    ...STACK_ALL.filter((s) => !/вёрстка|MAX/.test(s)),
+    ...STACK_ALL.filter((s) => !/вёрстка|MAX/i.test(s)),
     "TypeScript",
     "Node.js",
     "Figma",
@@ -36,7 +36,7 @@ export const PERSON_LD = {
   name: SITE.person,
   alternateName: SITE.name,
   jobTitle: "Веб-разработчик",
-  description: `Веб-разработчик на фрилансе с ${SINCE} года: сайты под ключ, интернет-магазины, боты для Telegram, MAX и ВК, админки и CRM, доработка и ускорение чужих сайтов, техническое SEO.`,
+  description: `Веб-разработчик на фрилансе с ${SINCE} года: сайты под ключ, интернет-магазины, боты для Telegram, MAX и ВКонтакте, админки и CRM, доработка и ускорение чужих сайтов, техническое SEO.`,
   // страница о человеке: кто он, контакты, реквизиты. Сайт целиком описывает WebSite
   url: `${SITE.url}/obo-mne`,
   mainEntityOfPage: `${SITE.url}/obo-mne`,

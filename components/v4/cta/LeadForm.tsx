@@ -107,7 +107,7 @@ export function LeadForm({
           {send}
         </button>
         <p className="lead-consent">
-          {tie(`Нажимая "${send}", вы даёте `)}
+          {tie(`Нажимая «${send}», вы даёте `)}
           <a href="/soglasie">{tie("согласие на обработку данных")}</a>
           {tie(" из заявки. Как я с ними обращаюсь, написано в ")}
           <a href="/politika">политике</a>.

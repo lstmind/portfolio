@@ -62,7 +62,7 @@ export function wordFit(word: string) {
 
 /** "от 25 000 ₽" → { pre: "от", value: "25 000 ₽" } */
 export function splitPrice(v: string) {
-  const m = v.match(/^(от|аудит)\s+(.+?)(\/час|\/мес| за экран)?$/i);
+  const m = v.match(/^(от|аудит)\s+(.+?)(\/час|\/мес| в месяц| за экран)?$/i);
   if (!m) return { pre: "", value: v.replace(/ /g, NB), unit: "" };
   return { pre: m[1], value: m[2].replace(/ /g, NB), unit: (m[3] || "").replace(/ /g, NB) };
 }

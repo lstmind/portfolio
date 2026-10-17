@@ -97,13 +97,13 @@ export default function ServicesIndex() {
           </p>
           <ul className="u-meta">
             <li>
-              ставка <b>{RATE}</b>
+              Ставка <b>{RATE}</b>
             </li>
             <li>
-              по проекту <b>фикс-смета</b>
+              По проекту <b>фикс-смета</b>
             </li>
             <li>
-              самозанятый: <b>договор, акт и{NB}чек</b>
+              Самозанятый: <b>договор, акт и{NB}чек</b>
             </li>
           </ul>
           <div className="u-hero-act">

@@ -300,9 +300,9 @@ export function Niches({ niches, intro, id = "u-niches" }: { niches: IndustryPag
                 </span>
                 <span className="u-nt">
                   <b>{n.h1}</b>
-                  <span>{n.short}</span>
+                  <span>{tie(n.short)}</span>
                 </span>
-                <i>{n.price.value}</i>
+                <i>{tie(n.price.value)}</i>
               </a>
             </li>
           );

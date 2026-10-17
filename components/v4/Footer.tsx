@@ -82,7 +82,7 @@ export function Footer({ tg }: { tg?: string }) {
               </li>
               <li>
                 <a className="footer-a" href="/obo-mne">
-                  Обо мне и контакты
+                  {tie("Обо мне и контакты")}
                 </a>
               </li>
             </ul>
@@ -96,7 +96,7 @@ export function Footer({ tg }: { tg?: string }) {
               {FOOTER_NICHES.map((n) => (
                 <li key={n.href}>
                   <a className="footer-a" href={n.href}>
-                    {n.label}
+                    {tie(n.label)}
                   </a>
                 </li>
               ))}
@@ -136,9 +136,9 @@ export function Footer({ tg }: { tg?: string }) {
           <span>
             © {year} {SITE.person}, {SITE.name}
           </span>
-          <span className="footer-own">Самозанятый: договор, акт и чек</span>
+          <span className="footer-own">{tie("Самозанятый: договор, акт и чек")}</span>
           <a href={`${SITE.github}/portfolio`} target="_blank" rel="noopener">
-            Этот сайт тоже собрал я, код открыт ↗
+            {tie("Этот сайт тоже собрал я, код открыт ↗")}
           </a>
           <span className="footer-legal">
             <a href="/politika">Политика</a>

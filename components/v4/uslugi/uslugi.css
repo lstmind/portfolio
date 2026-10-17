@@ -180,8 +180,8 @@
 .u-rev{margin:0}
 .u-rev blockquote p{max-width:32em;font:700 clamp(21px,2vw,30px)/1.35 var(--sans);letter-spacing:-.01em;text-wrap:pretty;white-space:pre-line}
 .u-rev--long blockquote p{max-width:40em;font-size:clamp(18px,1.45vw,22px);line-height:1.5}
-.u-rev blockquote p::before{content:"\""}
-.u-rev blockquote p::after{content:"\""}
+.u-rev blockquote p::before{content:"«"}
+.u-rev blockquote p::after{content:"»"}
 .u-rev figcaption{display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 14px;margin-top:22px;font:600 13px/1.4 var(--sans);color:var(--ink-2)}
 .u-rev figcaption b{color:var(--ink);font-size:15px}
 .u-rev figcaption a{display:inline-flex;align-items:center;gap:.4em;color:var(--ink)}
@@ -190,8 +190,8 @@
 /* короткий отзыв крупно в левой колонке */
 .u-sq{margin:0}
 .u-sq blockquote p{font:700 clamp(24px,2.1vw,32px)/1.25 var(--sans);letter-spacing:-.015em;text-wrap:balance}
-.u-sq blockquote p::before{content:"\""}
-.u-sq blockquote p::after{content:"\""}
+.u-sq blockquote p::before{content:"«"}
+.u-sq blockquote p::after{content:"»"}
 .u-sq figcaption{display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 12px;margin-top:16px;font:600 13px/1.4 var(--sans);color:var(--ink-2)}
 .u-sq figcaption b{color:var(--ink);font-size:14px}
 .u-sq figcaption a{display:inline-flex;align-items:center;gap:.35em;color:var(--ink)}

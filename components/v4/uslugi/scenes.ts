@@ -207,12 +207,12 @@ export const ORDER_PHRASE = (() => {
   return m[1];
 })();
 
-/** статусы заказа: "принят — готовим — готово — курьер выехал" */
+/** статусы заказа: "принят → готовим → готово → курьер выехал" (старая запись через тире тоже читается) */
 export const ORDER_STATUSES = (() => {
   const line = drova.done.find((x) => x.includes("живым статусом"));
   const m = line?.match(/«([^»]+)»/);
   if (!m) throw new Error("в разборе drovyanaya нет статусов заказа в «…»");
-  return m[1].split(/\s+—\s+/);
+  return m[1].split(/\s*[—→]\s*/);
 })();
 
 /** колонки панели кухни: из подписи к кадру kitchen */

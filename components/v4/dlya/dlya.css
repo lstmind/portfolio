@@ -181,8 +181,8 @@
 /* отзыв */
 .dl-rev{margin:0}
 .dl-rev blockquote p{max-width:32em;font:700 clamp(21px,2vw,30px)/1.35 var(--sans);letter-spacing:-.01em;text-wrap:pretty}
-.dl-rev blockquote p::before{content:"\""}
-.dl-rev blockquote p::after{content:"\""}
+.dl-rev blockquote p::before{content:"«"}
+.dl-rev blockquote p::after{content:"»"}
 .dl-rev figcaption{display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 14px;margin-top:22px;font:600 13px/1.4 var(--sans);color:var(--ink-2)}
 .dl-rev figcaption b{color:var(--ink);font-size:15px}
 .dl-rev figcaption a{display:inline-flex;align-items:center;gap:.4em;color:var(--ink)}

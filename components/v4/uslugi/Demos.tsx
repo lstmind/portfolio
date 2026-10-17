@@ -166,7 +166,7 @@ function Speed() {
 }
 
 /* ── техническое SEO: схема выдачи, сниппет поднимается по пунктам ── */
-const SERP_STEPS = ["индексация", "скорость", "разметка", "дубли"];
+const SERP_STEPS = ["Индексация", "Скорость", "Разметка", "Дубли"];
 function Serp() {
   return (
     <Frame kind="serp" title="Схема поисковой выдачи: ваш сайт поднимается после каждой правки" cap="Схема, не обещание позиций" re="Сначала">
@@ -183,7 +183,7 @@ function Serp() {
             <li className={`u-sn${i === 4 ? " u-sn--you" : ""}`} key={i} data-base={i} style={{ "--pos": i } as React.CSSProperties}>
               {i === 4 ? (
                 <>
-                  <b>ваш сайт</b>
+                  <b>Ваш сайт</b>
                   <span className="u-sn-url">
                     <i />
                     <span className="u-sn-stars" aria-hidden="true">
@@ -191,9 +191,9 @@ function Serp() {
                     </span>
                   </span>
                   <span className="u-sn-faq">
-                    <i>цена</i>
-                    <i>сроки</i>
-                    <i>адрес</i>
+                    <i>Цена</i>
+                    <i>Сроки</i>
+                    <i>Адрес</i>
                   </span>
                 </>
               ) : (
@@ -449,7 +449,7 @@ function Layers({ cards }: P) {
 }
 
 /* ── переезд: коробка едет со старого сервера на новый, сайт всё время открыт ── */
-const MOVE = ["копия", "база", "SSL", "почта", "редиректы", "проверка"];
+const MOVE = ["Копия", "База", "SSL", "Почта", "Редиректы", "Проверка"];
 function Move() {
   return (
     <Frame kind="move" title="Переезд сайта со старого сервера на новый без простоя" re="Ещё раз">
@@ -511,7 +511,7 @@ function Flow() {
 
 /* ── обмен с 1С: из 1С на сайт товары, цены, остатки и картинки, обратно заказы ──
    подписи под краями честно делят работу: сторону 1С делает 1С-программист заказчика, сторону сайта я */
-const SYNC: { k: string; back?: boolean }[] = [{ k: "товары" }, { k: "цены" }, { k: "остатки" }, { k: "картинки" }, { k: "заказы", back: true }];
+const SYNC: { k: string; back?: boolean }[] = [{ k: "Товары" }, { k: "Цены" }, { k: "Остатки" }, { k: "Картинки" }, { k: "Заказы", back: true }];
 function Sync() {
   return (
     <Frame
@@ -665,10 +665,10 @@ function Month() {
       re="Новый месяц"
       cap={
         <span className="u-mo-leg">
-          <span>{ICON.copy}копия</span>
-          <span>{ICON.upd}обновление</span>
-          <span>{ICON.fix}правка</span>
-          <span>{ICON.rep}отчёт</span>
+          <span>{ICON.copy}Копия</span>
+          <span>{ICON.upd}Обновление</span>
+          <span>{ICON.fix}Правка</span>
+          <span>{ICON.rep}Отчёт</span>
         </span>
       }
     >
@@ -689,7 +689,7 @@ function Month() {
 }
 
 /* ── под ключ: страница собирается по пунктам, в конце сжимается в телефон ── */
-const BUILD = ["структура", "макет", "вёрстка", "формы", "запуск", "телефон"];
+const BUILD = ["Структура", "Макет", "Вёрстка", "Формы", "Запуск", "Телефон"];
 function Build({ cards }: P) {
   const c = cards[0];
   return (
@@ -761,7 +761,8 @@ function Path({ s }: P) {
         <div className="u-pt-page">
           {parts.map((p, i) => (
             <span className={`u-pt-s${i === parts.length - 1 ? " u-pt-form" : ""}`} key={p}>
-              <b>{p}</b>
+              {/* пункт пути с заглавной, как все пункты списков; в title через запятую строчные */}
+              <b>{p[0].toUpperCase() + p.slice(1)}</b>
               {i === parts.length - 1 ? (
                 <>
                   <i className="fld" />
@@ -787,7 +788,7 @@ function Path({ s }: P) {
 
 /* ── под рекламу: клик по объявлению доходит до заявки с меткой ──
    схема без выдуманных цифр: utm_source=yandex и utm_medium=cpc это обычные метки Директа, остальное полосками */
-const AD_GOALS = ["заявка", "звонок", "мессенджер"];
+const AD_GOALS = ["Заявка", "Звонок", "Мессенджер"];
 function Ads() {
   return (
     <Frame kind="ads" title="Схема: объявление, посадочная страница, цели в Метрике и заявка с меткой рекламы" cap="Схема: клик по объявлению доходит до заявки вместе с меткой" re="Ещё раз">
@@ -875,7 +876,7 @@ function Corp({ s, cards }: P) {
 }
 
 /* ── каталог: фильтры и заявка вместо корзины ── */
-const CAT_F = ["размер", "материал", "в наличии"];
+const CAT_F = ["Размер", "Материал", "В наличии"];
 const CAT_SETS = [
   [0, 1, 2, 3, 4, 5, 6, 7, 8],
   [0, 2, 3, 5, 7],
@@ -906,7 +907,7 @@ function Catalog() {
               <i className={`u-ct-pic u-ct-pic${i % 3}`} aria-hidden="true" />
               <i className="u-ct-l" aria-hidden="true" />
               <button type="button" aria-label={`Заявка на расчёт, позиция ${i + 1}`}>
-                заявка
+                Заявка
               </button>
             </li>
           ))}

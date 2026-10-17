@@ -80,7 +80,7 @@ const svcBtn = (slug: string): Btn[] => {
 export function screenMain(): Screen {
   return {
     text: clamp(
-      "👋 <b>Привет! Это бот Алексея</b> — веб-разработчика.\n\n" +
+      "👋 <b>Привет! Это бот Алексея</b>, веб-разработчика.\n\n" +
         "Делаю сайты, телеграм-боты и админки: то, что быстро грузится и приносит заявки. Здесь есть услуги с ценами, расчёт стоимости за минуту, живые работы и прямая связь.\n\n" +
         `⭐ <b>${clean(FACTS[0].value)}${clean(FACTS[0].suffix)} ${clean(FACTS[0].label)} · ${clean(FACTS[1].value)} ${clean(FACTS[1].label)} · ${clean(FACTS[2].value)}${clean(FACTS[2].suffix)} на Kwork</b>\n\n` +
         `🟢 ${clean(STATUS)}\n\n` +
@@ -145,7 +145,7 @@ const NEEDS: { key: string; title: string; text: string; slugs: string[] }[] = [
   {
     key: "seo",
     title: "Сайт не видно в поиске",
-    text: "Индексация, скорость, разметка — техническая часть, без которой продвигать бесполезно.",
+    text: "Индексация, скорость, разметка: техническая часть, без которой продвигать бесполезно.",
     slugs: ["tehnicheskoe-seo", "uskorit-sayt", "sayt-katalog"],
   },
   {
@@ -160,7 +160,7 @@ export function screenNeed(): Screen {
   return {
     text: clamp(
       "🧭 <b>Что у вас за задача?</b>\n\n" +
-        "Выберите, что ближе — покажу подходящие услуги с ценами. Если ничего не подходит, жмите «Оставить заявку»: разберёмся словами.",
+        "Выберите, что ближе: покажу подходящие услуги с ценами. Если ничего не подходит, жмите «Оставить заявку»: разберёмся словами.",
     ),
     rows: [
       ...NEEDS.map((n) => [{ text: n.title, callback_data: `need:${n.key}` }]),
@@ -177,7 +177,7 @@ export function screenNeedPick(key: string): Screen {
   const list = n.slugs
     .map((slug) => {
       const s = SERVICE_PAGES.find((x) => x.slug === slug);
-      return s ? `${emoji(slug)} <b>${clean(s.h1)}</b> — ${clean(s.price.value)}\n${clean(s.short)}` : "";
+      return s ? `${emoji(slug)} <b>${clean(s.h1)}</b>: ${clean(s.price.value)}\n${clean(s.short)}` : "";
     })
     .filter(Boolean)
     .join("\n\n");
@@ -194,7 +194,7 @@ export function screenNeedPick(key: string): Screen {
 // ---------------- услуги ----------------
 export function screenServices(): Screen {
   return {
-    text: clamp("💼 <b>Услуги и цены</b>\n\nВыберите — расскажу, что входит, сколько стоит и сколько займёт. Ни к чему не обязывает 🙂"),
+    text: clamp("💼 <b>Услуги и цены</b>\n\nВыберите, расскажу, что входит, сколько стоит и сколько займёт. Ни к чему не обязывает 🙂"),
     rows: [
       ...MAIN_SLUGS.map((slug) => svcBtn(slug)),
       [{ text: "➕ Ещё услуги", callback_data: "services2" }],
@@ -244,7 +244,7 @@ export function screenPrices(): Screen {
   const line = (slug: string) => {
     const s = SERVICE_PAGES.find((x) => x.slug === slug);
     // 20 строк в подпись до 1000 знаков: без тегов у цены и без хвоста "Интеграции: оплата, доставка, CRM"
-    return s ? `${emoji(slug)} ${clean(s.h1.split(":")[0])} — ${clean(s.price.value)}` : "";
+    return s ? `${emoji(slug)} ${clean(s.h1.split(":")[0])}: ${clean(s.price.value)}` : "";
   };
   const main = MAIN_SLUGS.map(line).filter(Boolean).join("\n");
   const extra = EXTRA_SLUGS.map(line).filter(Boolean).join("\n");
@@ -266,7 +266,7 @@ export function screenPrices(): Screen {
 export function screenNiches(): Screen {
   return {
     text: clamp(
-      "🏷 <b>Ниши, в которых уже работал</b>\n\nВ каждой свои обязательные блоки и свой путь до заявки. Выберите — расскажу, как устроен сайт именно там:",
+      "🏷 <b>Ниши, в которых уже работал</b>\n\nВ каждой свои обязательные блоки и свой путь до заявки. Выберите, расскажу, как устроен сайт именно там:",
     ),
     rows: [...INDUSTRY_PAGES.map((i) => [{ text: i.nav, callback_data: `ind:${i.slug}` }]), [HOME]],
   };
@@ -294,14 +294,14 @@ const LIVE = WORKS.filter((w) => !w.tag.startsWith("DEMO"));
 const caseSlug = (href: string) => CASE_PAGES.find((c) => c.href === href)?.slug;
 
 export function screenWorks(): Screen {
-  const demos = DEMOS.slice(0, 3).map((w) => `• <b>${clean(w.title)}</b> — ${clean(w.kind).toLowerCase()}`).join("\n");
-  const live = LIVE.slice(0, 5).map((w) => `• <b>${clean(w.title)}</b> — ${clean(w.kind).toLowerCase()}`).join("\n");
+  const demos = DEMOS.slice(0, 3).map((w) => `• <b>${clean(w.title)}</b>, ${clean(w.kind).toLowerCase()}`).join("\n");
+  const live = LIVE.slice(0, 5).map((w) => `• <b>${clean(w.title)}</b>, ${clean(w.kind).toLowerCase()}`).join("\n");
   return {
     text: clamp(
-      "🗂 <b>Работы</b> — живые сайты, а не картинки.\n\n" +
+      "🗂 <b>Работы</b>: живые сайты, а не картинки.\n\n" +
         `<b>Демо-проекты, которые можно потыкать прямо сейчас:</b>\n${demos}\n\n` +
         `<b>Из коммерческих:</b>\n${live}\n\n` +
-        "Открыть сайт — кнопкой, разбор проекта — в «Кейсах».",
+        "Открыть сайт можно кнопкой, разбор проекта есть в «Кейсах».",
     ),
     rows: [
       ...DEMOS.slice(0, 3).map((w) => [{ text: `${w.title} ↗`, url: w.href }]),
@@ -320,7 +320,7 @@ export function screenCases(): Screen {
     rows: [
       ...CASE_PAGES.slice(0, 8).map((c) => {
         const w = WORKS.find((x) => x.href === c.href);
-        return [{ text: `${w?.title ?? c.slug} — ${w?.kind ?? ""}`.slice(0, 60), callback_data: `case:${c.slug}` }];
+        return [{ text: `${w?.title ?? c.slug}${w ? `, ${w.kind.toLowerCase()}` : ""}`.slice(0, 60), callback_data: `case:${c.slug}` }];
       }),
       [{ text: "Все работы на сайте ↗", url: `${SITE.url}/works` }],
       [HOME],
@@ -334,7 +334,7 @@ export function screenCase(slug: string): Screen {
   const done = c.done.slice(0, 5).map((d) => `• ${clean(d)}`).join("\n");
   return {
     text: clamp(
-      `🔬 <b>${clean(w?.title ?? c.slug)}</b>${w ? ` — ${clean(w.kind).toLowerCase()}` : ""}\n\n` +
+      `🔬 <b>${clean(w?.title ?? c.slug)}</b>${w ? `, ${clean(w.kind).toLowerCase()}` : ""}\n\n` +
         `${clean(c.answer)}\n\n<b>Что сделано:</b>\n${done}\n\n` +
         (w ? `🧰 ${clean(w.stack.join(" · "))}` : ""),
     ),
@@ -355,8 +355,8 @@ export function screenReview(i: number, count: number): Screen {
   const r = REVIEWS[idx];
   return {
     text: clamp(
-      `⭐ <b>Отзывы клиентов</b>\n<b>5.0</b> на Kwork · ${count} отзывов · без отрицательных\n\n` +
-        `«${clean(r.text)}»\n\n— <i>${clean(r.name)}${r.job ? `, ${clean(r.job)}` : ""}</i>\n<i>${clean(r.src)}</i>\n\n` +
+      `⭐ <b>Отзывы клиентов</b>\n<b>5,0</b> на Kwork · ${count} отзывов · без отрицательных\n\n` +
+        `«${clean(r.text)}»\n\n<i>${clean(r.name)}${r.job ? `, ${clean(r.job)}` : ""}</i>\n<i>${clean(r.src)}</i>\n\n` +
         `<i>${idx + 1} из ${REVIEWS.length}</i>`,
     ),
     rows: [
@@ -439,7 +439,7 @@ export function screenProcess(): Screen {
 }
 
 export function screenAbout(): Screen {
-  const facts = FACTS.map((f) => `• ${clean(f.value)}${clean(f.suffix)} — ${clean(f.label)}`).join("\n");
+  const facts = FACTS.map((f) => `• ${clean(f.value)}${clean(f.suffix)} ${clean(f.label)}`).join("\n");
   return {
     text: clamp(
       "👤 <b>Алексей, веб-разработчик</b>\n\n" +
@@ -464,7 +464,7 @@ export function screenAbout(): Screen {
 
 export function screenNotDoing(): Screen {
   // короткие имена и без вводной: семь пунктов целиком влезают в подпись до 1000 знаков, последний не обрезается
-  const list = NOT_DOING.map((n) => `• <b>${clean(n.short[0].toUpperCase() + n.short.slice(1))}</b> — ${clean(n.why)}`).join("\n");
+  const list = NOT_DOING.map((n) => `• <b>${clean(n.short[0].toUpperCase() + n.short.slice(1))}</b>. ${clean(n.why.charAt(0).toUpperCase() + n.why.slice(1))}`).join("\n");
   return {
     text: clamp("🤝 <b>Не моё, но помогу</b>\n\n" + list),
     rows: [
@@ -488,14 +488,14 @@ export function screenCalc1(): Screen {
     rows.push(CALC.types.slice(i, i + 2).map((t) => ({ text: t.label, callback_data: `calc:${t.k}` })));
   }
   return {
-    text: clamp("🧮 <b>Калькулятор стоимости</b>\n\nЗа минуту прикину вилку цены и срок. Без обязательств.\n\n<b>1/3 — что нужно?</b>"),
+    text: clamp("🧮 <b>Калькулятор стоимости</b>\n\nЗа минуту прикину вилку цены и срок. Без обязательств.\n\n<b>1/3. Что нужно?</b>"),
     rows: [...rows, [{ text: "💰 Или сразу все цены", callback_data: "prices" }], [HOME]],
   };
 }
 
 export function screenCalc2(type: string): Screen {
   return {
-    text: clamp(`🧮 <b>${clean(typeLabel(type))}</b>\n\n<b>2/3 — масштаб?</b>`),
+    text: clamp(`🧮 <b>${clean(typeLabel(type))}</b>\n\n<b>2/3. Масштаб?</b>`),
     rows: [
       CALC.scales.map((s) => ({ text: s.label, callback_data: `calc:${type}:${s.k}` })),
       [{ text: "⬅️ Назад", callback_data: "calc" }, HOME],
@@ -505,7 +505,7 @@ export function screenCalc2(type: string): Screen {
 
 export function screenCalc3(type: string, scale: string): Screen {
   return {
-    text: clamp(`🧮 <b>${clean(typeLabel(type))} · ${clean(scaleLabel(scale))}</b>\n\n<b>3/3 — сроки?</b>`),
+    text: clamp(`🧮 <b>${clean(typeLabel(type))} · ${clean(scaleLabel(scale))}</b>\n\n<b>3/3. Сроки?</b>`),
     rows: [
       CALC.urgency.map((u) => ({ text: u.label, callback_data: `calc:${type}:${scale}:${u.k}` })),
       [{ text: "⬅️ Назад", callback_data: `calc:${type}` }, HOME],
@@ -524,8 +524,8 @@ export function screenCalcResult(type: string, scale: string, urg: string): Scre
     text: clamp(
       "🧮 <b>Примерный расчёт</b>\n\n" +
         `Тип: <b>${clean(typeLabel(type))}</b>\nМасштаб: ${clean(scaleLabel(scale))}\nСроки: ${clean(urgLabel(urg))}\n\n` +
-        `💰 <b>≈ ${low} 000 – ${high} 000 ₽</b>\n⏱ ${clean(term)}\n<i>${clean(CALC.termNote)}</i>\n\n` +
-        "<i>Это ориентир. Точную фикс-смету назову после короткого разбора — бесплатно.</i>",
+        `💰 <b>≈ ${low}–${high} тыс. ₽</b>\n⏱ ${clean(term)}\n<i>${clean(CALC.termNote)}</i>\n\n` +
+        "<i>Это ориентир. Точную фикс-смету назову после короткого бесплатного разбора.</i>",
     ),
     rows: [
       [{ text: "📝 Оставить заявку", callback_data: `lead:calc_${type}` }],
@@ -557,7 +557,7 @@ export function screenLead(key: string): Screen {
     text: clamp(
       "📝 <b>Заявка</b>\n\n" +
         (svc !== "не выбрана" ? `Тема: <b>${clean(svc)}</b>\n\n` : "") +
-        "Напишите одним сообщением, что нужно — можно с бюджетом и сроком. Если есть ТЗ или макет, пришлите файлом.\n\n" +
+        "Напишите одним сообщением, что нужно. Можно с бюджетом и сроком. Если есть ТЗ или макет, пришлите файлом.\n\n" +
         `Алексей ответит ${REPLY.within}, ${HOURS.full} ⏱`,
     ),
     rows: [
@@ -574,12 +574,13 @@ export function leadPrompt(key: string): string {
   // тема идёт последней строкой: из ответа клиента её достаёт subjectFromPrompt
   return svc === "не выбрана" ? base : `${base}
 
-— тема: ${svc}`;
+Тема: ${svc}`;
 }
 
 /** вытащить тему из сообщения, на которое ответил клиент */
 export function subjectFromPrompt(text: string): string | null {
-  const m = /^— тема: (.+)$/m.exec(text.trim());
+  // "— тема:" осталось в старых сообщениях бота, уже лежащих в чатах: понимаем и её
+  const m = /^(?:— тема|Тема): (.+)$/m.exec(text.trim());
   return m ? m[1].trim() : null;
 }
 

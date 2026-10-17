@@ -1,6 +1,7 @@
 import { SITE } from "@/lib/content";
 import { tgHref, tgText } from "@/lib/cta";
 import { HeaderIsland } from "./islands";
+import { tie } from "./typo";
 import { NAV_META, NAV_NICHES, NAV_SERVICES } from "./nav.data";
 import { LOGO_APO, LOGO_LETTERS, LOGO_VB } from "./logo.paths";
 import "./header.css";
@@ -94,13 +95,13 @@ export function Header({ inner = false, current, tg }: { inner?: boolean; curren
                   <section className="np-col" key={g.title} aria-label={g.title}>
                     <p className="np-h">
                       {g.title}
-                      <span>{g.side}</span>
+                      <span>{tie(g.side)}</span>
                     </p>
                     <ul>
                       {g.items.map((s) => (
                         <li key={s.href}>
                           <a className="np-row" href={s.href}>
-                            <span className="np-name">{s.label}</span>
+                            <span className="np-name">{tie(s.label)}</span>
                             <Price p={s.price} />
                           </a>
                         </li>
@@ -114,7 +115,7 @@ export function Header({ inner = false, current, tg }: { inner?: boolean; curren
                   Все услуги и цены
                   <Go />
                 </a>
-                <span>{NAV_META.rate}, по проекту фикс-смета</span>
+                <span>{tie(`${NAV_META.rate}, по проекту фикс-смета`)}</span>
               </div>
             </div>
           </div>
@@ -159,7 +160,7 @@ export function Header({ inner = false, current, tg }: { inner?: boolean; curren
                   <Go />
                 </a>
                 <a className="np-alt" href="/dlya#dl-any">
-                  Вашей ниши нет в списке?
+                  {tie("Вашей ниши нет в списке?")}
                 </a>
               </div>
             </div>
@@ -233,7 +234,7 @@ export function Header({ inner = false, current, tg }: { inner?: boolean; curren
                 {NAV_NICHES.map((n) => (
                   <li key={n.href}>
                     <a href={n.href}>
-                      {n.nav}
+                      {tie(n.nav)}
                       <b aria-hidden="true">{n.n}</b>
                       <span className="sr">, {n.sites}</span>
                     </a>
@@ -250,7 +251,7 @@ export function Header({ inner = false, current, tg }: { inner?: boolean; curren
                 <ul className="ns-pills">
                   {g.items.map((s) => (
                     <li key={s.href}>
-                      <a href={s.href}>{s.label}</a>
+                      <a href={s.href}>{tie(s.label)}</a>
                     </li>
                   ))}
                 </ul>

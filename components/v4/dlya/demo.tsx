@@ -21,7 +21,7 @@ const DEMOS: Record<string, { k: Kind; spec: string }> = {
   "salon-krasoty": { k: "book", spec: "Запись в четыре шага" },
   "dostavka-edy": { k: "chat", spec: "Заказ должен доехать до кухни" },
   "remont-i-otdelka": { k: "tile", spec: "Каталог материалов с расчётом" },
-  "mebel-na-zakaz": { k: "gallery", spec: "Галерея — главный экран" },
+  "mebel-na-zakaz": { k: "gallery", spec: "Галерея: главный экран" },
   "magazin-odezhdy": { k: "size", spec: "Размеры и мерки" },
 };
 
@@ -270,7 +270,7 @@ function chatData() {
   const st = c.done.find((d) => /живым статусом/.test(d))?.match(/«([^»]+)»/)?.[1];
   const kitchen = (c.shots ?? []).find((s) => /kitchen/.test(s.src));
   if (!phrase || !st || !kitchen) throw new Error("в разборе drovyanaya поменялись фраза заказа, статусы или кадр кухни");
-  const statuses = st.split(/\s+—\s+/).map((x) => x.charAt(0).toUpperCase() + x.slice(1));
+  const statuses = st.split(/\s*[—→]\s*/).map((x) => x.charAt(0).toUpperCase() + x.slice(1));
   return { phrase: phrase.charAt(0).toUpperCase() + phrase.slice(1), statuses, kitchen };
 }
 function ChatDemo() {

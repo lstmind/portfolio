@@ -168,7 +168,7 @@ export default async function IndustryPageView({ params }: { params: Promise<{ s
             </div>
           </dl>
 
-          <p className="dl-answer">{ind.answer}</p>
+          <p className="dl-answer">{tie(ind.answer)}</p>
           <div className="dl-hero-act">
             <TgButton text={msg} className="dl-cta" />
             <span className="dl-hero-side">Москва и вся Россия, удалённо. Договор и{NB}чек</span>
@@ -277,7 +277,7 @@ export default async function IndustryPageView({ params }: { params: Promise<{ s
         >
           <ul className="dl-inc">
             {ind.includes.map((x) => (
-              <li key={x}>{x}</li>
+              <li key={x}>{tie(x)}</li>
             ))}
           </ul>
           <dl className="dl-where">

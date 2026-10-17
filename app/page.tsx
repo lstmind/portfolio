@@ -27,7 +27,7 @@ const OPENING = {
 };
 
 /** за что берётся цена: по строке цены на странице услуги */
-const unitOf = (v: string) => (/\/час/.test(v) ? "час" : /\/мес/.test(v) ? "месяц" : /экран/.test(v) ? "экран" : "проект");
+const unitOf = (v: string) => (/\/час/.test(v) ? "час" : /\/мес| в месяц/.test(v) ? "месяц" : /экран/.test(v) ? "экран" : "проект");
 
 /**
  * Каталог услуг из тех же данных, что страницы /uslugi/*: название как h1, ссылка на страницу, нижняя цена числом.
@@ -67,7 +67,7 @@ export default async function Home() {
     "@context": "https://schema.org",
     "@type": "ProfessionalService",
     "@id": `${SITE.url}#service`,
-    name: "lstmind — веб-разработчик Алексей",
+    name: "lstmind, веб-разработчик Алексей",
     url: SITE.url,
     image: `${SITE.url}/img/alex-portrait.png`,
     description:

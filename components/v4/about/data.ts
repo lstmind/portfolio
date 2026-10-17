@@ -29,7 +29,7 @@ export const PERSON = {
 
 export const EDU = {
   short: "МИЭТ",
-  name: 'Национальный исследовательский университет "МИЭТ"',
+  name: 'Национальный исследовательский университет «МИЭТ»',
   url: "https://miet.ru",
   text: "Кафедра инженерной графики и дизайна, информационные системы и технологии, 2020–2024.",
 };
@@ -54,7 +54,7 @@ export const STACK_ALL = [
   "Svelte",
   "Telegram Bot API",
   "MAX Bot API",
-  "вёрстка по Figma",
+  "Вёрстка по Figma",
 ];
 
 /** слова барабана "Пишу на ...": как они звучат после "на" */
@@ -83,7 +83,7 @@ export const CAN = [
   {
     word: "Боты",
     href: "/uslugi/telegram-bot",
-    text: "Для Telegram, MAX и ВК: заявки, запись, оплата, связь с CRM.",
+    text: "Для Telegram, MAX и ВКонтакте: заявки, запись, оплата, связь с CRM.",
     site: site("https://drova.lstmind.ru/"),
     img: "drova",
     eg: "бот понимает заказ словами",

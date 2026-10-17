@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { SERVICE_PAGES, serviceBySlug } from "@/lib/services";
 import { REPLY, SITE, priceNumber } from "@/lib/content";
+import { tie } from "@/components/v4/typo";
 import { auditFor, priceLine } from "@/lib/cta";
 import { Shell } from "@/components/v4/Shell";
 import { AuditStrip, PriceStrip } from "@/components/v4/cta/Strip";
@@ -155,7 +156,7 @@ export default async function ServicePageView({ params }: { params: Promise<{ sl
         {hub.length > 0 && (
           <div className="u-wide" id="u-types">
             <p className="u-wide-p">
-              &quot;Под ключ&quot; значит, что всё делаю я. А что именно делать, зависит от задачи: каждому типу сайта нужна своя
+              «Под ключ» значит, что всё делаю я. А что именно делать, зависит от задачи: каждому типу сайта нужна своя
               структура, свой срок и своя цена.
             </p>
             <Sign id="u-hub" title="Какой сайт нужен" side="у каждого типа своя страница" services={hub} size="s" />
@@ -165,7 +166,7 @@ export default async function ServicePageView({ params }: { params: Promise<{ sl
         <Block id="u-inc" label="Что входит в работу" aside={<Demo s={s} cards={cards} />}>
           <ol className="u-inc">
             {s.includes.map((x) => (
-              <li key={x}>{x}</li>
+              <li key={x}>{tie(x)}</li>
             ))}
           </ol>
         </Block>
@@ -181,7 +182,7 @@ export default async function ServicePageView({ params }: { params: Promise<{ sl
         <Block id="u-fit" label="Когда это нужно" aside={scene && cards[0] ? <ShotFigure shot={cards[0]} /> : <BigCount />}>
           <ul className="u-fit">
             {s.fit.map((x) => (
-              <li key={x}>{x}</li>
+              <li key={x}>{tie(x)}</li>
             ))}
           </ul>
         </Block>

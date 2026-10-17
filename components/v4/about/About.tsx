@@ -461,7 +461,7 @@ export function About({ kwork }: { kwork: number }) {
       <section className="ab-req" id="rekvizity" aria-labelledby="ab-req-t">
         <div className="ab-req-l">
           <Big as="h2" text="Реквизиты" id="ab-req-t" className="ab-big--req" />
-          <p>{tie('Для договора и чека. Чек приходит из приложения "Мой налог" сразу после оплаты.')}</p>
+          <p>{tie('Для договора и чека. Чек приходит из приложения «Мой налог» сразу после оплаты.')}</p>
           <p>{tie(`Образец договора лежит здесь же, ${PAY.doc.note}.`)}</p>
         </div>
         <div className="ab-check" data-rv="">

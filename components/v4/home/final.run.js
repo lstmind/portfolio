@@ -1,5 +1,5 @@
 /* Финал: ванильный код статики (design-concepts/v4/karusel/sections/final/section.html).
-   Калькулятор (та же логика, что у бота в lib/bot.ts: цифры в тыс ₽, срочно ×1.25 с округлением), позы 3 и 2,
+   Калькулятор (та же логика, что у бота в lib/bot.ts: цифры в тыс. ₽, срочно ×1.25 с округлением), позы 3 и 2,
    стрелка к кнопке, запасная форма на /api/contact, аккордеон вопросов. Данные калькулятора приходят из lib через data-calc.
    Возвращает полную очистку.
    Цели Метрики те же, что у старых калькулятора и формы: calc_use (первое изменение расчёта за визит), lead_form (заявка дошла).
@@ -64,12 +64,12 @@ export function runFinal(root) {
     var t = typeOf()[2];
     var sc = CALC.scales[r.idx][1].toLowerCase();
     return 'Здравствуйте! Калькулятор на сайте: ' + t + ', ' + sc + (st.urg === 'u' ? ', срочно' : '') +
-      '. Вышло ≈ ' + r.low + '–' + r.high + ' тыс ₽, срок ' + r.term + '. Хочу обсудить задачу.';
+      '. Вышло ≈ ' + r.low + '–' + r.high + ' тыс. ₽, срок ' + r.term + '. Хочу обсудить задачу.';
   }
   function summary(r) {
-    return typeOf()[2] + ', ' + CALC.scales[r.idx][1].toLowerCase() + (st.urg === 'u' ? ', срочно' : '') + ', ≈ ' + r.low + '–' + r.high + ' тыс ₽';
+    return typeOf()[2] + ', ' + CALC.scales[r.idx][1].toLowerCase() + (st.urg === 'u' ? ', срочно' : '') + ', ≈ ' + r.low + '–' + r.high + ' тыс. ₽';
   }
-  /* строка расчёта над формой: переносится по словам, но "≈ 88–150 тыс ₽" держится целиком */
+  /* строка расчёта над формой: переносится по словам, но "≈ 88–150 тыс. ₽" держится целиком */
   function calcLine(r) { return summary(r).replace(/≈ ([^,]+)$/, function (m, v) { return '≈ ' + v.replace(/ /g, ' '); }); }
   function update(animate) {
     var r = calc();
@@ -79,7 +79,7 @@ export function runFinal(root) {
     hintEl.textContent = r.hint;
     var text = draft(r);
     msgEl.innerHTML = '';
-    var parts = text.split(/(≈ [^,]+ тыс ₽)/);
+    var parts = text.split(/(≈ [^,]+ тыс\. ₽)/);
     parts.forEach(function (p, i) { if (i % 2) { var b = document.createElement('b'); b.textContent = p; msgEl.appendChild(b); } else msgEl.appendChild(document.createTextNode(p)); });
     cta.href = CALC.telegram + '?text=' + encodeURIComponent(text);
     cta.dataset.finalText = text;

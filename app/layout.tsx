@@ -44,22 +44,22 @@ export const metadata: Metadata = {
   metadataBase: new URL(SITE.url),
   // запрос впереди, бренд в хвост: в выдаче видно первые ~60 знаков, и имя там ничего не ловит
   title: `Веб-разработчик в Москве: создание и доработка сайтов${TITLE_TAIL}`,
-  description: `Создаю сайты под ключ ${FROM}, интернет-магазины и Telegram-ботов, дорабатываю и ускоряю чужие сайты. Без менеджеров, ${EXP}, договор и чек.`,
+  description: `Создаю сайты под ключ ${FROM}, интернет-магазины и телеграм-ботов, дорабатываю и ускоряю чужие сайты. Без менеджеров, ${EXP}, договор и чек.`,
   keywords: [
     "веб-разработчик",
     "сайт под ключ",
     "починить сайт",
     "доработка сайта",
     "спасение сайта",
-    "wordpress",
+    "WordPress",
     "интернет-магазин",
-    "woocommerce",
-    "вёрстка по figma",
+    "WooCommerce",
+    "вёрстка по Figma",
     "ускорение сайта",
     "телеграм-бот",
-    "админка и crm",
+    "админка и CRM",
     "парсер",
-    "техническое seo",
+    "техническое SEO",
     "фрилансер",
   ],
   authors: [{ name: "Алексей (lstmind)" }],
@@ -142,7 +142,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           {`window.ym = window.ym || function(){(window.ym.a = window.ym.a || []).push(arguments)};
           window.ym.l = 1 * new Date();
           window.ym(${YM_ID}, 'init', {ssr:true, webvisor:true, clickmap:true, ecommerce:'dataLayer', referrer: document.referrer, url: location.href, accurateTrackBounce:true, trackLinks:true});
-          /* tag.js (вебвизор — тяжёлый) грузим по первому взаимодействию или через 10с:
+          /* tag.js (вебвизор тяжёлый) грузим по первому взаимодействию или через 10с:
              реальные посетители учитываются все (очередь ym копится), а из окна замера
              лайтхауса скрипт уходит полностью */
           (function(){

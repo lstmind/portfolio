@@ -46,10 +46,11 @@ const profiLine = `рейтинг ${PROFI_RATING} из 5, ${reviewsWord(PROFI_ST
 const snapshot = REVIEWS_SNAPSHOT.split("-").reverse().join(".");
 
 /** стек целиком: как на /obo-mne, плюс то, что есть в общем списке сайта */
-const STACK_FULL = [...new Set([...STACK_ALL, "TypeScript", "Node.js"])];
+// пилюли стека с заглавной ("Вёрстка по Figma"), а в строке через запятую русская фраза со строчной
+const STACK_FULL = [...new Set([...STACK_ALL, "TypeScript", "Node.js"])].map((x) => (/^[А-ЯЁ][а-яё]/.test(x) ? lc(x) : x));
 
 function intro(): string {
-  return `# lstmind — Алексей, веб-разработчик на фрилансе
+  return `# Алексей (lstmind), веб-разработчик на фрилансе
 
 > Делаю сайты с нуля и чиню чужие. Веду проект сам, от структуры до релиза: код, вёрстку и запуск делаю своими руками, менеджеров нет, пишете напрямую мне. Когда нужен сильный дизайн с нуля, работаю в паре с дизайнером. Делаю сайты с ${SINCE} года, за это время ${PROJECTS_ALL} ${PROJECTS_ALL_LABEL} (${PROJECTS_ALL_NOTE}), из них ${PROJECTS_TOTAL} ${plural(PROJECTS_TOTAL, ["живой сайт", "живых сайта", "живых сайтов"])} можно открыть по ссылке из портфолио.
 
@@ -90,17 +91,17 @@ function facts(): string {
 function links(full: boolean): string {
   return `## Куда смотреть
 
-- [Главная](${SITE.url}) — кто я, что делаю, цены и работы одним экраном
-- [Все услуги с ценами](${SITE.url}/uslugi) — ${SERVICE_PAGES.length} направлений, у каждого своя страница
-- [Все работы](${SITE.url}/works) — разборы проектов и полный список живых сайтов
-- [Ниши](${SITE.url}/dlya) — как устроен сайт в конкретной отрасли
-- [Обо мне и контакты](${SITE.url}/obo-mne) — кто делает сайты, стек, учёба, все способы связи и реквизиты для договора
-- [Политика обработки данных](${SITE.url}/politika) — что происходит с заявкой и данными из формы
-${full ? `- [Короткая версия этого файла](${SITE.url}/llms.txt) — индекс со ссылками` : `- [Полная версия этого файла](${SITE.url}/llms-full.txt) — по каждой услуге, нише и разбору: что входит, цена и срок, вопросы и ответы`}
-- [Telegram](${SITE.telegram}) — быстрее всего написать сюда, ${REPLY.full}
-- [Профиль на Kwork](${SITE.kwork}) — ${kworkLine}
-- [Профиль на Профи](${PROFI_URL}) — ${profiLine}
-- [GitHub](${SITE.github}) — код части проектов открыт
+- [Главная](${SITE.url}): кто я, что делаю, цены и работы одним экраном
+- [Все услуги с ценами](${SITE.url}/uslugi): ${SERVICE_PAGES.length} направлений, у каждого своя страница
+- [Все работы](${SITE.url}/works): разборы проектов и полный список живых сайтов
+- [Ниши](${SITE.url}/dlya): как устроен сайт в конкретной отрасли
+- [Обо мне и контакты](${SITE.url}/obo-mne): кто делает сайты, стек, учёба, все способы связи и реквизиты для договора
+- [Политика обработки данных](${SITE.url}/politika): что происходит с заявкой и данными из формы
+${full ? `- [Короткая версия этого файла](${SITE.url}/llms.txt): индекс со ссылками` : `- [Полная версия этого файла](${SITE.url}/llms-full.txt): по каждой услуге, нише и разбору: что входит, цена и срок, вопросы и ответы`}
+- [Telegram](${SITE.telegram}): быстрее всего написать сюда, ${REPLY.full}
+- [Профиль на Kwork](${SITE.kwork}): ${kworkLine}
+- [Профиль на Профи](${PROFI_URL}): ${profiLine}
+- [GitHub](${SITE.github}): код части проектов открыт
 
 Почта: ${SITE.email}
 Телефон: ${PERSON.phone}`;
@@ -133,7 +134,7 @@ ${[
     `Что смотрю: ${AUDIT.checks.map(lc).join("; ")}.`,
     `${AUDIT.result} ${AUDIT.next}`,
     `Если сайт сломался, то же называется диагностикой: ${lc(AUDIT_DIAG.promise)}`,
-    `Как прислать: [в Telegram с готовым текстом](${tgHref(AUDIT.tg)}) или формой "сайт и куда ответить" [на главной](${SITE.url}/#audit) и на страницах ${auditPages}.`,
+    `Как прислать: [в Telegram с готовым текстом](${tgHref(AUDIT.tg)}) или формой «сайт и куда ответить» [на главной](${SITE.url}/#audit) и на страницах ${auditPages}.`,
   ].join("\n\n")}`;
 }
 
@@ -144,7 +145,7 @@ function notDoing(): string {
 
 Сам этим не занимаюсь, но подключу коллегу, сделаем в паре или подскажу, к кому идти.
 
-${NOT_DOING.map((n) => `- ${n.what} — ${n.why}${n.more ? `. Моя часть: [${lc(n.more.label)}](${SITE.url}${n.more.href})` : ""}`).join("\n")}`;
+${NOT_DOING.map((n) => `- ${n.what}. ${n.why.charAt(0).toUpperCase()}${n.why.slice(1)}${n.more ? `. Моя часть: [${lc(n.more.label)}](${SITE.url}${n.more.href})` : ""}`).join("\n")}`;
 }
 
 function stack(): string {
@@ -159,7 +160,7 @@ function featured(): string {
   return WORKS.map((w) => {
     const c = CASE_PAGES.find((x) => x.href === w.href);
     const detail = c ? `\n  [Разбор проекта](${SITE.url}/works/${c.slug})` : "";
-    return `- [${w.title}](${w.href}) — ${w.kind}${detail}${repoLine(c)}\n  ${w.text}\n  Стек: ${w.stack.join(", ")}`;
+    return `- [${w.title}](${w.href}): ${w.kind}${detail}${repoLine(c)}\n  ${w.text}\n  Стек: ${w.stack.join(", ")}`;
   }).join("\n");
 }
 
@@ -177,29 +178,29 @@ ${qa([FAQ_CHEAPER, ...FAQ])}`;
 }
 
 function reviews(): string {
-  const quotes = REVIEWS.map((r) => `- «${r.text}» — ${r.name}${r.job ? `, ${r.job}` : ""} (${r.src})`).join("\n");
+  const quotes = REVIEWS.map((r) => `- «${r.text}» (${r.name}${r.job ? `, ${r.job}` : ""}, ${r.src})`).join("\n");
   return `## Отзывы
 
 Цитаты слово в слово, орфография авторов.
 
 ${quotes}
 
-Все отзывы целиком — в профилях на Kwork: ${SITE.kwork} и на Профи: ${PROFI_URL}`;
+Все отзывы целиком в профилях на Kwork: ${SITE.kwork} и на Профи: ${PROFI_URL}`;
 }
 
 function contact(): string {
   return `## Как со мной связаться
 
-Быстрее всего — Telegram ${SITE.telegramHandle}. ${REPLY.line} Форма заявки есть на сайте, письмо тоже дойдёт: ${SITE.email}. Если удобнее голосом: ${PERSON.phone}. Все контакты и реквизиты: ${SITE.url}/obo-mne`;
+Быстрее всего в Telegram: ${SITE.telegramHandle}. ${REPLY.line} Форма заявки есть на сайте, письмо тоже дойдёт: ${SITE.email}. Если удобнее голосом: ${PERSON.phone}. Все контакты и реквизиты: ${SITE.url}/obo-mne`;
 }
 
 /** /llms.txt: кто я, услуги одной строкой со ссылкой и ценой, общие вопросы, контакты */
 export function llmsShort(): string {
   const money = SERVICE_PAGES.map(
-    (s) => `- [${s.h1}](${SITE.url}/uslugi/${s.slug}) — ${s.price.value}, ${s.term.value}\n  ${s.answer}`
+    (s) => `- [${s.h1}](${SITE.url}/uslugi/${s.slug}): ${s.price.value}, ${s.term.value}\n  ${s.answer}`
   ).join("\n");
   const niches = INDUSTRY_PAGES.map(
-    (i) => `- [${i.h1}](${SITE.url}/dlya/${i.slug}) — ${i.price.value}\n  ${i.answer}`
+    (i) => `- [${i.h1}](${SITE.url}/dlya/${i.slug}): ${i.price.value}\n  ${i.answer}`
   ).join("\n");
 
   return `${intro()}
@@ -264,7 +265,7 @@ export function llmsFull(): string {
       s.focus
         ? [
             `${s.focus.label}. ${s.focus.lead}`,
-            `Признаки: ${s.focus.signs.join("; ")}.`,
+            `Признаки: ${s.focus.signs.map(lc).join("; ")}.`,
             `Что делаю:\n${list(s.focus.does)}`,
             `Цена: ${s.focus.price.value} (${s.focus.price.note}). Срок: ${s.focus.term.value} (${s.focus.term.note}).`,
           ].join("\n\n")

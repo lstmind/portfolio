@@ -5,6 +5,7 @@ import { INDUSTRY_PAGES, nichesOfCase } from "@/lib/industries";
 import { metaLine, nextCases, shotPoints, type CaseView, type ShotPoint } from "./data";
 import { Crumbs, Cta, Drum, Ill, Out, Next } from "./parts";
 import { CaseIsland } from "./islands";
+import { tie } from "../typo";
 import "./works.css";
 import "./works-ill.css";
 
@@ -206,14 +207,14 @@ export function Case({ v }: { v: CaseView }) {
                 return k < 0 ? (
                   <li key={d}>
                     <span aria-hidden="true">{pad(i + 1)}</span>
-                    {d}
+                    {tie(d)}
                   </li>
                 ) : (
                   <li key={d} className="has-pt" data-pt={k}>
                     <button type="button" className="w-done__t" aria-controls={`w-crop-${k}`}>
                       <span aria-hidden="true">{pad(i + 1)}</span>
                       <span>
-                        {d}
+                        {tie(d)}
                         <em className="w-done__aim">
                           <Aim />
                           на скрине
@@ -292,9 +293,9 @@ export function Case({ v }: { v: CaseView }) {
               <li key={s.slug}>
                 <a href={`/uslugi/${s.slug}`}>
                   <b>{s.h1}</b>
-                  <span className="w-svc__short">{s.short}</span>
+                  <span className="w-svc__short">{tie(s.short)}</span>
                   <span className="w-svc__price">
-                    {s.price.value}
+                    {tie(s.price.value)}
                     <Next />
                   </span>
                 </a>
@@ -315,9 +316,9 @@ export function Case({ v }: { v: CaseView }) {
               <li key={i.slug}>
                 <a href={`/dlya/${i.slug}`}>
                   <b>{i.h1}</b>
-                  <span className="w-svc__short">{i.short}</span>
+                  <span className="w-svc__short">{tie(i.short)}</span>
                   <span className="w-svc__price">
-                    {i.price.value}
+                    {tie(i.price.value)}
                     <Next />
                   </span>
                 </a>

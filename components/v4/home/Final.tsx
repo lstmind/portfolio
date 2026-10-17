@@ -14,7 +14,7 @@ function startCalc() {
   const p = CALC.prices[START.type][idx];
   const term = CALC.terms[START.type][idx];
   const type = CALC.types.find((t) => t.k === START.type)!.msg;
-  const sum = `≈ ${p[0]}–${p[1]} тыс ₽`;
+  const sum = `≈ ${p[0]}–${p[1]} тыс. ₽`;
   // то же первое сообщение, что соберёт скрипт: на сервере, чтобы пузырь не был пустым до гидрации
   const msg = [`Здравствуйте! Калькулятор на сайте: ${type}, ${CALC.scales[idx].label.toLowerCase()}. Вышло `, sum, `, срок ${term}. Хочу обсудить задачу.`];
   return { low: p[0], high: p[1], term, hint: CALC.hints[START.type][idx], msg };
@@ -67,7 +67,7 @@ export function Final() {
                 </span>
               </span>
               <span className="final-unit" aria-hidden="true">
-                тыс ₽
+                тыс. ₽
               </span>
             </p>
             <p className="final-term">
@@ -217,7 +217,7 @@ export function Final() {
                 Отправить
               </button>
               <p className="final-consent">
-                {tie('Нажимая "Отправить", вы даёте ')}
+                {tie("Нажимая «Отправить», вы даёте ")}
                 <a href="/soglasie">{tie("согласие на обработку данных")}</a>
                 {tie(" из заявки. Как я с ними обращаюсь, написано в ")}
                 <a href="/politika">политике</a>.
